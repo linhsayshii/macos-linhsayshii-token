@@ -21,19 +21,20 @@ size_t ts_chain_chunk(const uint8_t *apdu, size_t len, size_t offset, size_t max
     if (len < 7 || apdu[4] != 0 || (apdu[0] & 0x0C) != 0x0C) return 0;
     size_t lc = ((size_t)apdu[5] << 8) | apdu[6];
     if (lc <= 255) return 0;
-    int hasLe;
-    if (len == 7 + lc) hasLe = 0; else if (len == 9 + lc) hasLe = 1; else return 0;
+    /* Feitian libs append no Le, a 2-byte Le, or (seen on hardware) a single Le byte after the extended Lc. */
+    int leBytes;
+    if (len == 7 + lc) leBytes = 0; else if (len == 8 + lc) leBytes = 1; else if (len == 9 + lc) leBytes = 2; else return 0;
     if (offset >= lc || maxchunk == 0 || maxchunk > 255) return 0;
     size_t n = lc - offset < maxchunk ? lc - offset : maxchunk;
     int isLast = offset + n == lc;
-    size_t need = 5 + n + (isLast && hasLe ? 1 : 0);
+    size_t need = 5 + n + (isLast && leBytes ? 1 : 0);
     if (outcap < need) return 0;
     out[0] = isLast ? apdu[0] : (uint8_t)(apdu[0] | 0x10);
     out[1] = apdu[1]; out[2] = apdu[2]; out[3] = apdu[3];
     out[4] = (uint8_t)n;
     for (size_t i = 0; i < n; i++) out[5 + i] = apdu[7 + offset + i];
-    if (isLast && hasLe) {
-        unsigned le = ((unsigned)apdu[len - 2] << 8) | apdu[len - 1];
+    if (isLast && leBytes) {
+        unsigned le = leBytes == 1 ? apdu[len - 1] : ((unsigned)apdu[len - 2] << 8) | apdu[len - 1];
         out[5 + n] = le >= 256 ? 0x00 : (uint8_t)le;
     }
     *dlen = n; *last = isLast;

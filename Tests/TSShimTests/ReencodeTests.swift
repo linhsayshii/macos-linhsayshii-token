@@ -58,3 +58,13 @@ private func chunks(_ apdu: [UInt8], max: Int = 200) -> [[UInt8]] {
     #expect(chunks(ext200).isEmpty)           // Lc <= 255 goes through the normal path
     #expect(chunks([0x00,0x84,0x00,0x00,0x08]).isEmpty)
 }
+
+@Test func extendedSMApduWithOneByteLeIsChained() {
+    // Shape seen on hardware: extended Lc (0x0112 = 274) followed by a single Le byte.
+    let data = [UInt8](repeating: 0x5A, count: 274)
+    let apdu: [UInt8] = [0x0C,0x2A,0x90,0x80,0x00,0x01,0x12] + data + [0x00]
+    let c = chunks(apdu)
+    #expect(c.count == 2)
+    #expect(c[0][0] == 0x1C && c[0][4] == 200)
+    #expect(c[1][0] == 0x0C && c[1][4] == 74 && c[1].count == 5 + 74 + 1 && c[1].last == 0x00)
+}
