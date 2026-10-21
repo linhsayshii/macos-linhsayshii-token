@@ -39,11 +39,18 @@ def recv(s):
         if n == 126: n = struct.unpack(">H", recvn(s, 2))[0]
         elif n == 127: n = struct.unpack(">Q", recvn(s, 8))[0]
         msg += recvn(s, n)
-        if b0 & 0x80: return json.loads(msg)
+        if b0 & 0x80: return msg.decode()
 
 def call(s, fid, args):
-    send(s, json.dumps({"functionID": fid, "funcCallback": "cb", "args": args}))
-    r = recv(s); print(f"  functionID {fid}: code={r['code']} error={r['error']!r}"); return r
+    """Wire format: reply is `<payload>*<callback>`. Sign payloads are {code,data,error} JSON; plain results are wrapped."""
+    send(s, json.dumps({"functionID": fid, "funcCallback": "cb", "args": args, "domain": "xacthuc.dichvucong.gov.vn"}))
+    payload, cb = recv(s).rsplit("*", 1)
+    try:
+        r = json.loads(payload)
+        if not (isinstance(r, dict) and "code" in r): r = {"code": 0, "data": payload, "error": ""}
+    except ValueError:
+        r = {"code": 0, "data": payload, "error": ""}
+    print(f"  functionID {fid}: code={r['code']} error={r['error']!r}"); return r
 
 def run(cmd): return subprocess.run(cmd, capture_output=True, text=True)
 
@@ -51,7 +58,7 @@ s = connect()
 print("getVersion:"); print("  ->", call(s, 11, [])["data"])
 print("GetCertInfo:"); info = call(s, 0, [])
 cert = json.loads(info["data"]); print("  ->", cert["serial"], cert["notAfter"])
-cert_der = base64.b64decode(cert["certificate"])
+cert_der = base64.b64decode(cert["base64"])
 open(f"{OUT}/cert.der", "wb").write(cert_der)
 run(["openssl", "x509", "-inform", "DER", "-in", f"{OUT}/cert.der", "-out", f"{OUT}/cert.pem"])
 run(["sh", "-c", f"openssl x509 -inform DER -in {OUT}/cert.der -noout -pubkey > {OUT}/pub.pem"])

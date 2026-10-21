@@ -38,7 +38,14 @@ public enum VNPTArgsAdapter {
     }
 }
 
-/// VNPT-CA Plugin `Connector{functionID, funcCallback, args[]}` → `{code, data, error}`.
+/// VNPT-CA Plugin. Wire format confirmed from the DVC portal's own public client script (vnpt-plugin.js) and its
+/// login code (2026-10-22): the request is the JSON `{functionID, funcCallback, args[], domain}`; the reply is the
+/// text `<payload>*<funcCallback>` and the page calls `window[funcCallback](payload)`.
+/// Payloads: CheckPlugin / SetLicenseKey / SetShowCertListDialog -> "1" (the page tests `=== "1"`);
+/// GetCertInfo -> JSON `{serial, base64, ...}`; signArrDataAdvanced -> JSON array of JSON strings, each
+/// `{code,data,error}` where `data` is the base64 CMS (the login code does JSON.parse(JSON.parse(p)[0]).data).
+/// shortcut: payloads for SignXML(1) / SignCMS(4) / signHash(9) are unconfirmed: they use the same `{code,data,error}` JSON
+/// as one array item; confirm against a captured call from a page that uses them.
 public struct VNPTBridge: Sendable {
     let service: any SigningService
     let version: String
@@ -49,52 +56,77 @@ public struct VNPTBridge: Sendable {
 
     public func handle(text: String, origin: String) async -> String {
         guard let d = text.data(using: .utf8), let root = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
-              let fid = root["functionID"] as? Int else { return reply(.badInput, error: "Bad input", cb: nil) }
+              let fid = root["functionID"] as? Int else { return frame(result(.badInput, error: "Bad input"), cb: nil) }
         let cb = root["funcCallback"] as? String
         let args = (root["args"] as? [String]) ?? []
         let ctx = BridgeContext(bridge: "vnpt", origin: origin)
         switch fid {
-        case 7, 11, 13:                                  // CheckPlugin, getVersion, checkPluginAdvanced
-            return reply(.ok, data: version, cb: cb)
-        case 6:                                          // SetLicenseKey: accepted; our access control is the origin allowlist
-            return reply(.ok, data: "", cb: cb)
+        case 7, 6, 37:                                   // CheckPlugin, SetLicenseKey (accepted: our access control is the origin allowlist), SetShowCertListDialog
+            return frame("1", cb: cb)
+        case 11:                                         // getVersion
+            return frame(version, cb: cb)
+        case 13:                                         // checkPluginAdvanced needs the vendor's signed challenge: not supported
+            return frame("-1", cb: cb)
         case 0:                                          // GetCertInfo
-            // shortcut: the vendor pops a cert chooser; we return the first certificate.
-            guard let c = await service.certificates().first else { return reply(.noKey, error: "Not found certificate", cb: cb) }
-            let info: [String: Any] = ["serial": c.serialHex, "subject": c.subject, "issuer": c.issuer,
-                                       "notBefore": c.notBefore, "notAfter": c.notAfter, "certificate": c.derB64]
-            let json = String(decoding: (try? JSONSerialization.data(withJSONObject: info)) ?? Data(), as: UTF8.self)
-            return reply(.ok, data: json, cb: cb)
+            // shortcut: the vendor pops a cert chooser; we return the still-valid certificate that expires last.
+            guard let c = await service.certificates().first else { return frame("", cb: cb) }
+            let info: [String: Any] = ["serial": c.serialHex, "base64": c.derB64, "subject": c.subject, "issuer": c.issuer,
+                                       "notBefore": c.notBefore, "notAfter": c.notAfter]
+            return frame(Self.json(info), cb: cb)
+        case 10:                                         // signArrDataAdvanced(arrData, serial, clearPIN, showCertList)
+            return await frame(signArray(args: args, ctx: ctx), cb: cb)
         case 1:                                          // SignXML
-            guard let r = VNPTArgsAdapter.signXML(args: args) else { return reply(.badInput, error: "Bad input", cb: cb) }
-            return await run(cb) { try await service.signXML(ctx, serial: r.serial, xml: r.xml, options: r.options) }
+            guard let r = VNPTArgsAdapter.signXML(args: args) else { return frame(result(.badInput, error: "Bad input"), cb: cb) }
+            return frame(await run { try await service.signXML(ctx, serial: r.serial, xml: r.xml, options: r.options) }, cb: cb)
         case 4:                                          // SignCMS (detached)
-            guard let r = VNPTArgsAdapter.signCMS(args: args) else { return reply(.badInput, error: "Bad input", cb: cb) }
-            return await run(cb) { try await service.signCMS(ctx, serial: r.serial, content: r.content, hash: r.hash) }
+            guard let r = VNPTArgsAdapter.signCMS(args: args) else { return frame(result(.badInput, error: "Bad input"), cb: cb) }
+            return frame(await run { try await service.signCMS(ctx, serial: r.serial, content: r.content, hash: r.hash) }, cb: cb)
         case 9:                                          // signHash: args[0] = base64 SHA-256/SHA-1 digest
-            guard let r = VNPTArgsAdapter.signHash(args: args) else { return reply(.badInput, error: "Bad input", cb: cb) }
-            return await run(cb) { try await service.signDigest(ctx, serial: r.serial, digest: r.digest, hash: r.hash) }
+            guard let r = VNPTArgsAdapter.signHash(args: args) else { return frame(result(.badInput, error: "Bad input"), cb: cb) }
+            return frame(await run { try await service.signDigest(ctx, serial: r.serial, digest: r.digest, hash: r.hash) }, cb: cb)
         default:                                         // SignPDF (P3), Office, file ops (never), validators…
-            return reply(.badInput, error: "NOT_SUPPORTED", cb: cb)
+            return frame(result(.badInput, error: "NOT_SUPPORTED"), cb: cb)
         }
     }
 
-    private func run(_ cb: String?, _ op: () async throws -> Data) async -> String {
-        do { return reply(.ok, data: try await op().base64EncodedString(), cb: cb) }
-        catch let e as SigningFailure {
-            switch e {
-            case .userDenied, .userCancelled: return reply(.userCancel, error: "The action was cancelled by the user", cb: cb)
-            case .unknownSerial: return reply(.noKey, error: "Not found certificate", cb: cb)
-            case .certExpired: return reply(.signFailed, error: "Certificate expired", cb: cb)
-            case .bad(let m): return reply(.badInput, error: m, cb: cb)
-            case .card(let m): return reply(.signFailed, error: m, cb: cb)
-            }
-        } catch { return reply(.internalError, error: "\(error)", cb: cb) }
+    /// args = [JSON array of JSON-string items {data: base64, type}, serial, clearPIN, showCertList].
+    private func signArray(args: [String], ctx: BridgeContext) async -> String {
+        guard let first = args.first, let d = first.data(using: .utf8),
+              let items = try? JSONSerialization.jsonObject(with: d) as? [String], !items.isEmpty else { return result(.badInput, error: "Bad input") }
+        let serial = args.count > 1 && !args[1].isEmpty ? args[1] : nil
+        var out: [String] = []
+        for item in items {
+            guard let id = item.data(using: .utf8), let o = try? JSONSerialization.jsonObject(with: id) as? [String: Any],
+                  let b64 = o["data"] as? String, let content = Data(base64Encoded: b64) else { out.append(result(.badInput, error: "Bad input")); continue }
+            let type = (o["type"] as? String)?.lowercased() ?? ""
+            guard type == "cmsdetached" || type == "cms" else { out.append(result(.badInput, error: "NOT_SUPPORTED")); continue }
+            // shortcut: attached "cms" is signed detached too (no attached CMS builder yet).
+            out.append(await run { try await service.signCMS(ctx, serial: serial, content: content, hash: .sha256) })
+        }
+        return Self.json(out)
     }
 
-    private func reply(_ code: Code, data: String = "", error: String = "", cb: String?) -> String {
-        var o: [String: Any] = ["code": code.rawValue, "data": data, "error": error]
-        if let cb { o["funcCallback"] = cb }
-        return String(decoding: (try? JSONSerialization.data(withJSONObject: o, options: [.sortedKeys])) ?? Data("{}".utf8), as: UTF8.self)
+    private func run(_ op: () async throws -> Data) async -> String {
+        do { return result(.ok, data: try await op().base64EncodedString()) }
+        catch let e as SigningFailure {
+            switch e {
+            case .userDenied, .userCancelled: return result(.userCancel, error: "The action was cancelled by the user")
+            case .unknownSerial: return result(.noKey, error: "Not found certificate")
+            case .certExpired: return result(.signFailed, error: "Certificate expired")
+            case .bad(let m): return result(.badInput, error: m)
+            case .card(let m): return result(.signFailed, error: m)
+            }
+        } catch { return result(.internalError, error: "\(error)") }
+    }
+
+    /// One `{code,data,error}` result as a JSON string.
+    private func result(_ code: Code, data: String = "", error: String = "") -> String {
+        Self.json(["code": code.rawValue, "data": data, "error": error] as [String: Any])
+    }
+
+    private func frame(_ payload: String, cb: String?) -> String { "\(payload)*\(cb ?? "callbackDefault")" }
+
+    static func json(_ o: Any) -> String {
+        String(decoding: (try? JSONSerialization.data(withJSONObject: o, options: [.sortedKeys, .withoutEscapingSlashes])) ?? Data("{}".utf8), as: UTF8.self)
     }
 }
