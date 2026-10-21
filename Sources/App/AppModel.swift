@@ -169,7 +169,21 @@ public final class AppModel: ObservableObject {
                                      dataB64: data.base64EncodedString(), operation: "Ký thử", docCount: 1)
             lastSignResult = "Ký OK — chữ ký \(Data(base64Encoded: sig)?.count ?? 0) byte"
         } catch {
-            lastSignResult = "Lỗi ký: \(error)"
+            lastSignResult = "Lỗi ký: \(signErrorText(error))"
+        }
+    }
+
+    /// Human-readable Vietnamese for a sign failure. pinIncorrect surfaces the
+    /// remaining try count — the number that matters before a lockout.
+    private func signErrorText(_ error: Error) -> String {
+        guard let e = error as? TokenBroker.SignError else { return "\(error)" }
+        switch e {
+        case .loginFailed(.pinIncorrect(let n)):
+            return n.map { "sai PIN, còn \($0) lần thử" } ?? "sai PIN"
+        case .loginFailed(.pinLocked): return "token đã bị khoá PIN"
+        case .loginFailed(.ok): return "đăng nhập không thành công"
+        case .card(let m): return m
+        case .noSignature: return "thẻ không trả về chữ ký"
         }
     }
 

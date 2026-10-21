@@ -1,22 +1,21 @@
 import SwiftUI
-import AppKit
-
-@MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate {
-    let model = AppModel()
-    func applicationDidFinishLaunching(_ note: Notification) {
-        model.start()   // start the bridge at launch, not when the popover opens
-    }
-}
 
 @main
 struct TokenSignerApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
+    // Owned by the SwiftUI graph so the MenuBarExtra window observes its
+    // @Published changes live. (Held in an AppDelegate it did not, so the
+    // open popover showed stale data until reopened.)
+    @StateObject private var model = AppModel()
 
     var body: some Scene {
-        MenuBarExtra("TokenSigner", systemImage: "key.fill") {
-            MenuBarView(model: delegate.model)
+        MenuBarExtra {
+            MenuBarView(model: model)
                 .preferredColorScheme(.light)
+        } label: {
+            // Runs when the menu bar icon first appears, i.e. at launch —
+            // starts the bridge + scan before the user opens the popover.
+            Image(systemName: "key.fill")
+                .task { model.start() }
         }
         .menuBarExtraStyle(.window)
     }

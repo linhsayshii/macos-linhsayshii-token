@@ -42,7 +42,9 @@ struct PINSheet: View {
             HStack {
                 Spacer()
                 Button("Huỷ") { model.submitPIN(nil) }
+                    .buttonStyle(.plain)
                     .font(.system(size: Theme.Size.sm))
+                    .foregroundStyle(Theme.muted)
                 Button("Đăng nhập", action: submit)
                     .font(.system(size: Theme.Size.sm, weight: .medium))
                     .buttonStyle(.borderedProminent)

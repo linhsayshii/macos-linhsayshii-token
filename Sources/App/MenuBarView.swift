@@ -14,7 +14,9 @@ struct MenuBarView: View {
             }
             Divider().overlay(Theme.border)
             Button("Thoát") { NSApplication.shared.terminate(nil) }
+                .buttonStyle(.plain)
                 .font(.system(size: Theme.Size.sm))
+                .foregroundStyle(Theme.muted)
         }
         .padding(16)
         .frame(width: 320)
@@ -76,7 +78,9 @@ struct MenuBarView: View {
                     }
                     if t.supported && !t.serial.isEmpty {
                         Button("Ký thử") { Task { await model.testSign(serial: t.serial) } }
-                            .font(.system(size: Theme.Size.xs))
+                            .buttonStyle(.plain)
+                            .font(.system(size: Theme.Size.xs, weight: .medium))
+                            .foregroundStyle(Theme.primary)
                             .padding(.top, 2)
                     }
                 }

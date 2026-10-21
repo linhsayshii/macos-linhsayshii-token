@@ -30,8 +30,11 @@ struct ApprovalSheet: View {
                 .buttonStyle(.borderedProminent)
                 HStack(spacing: 8) {
                     Button("Chỉ lần này") { model.submitApproval(.once) }
+                        .buttonStyle(.plain)
                         .frame(maxWidth: .infinity)
+                        .foregroundStyle(Theme.primary)
                     Button("Từ chối") { model.submitApproval(.deny) }
+                        .buttonStyle(.plain)
                         .frame(maxWidth: .infinity)
                         .foregroundStyle(Theme.danger)
                 }
