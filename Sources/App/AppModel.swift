@@ -33,6 +33,9 @@ public final class AppModel: ObservableObject {
     @Published public private(set) var tokens: [TokenRow] = []
     @Published public private(set) var bridgeStatus: BridgeStatus = .starting
     @Published private(set) var lastSignResult: String?
+    // Non-nil while a sign is running (login→sign→logout, ~10s on some tokens);
+    // the menu shows it so the user isn't left guessing after submitting the PIN.
+    @Published private(set) var signingStatus: String?
     @Published var pinPrompt: PINPrompt?
     @Published var approvalPrompt: ApprovalPrompt?
     // SecureField binds here (toolchain lacks the SwiftUI @State macro). Cleared on submit.
@@ -156,6 +159,8 @@ public final class AppModel: ObservableObject {
         guard let pin = await withCheckedContinuation({ (c: CheckedContinuation<String?, Never>) in pinCont = c }),
               !pin.isEmpty else { throw TokenBroker.SignError.card("Đã huỷ nhập PIN") }
 
+        signingStatus = "Đang ký…"
+        defer { signingStatus = nil }
         return try await broker.sign(module: target.module, serial: serial, certId: target.cert.id,
                                      mech: .sha256RSA, dataB64: dataB64, pin: pin)
     }

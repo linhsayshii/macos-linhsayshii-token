@@ -9,7 +9,12 @@ struct MenuBarView: View {
             statusLine
             Divider().overlay(Theme.border)
             tokenSection
-            if let r = model.lastSignResult {
+            if let s = model.signingStatus {
+                HStack(spacing: 6) {
+                    ProgressView().controlSize(.small)
+                    Text(s).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                }
+            } else if let r = model.lastSignResult {
                 Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
             }
             Divider().overlay(Theme.border)
