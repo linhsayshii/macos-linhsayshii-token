@@ -56,7 +56,7 @@ public enum XMLDSigSigner {
         let sigId: String
         if let s = o.signatureId { sigId = s } else if case .hoaDon = o.kind { sigId = "seller" } else { sigId = "SigningData" }
         let sha1 = o.hash == .sha1
-        let sigAlg = "http://www.w3.org/2001/04/xmldsig-more#" + (sha1 ? "rsa-sha1" : "rsa-sha256")
+        let sigAlg = sha1 ? "http://www.w3.org/2000/09/xmldsig#rsa-sha1" : "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
         let digAlg = sha1 ? "http://www.w3.org/2000/09/xmldsig#sha1" : "http://www.w3.org/2001/04/xmlenc#sha256"
         let f = DateFormatter(); f.locale = Locale(identifier: "en_US_POSIX")
         f.timeZone = TimeZone(secondsFromGMT: 7 * 3600); f.dateFormat = "yyyy-MM-dd'T'HH:mm:ssxxx"

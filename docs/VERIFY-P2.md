@@ -3,7 +3,7 @@
 ## Verified here (automated, `swift test`)
 - CMS detached: `openssl cms -verify` passes for SHA-256 and SHA-1; tampered content fails.
 - XMLDSig: placement, SigningTime, independent self-verify (SignatureValue against the key, reference-1 digest recomputed).
-  **`xmlsec1 --verify` golden test is skipped** unless `xmlsec1` is installed (`brew install xmlsec1`), then it runs for SHA-256 and SHA-1 plus a tamper check. Run it before trusting C14N output on a real portal.
+  `xmlsec1 1.3.12 --verify` passes for SHA-256 and SHA-1 (root with default namespace), tampered body fails. The xmlsec1 run caught a wrong `rsa-sha1` URI (fixed).
 - WebGuard (Host / Origin / CORS / Private-Network), OriginStore persistence, AuditLog (hash only, 0600), WebSocket + WSS handshake guard, local CA (openssl verify, SAN), eSigner / VNPT / CTSigningHub signxml handlers against a fake service.
 - Live smoke on a dev instance (`TOKENSIGNER_PORT_OFFSET=100`): CORS + PNA headers, 403 on bad Host and unknown Origin, `filePath` ignored, WS/WSS 101 upgrade for allowlisted origin and 403 otherwise, audit.jsonl written.
 
