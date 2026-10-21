@@ -6,7 +6,7 @@ Build first (one builder at a time):
 
 ## 1. token-helper reads a token (shim applied)
 
-    HELPER=$(swift build --show-bin-path)/token-helper
+    HELPER=$(swift build --show-bin-path)/TokenHelper
     SHIM=$(find .build -name libTSShim.dylib | head -1)
     echo '{"listTokens":{}}' | DYLD_INSERT_LIBRARIES=$SHIM "$HELPER" --module /usr/local/lib/libvnptca_p11_v8.dylib
 
@@ -30,3 +30,10 @@ rest of Task 11).
 This needs the login/sign path added to token-helper (next work). Once added, the user signs a
 SHA-256 DigestInfo via CKM_RSA_PKCS and verifies with openssl. If the lib rejects CKM_RSA_PKCS,
 fall back to CKM_SHA256_RSA_PKCS and report.
+
+## Verified 2026-10-21 (by Claude, read-only, no PIN)
+- Step 1 token-helper: listTokens → VNPT token serial 271C52B10035A10F, label "VNPT-CA PKI Token".
+  listCerts → 2 certs (exp 2025-07-28 and 2029-08-30), subject/issuer/serial/dates parsed. Zero 0x80100016.
+- (verify) subjectDN renders the UID as its raw OID `0.9.2342.19200300.100.1.1=MST:...` rather than `UID=MST:...`.
+  CTSigningHub's real subjectDN string may differ; confirm against a Parallels capture before relying on the exact string.
+- Binary name is `TokenHelper` (SwiftPM names it after the target), not `token-helper`.

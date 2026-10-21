@@ -32,7 +32,7 @@ public final class AppModel: ObservableObject {
         // Helper + shim live next to the app binary (bundle Contents/Helpers in a
         // packaged build; the build dir during development).
         let binDir = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent()
-        let helper = binDir.appendingPathComponent("token-helper")
+        let helper = binDir.appendingPathComponent("TokenHelper")
         let shim = binDir.appendingPathComponent("libTSShim.dylib")
         let moduleDir = URL(fileURLWithPath: "/usr/local/lib")
         self.broker = TokenBroker(helperURL: helper, shimURL: shim, moduleDir: moduleDir)

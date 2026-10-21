@@ -2,7 +2,7 @@
 
 With a VNPT token plugged in, once token-helper lands (Task 7):
 
-    HELPER=$(swift build --show-bin-path)/token-helper
+    HELPER=$(swift build --show-bin-path)/TokenHelper
     SHIM=$(find .build -name libTSShim.dylib | head -1)
     echo '{"listTokens":{}}' | DYLD_INSERT_LIBRARIES=$SHIM $HELPER --module /usr/local/lib/libvnptca_p11_v8.dylib
 
