@@ -15,7 +15,7 @@ public final class AppModel: ObservableObject, SigningService {
     struct ApprovalPrompt: Identifiable { let id = UUID(); let origin, subject, ca, notAfter, operation: String; let docCount: Int }
     enum ApprovalChoice: Sendable { case session, once, deny }
 
-    private struct SignTarget { let module: ModuleInfo; let cert: CertInfo; let flags: [String] }
+    private struct SignTarget { let tokenSerial: String; let module: ModuleInfo; let cert: CertInfo; let flags: [String] }
 
     public struct TokenRow: Identifiable, Sendable {
         public var id: String { serial.isEmpty ? reader : serial }
@@ -70,7 +70,7 @@ public final class AppModel: ObservableObject, SigningService {
     private var scanTask: Task<Void, Never>?
 
     // Sign targets by serial from the last scan: module, chosen cert, token flags.
-    private var signTargets: [String: SignTarget] = [:]
+    private var signTargets: [SignTarget] = []   // one per certificate, latest expiry first
     private var signing = false   // vendor PC/SC lock: pause the scan during a sign
     private var pinCont: CheckedContinuation<String?, Never>?
     private var approvalCont: CheckedContinuation<ApprovalChoice, Never>?
@@ -200,7 +200,7 @@ public final class AppModel: ObservableObject, SigningService {
         if signing { return }   // a sign holds the vendor lock; scanning would deadlock
         var rows: [TokenRow] = []
         var certCache: [CertInfo] = []
-        var targets: [String: SignTarget] = [:]
+        var targets: [SignTarget] = []
         // One module per CA: dedupe so two readers of the same CA don't spawn
         // two concurrent helpers against the vendor lib.
         var seenModules = Set<String>()
@@ -217,13 +217,12 @@ public final class AppModel: ObservableObject, SigningService {
                 seenModules.insert(module.moduleName)
                 for t in list {
                     if case let .certs(certs) = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error("") {
-                        certCache.append(contentsOf: certs)
-                        if let c = certs.first {
-                            targets[t.serial] = SignTarget(module: module, cert: c, flags: t.flags)
-                        }
+                        let sorted = certs.sorted { $0.notAfter > $1.notAfter }   // same-format dates sort as strings
+                        certCache.append(contentsOf: sorted)
+                        for c in sorted { targets.append(SignTarget(tokenSerial: t.serial, module: module, cert: c, flags: t.flags)) }
                         if t.reader == r.reader || list.count == 1 {
                             row.serial = t.serial; row.label = t.label
-                            if let c = certs.first { row.certSubject = c.subject; row.notAfter = c.notAfter }
+                            if let c = sorted.first { row.certSubject = c.subject; row.notAfter = c.notAfter }
                         }
                     }
                 }
@@ -231,8 +230,8 @@ public final class AppModel: ObservableObject, SigningService {
             rows.append(row)
         }
         self.tokens = rows
-        self.cachedCerts = certCache
-        self.signTargets = targets
+        self.signTargets = targets.sorted { $0.cert.notAfter > $1.cert.notAfter }
+        self.cachedCerts = self.signTargets.map(\.cert)
     }
 
     // MARK: - Sign path
@@ -249,15 +248,18 @@ public final class AppModel: ObservableObject, SigningService {
         let f = DateFormatter(); f.locale = Locale(identifier: "en_US_POSIX"); f.dateFormat = "yyyy-MM-dd HH:mm:ss"; return f
     }()
 
-    /// Token serial or certificate serial (bridges send the latter); nil picks the only token.
+    /// Certificate serial (bridges send this) or token serial; nil picks the still-valid certificate that expires last.
     private func resolve(_ serial: String?) throws -> (tokenSerial: String, target: SignTarget) {
+        let valid = signTargets.filter { Self.certDate.date(from: $0.cert.notAfter).map { $0 > Date() } ?? true }
+        let pick: SignTarget?
         if let s = serial, !s.isEmpty {
-            if let t = signTargets[s] { return (s, t) }
-            if let e = signTargets.first(where: { $0.value.cert.serialHex.caseInsensitiveCompare(s) == .orderedSame }) { return (e.key, e.value) }
-            throw SigningFailure.unknownSerial(s)
+            pick = signTargets.first { $0.cert.serialHex.caseInsensitiveCompare(s) == .orderedSame }
+                ?? valid.first { $0.tokenSerial == s } ?? signTargets.first { $0.tokenSerial == s }
+            guard let pick else { throw SigningFailure.unknownSerial(s) }
+            return (pick.tokenSerial, pick)
         }
-        guard let e = signTargets.first else { throw SigningFailure.unknownSerial("") }
-        return (e.key, e.value)
+        guard let pick = valid.first ?? signTargets.first else { throw SigningFailure.unknownSerial("") }
+        return (pick.tokenSerial, pick)
     }
 
     /// Approval sheet unless an (origin, cert) session is active. Throws on deny.
