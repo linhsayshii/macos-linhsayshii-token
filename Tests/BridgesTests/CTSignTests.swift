@@ -101,3 +101,33 @@ private func xmlBody(_ extra: [String: Any]) throws -> Data {
     #expect(CTSignBridge.notExpired("2099-01-01 00:00:00"))
     #expect(!CTSignBridge.notExpired("2025-07-28 11:09:47"))
 }
+
+@Test func caseInsensitiveRoutesAndPostGetCert() async throws {
+    let b = CTSignBridge(backend: FakeBackend())
+    for m in ["GET", "POST"] {
+        let (st, json) = await b.handle(method: m, path: "/api/hubclient/GetCert", body: Data())
+        #expect(st == 200)
+        let v = try JSONSerialization.jsonObject(with: json) as! [String: Any]
+        #expect((v["data"] as! [[String: Any]]).first?["serinumber"] as? String == "54010101")
+        let (_, j2) = await b.handle(method: m, path: "/api/HubClient/getcert", body: Data())
+        let v2 = try JSONSerialization.jsonObject(with: j2) as! [String: Any]
+        #expect((v2["data"] as! [[String: Any]]).first?["serinumber"] as? String == "54010101")
+        let (_, ver) = await b.handle(method: m, path: "/api/signhash/version", body: Data())
+        #expect(String(decoding: ver, as: UTF8.self) == "\"1.2.0.0\"")
+        let (_, info) = await b.handle(method: m, path: "/api/info/getinfocert", body: Data())
+        #expect(String(decoding: info, as: UTF8.self) == "\"1\"")
+    }
+    let digest = Data(repeating: 0xAB, count: 32).base64EncodedString()
+    let body = try JSONSerialization.data(withJSONObject: ["serinumber": "54010101", "hash": [["Ma": "one", "DLieuHash": digest]]])
+    let (_, sh) = await b.handle(method: "POST", path: "/api/hubclient/signhash", body: body)
+    #expect(((try JSONSerialization.jsonObject(with: sh) as! [String: Any])["status"] as? Int) == 200)
+    let (st, _) = await b.handle(method: "GET", path: "/api/hubclient/signhash", body: body)
+    #expect(st == 404)
+    let xb = try xmlBody(["serinumber": "54010101", "dataFile": Data("<a/>".utf8).base64EncodedString()])
+    let sx = CTSignBridge(backend: FakeBackend(), service: FakeSigningService())
+    let (_, xj) = await sx.handle(method: "POST", path: "/API/HUBCLIENT/SIGNXML", body: xb)
+    #expect(((try JSONSerialization.jsonObject(with: xj) as! [String: Any])["status"] as? Int) == 200)
+    let (nf, nj) = await b.handle(method: "GET", path: "/api/nope", body: Data())
+    #expect(nf == 404)
+    #expect(String(decoding: nj, as: UTF8.self) == "{}")
+}

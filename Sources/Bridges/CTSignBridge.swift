@@ -23,12 +23,14 @@ public struct CTSignBridge: Sendable {
     }
 
     public func handle(method: String, path: String, body: Data, origin: String = "local") async -> (status: Int, json: Data) {
-        switch (method, path.lowercased() == "/api/hubclient/signxml" ? "/api/HubClient/signxml" : path) {
-        case ("GET", "/api/SignHash/Version"):
+        // Routes are case-insensitive; the real client uses e.g. lowercase /api/hubclient/GetCert with POST.
+        let isRead = method == "GET" || method == "POST"
+        switch (isRead ? "READ" : method, path.lowercased()) {
+        case ("READ", "/api/signhash/version"):
             return (200, jsonString(Self.version))
-        case ("GET", "/api/Info/GetInfoCert"):
+        case ("READ", "/api/info/getinfocert"):
             return (200, jsonString("1"))
-        case ("GET", "/api/HubClient/GetCert"):
+        case ("READ", "/api/hubclient/getcert"):
             let certs = await backend.certificates()
             if certs.isEmpty { return (200, emptyCerts()) }
             let infos = certs.map {
@@ -37,7 +39,7 @@ public struct CTSignBridge: Sendable {
                                 validTo: $0.notAfter, error: nil)
             }
             return (200, wrap(status: 200, data: infos, message: "SUCCESS"))
-        case ("POST", "/api/HubClient/SignHash"):
+        case _ where method == "POST" && path.lowercased() == "/api/hubclient/signhash":
             guard var req = try? JSONDecoder().decode(SignHashRequest.self, from: body) else {
                 return (200, errorBody(500, "bad request"))
             }
@@ -59,7 +61,7 @@ public struct CTSignBridge: Sendable {
             } catch {
                 return (200, errorBody(500, "\(error)"))
             }
-        case ("POST", "/api/HubClient/signxml"):
+        case _ where method == "POST" && path.lowercased() == "/api/hubclient/signxml":
             return await signXML(body: body, origin: origin)
         default:
             return (404, Data("{}".utf8))
