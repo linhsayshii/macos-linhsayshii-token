@@ -52,3 +52,12 @@ fall back to CKM_SHA256_RSA_PKCS and report.
 - CMC was not tested (wrong PIN entered).
 Implication: CTSigningHub's SignHash sends a precomputed hash, which CKM_RSA_PKCS cannot sign here.
 Testing CKM_RSA_X_509 (raw RSA over a host-padded PKCS#1 block) next to serve the precomputed-hash path.
+
+## Sign-mechanism finding, round 2 (NC-CA, I-CA)
+- CKM_RSA_X_509 (raw RSA over host-padded PKCS#1 block) → also C_Sign rv=48 CKR_DEVICE_ERROR.
+- Only CKM_SHA256_RSA_PKCS (raw message, on-card hash) verifies.
+- VNPT, CMC: wrong PIN entered, not measured.
+Conclusion: these Feitian macOS dylibs sign only the raw message (on-card hash); no precomputed-hash
+mechanism works. So CTSigningHub signxml/signpdf (raw document) is feasible, but bare SignHash is not,
+via the vendor dylibs. scripts/trace-sign.sh traces the failing sign to tell card-reject from a macOS 27
+transport drop (0x80100016) the shim misses.
