@@ -4,13 +4,18 @@ import PackageDescription
 let package = Package(
     name: "TokenSigner",
     platforms: [.macOS(.v14)],
+    products: [
+        .library(name: "TSShim", type: .dynamic, targets: ["TSShim"]),
+    ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.76.0"),
         .package(url: "https://github.com/apple/swift-certificates.git", from: "1.6.0"),
         .package(url: "https://github.com/apple/swift-asn1.git", from: "1.3.0"),
     ],
     targets: [
-        .target(name: "TSShim"),
+        .target(name: "TSShim", linkerSettings: [
+            .linkedFramework("PCSC")
+        ]),
         .target(name: "Core", dependencies: [
             .product(name: "X509", package: "swift-certificates"),
             .product(name: "SwiftASN1", package: "swift-asn1"),

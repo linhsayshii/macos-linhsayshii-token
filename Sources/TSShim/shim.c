@@ -15,3 +15,22 @@ size_t ts_reencode(const uint8_t *apdu, size_t len, uint8_t *out, size_t outcap)
     out[8 + lc] = apdu[len - 1];                            /* Le lo */
     return need;
 }
+
+#include <PCSC/winscard.h>
+#include <PCSC/wintypes.h>
+
+/* Interpose SCardTransmit: re-encode the malformed Feitian SM APDU before it
+   reaches the system CCID stack. The MAC covers header+DOs, not Lc/Le, so SM
+   stays valid; valid short APDUs pass through untouched. */
+static LONG ts_transmit(SCARDHANDLE h, const SCARD_IO_REQUEST *send,
+                        const uint8_t *in, uint32_t il,
+                        SCARD_IO_REQUEST *recv, uint8_t *out, uint32_t *ol) {
+    uint8_t buf[4096];
+    size_t n = ts_reencode(in, il, buf, sizeof buf);
+    if (n > 0) return SCardTransmit(h, send, buf, (uint32_t)n, recv, out, ol);
+    return SCardTransmit(h, send, in, il, recv, out, ol);
+}
+
+__attribute__((used)) static struct { const void *a, *b; }
+_ts_interpose __attribute__((section("__DATA,__interpose"))) =
+    { (const void *)ts_transmit, (const void *)SCardTransmit };
