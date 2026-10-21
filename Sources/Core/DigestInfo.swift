@@ -1,4 +1,4 @@
-public enum HashAlg: Sendable { case sha256, sha1 }
+public enum HashAlg: Sendable, Equatable { case sha256, sha1 }
 
 public struct DigestInfoError: Error, Sendable { public let message: String }
 

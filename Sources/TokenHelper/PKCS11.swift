@@ -69,6 +69,7 @@ final class PKCS11 {
         switch mech {
         case .rsaPKCS: mechType = CK_MECHANISM_TYPE(CKM_RSA_PKCS)
         case .sha256RSA: mechType = CK_MECHANISM_TYPE(CKM_SHA256_RSA_PKCS)
+        case .sha1RSA: mechType = CK_MECHANISM_TYPE(CKM_SHA1_RSA_PKCS)
         case .rsaX509: mechType = CK_MECHANISM_TYPE(CKM_RSA_X_509)
         }
         var mechanism = CK_MECHANISM(mechanism: mechType, pParameter: nil, ulParameterLen: 0)
