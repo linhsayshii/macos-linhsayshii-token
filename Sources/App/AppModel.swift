@@ -38,7 +38,11 @@ public final class AppModel: ObservableObject {
         self.broker = TokenBroker(helperURL: helper, shimURL: shim, moduleDir: moduleDir)
     }
 
+    private var started = false
+
     public func start() {
+        guard !started else { return }   // MenuBarExtra onAppear can fire repeatedly
+        started = true
         startServer()
         scanTask = Task { [weak self] in
             while !Task.isCancelled {
