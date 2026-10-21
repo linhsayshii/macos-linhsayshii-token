@@ -8,7 +8,7 @@ struct FakeBackend: SigningBackend {
         [CertInfo(id: "01", derB64: "AAE=", subject: "CN=Test", issuer: "CN=VNPT-CA SHA2",
                   serialHex: "54010101", notBefore: "2024-01-01 00:00:00", notAfter: "2027-01-01 00:00:00")]
     }
-    func sign(serial: String, digestB64: String) async throws -> String { "U0lH" }
+    func sign(serial: String, digestB64: String, origin: String) async throws -> String { "U0lH" }
 }
 
 @Test func versionReturnsString() async {
@@ -52,7 +52,7 @@ struct FakeBackend: SigningBackend {
 @Test func signHashUnknownSerialIs404() async throws {
     struct NoCert: SigningBackend {
         func certificates() async -> [CertInfo] { [] }
-        func sign(serial: String, digestB64: String) async throws -> String { throw CTSignError.unknownSerial("FFFF") }
+        func sign(serial: String, digestB64: String, origin: String) async throws -> String { throw CTSignError.unknownSerial("FFFF") }
     }
     let b = CTSignBridge(backend: NoCert())
     let body = try JSONSerialization.data(withJSONObject: [

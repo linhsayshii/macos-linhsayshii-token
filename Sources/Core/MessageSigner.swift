@@ -6,6 +6,8 @@ import Security
 public protocol MessageSigner: Sendable {
     var certificateDER: Data { get }
     func sign(message: Data, hash: HashAlg) async throws -> Data
+    /// Sign a precomputed digest (PKCS#1 v1.5 DigestInfo). This is how real tokens sign everything.
+    func signDigest(_ digest: Data, hash: HashAlg) async throws -> Data
 }
 
 public struct SoftwareSigner: MessageSigner, @unchecked Sendable {
@@ -20,6 +22,15 @@ public struct SoftwareSigner: MessageSigner, @unchecked Sendable {
     }
 }
 
+extension SoftwareSigner {
+    public func signDigest(_ digest: Data, hash: HashAlg) async throws -> Data {
+        let alg: SecKeyAlgorithm = hash == .sha256 ? .rsaSignatureDigestPKCS1v15SHA256 : .rsaSignatureDigestPKCS1v15SHA1
+        var e: Unmanaged<CFError>?
+        guard let sig = SecKeyCreateSignature(key, alg, digest as CFData, &e) else { throw e!.takeRetainedValue() }
+        return sig as Data
+    }
+}
+
 public struct BrokerSigner: MessageSigner {
     let broker: TokenBroker, module: ModuleInfo, serial: String, cert: CertInfo
     let pin: @Sendable () async throws -> String
@@ -28,10 +39,16 @@ public struct BrokerSigner: MessageSigner {
                 pin: @escaping @Sendable () async throws -> String) {
         self.broker = broker; self.module = module; self.serial = serial; self.cert = cert; self.pin = pin
     }
+    /// Hash in software, then sign the DigestInfo with CKM_RSA_PKCS. On-card hashing (CKM_SHA256_RSA_PKCS)
+    /// is rejected by the card (SW 6A80) above ~200 bytes, so every message goes this way.
     public func sign(message: Data, hash: HashAlg) async throws -> Data {
-        let b64 = try await broker.sign(module: module, serial: serial, certId: cert.id,
-                                        mech: hash == .sha256 ? .sha256RSA : .sha1RSA,
-                                        dataB64: message.base64EncodedString(), pin: try await pin())
+        try await signDigest(CMSSigner.digest(message, hash), hash: hash)
+    }
+
+    public func signDigest(_ digest: Data, hash: HashAlg) async throws -> Data {
+        let di = Data(try DigestInfo.wrap(Array(digest), hash))
+        let b64 = try await broker.sign(module: module, serial: serial, certId: cert.id, mech: .rsaPKCS,
+                                        dataB64: di.base64EncodedString(), pin: try await pin())
         return Data(base64Encoded: b64) ?? Data()
     }
 }

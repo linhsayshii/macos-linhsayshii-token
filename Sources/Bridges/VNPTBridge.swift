@@ -27,6 +27,11 @@ public enum VNPTArgsAdapter {
         return (p.data, o, p.options["certificateSerial"] as? String)
     }
 
+    public static func signHash(args: [String]) -> (digest: Data, hash: HashAlg, serial: String?)? {
+        guard let p = parse(args), p.data.count == 32 || p.data.count == 20 else { return nil }
+        return (p.data, p.data.count == 32 ? .sha256 : .sha1, p.options["certificateSerial"] as? String)
+    }
+
     public static func signCMS(args: [String]) -> (content: Data, hash: HashAlg, serial: String?)? {
         guard let p = parse(args) else { return nil }
         return (p.data, hash(p.options), p.options["certificateSerial"] as? String)
@@ -66,8 +71,9 @@ public struct VNPTBridge: Sendable {
         case 4:                                          // SignCMS (detached)
             guard let r = VNPTArgsAdapter.signCMS(args: args) else { return reply(.badInput, error: "Bad input", cb: cb) }
             return await run(cb) { try await service.signCMS(ctx, serial: r.serial, content: r.content, hash: r.hash) }
-        case 9:                                          // signHash: precomputed hashes cannot be signed on these tokens
-            return reply(.signFailed, error: "Token chỉ ký trên dữ liệu gốc, không ký được hash dựng sẵn", cb: cb)
+        case 9:                                          // signHash: args[0] = base64 SHA-256/SHA-1 digest
+            guard let r = VNPTArgsAdapter.signHash(args: args) else { return reply(.badInput, error: "Bad input", cb: cb) }
+            return await run(cb) { try await service.signDigest(ctx, serial: r.serial, digest: r.digest, hash: r.hash) }
         default:                                         // SignPDF (P3), Office, file ops (never), validators…
             return reply(.badInput, error: "NOT_SUPPORTED", cb: cb)
         }

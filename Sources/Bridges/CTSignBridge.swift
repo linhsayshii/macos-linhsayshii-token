@@ -3,7 +3,7 @@ import Core
 
 public protocol SigningBackend: Sendable {
     func certificates() async -> [CertInfo]
-    func sign(serial: String, digestB64: String) async throws -> String
+    func sign(serial: String, digestB64: String, origin: String) async throws -> String
 }
 
 public struct CTSignBridge: Sendable {
@@ -37,13 +37,19 @@ public struct CTSignBridge: Sendable {
             }
             do {
                 for i in req.hash.indices {
-                    req.hash[i].CKy = try await backend.sign(serial: req.serinumber, digestB64: req.hash[i].DLieuHash)
+                    req.hash[i].CKy = try await backend.sign(serial: req.serinumber, digestB64: req.hash[i].DLieuHash, origin: origin)
                 }
                 return (200, wrap(status: 200, data: req.hash, message: "SUCCESS"))
             } catch CTSignError.unknownSerial(let s) {
                 return (200, errorBody(404, "Không tìm thấy CTS có serinumber \(s)"))
-            } catch CTSignError.precomputedHashUnsupported {
-                return (200, errorBody(501, "Token chỉ ký trên dữ liệu gốc (SHA256withRSA trên thẻ); không ký được hash dựng sẵn mà SignHash gửi."))
+            } catch SigningFailure.unknownSerial(let s) {
+                return (200, errorBody(404, "Không tìm thấy CTS có serinumber \(s)"))
+            } catch SigningFailure.userDenied, SigningFailure.userCancelled {
+                return (200, errorBody(403, "Người dùng từ chối ký"))
+            } catch SigningFailure.certExpired {
+                return (200, errorBody(500, "Chứng thư số đã hết hạn"))
+            } catch SigningFailure.bad(let m) {
+                return (200, errorBody(500, m))
             } catch {
                 return (200, errorBody(500, "\(error)"))
             }

@@ -339,6 +339,10 @@ public final class AppModel: ObservableObject, SigningService {
         return (sig, cert)
     }
 
+    public func signDigest(_ ctx: BridgeContext, serial: String?, digest: Data, hash: HashAlg) async throws -> Data {
+        try await perform(ctx, serial: serial, operation: "Ký hash", input: digest) { try await $0.signDigest(digest, hash: hash) }
+    }
+
     /// Sign a fixed test string so the login/sign path can be exercised from the menu.
     func testSign(serial: String) async {
         let data = Data("TokenSigner ký thử \(Date())".utf8)
@@ -394,9 +398,11 @@ public final class AppModel: ObservableObject, SigningService {
 struct Backend: SigningBackend {
     let model: AppModel
     func certificates() async -> [CertInfo] { await model.certificates() }
-    func sign(serial: String, digestB64: String) async throws -> String {
-        // SignHash sends a precomputed hash; these tokens sign only the raw
-        // message on-card. Honestly unsupported — raw-document signing lands in P2.
-        throw CTSignError.precomputedHashUnsupported
+    /// CTSigningHub SignHash: `digestB64` is a SHA-256 (32B) or SHA-1 (20B) digest; the card signs its DigestInfo.
+    func sign(serial: String, digestB64: String, origin: String) async throws -> String {
+        guard let d = Data(base64Encoded: digestB64), d.count == 32 || d.count == 20 else { throw SigningFailure.bad("DLieuHash phải là SHA-256 (32 byte) hoặc SHA-1 (20 byte)") }
+        let sig = try await model.signDigest(BridgeContext(bridge: "ctsigninghub", origin: origin),
+                                             serial: serial, digest: d, hash: d.count == 32 ? .sha256 : .sha1)
+        return sig.base64EncodedString()
     }
 }

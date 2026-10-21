@@ -36,7 +36,10 @@ private let b64 = Data("<doc/>".utf8).base64EncodedString()
     let b = VNPTBridge(service: svc)
     #expect(obj(await b.handle(text: req(4, [b64]), origin: origin))["code"] as? Int == 0)
     #expect(svc.calls.first?.kind == "cms")
-    #expect(obj(await b.handle(text: req(9, [b64]), origin: origin))["code"] as? Int == 3)   // signHash unsupported
+    let digest = Data(repeating: 0xAB, count: 32).base64EncodedString()
+    #expect(obj(await b.handle(text: req(9, [digest]), origin: origin))["code"] as? Int == 0)   // signHash
+    #expect(svc.calls.contains { $0.kind == "digest-sha256" })
+    #expect(obj(await b.handle(text: req(9, [b64]), origin: origin))["code"] as? Int == 1)      // not a digest length
     #expect(obj(await b.handle(text: req(1, []), origin: origin))["code"] as? Int == 1)
     #expect(obj(await b.handle(text: req(2, [b64]), origin: origin))["error"] as? String == "NOT_SUPPORTED")
     #expect(obj(await b.handle(text: "garbage", origin: origin))["code"] as? Int == 1)

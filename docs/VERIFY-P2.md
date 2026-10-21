@@ -7,6 +7,15 @@
 - WebGuard (Host / Origin / CORS / Private-Network), OriginStore persistence, AuditLog (hash only, 0600), WebSocket + WSS handshake guard, local CA (openssl verify, SAN), eSigner / VNPT / CTSigningHub signxml handlers against a fake service.
 - Live smoke on a dev instance (`TOKENSIGNER_PORT_OFFSET=100`): CORS + PNA headers, 403 on bad Host and unknown Origin, `filePath` ignored, WS/WSS 101 upgrade for allowlisted origin and 403 otherwise, audit.jsonl written.
 
+## Hardware finding 2026-10-22 (NC-CA, TSSHIM_LOG)
+- The macOS 27 CCID passes long extended APDUs fine (no-PIN probe, Lc up to 500). The vendor lib's SM signing commands failed
+  only because they had extended Lc + a single Le byte; the shim now widens Le to 2 bytes (`ts_reencode`).
+- With that, `CKM_RSA_PKCS` over a 51-byte DigestInfo signs (`0c2a8086` -> SW 9000). This overturns P1's "tokens sign only raw data" conclusion:
+  the P1 rv=48 was this CCID malformation.
+- On-card hashing (`CKM_SHA256_RSA_PKCS`, `0c2a9080`) is rejected by the CARD (SW 6A80) for messages above ~200 bytes. So all signing
+  now hashes in software and signs the DigestInfo with `CKM_RSA_PKCS` (BrokerSigner.signDigest). SignHash / VNPT signHash are live.
+- `scripts/sign-size-test.sh` reproduces this.
+
 ## NOT verified on hardware (needs the user: PIN + approval click)
 - Real-token sign through each bridge: `signxml` (CTSigningHub), eSigner `CER_001`, VNPT `SignXML`/`SignCMS`. Then check with `xmlsec1 --verify` / `openssl cms -verify`.
 - `SHA1_RSA_PKCS` on the Feitian libs (only `SHA256_RSA_PKCS` was proven in P1).

@@ -18,5 +18,7 @@ public protocol SigningService: Sendable {
     func signXML(_ ctx: BridgeContext, serial: String?, xml: Data, options: XMLSignOptions) async throws -> Data
     /// Sign raw bytes on-card (PKCS#1 v1.5, token hashes). For portals that canonicalize themselves.
     func signMessage(_ ctx: BridgeContext, serial: String?, message: Data, hash: HashAlg) async throws -> (signature: Data, certDER: Data)
+    /// Sign a precomputed digest (SHA-256 32B / SHA-1 20B) on-card.
+    func signDigest(_ ctx: BridgeContext, serial: String?, digest: Data, hash: HashAlg) async throws -> Data
     func signCMS(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data
 }
