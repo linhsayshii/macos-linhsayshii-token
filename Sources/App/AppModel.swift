@@ -42,6 +42,7 @@ public final class AppModel: ObservableObject, SigningService {
         BridgeRow(name: "eSigner", port: 8768, status: .starting),
         BridgeRow(name: "VNPT-CA Plugin", port: 4433, status: .starting),
         BridgeRow(name: "VNPT-CA Plugin (DVC)", port: 4434, status: .starting),
+        BridgeRow(name: "M-Invoice", port: 16080, status: .starting),
     ]
     @Published public private(set) var recentAudit: [AuditEntry] = []
     @Published public private(set) var activeSigns = 0
@@ -68,6 +69,7 @@ public final class AppModel: ObservableObject, SigningService {
     static let supportDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         .appendingPathComponent("TokenSigner", isDirectory: true)
     private var server: HTTPServer?
+    private var miServer: SignalRServer?
     private var scanTask: Task<Void, Never>?
 
     // Sign targets by serial from the last scan: module, chosen cert, token flags.
@@ -167,6 +169,13 @@ public final class AppModel: ObservableObject, SigningService {
             do { setBridge("VNPT-CA Plugin (DVC)", port: try await dvcServer.start(), .up) }
             catch WSServer.StartError.portInUse { setBridge("VNPT-CA Plugin (DVC)", .portInUse) }
             catch { setBridge("VNPT-CA Plugin (DVC)", .failed("\(error)")) }
+        }
+        let mi = SignalRServer(port: 16080 + off, store: originStore, hub: SignalRHub(handler: MinvoiceBridge(service: self).handler))
+        miServer = mi
+        Task {
+            do { setBridge("M-Invoice", port: try await mi.start(), .up) }
+            catch SignalRServer.StartError.portInUse { setBridge("M-Invoice", .portInUse) }
+            catch { setBridge("M-Invoice", .failed("\(error)")) }
         }
         Task.detached { [localCA] in
             let ok = localCA.isTrusted()

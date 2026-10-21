@@ -135,3 +135,24 @@ Response:
   `<Signature>` inserted under the role `DSCKS` node per the XPaths above.
 - Drive the token through PKCS#11 (macOS has no Windows cert store); map "select by serial number"
   and "default token" to PKCS#11 slot/cert enumeration; let the PKCS#11 module prompt for PIN.
+
+## 2.0 delta — confirmed from the live web app (2026-10-22)
+
+Source: the vendor SPA bundle `https://hddt.minvoice.com.vn/static/js/main.*.js` (public, read as data only). No plugin binary
+was run. Not captured from a live plugin: only what the page's own client code sends/expects is confirmed.
+
+- Port/hub unchanged: jQuery SignalR client → `http://localhost:16080`, hub proxy `handlerHub`; the page adds a junk query
+  param `Access-Control-Allow-Private-Network=true`. jQuery client defaults to `withCredentials: true`, so the server must send
+  `Access-Control-Allow-Credentials: true` with a concrete (non-`*`) origin.
+- **The page calls `processMessage` (not `SwichTask`)** and listens for a server→client callback:
+  `hub.on("reponseResult", json => { r = JSON.parse(json); r.code === 1 ? resolve(r) : showInvalid(t("ErrorCode-"+r.code, r.message)) })`.
+  `getVersion` is called when a command needs `minimumPluginVersion` ("1.1.1"); version compare is installed >= required.
+- Request (single JSON string arg): `{"BrowserInfo":{"Cookie":document.cookie,"UserAgent":…,"UserName":…,"Pass":…,"LinkApi":"https://api-hddt.minvoice.com.vn/api/app/"},"PlugCommand":{…}}`.
+  **BrowserInfo carries the user's cookie and password** (never log it).
+- `PlugCommand` shapes seen: `{CommandName:"TokenInfo"}` → reply `data.token = {Issuer,SerialNumber,Subject,NotBefore,NotAfter}`;
+  `{CommandName:"SignInvoices"|"SignSummary"|"SignDeclaration"|"SignSS04"|"StatementInvoice"|"StatementInvoiceBuyer", InvoiceIdArray:[ids], Id, taxCode, SerialNumber}`
+  (page injects `SerialNumber` from its token list); `ExportInvoiceXML|ExportInvoice {InvoiceIdArray}`; `SyncInvoiceData {InvoiceSysnDto}`; `ChangePassword {ResetPasswordByToken}`.
+- **The page never sends XML.** For USB tokens the plugin itself must fetch the unsigned XML from the minvoice REST API (using
+  BrowserInfo credentials), sign, and upload (`…/upload-xml`, see endpoints above). Those endpoints are NOT in the web bundle, so the
+  SignInvoices wire (download/upload calls, success `data`) is still unresolved. Non-USB tokens go through the server (`POST app/sign-service {signType, ids, tokenInfo}`), not the plugin.
+- Success is `code === 1`; any other code shows `ErrorCode-<code>` / `message`.
