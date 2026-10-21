@@ -66,6 +66,8 @@ if r["code"] == 0:
     open(f"{OUT}/cms.der", "wb").write(base64.b64decode(r["data"]))
     v = run(["openssl", "cms", "-verify", "-noverify", "-binary", "-inform", "DER", "-in", f"{OUT}/cms.der", "-content", f"{OUT}/content.bin", "-out", "/dev/null"])
     ok["CMS sha256"] = v.returncode == 0; print("  openssl cms -verify:", "OK" if v.returncode == 0 else v.stderr.strip())
+    # signHash is checked against the key of the certificate that actually signed (certificateSerial), not GetCertInfo's pick.
+    run(["sh", "-c", f"openssl cms -cmsout -inform DER -in {OUT}/cms.der -certsout {OUT}/signer.pem && openssl x509 -in {OUT}/signer.pem -noout -pubkey > {OUT}/pub.pem"])
 
 print("\nSignXML with SHA-1 (rsa-sha1)")
 xml = b"<HDon><DLHDon><TTChung><SHDon>2</SHDon></TTChung></DLHDon><DSCKS><NBan/></DSCKS></HDon>"

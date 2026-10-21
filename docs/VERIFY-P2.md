@@ -20,6 +20,11 @@
 - NC-CA token, cert 54010E004EC042B6DCD011ABE8BBAF6A: CTSigningHub `signxml` -> approval sheet -> PIN -> signed XML; `xmlsec1 --verify` = OK.
 - GetCert `valid` now reflects expiry.
 
+- VNPT WSS bridge (`scripts/vnpt-ws-test.py`, NC-CA cert): SignCMS SHA-256 `openssl cms -verify` OK; SignXML with rsa-sha1 `xmlsec1 --verify` OK;
+  signHash (precomputed SHA-256 digest) `openssl pkeyutl -verify` OK (checked against the signing certificate's key).
+- DVC portal (`xacthuc.dichvucong.gov.vn`) connects to `wss://localhost:{4433,4434,4435,9201,9202}/plugin`. Not yet exercised end to end: the
+  embedded browser denies local-network permission, so frames still need a capture from a real browser with local network access allowed.
+
 ## NOT verified on hardware (needs the user: PIN + approval click)
 - Real-token sign through each bridge: `signxml` (CTSigningHub), eSigner `CER_001`, VNPT `SignXML`/`SignCMS`. Then check with `xmlsec1 --verify` / `openssl cms -verify`.
 - `SHA1_RSA_PKCS` on the Feitian libs (only `SHA256_RSA_PKCS` was proven in P1).
