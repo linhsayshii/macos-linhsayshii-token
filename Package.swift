@@ -16,11 +16,16 @@ let package = Package(
         .target(name: "TSShim", linkerSettings: [
             .linkedFramework("PCSC")
         ]),
+        .target(name: "CPKCS11"),
         .target(name: "Core", dependencies: [
             .product(name: "X509", package: "swift-certificates"),
             .product(name: "SwiftASN1", package: "swift-asn1"),
         ]),
-        .executableTarget(name: "TokenHelper", dependencies: ["Core", "TSShim"]),
+        .executableTarget(name: "TokenHelper", dependencies: [
+            "Core", "TSShim", "CPKCS11",
+            .product(name: "X509", package: "swift-certificates"),
+            .product(name: "SwiftASN1", package: "swift-asn1"),
+        ]),
         .target(name: "Bridges", dependencies: [
             "Core",
             .product(name: "NIOCore", package: "swift-nio"),
