@@ -16,7 +16,11 @@ public struct CertInfo: Codable, Equatable, Sendable {
     }
 }
 
-public enum SignMech: String, Codable, Sendable { case sha256RSA = "SHA256_RSA_PKCS", rsaPKCS = "RSA_PKCS" }
+public enum SignMech: String, Codable, Sendable {
+    case sha256RSA = "SHA256_RSA_PKCS"   // token hashes the raw message, then signs
+    case rsaPKCS = "RSA_PKCS"            // sign a caller-built DigestInfo (PKCS#1 v1.5 pad on-card)
+    case rsaX509 = "RSA_X_509"           // raw RSA; caller pads the full modulus-sized block
+}
 
 public enum LoginResult: Codable, Equatable, Sendable {
     case ok

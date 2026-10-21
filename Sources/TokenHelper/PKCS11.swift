@@ -65,8 +65,13 @@ final class PKCS11 {
         guard let key = try findPrivateKey(fl, session, id: idBytes) else {
             throw PKCS11Error("no private key with id \(certId)")
         }
-        var mechanism = CK_MECHANISM(mechanism: CK_MECHANISM_TYPE(mech == .rsaPKCS ? CKM_RSA_PKCS : CKM_SHA256_RSA_PKCS),
-                                     pParameter: nil, ulParameterLen: 0)
+        let mechType: CK_MECHANISM_TYPE
+        switch mech {
+        case .rsaPKCS: mechType = CK_MECHANISM_TYPE(CKM_RSA_PKCS)
+        case .sha256RSA: mechType = CK_MECHANISM_TYPE(CKM_SHA256_RSA_PKCS)
+        case .rsaX509: mechType = CK_MECHANISM_TYPE(CKM_RSA_X_509)
+        }
+        var mechanism = CK_MECHANISM(mechanism: mechType, pParameter: nil, ulParameterLen: 0)
         guard fl.pointee.C_SignInit(session, &mechanism, key) == CKR_OK else {
             throw PKCS11Error("C_SignInit failed")
         }

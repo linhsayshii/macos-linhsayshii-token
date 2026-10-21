@@ -51,19 +51,34 @@ PY
     printf '%s' "$MSG" > "$WORK/msg.txt"
     openssl dgst -sha256 -binary < "$WORK/msg.txt" > "$WORK/digest.bin"
     { printf '\x30\x31\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x01\x05\x00\x04\x20'; cat "$WORK/digest.bin"; } > "$WORK/di.bin"
-    local DIB64 MSGB64
+    # EMSA-PKCS1-v1_5 block padded to the RSA modulus size (from the cert pubkey) for CKM_RSA_X_509.
+    CERTDER="$WORK/cert.der" DIFILE="$WORK/di.bin" OUTX="$WORK/x509.bin" python3 -I <<'PY'
+import os, subprocess
+der = open(os.environ["CERTDER"], "rb").read()
+# modulus byte length from the cert's RSA public key
+mod = subprocess.run(["openssl","x509","-inform","DER","-noout","-modulus"],
+                     input=der, capture_output=True).stdout.decode().strip()
+hexmod = mod.split("=",1)[1]
+k = len(hexmod)//2
+di = open(os.environ["DIFILE"], "rb").read()
+pad = b"\x00\x01" + b"\xff"*(k-3-len(di)) + b"\x00" + di
+open(os.environ["OUTX"], "wb").write(pad)
+PY
+    local DIB64 MSGB64 X509B64
     DIB64=$(base64 < "$WORK/di.bin" | tr -d '\n')
     MSGB64=$(base64 < "$WORK/msg.txt" | tr -d '\n')
+    X509B64=$(base64 < "$WORK/x509.bin" | tr -d '\n')
 
     local PIN
     if ! read -s "PIN?   $ca user PIN (hidden, Ctrl-C to skip): "; then echo; rm -rf "$WORK"; return; fi
     echo
     # login, then sign A (RSA_PKCS/DigestInfo) and sign B (SHA256_RSA_PKCS/raw) in one session.
     local OUT
-    OUT=$(printf '%s\n%s\n%s\n' \
+    OUT=$(printf '%s\n%s\n%s\n%s\n' \
       "{\"login\":{\"serial\":\"$SERIAL\",\"pin\":\"$PIN\"}}" \
       "{\"sign\":{\"serial\":\"$SERIAL\",\"certId\":\"$CERTID\",\"mech\":\"RSA_PKCS\",\"dataB64\":\"$DIB64\"}}" \
       "{\"sign\":{\"serial\":\"$SERIAL\",\"certId\":\"$CERTID\",\"mech\":\"SHA256_RSA_PKCS\",\"dataB64\":\"$MSGB64\"}}" \
+      "{\"sign\":{\"serial\":\"$SERIAL\",\"certId\":\"$CERTID\",\"mech\":\"RSA_X_509\",\"dataB64\":\"$X509B64\"}}" \
       | run)
     PIN=""
     # line 1 = login, line 2 = sign A, line 3 = sign B. Parse via env + heredoc.
@@ -78,25 +93,24 @@ for line in os.environ["OUT"].splitlines():
         print("   login:", d["loginResult"])
     elif "signature" in d:
         n += 1; s = d["signature"]; s = s["_0"] if isinstance(s, dict) else s
-        tag = "A" if n == 1 else "B"
+        tag = {1:"A",2:"B",3:"C"}[n]
         raw = base64.b64decode(s)
         open(os.path.join(work, "sig" + tag + ".bin"), "wb").write(raw)
         print("   sign", tag + ":", len(raw), "bytes")
     elif "error" in d:
-        n += 1; tag = "A" if n == 1 else "B"
+        n += 1; tag = {1:"A",2:"B",3:"C"}[n]
         print("   sign", tag, "error:", d["error"])
 PY
 
     openssl x509 -inform DER -in "$WORK/cert.der" -noout -pubkey > "$WORK/pub.pem" 2>/dev/null
-    if [[ -s "$WORK/sigA.bin" ]] && openssl pkeyutl -verify -pubin -inkey "$WORK/pub.pem" \
-         -sigfile "$WORK/sigA.bin" -in "$WORK/digest.bin" -pkeyopt digest:sha256 >/dev/null 2>&1; then
-        echo "   RESULT $ca: CKM_RSA_PKCS (DigestInfo) OK"
-    elif [[ -s "$WORK/sigB.bin" ]] && openssl dgst -sha256 -verify "$WORK/pub.pem" \
-         -signature "$WORK/sigB.bin" "$WORK/msg.txt" >/dev/null 2>&1; then
-        echo "   RESULT $ca: only CKM_SHA256_RSA_PKCS (raw) OK — CKM_RSA_PKCS unusable"
-    else
-        echo "   RESULT $ca: neither mechanism verified"
-    fi
+    local a=no b=no c=no
+    [[ -s "$WORK/sigA.bin" ]] && openssl pkeyutl -verify -pubin -inkey "$WORK/pub.pem" \
+         -sigfile "$WORK/sigA.bin" -in "$WORK/digest.bin" -pkeyopt digest:sha256 >/dev/null 2>&1 && a=yes
+    [[ -s "$WORK/sigB.bin" ]] && openssl dgst -sha256 -verify "$WORK/pub.pem" \
+         -signature "$WORK/sigB.bin" "$WORK/msg.txt" >/dev/null 2>&1 && b=yes
+    [[ -s "$WORK/sigC.bin" ]] && openssl pkeyutl -verify -pubin -inkey "$WORK/pub.pem" \
+         -sigfile "$WORK/sigC.bin" -in "$WORK/digest.bin" -pkeyopt digest:sha256 >/dev/null 2>&1 && c=yes
+    echo "   RESULT $ca: RSA_PKCS=$a  SHA256_RSA_PKCS=$b  RSA_X_509=$c"
     rm -rf "$WORK"
 }
 
