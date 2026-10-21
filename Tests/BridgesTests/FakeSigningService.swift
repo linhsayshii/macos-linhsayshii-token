@@ -19,6 +19,10 @@ final class FakeSigningService: SigningService, @unchecked Sendable {
         record("xml", ctx, serial, xml); if let failure { throw failure }
         return Data("<signed><ds:Signature/></signed>".utf8)
     }
+    func signMessage(_ ctx: BridgeContext, serial: String?, message: Data, hash: HashAlg) async throws -> (signature: Data, certDER: Data) {
+        record("msg-\(hash)", ctx, serial, message); if let failure { throw failure }
+        return (Data([9, 9]), Data([1, 2]))
+    }
     func signCMS(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {
         record("cms", ctx, serial, content); if let failure { throw failure }
         return Data([0x30, 0x03, 0x02, 0x01, 0x01])
