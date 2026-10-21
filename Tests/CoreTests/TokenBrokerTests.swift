@@ -17,8 +17,12 @@ private func fakeHelper() throws -> URL {
 
 @Test func brokerSpawnsHelperAndParsesResponse() async throws {
     let helper = try fakeHelper()
-    let broker = TokenBroker(helperURL: helper, shimURL: helper, moduleDir: URL(fileURLWithPath: "/tmp"))
-    let module = ModuleInfo(ca: "VNPT", moduleName: "x.dylib", arch: .universal)
+    // Put a dummy module file in a search dir so resolve() finds it.
+    let dir = helper.deletingLastPathComponent()
+    let moduleName = "x.dylib"
+    FileManager.default.createFile(atPath: dir.appendingPathComponent(moduleName).path, contents: Data())
+    let broker = TokenBroker(helperURL: helper, shimURL: helper, moduleDirs: [dir])
+    let module = ModuleInfo(ca: "VNPT", moduleName: moduleName, arch: .universal)
     let resp = try await broker.request(.listTokens, module: module)
     #expect(resp == .tokens([TokenInfo(slot: 1, reader: "R", serial: "S", label: "L", flags: [])]))
 }

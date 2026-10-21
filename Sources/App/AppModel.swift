@@ -34,8 +34,11 @@ public final class AppModel: ObservableObject {
         let binDir = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent()
         let helper = binDir.appendingPathComponent("TokenHelper")
         let shim = binDir.appendingPathComponent("libTSShim.dylib")
-        let moduleDir = URL(fileURLWithPath: "/usr/local/lib")
-        self.broker = TokenBroker(helperURL: helper, shimURL: shim, moduleDir: moduleDir)
+        let appModules = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("TokenSigner/modules", isDirectory: true)
+        try? FileManager.default.createDirectory(at: appModules, withIntermediateDirectories: true)
+        let moduleDirs = [URL(fileURLWithPath: "/usr/local/lib"), appModules]
+        self.broker = TokenBroker(helperURL: helper, shimURL: shim, moduleDirs: moduleDirs)
     }
 
     private var started = false

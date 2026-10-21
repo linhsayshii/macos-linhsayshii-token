@@ -3,14 +3,25 @@ import Foundation
 public actor TokenBroker {
     private let helperURL: URL
     private let shimURL: URL
-    private let moduleDir: URL
+    private let moduleDirs: [URL]
 
-    public init(helperURL: URL, shimURL: URL, moduleDir: URL) {
-        self.helperURL = helperURL; self.shimURL = shimURL; self.moduleDir = moduleDir
+    public init(helperURL: URL, shimURL: URL, moduleDirs: [URL]) {
+        self.helperURL = helperURL; self.shimURL = shimURL; self.moduleDirs = moduleDirs
+    }
+
+    public enum BrokerError: Error { case moduleNotFound(String) }
+
+    /// First existing path for the module across the search dirs.
+    private func resolve(_ name: String) throws -> String {
+        for dir in moduleDirs {
+            let p = dir.appendingPathComponent(name).path
+            if FileManager.default.fileExists(atPath: p) { return p }
+        }
+        throw BrokerError.moduleNotFound(name)
     }
 
     public func request(_ r: HelperRequest, module: ModuleInfo) async throws -> HelperResponse {
-        let modulePath = moduleDir.appendingPathComponent(module.moduleName).path
+        let modulePath = try resolve(module.moduleName)
         let proc = Process()
         if module.arch == .x86_64 {
             proc.executableURL = URL(fileURLWithPath: "/usr/bin/arch")
