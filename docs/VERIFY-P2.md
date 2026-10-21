@@ -28,6 +28,11 @@
   (cert not registered), i.e. the bridge side of the login works. Wire format confirmed from the portal's public `vnpt-plugin.js`: reply = `<payload>*<funcCallback>`.
   The embedded Claude browser pane cannot be used for this (local-network permission denied, no prompt).
 
+- GDT tax portal (`dichvucong.gdt.gov.vn/tthc/tk05-tncn-tt80/nop-file-xml`, Brave, CTSigningHub bridge on :32001): GetCert -> the portal's own cert picker -> signxml
+  with `{requestId, base64Cert, cks:"HSoThueDTu/CKyDTu", dataBV:["HSoKhaiThue"], dataFile, serinumber}` -> signed on the NC-CA token; the portal reported signing success.
+  (Needed: case-insensitive routes + POST GetCert, preflight echoing X-XSRF-TOKEN, cks/dataBV handling.) Not yet checked: that the tax server accepts the signature
+  (hash assumed SHA-256).
+
 ## NOT verified on hardware (needs the user: PIN + approval click)
 - Real-token sign through each bridge: `signxml` (CTSigningHub), eSigner `CER_001`, VNPT `SignXML`/`SignCMS`. Then check with `xmlsec1 --verify` / `openssl cms -verify`.
 - `SHA1_RSA_PKCS` on the Feitian libs (only `SHA256_RSA_PKCS` was proven in P1).

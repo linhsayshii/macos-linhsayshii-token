@@ -90,3 +90,15 @@ func xmlsec1VerifiesElementReference() async throws {
     try Data(String(decoding: out, as: UTF8.self).replacingOccurrences(of: "<maDVu>HTKK<", with: "<maDVu>XXXX<").utf8).write(to: d["s.xml"])
     #expect(try run().status != 0)
 }
+
+@Test func signsTaxDeclarationWithXmlDeclCRLFAndVietnamese() async throws {
+    let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<HSoThueDTu xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://kekhaithue.gdt.gov.vn/TKhaiThue\">\r\n  <HSoKhaiThue id=\"ID_1\">\r\n    <TTinChung><tenDVu>HỖ TRỢ KÊ KHAI THUẾ</tenDVu></TTinChung>\r\n  </HSoKhaiThue>\r\n</HSoThueDTu>"
+    let pki = try TestPKI.make()
+    var o = XMLSignOptions()
+    o.kind = .custom(parentXPath: "HSoThueDTu/CKyDTu"); o.signElements = ["HSoKhaiThue"]
+    let out = try await XMLDSigSigner.signEnveloped(xml: Data(xml.utf8), signer: pki.signer, options: o)
+    #expect(!out.isEmpty)
+    let s = String(decoding: out, as: UTF8.self)
+    #expect(s.contains("HỖ TRỢ KÊ KHAI THUẾ") && s.contains("<CKyDTu>") || s.contains("CKyDTu"))
+    #expect(s.contains("SignatureValue"))
+}
