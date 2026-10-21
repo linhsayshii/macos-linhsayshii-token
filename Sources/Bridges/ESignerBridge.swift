@@ -14,14 +14,20 @@ public enum ESignerRequestAdapter {
 /// eSigner `{CODE, INPUT}` handler. Pure: JSON text in, JSON text out.
 public struct ESignerBridge: Sendable {
     let service: any SigningService
+    let chooser: (any FileChooser)?
+    let uploader: any SignedFileUploader
+    let files = ESignerFiles()
     public static let version = "1.1.0"
-    public init(service: any SigningService) { self.service = service }
+    public init(service: any SigningService, chooser: (any FileChooser)? = nil, uploader: any SignedFileUploader = URLSessionUploader()) {
+        self.service = service; self.chooser = chooser; self.uploader = uploader
+    }
 
     public func handle(text: String, origin: String) async -> String {
         guard let data = text.data(using: .utf8), let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
         else { return Self.json(["SUCCESS": "FALSE", "ERROR": "BAD_JSON"]) }
         let f = ESignerRequestAdapter.fields(from: root)
         let code = (f["CODE"] as? String) ?? ""
+        FrameLog.record("<-", origin: origin, root)
         let ctx = BridgeContext(bridge: "esigner", origin: origin)
         // PIN_CODE / file-path fields in the request are deliberately never read.
         var out: [String: Any]
@@ -32,10 +38,17 @@ public struct ESignerBridge: Sendable {
             out = await certInfo(f)
         case "CER_001", "NTDT_CER_001", "ONLINE_XML_CER_001", "ONLINE_SUBMIT_SIGNING_001":
             out = await sign(code: code, f: f, ctx: ctx)
+        case "CHOOSE_FILE":
+            out = await chooseFile()
+        case "OFFLINE_XML_SIGN_002":
+            out = await signFile(f, ctx: ctx)
+        case "OFFLINE_XML_SIGN_003":
+            out = await uploadFile(f, origin: origin)
         default:
             out = ["SUCCESS": "FALSE", "ERROR": "NOT_SUPPORTED"]
         }
         out["CODE"] = code
+        FrameLog.record("->", origin: origin, out)
         return Self.json(out)
     }
 
@@ -57,6 +70,58 @@ public struct ESignerBridge: Sendable {
             o["MST"] = c.subject[r].drop { !$0.isNumber }.description
         }
         return o
+    }
+
+    // MARK: eTax "Nộp tờ khai XML": CHOOSE_FILE → OFFLINE_XML_SIGN_002 (sign) → OFFLINE_XML_SIGN_003 (upload)
+
+    private func chooseFile() async -> [String: Any] {
+        guard let chooser else { return ["SUCCESS": "FALSE", "ERROR": "NOT_SUPPORTED"] }
+        guard let url = await chooser.chooseXML() else {
+            return ["SUCCESS": "FALSE", "ERROR": "USER_CANCELLED", "TKHAI_FORMAT": "0", "FULL_PATH_URL": "", "FILE_NAME": ""]
+        }
+        guard let data = try? Data(contentsOf: url), data.count <= ESignerFiles.maxBytes
+        else { return ["SUCCESS": "FALSE", "ERROR": "BAD_FILE"] }
+        await files.issue(url.path)
+        return ["SUCCESS": "TRUE", "TKHAI_FORMAT": ESignerFileOps.tkhaiFormat(data), "FULL_PATH_URL": url.path, "FILE_NAME": url.lastPathComponent]
+    }
+
+    private func signFile(_ f: [String: Any], ctx: BridgeContext) async -> [String: Any] {
+        guard let path = f["URL_FILE_NAME"] as? String, await files.isIssued(path), let xml = try? Data(contentsOf: URL(fileURLWithPath: path))
+        else { return ["SUCCESS": "FALSE", "ERROR": "BAD_INPUT"] }
+        var serialHex: String?
+        if let dec = serial(f), !dec.isEmpty {
+            let want = ESignerFileOps.decimalToHex(dec) ?? dec
+            let certs = await service.certificates()
+            guard let c = certs.first(where: { ESignerFileOps.sameSerial($0.serialHex, want) }) else { return ["SUCCESS": "FALSE", "ERROR": "NO_CERT"] }
+            serialHex = c.serialHex
+            if (f["CHECK_TIN"] as? String) == "true", let tin = f["TIN_VALID"] as? String, !tin.isEmpty,
+               let r = c.subject.range(of: #"MST[:=]\s*([0-9][0-9-]*)"#, options: .regularExpression),
+               c.subject[r].drop(while: { !$0.isNumber }).description != tin { return ["SUCCESS": "FALSE", "ERROR": "TIN_MISMATCH"] }
+        }
+        let opt = ESignerFileOps.signOptions(xpathData: f["XPATH_DATA"] as? String ?? "", xpathSign: f["XPATH_SIGN"] as? String ?? "",
+                                             signingTime: ESignerFileOps.parseSigningTime(f["DATE_SIGNING"] as? String, zone: f["TIMEZONE_SIGNING"] as? String))
+        do {
+            let signed = try await service.signXML(ctx, serial: serialHex, xml: xml, options: opt)
+            await files.setSigned(signed, for: path)
+            return ["SUCCESS": "TRUE"]
+        } catch let e as SigningFailure { return ["SUCCESS": "FALSE", "ERROR": Self.describe(e)] }
+        catch { return ["SUCCESS": "FALSE", "ERROR": "\(error)"] }
+    }
+
+    private func uploadFile(_ f: [String: Any], origin: String) async -> [String: Any] {
+        guard let path = f["URL_FILE_NAME"] as? String, await files.isIssued(path),
+              let data = await files.signedData(path) ?? (try? Data(contentsOf: URL(fileURLWithPath: path))),
+              let action = (f["REQUEST_URL_ACTION"] as? String).flatMap(URL.init(string:)),
+              let name = f["UPLOADED_FILE_NAME"] as? String, let cn = f["COOKIE_NAME"] as? String, let cv = f["COOKIE_VALUE"] as? String
+        else { return ["SUCCESS": "FALSE", "ERROR": "BAD_INPUT"] }
+        // The session cookie only goes back to the portal that is calling us.
+        guard action.scheme == "https", let host = action.host, host == URL(string: origin)?.host
+        else { return ["SUCCESS": "FALSE", "ERROR": "BAD_UPLOAD_URL"] }
+        do {
+            try await uploader.upload(to: action, cookieName: cn, cookieValue: cv, uploadedFileName: name,
+                                      fileName: URL(fileURLWithPath: path).lastPathComponent, data: data)
+            return ["SUCCESS": "TRUE", "PIN_CODE": ESignerFileOps.maTKhai(data)]
+        } catch { return ["SUCCESS": "FALSE", "ERROR": "UPLOAD_FAILED"] }
     }
 
     private func sign(code: String, f: [String: Any], ctx: BridgeContext) async -> [String: Any] {
@@ -94,5 +159,27 @@ public struct ESignerBridge: Sendable {
 
     static func json(_ o: [String: Any]) -> String {
         String(decoding: (try? JSONSerialization.data(withJSONObject: o, options: [.sortedKeys])) ?? Data("{}".utf8), as: UTF8.self)
+    }
+}
+
+/// Redacted wire log (~/Library/Logs/TokenSigner/esigner-frames.log) so portal protocol shapes can be confirmed.
+/// PIN-like fields are dropped; long strings are truncated. Never logs secrets.
+enum FrameLog {
+    static func record(_ dir: String, origin: String, _ obj: [String: Any]) {
+        let line = "\(ISO8601DateFormatter().string(from: Date())) \(dir) \(origin) \(ESignerBridge.json(redact(obj) as? [String: Any] ?? [:]))\n"
+        let url = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs/TokenSigner/esigner-frames.log")
+        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        if let h = try? FileHandle(forWritingTo: url) { h.seekToEndOfFile(); h.write(Data(line.utf8)); try? h.close() }
+        else { try? Data(line.utf8).write(to: url) }
+    }
+    static func redact(_ v: Any) -> Any {
+        if let d = v as? [String: Any] {
+            var o = [String: Any]()
+            for (k, x) in d { o[k] = k.uppercased().contains("PIN") || k.uppercased().contains("PASS") ? "<redacted>" : redact(x) }
+            return o
+        }
+        if let a = v as? [Any] { return a.map(redact) }
+        if let s = v as? String, s.count > 120 { return String(s.prefix(120)) + "…[\(s.count) chars]" }
+        return v
     }
 }

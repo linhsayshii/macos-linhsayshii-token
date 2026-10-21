@@ -143,7 +143,7 @@ public final class AppModel: ObservableObject, SigningService {
             catch { setBridge("CTSigningHub", .failed("\(error)")) }
         }
 
-        let es = ESignerBridge(service: self)
+        let es = ESignerBridge(service: self, chooser: OpenPanelChooser())
         let esServer = WSServer(ports: [8768 + off, 8769 + off], pathPrefix: "/plugin/sign", store: originStore) { t, o in await es.handle(text: t, origin: o) }
         let vn = VNPTBridge(service: self)
         let tlsContext = try? localCA.sslContext()

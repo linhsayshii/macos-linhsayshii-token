@@ -49,3 +49,72 @@ private let xmlB64 = Data("<TKhai/>".utf8).base64EncodedString()
     svc.failure = .userDenied
     #expect(obj(await b.handle(text: #"{"CODE":"CER_001","VALUE":"\#(xmlB64)"}"#, origin: origin))["ERROR"] as? String == "USER_DENIED")
 }
+
+// MARK: eTax XML-khai flow (CHOOSE_FILE → OFFLINE_XML_SIGN_002 → OFFLINE_XML_SIGN_003)
+
+private struct StubChooser: FileChooser { let url: URL?; func chooseXML() async -> URL? { url } }
+private final class StubUploader: SignedFileUploader, @unchecked Sendable {
+    var sent: (URL, String, String, String, Data)?
+    func upload(to url: URL, cookieName: String, cookieValue: String, uploadedFileName: String, fileName: String, data: Data) async throws {
+        sent = (url, cookieName + "=" + cookieValue, uploadedFileName, fileName, data)
+    }
+}
+private func tempXML() throws -> URL {
+    let u = FileManager.default.temporaryDirectory.appendingPathComponent("tk-\(UUID().uuidString).xml")
+    try Data("<HSoThueDTu><HSoKhaiThue id=\"ID_1\"><maTKhai>842</maTKhai></HSoKhaiThue><CKyDTu/></HSoThueDTu>".utf8).write(to: u)
+    return u
+}
+
+@Test func chooseFileReturnsPortalShapeAndCancelFails() async throws {
+    let url = try tempXML()
+    let r = obj(await ESignerBridge(service: FakeSigningService(), chooser: StubChooser(url: url)).handle(text: #"{"CODE":"CHOOSE_FILE"}"#, origin: origin))
+    #expect(r["SUCCESS"] as? String == "TRUE")
+    #expect(r["TKHAI_FORMAT"] as? String == "9")
+    #expect(r["FULL_PATH_URL"] as? String == url.path)
+    #expect(r["FILE_NAME"] as? String == url.lastPathComponent)
+    let c = obj(await ESignerBridge(service: FakeSigningService(), chooser: StubChooser(url: nil)).handle(text: #"{"CODE":"CHOOSE_FILE"}"#, origin: origin))
+    #expect(c["SUCCESS"] as? String == "FALSE")
+    #expect(c["FILE_NAME"] as? String == "")
+    #expect(obj(await ESignerBridge(service: FakeSigningService()).handle(text: #"{"CODE":"CHOOSE_FILE"}"#, origin: origin))["ERROR"] as? String == "NOT_SUPPORTED")
+}
+
+@Test func signThenUploadOnlyIssuedPaths() async throws {
+    let url = try tempXML(), svc = FakeSigningService(), up = StubUploader()
+    let b = ESignerBridge(service: svc, chooser: StubChooser(url: url), uploader: up)
+    let sign = #"{"CODE":"OFFLINE_XML_SIGN_002","URL_FILE_NAME":"\#(url.path)","XPATH_DATA":"/HSoThueDTu/HSoKhaiThue","XPATH_SIGN":"/HSoThueDTu/CKyDTu","SERIAL_NUMBER":"1409351937","CHECK_TIN":"true","TIN_VALID":"0101","PIN_CODE":"123456"}"#
+    // not issued yet → refused, nothing signed
+    #expect(obj(await b.handle(text: sign, origin: origin))["ERROR"] as? String == "BAD_INPUT")
+    _ = await b.handle(text: #"{"CODE":"CHOOSE_FILE"}"#, origin: origin)
+    // 1409351937 decimal == 0x54010101
+    let s = obj(await b.handle(text: sign, origin: origin))
+    #expect(s["SUCCESS"] as? String == "TRUE")
+    #expect(svc.calls.last?.serial == "54010101")
+    #expect(!"\(svc.calls)".contains("123456"))
+    let up3 = #"{"CODE":"OFFLINE_XML_SIGN_003","URL_FILE_NAME":"\#(url.path)","REQUEST_URL_ACTION":"https://thuedientu.gdt.gov.vn/etaxnnt/Request?x=1","UPLOADED_FILE_NAME":"0101_1","COOKIE_NAME":"JSESSIONID","COOKIE_VALUE":"abc"}"#
+    let r = obj(await b.handle(text: up3, origin: origin))
+    #expect(r["SUCCESS"] as? String == "TRUE")
+    #expect(up.sent?.4 == Data("<signed><ds:Signature/></signed>".utf8))   // signed bytes, not the file on disk
+    #expect(up.sent?.1 == "JSESSIONID=abc")
+    // cookie never goes to a different host
+    let evil = up3.replacingOccurrences(of: "thuedientu.gdt.gov.vn", with: "evil.example")
+    #expect(obj(await b.handle(text: evil, origin: origin))["ERROR"] as? String == "BAD_UPLOAD_URL")
+    // a path the picker never issued is refused
+    let other = up3.replacingOccurrences(of: url.path, with: "/etc/hosts")
+    #expect(obj(await b.handle(text: other, origin: origin))["ERROR"] as? String == "BAD_INPUT")
+}
+
+@Test func signRejectsWrongSerialAndTin() async throws {
+    let url = try tempXML(), svc = FakeSigningService()
+    let b = ESignerBridge(service: svc, chooser: StubChooser(url: url))
+    _ = await b.handle(text: #"{"CODE":"CHOOSE_FILE"}"#, origin: origin)
+    func req(_ extra: String) -> String { #"{"CODE":"OFFLINE_XML_SIGN_002","URL_FILE_NAME":"\#(url.path)","XPATH_DATA":"/HSoThueDTu/HSoKhaiThue","XPATH_SIGN":"/HSoThueDTu/CKyDTu",\#(extra)}"# }
+    #expect(obj(await b.handle(text: req(#""SERIAL_NUMBER":"12345""#), origin: origin))["ERROR"] as? String == "NO_CERT")
+    #expect(obj(await b.handle(text: req(#""SERIAL_NUMBER":"1409351937","CHECK_TIN":"true","TIN_VALID":"9999""#), origin: origin))["ERROR"] as? String == "TIN_MISMATCH")
+    #expect(svc.calls.isEmpty)
+}
+
+@Test func decimalSerialToHex() {
+    #expect(ESignerFileOps.decimalToHex("1409351937") == "54010101")
+    #expect(ESignerFileOps.decimalToHex("255") == "FF")
+    #expect(ESignerFileOps.decimalToHex("111660627920898178847771710708736831338") == "54010E004EC042B6DCD011ABE8BBAF6A")
+}
