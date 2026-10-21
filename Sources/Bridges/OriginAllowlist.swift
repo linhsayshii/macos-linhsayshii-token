@@ -5,9 +5,9 @@ import Foundation
 /// and any subdomain. Scheme must be https (or http://127.0.0.1 / http://localhost
 /// for local testing). Matching is on the Origin's host only.
 public struct OriginAllowlist: Sendable {
-    private let patterns: [String]
+    public let patterns: [String]
 
-    public static let defaults = OriginAllowlist(patterns: [
+    public static let defaultPatterns = [
         "*.gdt.gov.vn",
         "dichvucong.gov.vn",
         "*.dichvucong.gov.vn",
@@ -15,7 +15,8 @@ public struct OriginAllowlist: Sendable {
         "*.minvoice.vn",
         "*.minvoice.com.vn",
         "*.minvoice.net",
-    ])
+    ]
+    public static let defaults = OriginAllowlist(patterns: defaultPatterns)
 
     public init(patterns: [String]) { self.patterns = patterns }
 

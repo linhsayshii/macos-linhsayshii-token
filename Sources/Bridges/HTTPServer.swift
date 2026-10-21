@@ -10,14 +10,14 @@ public final class HTTPServer: @unchecked Sendable {
 
     private let bridge: CTSignBridge
     private let port: Int
-    private let allowlist: OriginAllowlist
+    private let store: OriginStore
     private var group: MultiThreadedEventLoopGroup?
     private var channel: Channel?
 
-    public init(bridge: CTSignBridge, port: Int = 32001, allowlist: OriginAllowlist) {
+    public init(bridge: CTSignBridge, port: Int = 32001, store: OriginStore) {
         self.bridge = bridge
         self.port = port
-        self.allowlist = allowlist
+        self.store = store
     }
 
     public func start() async throws {
@@ -25,13 +25,13 @@ public final class HTTPServer: @unchecked Sendable {
         self.group = group
         let bridge = self.bridge
         let port = self.port
-        let allowlist = self.allowlist
+        let store = self.store
         let bootstrap = ServerBootstrap(group: group)
             .serverChannelOption(ChannelOptions.backlog, value: 64)
             .serverChannelOption(ChannelOptions.socketOption(.so_reuseaddr), value: 1)
             .childChannelInitializer { ch in
                 ch.pipeline.configureHTTPServerPipeline().flatMap {
-                    ch.pipeline.addHandler(RequestHandler(bridge: bridge, port: port, allowlist: allowlist))
+                    ch.pipeline.addHandler(RequestHandler(bridge: bridge, port: port, store: store))
                 }
             }
         do {
@@ -55,13 +55,13 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
 
     let bridge: CTSignBridge
     let port: Int
-    let allowlist: OriginAllowlist
+    let store: OriginStore
 
     private var head: HTTPRequestHead?
     private var body = ByteBuffer()
 
-    init(bridge: CTSignBridge, port: Int, allowlist: OriginAllowlist) {
-        self.bridge = bridge; self.port = port; self.allowlist = allowlist
+    init(bridge: CTSignBridge, port: Int, store: OriginStore) {
+        self.bridge = bridge; self.port = port; self.store = store
     }
 
     func channelRead(context: ChannelHandlerContext, data: NIOAny) {
@@ -75,48 +75,39 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
             guard let h = head else { return }
             let bodyData = Data(body.readableBytesView)
             let origin = h.headers.first(name: "Origin")
-            let hostOK = isHostAllowed(h.headers.first(name: "Host"))
+            let host = h.headers.first(name: "Host")
             let loop = context.eventLoop
             let channel = context.channel
-
-            // DNS-rebinding guard: reject a mismatched Host outright.
-            guard hostOK else {
-                Self.write(channel: channel, loop: loop, status: .forbidden,
-                           headers: [:], body: Data("{}".utf8))
-                return
-            }
-
-            // CORS preflight.
-            if h.method == .OPTIONS {
-                var headers: [String: String] = [:]
-                if let origin, allowlist.contains(origin) {
-                    headers["Access-Control-Allow-Origin"] = origin
-                    headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-                    headers["Access-Control-Allow-Headers"] = "Content-Type"
-                    headers["Access-Control-Allow-Private-Network"] = "true"
-                }
-                Self.write(channel: channel, loop: loop, status: .ok, headers: headers, body: Data())
-                return
-            }
-
-            let method = h.method.rawValue
+            let method = h.method
             let path = String(h.uri.split(separator: "?").first ?? "")
+            let guardian = WebGuard(port: port)
             Task {
-                let (status, json) = await self.bridge.handle(method: method, path: path, body: bodyData)
-                var headers: [String: String] = ["Content-Type": "application/json"]
-                if let origin, self.allowlist.contains(origin) {
-                    headers["Access-Control-Allow-Origin"] = origin
-                    headers["Access-Control-Allow-Private-Network"] = "true"
+                let allow = await self.store.allowlist()
+                switch guardian.check(host: host, origin: origin, allowlist: allow) {
+                case .badHost:   // DNS-rebinding guard
+                    Self.write(channel: channel, loop: loop, status: .forbidden, headers: [:], body: Data("{}".utf8))
+                case .unknownOrigin(let o):
+                    await self.store.notePending(o)
+                    // Preflight gets no CORS headers, so the browser blocks the real request.
+                    let st: HTTPResponseStatus = method == .OPTIONS ? .ok : .forbidden
+                    Self.write(channel: channel, loop: loop, status: st, headers: [:], body: method == .OPTIONS ? Data() : Data("{}".utf8))
+                case .ok:
+                    var headers = guardian.corsHeaders(origin: origin, allowlist: allow)
+                    if method == .OPTIONS {
+                        if origin != nil {
+                            headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+                            headers["Access-Control-Allow-Headers"] = "Content-Type"
+                        }
+                        Self.write(channel: channel, loop: loop, status: .ok, headers: headers, body: Data())
+                        return
+                    }
+                    let (status, json) = await self.bridge.handle(method: method.rawValue, path: path, body: bodyData)
+                    headers["Content-Type"] = "application/json"
+                    Self.write(channel: channel, loop: loop, status: HTTPResponseStatus(statusCode: status),
+                               headers: headers, body: json)
                 }
-                Self.write(channel: channel, loop: loop,
-                           status: HTTPResponseStatus(statusCode: status), headers: headers, body: json)
             }
         }
-    }
-
-    private func isHostAllowed(_ host: String?) -> Bool {
-        guard let host else { return false }
-        return host == "127.0.0.1:\(port)" || host == "localhost:\(port)"
     }
 
     static func write(channel: Channel, loop: EventLoop, status: HTTPResponseStatus,

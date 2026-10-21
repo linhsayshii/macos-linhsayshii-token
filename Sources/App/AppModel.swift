@@ -44,6 +44,9 @@ public final class AppModel: ObservableObject {
     private let scanner = ReaderScanner()
     private let broker: TokenBroker
     private let approval = ApprovalCenter()
+    let originStore = OriginStore(fileURL: AppModel.supportDir.appendingPathComponent("origins.json"))
+    static let supportDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        .appendingPathComponent("TokenSigner", isDirectory: true)
     private var server: HTTPServer?
     private var scanTask: Task<Void, Never>?
 
@@ -97,7 +100,7 @@ public final class AppModel: ObservableObject {
 
     private func startServer() {
         let bridge = CTSignBridge(backend: Backend(model: self))
-        let server = HTTPServer(bridge: bridge, port: 32001, allowlist: .defaults)
+        let server = HTTPServer(bridge: bridge, port: 32001, store: originStore)
         self.server = server
         Task {
             do { try await server.start(); self.bridgeStatus = .up }
