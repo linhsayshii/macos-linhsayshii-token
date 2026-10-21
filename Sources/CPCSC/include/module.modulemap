@@ -1,0 +1,4 @@
+module CPCSC {
+    header "cpcsc.h"
+    export *
+}

@@ -17,7 +17,11 @@ let package = Package(
             .linkedFramework("PCSC")
         ]),
         .target(name: "CPKCS11"),
+        .target(name: "CPCSC", linkerSettings: [
+            .linkedFramework("PCSC")
+        ]),
         .target(name: "Core", dependencies: [
+            "CPCSC",
             .product(name: "X509", package: "swift-certificates"),
             .product(name: "SwiftASN1", package: "swift-asn1"),
         ]),
