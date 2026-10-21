@@ -22,15 +22,18 @@ public struct URLSessionUploader: SignedFileUploader {
         func field(_ k: String, _ v: String) {
             body.append(Data("--\(boundary)\r\nContent-Disposition: form-data; name=\"\(k)\"\r\n\r\n\(v)\r\n".utf8))
         }
-        field("todo", "upload"); field("uploadedFileName", uploadedFileName); field("filename", fileName)
+        field("todo", "upload"); field("uploadedFileName", uploadedFileName); field("cookiename", cookieName); field("cookievalue", cookieValue); field("filename", fileName)
         body.append(Data("--\(boundary)\r\nContent-Disposition: form-data; name=\"uploadfile\"; filename=\"\(fileName)\"\r\nContent-Type: text/xml\r\n\r\n".utf8))
         body.append(data); body.append(Data("\r\n--\(boundary)--\r\n".utf8))
         var req = URLRequest(url: url, timeoutInterval: 60)
         req.httpMethod = "POST"; req.httpBody = body
         req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         req.setValue("\(cookieName)=\(cookieValue)", forHTTPHeaderField: "Cookie")
+        req.setValue("JFileUpload", forHTTPHeaderField: "User-Agent")   // the portal routes by User-Agent (btt.xml device types)
         req.httpShouldHandleCookies = false
-        let (_, resp) = try await URLSession.shared.data(for: req)
+        let (respBody, resp) = try await URLSession.shared.data(for: req)
+        try? respBody.write(to: FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs/TokenSigner/upload-response.html"))
+        FrameLog.note("UPLOAD \((resp as? HTTPURLResponse)?.statusCode ?? 0) \(respBody.count)B \(String(decoding: respBody.prefix(400), as: UTF8.self).replacingOccurrences(of: "\n", with: " "))")
         guard let code = (resp as? HTTPURLResponse)?.statusCode, (200..<300).contains(code) else { throw SigningFailure.bad("UPLOAD_FAILED") }
     }
 }

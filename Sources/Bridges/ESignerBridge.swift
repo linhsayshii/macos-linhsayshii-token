@@ -172,10 +172,13 @@ enum FrameLog {
         if let h = try? FileHandle(forWritingTo: url) { h.seekToEndOfFile(); h.write(Data(line.utf8)); try? h.close() }
         else { try? Data(line.utf8).write(to: url) }
     }
+    static func note(_ text: String) {
+        record("..", origin: "", ["NOTE": text])
+    }
     static func redact(_ v: Any) -> Any {
         if let d = v as? [String: Any] {
             var o = [String: Any]()
-            for (k, x) in d { o[k] = k.uppercased().contains("PIN") || k.uppercased().contains("PASS") ? "<redacted>" : redact(x) }
+            for (k, x) in d { o[k] = k.uppercased().contains("PIN") || k.uppercased().contains("PASS") ? "<redacted>" : (k == "NOTE" ? x : redact(x)) }
             return o
         }
         if let a = v as? [Any] { return a.map(redact) }
