@@ -101,7 +101,7 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
                         Self.write(channel: channel, loop: loop, status: .ok, headers: headers, body: Data())
                         return
                     }
-                    let (status, json) = await self.bridge.handle(method: method.rawValue, path: path, body: bodyData)
+                    let (status, json) = await self.bridge.handle(method: method.rawValue, path: path, body: bodyData, origin: origin ?? "local")
                     headers["Content-Type"] = "application/json"
                     Self.write(channel: channel, loop: loop, status: HTTPResponseStatus(statusCode: status),
                                headers: headers, body: json)

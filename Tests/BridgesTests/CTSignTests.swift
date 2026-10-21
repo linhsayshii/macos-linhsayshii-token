@@ -62,3 +62,37 @@ struct FakeBackend: SigningBackend {
     let v = try JSONSerialization.jsonObject(with: json) as! [String: Any]
     #expect(v["status"] as? Int == 404)
 }
+
+private func xmlBody(_ extra: [String: Any]) throws -> Data {
+    try JSONSerialization.data(withJSONObject: extra)
+}
+
+@Test func signXmlReturnsBase64Signed() async throws {
+    let svc = FakeSigningService()
+    let b = CTSignBridge(backend: FakeBackend(), service: svc)
+    let body = try xmlBody(["serinumber": "54010101", "dataFile": Data("<a/>".utf8).base64EncodedString()])
+    let (_, json) = await b.handle(method: "POST", path: "/api/HubClient/signxml", body: body, origin: "https://x.gdt.gov.vn")
+    let v = try JSONSerialization.jsonObject(with: json) as! [String: Any]
+    #expect(v["status"] as? Int == 200)
+    let out = Data(base64Encoded: v["data"] as! String)!
+    #expect(String(decoding: out, as: UTF8.self).contains("<ds:Signature"))
+    #expect(svc.calls == [.init(kind: "xml", origin: "https://x.gdt.gov.vn", serial: "54010101", input: Data("<a/>".utf8))])
+}
+
+@Test func signXmlIgnoresFilePath() async throws {
+    let svc = FakeSigningService()
+    let b = CTSignBridge(backend: FakeBackend(), service: svc)
+    let (_, json) = await b.handle(method: "POST", path: "/api/HubClient/signxml",
+                                   body: try xmlBody(["serinumber": "1", "filePath": "/etc/hosts"]))
+    let v = try JSONSerialization.jsonObject(with: json) as! [String: Any]
+    #expect(v["status"] as? Int == 500)
+    #expect(svc.calls.isEmpty)
+}
+
+@Test func signXmlUnknownSerialIs404() async throws {
+    let svc = FakeSigningService(); svc.failure = .unknownSerial("FF")
+    let b = CTSignBridge(backend: FakeBackend(), service: svc)
+    let (_, json) = await b.handle(method: "POST", path: "/api/HubClient/signxml",
+                                   body: try xmlBody(["serinumber": "FF", "dataFile": Data("<a/>".utf8).base64EncodedString()]))
+    #expect((try JSONSerialization.jsonObject(with: json) as! [String: Any])["status"] as? Int == 404)
+}
