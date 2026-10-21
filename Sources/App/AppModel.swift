@@ -63,8 +63,17 @@ public final class AppModel: ObservableObject {
         }
     }
 
+    // Certs cached by the scan loop. The bridge reads this instead of spawning
+    // its own helpers, so token access stays serialized in one place (vendor libs
+    // hold an exclusive PC/SC lock; concurrent helpers on one token deadlock).
+    private var cachedCerts: [CertInfo] = []
+
     private func refreshTokens() async {
         var rows: [TokenRow] = []
+        var certCache: [CertInfo] = []
+        // One module per CA: dedupe so two readers of the same CA don't spawn
+        // two concurrent helpers against the vendor lib.
+        var seenModules = Set<String>()
         for r in scanner.readers() {
             guard let module = ModuleRegistry.lookup(atr: r.atr) else {
                 rows.append(TokenRow(ca: "Chưa hỗ trợ", supported: false, reader: r.reader,
@@ -73,33 +82,27 @@ public final class AppModel: ObservableObject {
             }
             var row = TokenRow(ca: module.ca, supported: true, reader: r.reader,
                                serial: "", label: "", certSubject: nil, notAfter: nil)
-            if case let .tokens(list) = (try? await broker.request(.listTokens, module: module)) ?? .error(""),
-               let t = list.first(where: { $0.reader == r.reader }) ?? list.first {
-                row.serial = t.serial; row.label = t.label
-                if case let .certs(certs) = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error(""),
-                   let c = certs.first {
-                    row.certSubject = c.subject; row.notAfter = c.notAfter
+            if !seenModules.contains(module.moduleName),
+               case let .tokens(list) = (try? await broker.request(.listTokens, module: module)) ?? .error("") {
+                seenModules.insert(module.moduleName)
+                for t in list {
+                    if case let .certs(certs) = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error("") {
+                        certCache.append(contentsOf: certs)
+                        if t.reader == r.reader || list.count == 1 {
+                            row.serial = t.serial; row.label = t.label
+                            if let c = certs.first { row.certSubject = c.subject; row.notAfter = c.notAfter }
+                        }
+                    }
                 }
             }
             rows.append(row)
         }
         self.tokens = rows
+        self.cachedCerts = certCache
     }
 
-    // Certificates for the bridge: every supported token's certs.
-    func certificates() async -> [CertInfo] {
-        var out: [CertInfo] = []
-        for r in scanner.readers() {
-            guard let module = ModuleRegistry.lookup(atr: r.atr) else { continue }
-            if case let .tokens(list) = (try? await broker.request(.listTokens, module: module)) ?? .error(""),
-               let t = list.first {
-                if case let .certs(certs) = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error("") {
-                    out.append(contentsOf: certs)
-                }
-            }
-        }
-        return out
-    }
+    // Certificates for the bridge: the last scan's cache, no fresh spawning.
+    func certificates() async -> [CertInfo] { cachedCerts }
 }
 
 /// Bridge backend. P1 serves certificates; signing requires login (Task 11), so
