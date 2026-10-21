@@ -25,7 +25,12 @@ while let line = readLine(strippingNewline: true) {
         switch req {
         case .listTokens: emit(.tokens(try p11.listTokens()))
         case .listCerts(let serial): emit(.certs(try p11.certs(serial: serial)))
-        default: emit(.error("unsupported in P1"))   // login/sign land in Task 11
+        case .login(let serial, let pin): emit(.loginResult(try p11.login(serial: serial, pin: pin)))
+        case .sign(let serial, let certId, let mech, let dataB64):
+            guard let data = Data(base64Encoded: dataB64) else { emit(.error("bad base64")); break }
+            let sig = try p11.sign(serial: serial, certId: certId, mech: mech, data: Array(data))
+            emit(.signature(Data(sig).base64EncodedString()))
+        case .logout(let serial): p11.logout(serial: serial); emit(.ok)
         }
     } catch { emit(.error("\(error)")) }
 }
