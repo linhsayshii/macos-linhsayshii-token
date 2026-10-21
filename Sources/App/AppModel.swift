@@ -74,10 +74,25 @@ public final class AppModel: ObservableObject {
         startServer()
         scanTask = Task { [weak self] in
             while !Task.isCancelled {
-                await self?.refreshTokens()
-                try? await Task.sleep(for: .seconds(2))
+                await self?.scanTick()
+                try? await Task.sleep(for: .milliseconds(500))
             }
         }
+    }
+
+    private var lastReaderSig = ""
+
+    // Listing readers is a cheap PC/SC call; the full refresh (helper spawns for
+    // listTokens/listCerts) is not. Poll readers fast so plug/unplug shows up
+    // quickly, but only run the full refresh when the reader set actually changes.
+    private func scanTick() async {
+        if signing { return }   // a sign holds the vendor lock
+        let sig = scanner.readers()
+            .map { "\($0.reader):\(Data($0.atr).base64EncodedString())" }
+            .joined(separator: "|")
+        guard sig != lastReaderSig else { return }
+        lastReaderSig = sig
+        await refreshTokens()
     }
 
     private func startServer() {
