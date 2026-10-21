@@ -34,7 +34,7 @@ public struct OriginAllowlist: Sendable {
         return false
     }
 
-    static func host(of origin: String) -> String? {
+    public static func host(of origin: String) -> String? {
         guard let url = URL(string: origin), let scheme = url.scheme, let host = url.host else { return nil }
         if scheme == "https" { return host }
         if scheme == "http", host == "127.0.0.1" || host == "localhost" { return host }

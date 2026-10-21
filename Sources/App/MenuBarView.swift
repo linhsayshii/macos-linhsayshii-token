@@ -9,6 +9,9 @@ struct MenuBarView: View {
             statusLine
             Divider().overlay(Theme.border)
             tokenSection
+            if model.activeSigns > 0 {
+                Text("Đang ký \(model.activeSigns)").font(.system(size: Theme.Size.xs, weight: .medium)).foregroundStyle(Theme.primary)
+            }
             if let s = model.signingStatus {
                 HStack(spacing: 6) {
                     ProgressView().controlSize(.small)
@@ -17,6 +20,8 @@ struct MenuBarView: View {
             } else if let r = model.lastSignResult {
                 Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
             }
+            Divider().overlay(Theme.border)
+            auditSection
             Divider().overlay(Theme.border)
             Button("Thoát") { NSApplication.shared.terminate(nil) }
                 .buttonStyle(.plain)
@@ -28,31 +33,52 @@ struct MenuBarView: View {
         .background(Theme.background)
         .foregroundStyle(Theme.foreground)
         .sheet(item: $model.approvalPrompt) { ApprovalSheet(prompt: $0, model: model) }
+        .sheet(item: Binding(get: { model.originPrompt.map(OriginItem.init) }, set: { _ in })) { OriginPromptSheet(origin: $0.id, model: model) }
         .sheet(item: $model.pinPrompt) { PINSheet(prompt: $0, model: model) }
     }
 
     private var statusLine: some View {
-        HStack(spacing: 8) {
-            Circle().fill(statusColor).frame(width: 8, height: 8)
-            Text(statusText).font(.system(size: Theme.Size.sm))
-            Spacer()
+        VStack(alignment: .leading, spacing: 4) {
+            ForEach(model.bridges) { b in
+                HStack(spacing: 8) {
+                    Circle().fill(color(b.status)).frame(width: 8, height: 8)
+                    Text(text(b)).font(.system(size: Theme.Size.sm))
+                    Spacer()
+                }
+            }
+            if !model.localhostTrusted {
+                Button("Tin cậy chứng chỉ localhost (cho VNPT-CA)") { model.trustLocalhostCertificate() }
+                    .buttonStyle(.plain).font(.system(size: Theme.Size.xs, weight: .medium)).foregroundStyle(Theme.warning)
+            }
         }
     }
 
-    private var statusColor: Color {
-        switch model.bridgeStatus {
+    private func color(_ s: AppModel.BridgeStatus) -> Color {
+        switch s {
         case .up: return Theme.success
         case .starting: return Theme.warning
         case .portInUse, .failed: return Theme.danger
         }
     }
 
-    private var statusText: String {
-        switch model.bridgeStatus {
-        case .starting: return "Đang khởi động…"
-        case .up: return "Cổng ký 32001 đang chạy"
-        case .portInUse: return "Cổng 32001 đã bị chiếm"
-        case .failed(let m): return "Lỗi: \(m)"
+    private func text(_ b: AppModel.BridgeRow) -> String {
+        switch b.status {
+        case .starting: return "\(b.name): đang khởi động…"
+        case .up: return "\(b.name) · cổng \(b.port)"
+        case .portInUse: return "\(b.name): cổng \(b.port) đã bị chiếm"
+        case .failed(let m): return "\(b.name): lỗi \(m)"
+        }
+    }
+
+    @ViewBuilder private var auditSection: some View {
+        Text("LẦN KÝ GẦN ĐÂY").font(.system(size: Theme.Size.xs, weight: .medium)).foregroundStyle(Theme.muted)
+        if model.recentAudit.isEmpty {
+            Text("Chưa có lần ký nào").font(.system(size: Theme.Size.sm)).foregroundStyle(Theme.muted)
+        } else {
+            ForEach(Array(model.recentAudit.enumerated()), id: \.offset) { _, e in
+                Text("\(e.time.suffix(9).prefix(8)) · \(e.bridge) · \(e.operation) · \(e.result == "ok" ? "OK" : "lỗi")")
+                    .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted).lineLimit(1)
+            }
         }
     }
 
@@ -94,3 +120,5 @@ struct MenuBarView: View {
         }
     }
 }
+
+private struct OriginItem: Identifiable { let id: String }

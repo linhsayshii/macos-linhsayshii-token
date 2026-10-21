@@ -8,7 +8,7 @@ import Bridges
 /// CTSigningHub SignHash is stubbed — see Backend.sign — because these tokens
 /// cannot sign the precomputed hash it sends.
 @MainActor
-public final class AppModel: ObservableObject {
+public final class AppModel: ObservableObject, SigningService {
     /// Prompt state for the PIN sheet. Non-nil presents the sheet; a sign call
     /// awaits the user's answer via `pinCont`.
     struct PINPrompt: Identifiable { let id = UUID(); let ca, serial: String; let warning: String?; let locked: Bool }
@@ -29,9 +29,24 @@ public final class AppModel: ObservableObject {
     }
 
     public enum BridgeStatus: Sendable, Equatable { case starting, up, portInUse, failed(String) }
+    public struct BridgeRow: Identifiable, Sendable, Equatable {
+        public var id: String { name }
+        public let name: String
+        public var port: Int
+        public var status: BridgeStatus
+    }
 
     @Published public private(set) var tokens: [TokenRow] = []
-    @Published public private(set) var bridgeStatus: BridgeStatus = .starting
+    @Published public private(set) var bridges: [BridgeRow] = [
+        BridgeRow(name: "CTSigningHub", port: 32001, status: .starting),
+        BridgeRow(name: "eSigner", port: 8768, status: .starting),
+        BridgeRow(name: "VNPT-CA Plugin", port: 4433, status: .starting),
+    ]
+    @Published public private(set) var recentAudit: [AuditEntry] = []
+    @Published public private(set) var activeSigns = 0
+    @Published public private(set) var localhostTrusted = true
+    // First unknown origin waiting for the user's allow/deny.
+    @Published var originPrompt: String?
     @Published private(set) var lastSignResult: String?
     // Non-nil while a sign is running (login→sign→logout, ~10s on some tokens);
     // the menu shows it so the user isn't left guessing after submitting the PIN.
@@ -44,6 +59,10 @@ public final class AppModel: ObservableObject {
     private let scanner = ReaderScanner()
     private let broker: TokenBroker
     private let approval = ApprovalCenter()
+    private let audit = AuditLog(fileURL: AppModel.supportDir.appendingPathComponent("audit.jsonl"))
+    let localCA = LocalCA(directory: AppModel.supportDir.appendingPathComponent("tls", isDirectory: true))
+    private var wsServers: [WSServer] = []
+    private var pendingOrigins: [String] = []
     let originStore = OriginStore(fileURL: AppModel.supportDir.appendingPathComponent("origins.json"))
     static let supportDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         .appendingPathComponent("TokenSigner", isDirectory: true)
@@ -74,7 +93,14 @@ public final class AppModel: ObservableObject {
     public func start() {
         guard !started else { return }   // MenuBarExtra onAppear can fire repeatedly
         started = true
-        startServer()
+        startServers()
+        refreshAudit()
+        Task { [weak self] in
+            while !Task.isCancelled {
+                await self?.pollOrigins()
+                try? await Task.sleep(for: .seconds(1))
+            }
+        }
         scanTask = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.scanTick()
@@ -98,16 +124,70 @@ public final class AppModel: ObservableObject {
         await refreshTokens()
     }
 
-    private func startServer() {
-        let bridge = CTSignBridge(backend: Backend(model: self))
-        let server = HTTPServer(bridge: bridge, port: 32001, store: originStore)
-        self.server = server
+    private func setBridge(_ name: String, port: Int? = nil, _ status: BridgeStatus) {
+        guard let i = bridges.firstIndex(where: { $0.name == name }) else { return }
+        bridges[i].status = status
+        if let port { bridges[i].port = port }
+    }
+
+    private func startServers() {
+        let ct = CTSignBridge(backend: Backend(model: self), service: self)
+        let http = HTTPServer(bridge: ct, port: 32001, store: originStore)
+        self.server = http
         Task {
-            do { try await server.start(); self.bridgeStatus = .up }
-            catch HTTPServer.StartError.portInUse { self.bridgeStatus = .portInUse }
-            catch { self.bridgeStatus = .failed("\(error)") }
+            do { try await http.start(); setBridge("CTSigningHub", .up) }
+            catch HTTPServer.StartError.portInUse { setBridge("CTSigningHub", .portInUse) }
+            catch { setBridge("CTSigningHub", .failed("\(error)")) }
+        }
+
+        let es = ESignerBridge(service: self)
+        let esServer = WSServer(ports: [8768, 8769], pathPrefix: "/plugin/sign", store: originStore) { t, o in await es.handle(text: t, origin: o) }
+        let vn = VNPTBridge(service: self)
+        let tlsContext = try? localCA.sslContext()
+        let vnServer = WSServer(ports: [4433], pathPrefix: "/plugin/", store: originStore, tls: tlsContext) { t, o in await vn.handle(text: t, origin: o) }
+        wsServers = [esServer, vnServer]
+        Task {
+            do { setBridge("eSigner", port: try await esServer.start(), .up) }
+            catch WSServer.StartError.portInUse { setBridge("eSigner", .portInUse) }
+            catch { setBridge("eSigner", .failed("\(error)")) }
+        }
+        Task {
+            guard tlsContext != nil else { return setBridge("VNPT-CA Plugin", .failed("không tạo được chứng chỉ localhost")) }
+            do { setBridge("VNPT-CA Plugin", port: try await vnServer.start(), .up) }
+            catch WSServer.StartError.portInUse { setBridge("VNPT-CA Plugin", .portInUse) }
+            catch { setBridge("VNPT-CA Plugin", .failed("\(error)")) }
+        }
+        Task.detached { [localCA] in
+            let ok = localCA.isTrusted()
+            await MainActor.run { self.localhostTrusted = ok }
         }
     }
+
+    /// Settings action: user-initiated, macOS asks for their password.
+    func trustLocalhostCertificate() {
+        let cmd = localCA.trustCommand()
+        Task.detached { [localCA] in
+            let p = Process()
+            p.executableURL = URL(fileURLWithPath: cmd[0]); p.arguments = Array(cmd.dropFirst())
+            try? p.run(); p.waitUntilExit()
+            let ok = localCA.isTrusted()
+            await MainActor.run { self.localhostTrusted = ok }
+        }
+    }
+
+    private func pollOrigins() async {
+        pendingOrigins.append(contentsOf: await originStore.takePending().filter { !pendingOrigins.contains($0) })
+        if originPrompt == nil, !pendingOrigins.isEmpty { originPrompt = pendingOrigins.removeFirst() }
+    }
+
+    func answerOrigin(allow: Bool) {
+        guard let o = originPrompt else { return }
+        originPrompt = nil
+        guard allow, let host = OriginAllowlist.host(of: o) else { return }
+        Task { try? await originStore.add(host) }
+    }
+
+    private func refreshAudit() { Task { recentAudit = await audit.recent(10).reversed() } }
 
     // Certs cached by the scan loop. The bridge reads this instead of spawning
     // its own helpers, so token access stays serialized in one place (vendor libs
@@ -153,44 +233,117 @@ public final class AppModel: ObservableObject {
         self.signTargets = targets
     }
 
-    // MARK: - Sign path (raw data)
+    // MARK: - Sign path
 
-    /// Approval → PIN → one login/sign/logout spawn. Returns the base64 signature.
-    /// `dataB64` is the raw message; the token hashes it on-card (SHA256withRSA).
-    func sign(origin: String, serial: String, dataB64: String, operation: String, docCount: Int) async throws -> String {
-        guard let target = signTargets[serial] else { throw CTSignError.unknownSerial(serial) }
-        signing = true
-        defer { signing = false }
+    private var busy = false
+    private var waiters: [CheckedContinuation<Void, Never>] = []
+    /// Signs run one at a time: one PIN sheet, one vendor PC/SC lock.
+    private func acquire() async {
+        if busy { await withCheckedContinuation { waiters.append($0) } } else { busy = true }
+    }
+    private func release() { if waiters.isEmpty { busy = false } else { waiters.removeFirst().resume() } }
 
-        if await approval.decide(origin: origin, certSerial: target.cert.serialHex) != .allowedSession {
-            approvalPrompt = ApprovalPrompt(origin: origin, subject: target.cert.subject, ca: target.module.ca,
-                                            notAfter: target.cert.notAfter, operation: operation, docCount: docCount)
-            switch await withCheckedContinuation({ approvalCont = $0 }) {
-            case .deny: throw TokenBroker.SignError.card("Người dùng từ chối ký")
-            case .session: await approval.allow(origin: origin, certSerial: target.cert.serialHex, minutes: 10)
-            case .once: break
-            }
+    private static let certDate: DateFormatter = {
+        let f = DateFormatter(); f.locale = Locale(identifier: "en_US_POSIX"); f.dateFormat = "yyyy-MM-dd HH:mm:ss"; return f
+    }()
+
+    /// Token serial or certificate serial (bridges send the latter); nil picks the only token.
+    private func resolve(_ serial: String?) throws -> (tokenSerial: String, target: SignTarget) {
+        if let s = serial, !s.isEmpty {
+            if let t = signTargets[s] { return (s, t) }
+            if let e = signTargets.first(where: { $0.value.cert.serialHex.caseInsensitiveCompare(s) == .orderedSame }) { return (e.key, e.value) }
+            throw SigningFailure.unknownSerial(s)
         }
-
-        let w = pinWarning(target.flags)
-        pinPrompt = PINPrompt(ca: target.module.ca, serial: serial, warning: w.text, locked: w.locked)
-        guard let pin = await withCheckedContinuation({ (c: CheckedContinuation<String?, Never>) in pinCont = c }),
-              !pin.isEmpty else { throw TokenBroker.SignError.card("Đã huỷ nhập PIN") }
-
-        signingStatus = "Đang ký…"
-        defer { signingStatus = nil }
-        return try await broker.sign(module: target.module, serial: serial, certId: target.cert.id,
-                                     mech: .sha256RSA, dataB64: dataB64, pin: pin)
+        guard let e = signTargets.first else { throw SigningFailure.unknownSerial("") }
+        return (e.key, e.value)
     }
 
-    /// Sign a fixed test string so the login/sign path can be exercised from the
-    /// menu while there is no web sign endpoint yet (SignHash is stubbed).
+    /// Approval sheet unless an (origin, cert) session is active. Throws on deny.
+    private func authorize(origin: String, target: SignTarget, operation: String, docCount: Int) async throws {
+        if let exp = Self.certDate.date(from: target.cert.notAfter), exp < Date() { throw SigningFailure.certExpired }
+        if await approval.decide(origin: origin, certSerial: target.cert.serialHex) == .allowedSession { return }
+        approvalPrompt = ApprovalPrompt(origin: origin, subject: target.cert.subject, ca: target.module.ca,
+                                        notAfter: target.cert.notAfter, operation: operation, docCount: docCount)
+        switch await withCheckedContinuation({ approvalCont = $0 }) {
+        case .deny: throw SigningFailure.userDenied
+        case .session: await approval.allow(origin: origin, certSerial: target.cert.serialHex, minutes: 10)
+        case .once: break
+        }
+    }
+
+    private func askPIN(tokenSerial: String, target: SignTarget) async throws -> String {
+        let w = pinWarning(target.flags)
+        pinPrompt = PINPrompt(ca: target.module.ca, serial: tokenSerial, warning: w.text, locked: w.locked)
+        guard let pin = await withCheckedContinuation({ (c: CheckedContinuation<String?, Never>) in pinCont = c }),
+              !pin.isEmpty else { throw SigningFailure.userCancelled }
+        signingStatus = "Đang ký…"
+        return pin
+    }
+
+    private func failure(_ e: Error) -> SigningFailure {
+        if let f = e as? SigningFailure { return f }
+        return .card(signErrorText(e))
+    }
+
+    /// Shared flow for every bridge operation: queue → resolve → approve → sign → audit.
+    private func perform(_ ctx: BridgeContext, serial: String?, operation: String, input: Data,
+                         _ body: @escaping (MessageSigner) async throws -> Data) async throws -> Data {
+        activeSigns += 1
+        await acquire()
+        signing = true
+        var certSerial = serial ?? ""
+        var result = "ok"
+        defer {
+            signing = false; signingStatus = nil; activeSigns -= 1; release()
+        }
+        do {
+            let (tokenSerial, target) = try resolve(serial)
+            certSerial = target.cert.serialHex
+            try await authorize(origin: ctx.origin, target: target, operation: operation, docCount: 1)
+            let signer = BrokerSigner(broker: broker, module: target.module, serial: tokenSerial, cert: target.cert) { [self] in
+                try await askPIN(tokenSerial: tokenSerial, target: target)
+            }
+            let out = try await body(signer)
+            await audit.append(origin: ctx.origin, bridge: ctx.bridge, certSerial: certSerial, operation: operation, input: input, result: result)
+            refreshAudit()
+            return out
+        } catch {
+            let f = failure(error)
+            result = "error:\(f)"
+            await audit.append(origin: ctx.origin, bridge: ctx.bridge, certSerial: certSerial, operation: operation, input: input, result: result)
+            refreshAudit()
+            throw f
+        }
+    }
+
+    public func signXML(_ ctx: BridgeContext, serial: String?, xml: Data, options: XMLSignOptions) async throws -> Data {
+        try await perform(ctx, serial: serial, operation: "Ký XML", input: xml) {
+            try await XMLDSigSigner.signEnveloped(xml: xml, signer: $0, options: options)
+        }
+    }
+
+    public func signCMS(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {
+        try await perform(ctx, serial: serial, operation: "Ký CMS", input: content) {
+            try await CMSSigner.signDetached(content: content, signer: $0, hash: hash)
+        }
+    }
+
+    public func signMessage(_ ctx: BridgeContext, serial: String?, message: Data, hash: HashAlg) async throws -> (signature: Data, certDER: Data) {
+        var cert = Data()
+        let sig = try await perform(ctx, serial: serial, operation: "Ký dữ liệu", input: message) {
+            cert = $0.certificateDER
+            return try await $0.sign(message: message, hash: hash)
+        }
+        return (sig, cert)
+    }
+
+    /// Sign a fixed test string so the login/sign path can be exercised from the menu.
     func testSign(serial: String) async {
         let data = Data("TokenSigner ký thử \(Date())".utf8)
         do {
-            let sig = try await sign(origin: "TokenSigner (ký thử)", serial: serial,
-                                     dataB64: data.base64EncodedString(), operation: "Ký thử", docCount: 1)
-            lastSignResult = "Ký OK — chữ ký \(Data(base64Encoded: sig)?.count ?? 0) byte"
+            let sig = try await signMessage(BridgeContext(bridge: "menu", origin: "TokenSigner (ký thử)"),
+                                            serial: serial, message: data, hash: .sha256).signature
+            lastSignResult = "Ký OK — chữ ký \(sig.count) byte"
         } catch {
             lastSignResult = "Lỗi ký: \(signErrorText(error))"
         }
@@ -199,6 +352,15 @@ public final class AppModel: ObservableObject {
     /// Human-readable Vietnamese for a sign failure. pinIncorrect surfaces the
     /// remaining try count — the number that matters before a lockout.
     private func signErrorText(_ error: Error) -> String {
+        if let f = error as? SigningFailure {
+            switch f {
+            case .userDenied: return "người dùng từ chối ký"
+            case .userCancelled: return "đã huỷ nhập PIN"
+            case .certExpired: return "chứng thư số đã hết hạn"
+            case .unknownSerial(let s): return "không tìm thấy chứng thư \(s)"
+            case .bad(let m), .card(let m): return m
+            }
+        }
         guard let e = error as? TokenBroker.SignError else { return "\(error)" }
         switch e {
         case .loginFailed(.pinIncorrect(let n)):
@@ -221,7 +383,7 @@ public final class AppModel: ObservableObject {
     }
 
     // Certificates for the bridge: the last scan's cache, no fresh spawning.
-    func certificates() async -> [CertInfo] { cachedCerts }
+    public func certificates() async -> [CertInfo] { cachedCerts }
 }
 
 /// Bridge backend. Serves certificates; SignHash signing is stubbed because the
