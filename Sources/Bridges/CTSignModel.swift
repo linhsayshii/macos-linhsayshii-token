@@ -31,16 +31,20 @@ struct CertificateInfo: Codable {
     let error: String?
 }
 
-/// Parses POST /api/HubClient/signxml. Isolates the (verify) wire shape.
-/// shortcut: shape is `SignXmlRequest {dataFile, filePath, base64Cert, cks, dataBV, serinumber, requestId}` from
-/// static RE only; `cks`/`dataBV` meaning (placement / signing type) is unknown, so placement defaults to
-/// hoaDon. Confirm against a captured e-invoice signxml call. `filePath` is never read.
+/// Parses POST /api/HubClient/signxml. Shape confirmed from the GDT tax portal (2026-10-22):
+/// `{requestId, base64Cert, cks, dataBV[], dataFile, serinumber}` where `cks` is the signature placement path
+/// ("HSoThueDTu/CKyDTu": root/element that holds the signature) and `dataBV` the element names to sign by `#id`
+/// (["HSoKhaiThue"]). `filePath` is never read.
+/// shortcut: the request carries no hash algorithm, so SHA-256 is assumed (GDT used SHA-1 historically); confirm with a portal that verifies.
 enum SignXmlRequestAdapter {
     struct Parsed { let serial: String; let xml: Data; let options: XMLSignOptions }
     static func parse(_ body: Data) -> Parsed? {
         guard let o = try? JSONSerialization.jsonObject(with: body) as? [String: Any],
               let b64 = o["dataFile"] as? String, let xml = Data(base64Encoded: b64), !xml.isEmpty
         else { return nil }
-        return Parsed(serial: o["serinumber"] as? String ?? "", xml: xml, options: XMLSignOptions())
+        var opt = XMLSignOptions()
+        if let cks = o["cks"] as? String, !cks.isEmpty { opt.kind = .custom(parentXPath: cks) }
+        opt.signElements = (o["dataBV"] as? [String]) ?? []
+        return Parsed(serial: o["serinumber"] as? String ?? "", xml: xml, options: opt)
     }
 }

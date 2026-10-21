@@ -60,3 +60,33 @@ func xmlsec1VerifiesAndDetectsTamper(h: HashAlg) async throws {
     let d1 = CMSSigner.digest(Data(doc.canonicalXMLStringPreservingComments(false).utf8), .sha256).base64EncodedString()
     #expect(d1 == (try XMLDocument(data: out, options: []).nodes(forXPath: "(//*[local-name()='DigestValue'])[1]").first?.stringValue))
 }
+
+private let tkhai = "<HSoThueDTu xmlns=\"http://kekhaithue.gdt.gov.vn/TKhaiThue\"><HSoKhaiThue id=\"ID_1\"><TTinChung><maDVu>HTKK</maDVu></TTinChung></HSoKhaiThue></HSoThueDTu>"
+
+@Test func signsElementByIdAndPlacesUnderCKyDTu() async throws {
+    let pki = try TestPKI.make()
+    var o = XMLSignOptions()
+    o.kind = .custom(parentXPath: "HSoThueDTu/CKyDTu"); o.signElements = ["HSoKhaiThue"]
+    let out = try await XMLDSigSigner.signEnveloped(xml: Data(tkhai.utf8), signer: pki.signer, options: o)
+    let doc = try XMLDocument(data: out, options: [.nodePreserveAll])
+    #expect(try doc.nodes(forXPath: "/*[local-name()='HSoThueDTu']/*[local-name()='CKyDTu']/*[local-name()='Signature']").count == 1)
+    #expect(try doc.nodes(forXPath: "//*[local-name()='Reference'][@URI='#ID_1']").count == 1)
+    #expect(try doc.nodes(forXPath: "//*[local-name()='Reference'][@URI='']").isEmpty)
+}
+
+@Test(.enabled(if: Tool.exists("xmlsec1")))
+func xmlsec1VerifiesElementReference() async throws {
+    let pki = try TestPKI.make()
+    var o = XMLSignOptions()
+    o.kind = .custom(parentXPath: "HSoThueDTu/CKyDTu"); o.signElements = ["HSoKhaiThue"]
+    let out = try await XMLDSigSigner.signEnveloped(xml: Data(tkhai.utf8), signer: pki.signer, options: o)
+    let d = try TempDir(); try out.write(to: d["s.xml"])
+    func run() throws -> (status: Int32, stderr: String) {
+        try Tool.run("xmlsec1", ["--verify", "--insecure", "--id-attr:id", "http://kekhaithue.gdt.gov.vn/TKhaiThue:HSoKhaiThue",
+                                 "--id-attr:Id", "http://www.w3.org/2000/09/xmldsig#:Object", "--enabled-key-data", "x509", d["s.xml"].path])
+    }
+    let ok = try run()
+    #expect(ok.status == 0, "\(ok.stderr)")
+    try Data(String(decoding: out, as: UTF8.self).replacingOccurrences(of: "<maDVu>HTKK<", with: "<maDVu>XXXX<").utf8).write(to: d["s.xml"])
+    #expect(try run().status != 0)
+}

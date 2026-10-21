@@ -13,6 +13,9 @@ public struct XMLSignOptions: Sendable {
     public var hash: HashAlg = .sha256              // .sha1 -> rsa-sha1 / sha1 variant
     public var kind: XMLDocKind = .hoaDon
     public var signingTime = Date()
+    /// Local names of elements to sign by reference (`#id`); empty = sign the whole document (URI="").
+    /// Tax declarations send dataBV ["HSoKhaiThue"]; the element's `id` attribute is used (set to ID_n if missing).
+    public var signElements: [String] = []
     public var signatureId: String? = nil           // default per kind: hoaDon "seller", toKhai "SigningData"
     public init() {}
 }
@@ -63,16 +66,35 @@ public enum XMLDSigSigner {
         // shortcut: signing time is fixed to +07:00 (VN); make configurable if a portal needs another zone.
         let time = f.string(from: o.signingTime)
 
-        // Reference 1: whole document, before the Signature exists.
-        let d1 = b64Digest(canon(doc), o.hash)
+        // Elements signed by reference; otherwise reference 1 is the whole document, digested before the Signature exists.
+        var targets: [(id: String, element: XMLElement)] = []
+        for (i, name) in o.signElements.enumerated() {
+            guard let el = ((try? root.nodes(forXPath: "//*[local-name()='\(name)']")) as? [XMLElement])?.first
+            else { throw XMLDSigError.badPlacement("không có phần tử \(name)") }
+            var id = ["id", "Id", "ID"].lazy.compactMap { el.attribute(forName: $0)?.stringValue }.first
+            if id == nil { id = "ID_\(i + 1)"; el.addAttribute(XMLNode.attribute(withName: "id", stringValue: id!) as! XMLNode) }
+            targets.append((id!, el))
+        }
+        let docRef: String
+        if targets.isEmpty {
+            docRef = """
+            <ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="\(ns)enveloped-signature"/>\
+            <ds:Transform Algorithm="\(c14n)"/></ds:Transforms><ds:DigestMethod Algorithm="\(digAlg)"/>\
+            <ds:DigestValue>\(b64Digest(canon(doc), o.hash))</ds:DigestValue></ds:Reference>
+            """
+        } else {
+            docRef = targets.map { t in """
+            <ds:Reference URI="#\(t.id)"><ds:Transforms><ds:Transform Algorithm="\(ns)enveloped-signature"/>\
+            <ds:Transform Algorithm="\(c14n)"/></ds:Transforms><ds:DigestMethod Algorithm="\(digAlg)"/>\
+            <ds:DigestValue></ds:DigestValue></ds:Reference>
+            """ }.joined()
+        }
         let (n, e) = try rsaComponents(signer.certificateDER)
 
         let sigXML = """
         <ds:Signature xmlns:ds="\(ns)" Id="\(sigId)"><ds:SignedInfo>\
         <ds:CanonicalizationMethod Algorithm="\(c14n)"/><ds:SignatureMethod Algorithm="\(sigAlg)"/>\
-        <ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="\(ns)enveloped-signature"/>\
-        <ds:Transform Algorithm="\(c14n)"/></ds:Transforms><ds:DigestMethod Algorithm="\(digAlg)"/>\
-        <ds:DigestValue>\(d1)</ds:DigestValue></ds:Reference>\
+        \(docRef)\
         <ds:Reference URI="#SigningTime"><ds:Transforms><ds:Transform Algorithm="\(c14n)"/></ds:Transforms>\
         <ds:DigestMethod Algorithm="\(digAlg)"/><ds:DigestValue></ds:DigestValue></ds:Reference></ds:SignedInfo>\
         <ds:SignatureValue></ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>\
@@ -88,10 +110,11 @@ public enum XMLDSigSigner {
         func find(_ local: String, in n: XMLNode) -> XMLElement? {
             ((try? n.nodes(forXPath: ".//*[local-name()='\(local)']")) as? [XMLElement])?.first
         }
-        // Reference 2 digests the Object as it sits in the final tree.
+        // The Object (and any referenced elements) are digested as they sit in the final tree.
         let object = find("Object", in: sig)!
         let refs = (try? sig.nodes(forXPath: ".//*[local-name()='Reference']")) as? [XMLElement] ?? []
-        refs[1].elements(forName: "ds:DigestValue").first?.stringValue = b64Digest(canon(object), o.hash)
+        for (i, t) in targets.enumerated() { refs[i].elements(forName: "ds:DigestValue").first?.stringValue = b64Digest(canon(t.element), o.hash) }
+        refs[refs.count - 1].elements(forName: "ds:DigestValue").first?.stringValue = b64Digest(canon(object), o.hash)
 
         let signedInfo = find("SignedInfo", in: sig)!
         let sv = try await signer.sign(message: canon(signedInfo), hash: o.hash)

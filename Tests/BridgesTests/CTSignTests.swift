@@ -131,3 +131,12 @@ private func xmlBody(_ extra: [String: Any]) throws -> Data {
     #expect(nf == 404)
     #expect(String(decoding: nj, as: UTF8.self) == "{}")
 }
+
+@Test func signXmlAdapterReadsCksAndDataBV() throws {
+    let body = try JSONSerialization.data(withJSONObject: [
+        "serinumber": "54", "cks": "HSoThueDTu/CKyDTu", "dataBV": ["HSoKhaiThue"], "requestId": "x",
+        "dataFile": Data("<a/>".utf8).base64EncodedString()])
+    let p = try #require(SignXmlRequestAdapter.parse(body))
+    #expect(p.options.signElements == ["HSoKhaiThue"])
+    if case .custom(let path) = p.options.kind { #expect(path == "HSoThueDTu/CKyDTu") } else { Issue.record("kind not custom") }
+}
