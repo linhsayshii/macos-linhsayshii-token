@@ -96,3 +96,8 @@ private func xmlBody(_ extra: [String: Any]) throws -> Data {
                                    body: try xmlBody(["serinumber": "FF", "dataFile": Data("<a/>".utf8).base64EncodedString()]))
     #expect((try JSONSerialization.jsonObject(with: json) as! [String: Any])["status"] as? Int == 404)
 }
+
+@Test func expiredCertReportedInvalid() {
+    #expect(CTSignBridge.notExpired("2099-01-01 00:00:00"))
+    #expect(!CTSignBridge.notExpired("2025-07-28 11:09:47"))
+}

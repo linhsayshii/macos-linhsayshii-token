@@ -16,6 +16,12 @@ public struct CTSignBridge: Sendable {
     // (verify) against the real CTSigningHub 1.2 Version string via a Parallels capture.
     public static let version = "1.2.0.0"
 
+    /// notAfter is "yyyy-MM-dd HH:mm:ss"; an unparsable date counts as valid (the sign path still blocks expired certs).
+    static func notExpired(_ notAfter: String) -> Bool {
+        let f = DateFormatter(); f.locale = Locale(identifier: "en_US_POSIX"); f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return f.date(from: notAfter).map { $0 > Date() } ?? true
+    }
+
     public func handle(method: String, path: String, body: Data, origin: String = "local") async -> (status: Int, json: Data) {
         switch (method, path.lowercased() == "/api/hubclient/signxml" ? "/api/HubClient/signxml" : path) {
         case ("GET", "/api/SignHash/Version"):
@@ -27,7 +33,7 @@ public struct CTSignBridge: Sendable {
             if certs.isEmpty { return (200, emptyCerts()) }
             let infos = certs.map {
                 CertificateInfo(serinumber: $0.serialHex, subjectDN: $0.subject, issuedDN: $0.issuer,
-                                pemCert: $0.derB64, valid: true, validFrom: $0.notBefore,
+                                pemCert: $0.derB64, valid: Self.notExpired($0.notAfter), validFrom: $0.notBefore,
                                 validTo: $0.notAfter, error: nil)
             }
             return (200, wrap(status: 200, data: infos, message: "SUCCESS"))

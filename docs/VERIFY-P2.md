@@ -16,6 +16,10 @@
   now hashes in software and signs the DigestInfo with `CKM_RSA_PKCS` (BrokerSigner.signDigest). SignHash / VNPT signHash are live.
 - `scripts/sign-size-test.sh` reproduces this.
 
+## Verified on hardware 2026-10-22
+- NC-CA token, cert 54010E004EC042B6DCD011ABE8BBAF6A: CTSigningHub `signxml` -> approval sheet -> PIN -> signed XML; `xmlsec1 --verify` = OK.
+- GetCert `valid` now reflects expiry.
+
 ## NOT verified on hardware (needs the user: PIN + approval click)
 - Real-token sign through each bridge: `signxml` (CTSigningHub), eSigner `CER_001`, VNPT `SignXML`/`SignCMS`. Then check with `xmlsec1 --verify` / `openssl cms -verify`.
 - `SHA1_RSA_PKCS` on the Feitian libs (only `SHA256_RSA_PKCS` was proven in P1).
