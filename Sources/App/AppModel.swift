@@ -131,8 +131,10 @@ public final class AppModel: ObservableObject, SigningService {
     }
 
     private func startServers() {
+        // Dev only: shift every port so a second instance can run next to an installed one.
+        let off = Int(ProcessInfo.processInfo.environment["TOKENSIGNER_PORT_OFFSET"] ?? "") ?? 0
         let ct = CTSignBridge(backend: Backend(model: self), service: self)
-        let http = HTTPServer(bridge: ct, port: 32001, store: originStore)
+        let http = HTTPServer(bridge: ct, port: 32001 + off, store: originStore)
         self.server = http
         Task {
             do { try await http.start(); setBridge("CTSigningHub", .up) }
@@ -141,10 +143,10 @@ public final class AppModel: ObservableObject, SigningService {
         }
 
         let es = ESignerBridge(service: self)
-        let esServer = WSServer(ports: [8768, 8769], pathPrefix: "/plugin/sign", store: originStore) { t, o in await es.handle(text: t, origin: o) }
+        let esServer = WSServer(ports: [8768 + off, 8769 + off], pathPrefix: "/plugin/sign", store: originStore) { t, o in await es.handle(text: t, origin: o) }
         let vn = VNPTBridge(service: self)
         let tlsContext = try? localCA.sslContext()
-        let vnServer = WSServer(ports: [4433], pathPrefix: "/plugin/", store: originStore, tls: tlsContext) { t, o in await vn.handle(text: t, origin: o) }
+        let vnServer = WSServer(ports: [4433 + off], pathPrefix: "/plugin/", store: originStore, tls: tlsContext) { t, o in await vn.handle(text: t, origin: o) }
         wsServers = [esServer, vnServer]
         Task {
             do { setBridge("eSigner", port: try await esServer.start(), .up) }
