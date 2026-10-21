@@ -39,3 +39,18 @@ private let allow = OriginAllowlist.defaults
     #expect(await !OriginStore(fileURL: url).allowlist().contains("https://foo.example"))
     await #expect(throws: OriginStore.StoreError.self) { try await s.remove("dichvucong.gov.vn") }
 }
+
+@Test func preflightEchoesRequestedHeadersForAllowedOrigin() {
+    let o = "https://thuedientu.gdt.gov.vn"
+    let h = guardian.preflightHeaders(origin: o, allowlist: allow, requestedHeaders: "content-type,x-xsrf-token")
+    #expect(h["Access-Control-Allow-Headers"] == "content-type,x-xsrf-token")
+    #expect(h["Access-Control-Allow-Origin"] == o && h["Access-Control-Allow-Private-Network"] == "true")
+    #expect(h["Access-Control-Allow-Methods"]?.contains("POST") == true)
+}
+
+@Test func preflightFallsBackAndRejectsUnknownOrigin() {
+    let o = "https://thuedientu.gdt.gov.vn"
+    #expect(guardian.preflightHeaders(origin: o, allowlist: allow, requestedHeaders: nil)["Access-Control-Allow-Headers"] == "Content-Type")
+    #expect(guardian.preflightHeaders(origin: o, allowlist: allow, requestedHeaders: "x\r\nEvil: 1")["Access-Control-Allow-Headers"] == "Content-Type")
+    #expect(guardian.preflightHeaders(origin: "https://evil.example", allowlist: allow, requestedHeaders: "x-a").isEmpty)
+}

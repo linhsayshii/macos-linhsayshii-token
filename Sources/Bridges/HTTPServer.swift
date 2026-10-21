@@ -76,6 +76,7 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
             let bodyData = Data(body.readableBytesView)
             let origin = h.headers.first(name: "Origin")
             let host = h.headers.first(name: "Host")
+            let requestedHeaders = h.headers.first(name: "Access-Control-Request-Headers")
             let loop = context.eventLoop
             let channel = context.channel
             let method = h.method
@@ -94,10 +95,7 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
                 case .ok:
                     var headers = guardian.corsHeaders(origin: origin, allowlist: allow)
                     if method == .OPTIONS {
-                        if origin != nil {
-                            headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-                            headers["Access-Control-Allow-Headers"] = "Content-Type"
-                        }
+                        headers = guardian.preflightHeaders(origin: origin, allowlist: allow, requestedHeaders: requestedHeaders)
                         Self.write(channel: channel, loop: loop, status: .ok, headers: headers, body: Data())
                         return
                     }
