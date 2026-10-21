@@ -11,6 +11,7 @@ OUT = "/tmp/vnpt-test"; os.makedirs(OUT, exist_ok=True)
 
 def connect():
     ctx = ssl.create_default_context(cafile=CA)
+    ctx.verify_flags &= ~ssl.VERIFY_X509_STRICT   # Python 3.13+ strict mode wants SKI/AKI; browsers do not
     s = ctx.wrap_socket(socket.create_connection(("127.0.0.1", port), timeout=300), server_hostname="127.0.0.1")
     key = base64.b64encode(os.urandom(16)).decode()
     s.sendall((f"GET /plugin/sign HTTP/1.1\r\nHost: 127.0.0.1:{port}\r\nOrigin: https://dichvucong.gov.vn\r\n"
