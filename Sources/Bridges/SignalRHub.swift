@@ -37,12 +37,13 @@ public actor SignalRHub {
 
     // MARK: negotiate / lifecycle
 
-    public func negotiate(origin: String) -> String {
+    /// The jQuery client rejects the connection unless ProtocolVersion equals the clientProtocol it sent (the vendor page sends 2.1).
+    public func negotiate(origin: String, clientProtocol: String? = nil) -> String {
         let token = Self.random(32), id = Self.random(16)
         connections[token] = Connection(id: id, origin: origin)
         return Self.json(["Url": "/signalr", "ConnectionToken": token, "ConnectionId": id,
                 "KeepAliveTimeout": 20.0, "DisconnectTimeout": 30.0, "ConnectionTimeout": 110.0,
-                "TryWebSockets": true, "ProtocolVersion": Self.protocolVersion,
+                "TryWebSockets": true, "ProtocolVersion": clientProtocol ?? Self.protocolVersion,
                 "TransportConnectTimeout": 5.0, "LongPollDelay": 0.0] as [String: Any])
     }
 

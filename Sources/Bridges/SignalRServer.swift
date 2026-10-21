@@ -158,7 +158,7 @@ private final class RequestHandler: ChannelInboundHandler, RemovableChannelHandl
         func json(_ o: Any) -> String { SignalRHub.json(o) }
         switch path {
         case "/signalr/negotiate":
-            return (.ok, await hub.negotiate(origin: origin))
+            return (.ok, await hub.negotiate(origin: origin, clientProtocol: q["clientProtocol"]))
         case "/signalr/connect" where q["transport"] == "longPolling":
             guard let f = await hub.initFrame(token) else { return (.badRequest, "{}") }
             return (.ok, f)
