@@ -54,16 +54,17 @@ TokenSigner.app (arm64, SwiftUI MenuBarExtra, login item)
   locks, a vendor-lib crash kills only that helper (VNPT's own app aborts inside its addon), and
   x86_64-only modules need a Rosetta process. The app restarts a dead helper, and the in-flight
   request fails with an error.
-- **Shim** is an `__interpose` section compiled into `token-helper` itself, so no
-  `DYLD_INSERT_LIBRARIES` is needed. It is a pure function `reencode(apdu) -> apdu?` with unit
-  tests.
+- **Shim** is a small dylib, `libTSShim.dylib`, containing an `__interpose` section. TokenBroker
+  launches the helper with `DYLD_INSERT_LIBRARIES` pointing at it: dyld applies interpose tuples
+  only from inserted libraries, and `token-helper` is our own binary without hardened runtime, so
+  the insert is honored. The core is a pure C function, `ts_reencode`, with unit tests.
 - **Module routing.** The app reads readers and ATRs with PC/SC directly, takes ATR byte[19],
   and looks it up in a table (`ModuleRegistry`). Supporting a new CA means adding one row.
 - **Module discovery.** The app looks in known install paths (`/usr/local/lib/<name>.dylib`) and
   in `~/Library/Application Support/TokenSigner/modules/`.
 - **Packaging.** The repo is a SwiftPM package with targets `Core`, `Bridges`, `TokenHelper`
   and `App`. `scripts/bundle.sh` assembles `TokenSigner.app`: it embeds
-  `Contents/Helpers/token-helper` (universal) and ad-hoc signs with
+  `Contents/Helpers/token-helper` and `Contents/Helpers/libTSShim.dylib`, and ad-hoc signs with
   `com.apple.security.cs.disable-library-validation`, which is needed to load third-party-signed
   dylibs.
 - **Dependencies** (Apple only): `swift-nio` (+ `NIOHTTP1`, `NIOWebSocket`, `NIOSSL` for :4433),
