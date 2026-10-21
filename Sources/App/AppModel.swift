@@ -41,6 +41,7 @@ public final class AppModel: ObservableObject, SigningService {
         BridgeRow(name: "CTSigningHub", port: 32001, status: .starting),
         BridgeRow(name: "eSigner", port: 8768, status: .starting),
         BridgeRow(name: "VNPT-CA Plugin", port: 4433, status: .starting),
+        BridgeRow(name: "VNPT-CA Plugin (DVC)", port: 4434, status: .starting),
     ]
     @Published public private(set) var recentAudit: [AuditEntry] = []
     @Published public private(set) var activeSigns = 0
@@ -146,8 +147,10 @@ public final class AppModel: ObservableObject, SigningService {
         let esServer = WSServer(ports: [8768 + off, 8769 + off], pathPrefix: "/plugin/sign", store: originStore) { t, o in await es.handle(text: t, origin: o) }
         let vn = VNPTBridge(service: self)
         let tlsContext = try? localCA.sslContext()
-        let vnServer = WSServer(ports: [4433 + off], pathPrefix: "/plugin/", store: originStore, tls: tlsContext) { t, o in await vn.handle(text: t, origin: o) }
-        wsServers = [esServer, vnServer]
+        let vnServer = WSServer(ports: [4433 + off], pathPrefix: "/plugin", store: originStore, tls: tlsContext) { t, o in await vn.handle(text: t, origin: o) }
+        // The DVC portal connects to wss://localhost:4434/plugin (seen in browser DevTools), so serve the same bridge there too.
+        let dvcServer = WSServer(ports: [4434 + off], pathPrefix: "/plugin", store: originStore, tls: tlsContext) { t, o in await vn.handle(text: t, origin: o) }
+        wsServers = [esServer, vnServer, dvcServer]
         Task {
             do { setBridge("eSigner", port: try await esServer.start(), .up) }
             catch WSServer.StartError.portInUse { setBridge("eSigner", .portInUse) }
@@ -158,6 +161,12 @@ public final class AppModel: ObservableObject, SigningService {
             do { setBridge("VNPT-CA Plugin", port: try await vnServer.start(), .up) }
             catch WSServer.StartError.portInUse { setBridge("VNPT-CA Plugin", .portInUse) }
             catch { setBridge("VNPT-CA Plugin", .failed("\(error)")) }
+        }
+        Task {
+            guard tlsContext != nil else { return setBridge("VNPT-CA Plugin (DVC)", .failed("không tạo được chứng chỉ localhost")) }
+            do { setBridge("VNPT-CA Plugin (DVC)", port: try await dvcServer.start(), .up) }
+            catch WSServer.StartError.portInUse { setBridge("VNPT-CA Plugin (DVC)", .portInUse) }
+            catch { setBridge("VNPT-CA Plugin (DVC)", .failed("\(error)")) }
         }
         Task.detached { [localCA] in
             let ok = localCA.isTrusted()

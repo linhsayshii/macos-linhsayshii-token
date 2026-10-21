@@ -40,7 +40,10 @@ public final class WSServer: @unchecked Sendable {
                         shouldUpgrade: { channel, head in
                             let p = channel.eventLoop.makePromise(of: HTTPHeaders?.self)
                             let (host, origin) = (head.headers.first(name: "Host"), head.headers.first(name: "Origin"))
-                            let ok = head.uri.hasPrefix(pathPrefix)
+                            // "/plugin" matches "/plugin", "/plugin/" and "/plugin/x" (the DVC portal opens plain /plugin).
+                            let path = String(head.uri.split(separator: "?", omittingEmptySubsequences: false).first ?? "")
+                            let base = pathPrefix.hasSuffix("/") ? String(pathPrefix.dropLast()) : pathPrefix
+                            let ok = base.isEmpty ? path.hasPrefix("/") : (path == base || path.hasPrefix(base + "/"))
                             Task {
                                 let allow = await store.allowlist()
                                 switch WebGuard(port: bound.value).check(host: host, origin: origin, allowlist: allow) {

@@ -58,3 +58,16 @@ private func freePort() -> Int {
     #expect(try await second.start() == b)
     await first.stop(); await second.stop()
 }
+
+@Test func pluginPathMatchesBareAndSubpaths() async throws {
+    let store = freshStore()
+    let port = freePort()
+    let srv = WSServer(ports: [port], pathPrefix: "/plugin", store: store) { t, _ in t }
+    _ = try await srv.start()
+    defer { Task { await srv.stop() } }
+    let ok = "https://xacthuc.dichvucong.gov.vn"
+    for path in ["/plugin", "/plugin/", "/plugin/sign", "/plugin?x=1"] {
+        #expect(await WSTestClient.roundTrip(port: port, path: path, origin: ok, send: "hi") == "hi", "\(path)")
+    }
+    #expect(await WSTestClient.roundTrip(port: port, path: "/pluginx", origin: ok, send: "hi") == nil)
+}
