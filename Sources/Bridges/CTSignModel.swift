@@ -1,6 +1,11 @@
 import Foundation
 
-public enum CTSignError: Error, Equatable { case unknownSerial(String) }
+public enum CTSignError: Error, Equatable {
+    case unknownSerial(String)
+    /// SignHash hands a pre-built hash; these Feitian tokens sign only the raw
+    /// message on-card (CKM_SHA256_RSA_PKCS). No precomputed-hash mechanism works.
+    case precomputedHashUnsupported
+}
 
 struct HashItem: Codable {
     let Ma: String?

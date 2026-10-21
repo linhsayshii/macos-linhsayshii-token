@@ -16,8 +16,22 @@ size_t ts_reencode(const uint8_t *apdu, size_t len, uint8_t *out, size_t outcap)
     return need;
 }
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <PCSC/winscard.h>
 #include <PCSC/wintypes.h>
+
+/* Set TSSHIM_LOG=1 to trace each transmitted APDU's length and SW on stderr. */
+static int ts_log(void) { static int v = -1; if (v < 0) v = getenv("TSSHIM_LOG") ? 1 : 0; return v; }
+static void ts_logsw(const char *tag, uint32_t len, const uint8_t *h, LONG rv,
+                     const uint8_t *resp, uint32_t rl) {
+    if (!ts_log()) return;
+    fprintf(stderr, "[tsshim] %s len=%u hdr=%02x%02x%02x%02x%02x rv=0x%lx",
+            tag, len, h[0], h[1], h[2], h[3], len >= 5 ? h[4] : 0, (long)rv);
+    if (rv == 0 && rl >= 2) fprintf(stderr, " SW=%02x%02x", resp[rl - 2], resp[rl - 1]);
+    fprintf(stderr, "\n");
+}
 
 /* Interpose SCardTransmit: re-encode the malformed Feitian SM APDU before it
    reaches the system CCID stack. The MAC covers header+DOs, not Lc/Le, so SM
@@ -27,8 +41,14 @@ static LONG ts_transmit(SCARDHANDLE h, const SCARD_IO_REQUEST *send,
                         SCARD_IO_REQUEST *recv, uint8_t *out, uint32_t *ol) {
     uint8_t buf[4096];
     size_t n = ts_reencode(in, il, buf, sizeof buf);
-    if (n > 0) return SCardTransmit(h, send, buf, (uint32_t)n, recv, out, ol);
-    return SCardTransmit(h, send, in, il, recv, out, ol);
+    if (n > 0) {
+        LONG rv = SCardTransmit(h, send, buf, (uint32_t)n, recv, out, ol);
+        ts_logsw("reencode", (uint32_t)n, buf, rv, out, ol ? *ol : 0);
+        return rv;
+    }
+    LONG rv = SCardTransmit(h, send, in, il, recv, out, ol);
+    ts_logsw("pass", il, in, rv, out, ol ? *ol : 0);
+    return rv;
 }
 
 __attribute__((used)) static struct { const void *a, *b; }

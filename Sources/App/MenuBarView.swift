@@ -9,6 +9,9 @@ struct MenuBarView: View {
             statusLine
             Divider().overlay(Theme.border)
             tokenSection
+            if let r = model.lastSignResult {
+                Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+            }
             Divider().overlay(Theme.border)
             Button("Thoát") { NSApplication.shared.terminate(nil) }
                 .font(.system(size: Theme.Size.sm))
@@ -17,6 +20,8 @@ struct MenuBarView: View {
         .frame(width: 320)
         .background(Theme.background)
         .foregroundStyle(Theme.foreground)
+        .sheet(item: $model.approvalPrompt) { ApprovalSheet(prompt: $0, model: model) }
+        .sheet(item: $model.pinPrompt) { PINSheet(prompt: $0, model: model) }
     }
 
     private var statusLine: some View {
@@ -68,6 +73,11 @@ struct MenuBarView: View {
                     }
                     if let exp = t.notAfter {
                         Text("Hết hạn: \(exp)").font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                    }
+                    if t.supported && !t.serial.isEmpty {
+                        Button("Ký thử") { Task { await model.testSign(serial: t.serial) } }
+                            .font(.system(size: Theme.Size.xs))
+                            .padding(.top, 2)
                     }
                 }
                 .padding(.vertical, 2)
