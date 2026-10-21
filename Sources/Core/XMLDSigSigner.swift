@@ -5,6 +5,8 @@ import Security
 public enum XMLDocKind: Sendable {
     case hoaDon, toKhai
     case custom(parentXPath: String)
+    /// Append under the first element with this local name; nil (or not found) = the root element.
+    case underElement(String?)
 }
 
 public struct XMLSignOptions: Sendable {
@@ -29,6 +31,7 @@ public enum XMLDSigSigner {
         case .hoaDon: return ["HDon", "DSCKS", "NBan"]
         case .toKhai: return ["TKhai", "DSCKS", "NNT"]
         case .custom(let p): return p.split(separator: "/").map(String.init)
+        case .underElement: return []
         }
     }
 
@@ -38,12 +41,16 @@ public enum XMLDSigSigner {
     public static func signEnveloped(xml: Data, signer: MessageSigner, options o: XMLSignOptions) async throws -> Data {
         guard let doc = try? XMLDocument(data: xml, options: [.nodePreserveAll]), let root = doc.rootElement()
         else { throw XMLDSigError.badXML }
-        let path = placementPath(o.kind)
-        guard path.first == root.name else { throw XMLDSigError.badPlacement("root phải là \(path.first ?? "?")") }
         var parent = root
-        for name in path.dropFirst() {
-            if let c = parent.elements(forName: name).first { parent = c }
-            else { let c = XMLElement(name: name); parent.addChild(c); parent = c }
+        if case .underElement(let name) = o.kind {
+            if let name, let hit = ((try? root.nodes(forXPath: ".//*[local-name()='\(name)']")) as? [XMLElement])?.first { parent = hit }
+        } else {
+            let path = placementPath(o.kind)
+            guard path.first == root.name else { throw XMLDSigError.badPlacement("root phải là \(path.first ?? "?")") }
+            for name in path.dropFirst() {
+                if let c = parent.elements(forName: name).first { parent = c }
+                else { let c = XMLElement(name: name); parent.addChild(c); parent = c }
+            }
         }
 
         let sigId: String

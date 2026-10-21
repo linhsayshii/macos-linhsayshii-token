@@ -29,6 +29,7 @@ public final class WSServer: @unchecked Sendable {
         let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         self.group = group
         for port in ports {
+            let bound = PortBox(port)   // Host check must use the real port (matters when port is 0)
             let (pathPrefix, store, tls, handler) = (self.pathPrefix, self.store, self.tls, self.handler)
             let bootstrap = ServerBootstrap(group: group)
                 .serverChannelOption(ChannelOptions.backlog, value: 64)
@@ -42,7 +43,7 @@ public final class WSServer: @unchecked Sendable {
                             let ok = head.uri.hasPrefix(pathPrefix)
                             Task {
                                 let allow = await store.allowlist()
-                                switch WebGuard(port: port).check(host: host, origin: origin, allowlist: allow) {
+                                switch WebGuard(port: bound.value).check(host: host, origin: origin, allowlist: allow) {
                                 case .ok where ok: p.succeed(HTTPHeaders())
                                 case .unknownOrigin(let o): await store.notePending(o); p.succeed(nil)
                                 default: p.succeed(nil)
@@ -65,7 +66,8 @@ public final class WSServer: @unchecked Sendable {
                 }
             do {
                 self.channel = try await bootstrap.bind(host: "127.0.0.1", port: port).get()
-                return self.channel?.localAddress?.port ?? port
+                bound.value = self.channel?.localAddress?.port ?? port
+                return bound.value
             } catch let e as IOError where e.errnoCode == EADDRINUSE {
                 continue
             } catch {
@@ -79,6 +81,12 @@ public final class WSServer: @unchecked Sendable {
         try? await channel?.close().get()
         try? await group?.shutdownGracefully()
     }
+}
+
+private final class PortBox: @unchecked Sendable {
+    private let lock = NSLock(); private var v: Int
+    init(_ v: Int) { self.v = v }
+    var value: Int { get { lock.lock(); defer { lock.unlock() }; return v } set { lock.lock(); v = newValue; lock.unlock() } }
 }
 
 /// Answers any request that did not upgrade (wrong path, host, origin) with 403.
