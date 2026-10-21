@@ -37,3 +37,11 @@ fall back to CKM_SHA256_RSA_PKCS and report.
 - (verify) subjectDN renders the UID as its raw OID `0.9.2342.19200300.100.1.1=MST:...` rather than `UID=MST:...`.
   CTSigningHub's real subjectDN string may differ; confirm against a Parallels capture before relying on the exact string.
 - Binary name is `TokenHelper` (SwiftPM names it after the target), not `token-helper`.
+
+## Verified 2026-10-21 end-to-end through the app (read path, no PIN)
+- `swift run App` → bridge up on 127.0.0.1:32001.
+- GET /api/SignHash/Version → "1.2.0.0". GET /api/Info/GetInfoCert → "1".
+- GET /api/HubClient/GetCert → status 200 SUCCESS, 2 real VNPT certs (serinumber,
+  subjectDN, issuedDN, validFrom/validTo, pemCert base64 DER). Full chain works:
+  ReaderScanner → ModuleRegistry → TokenBroker → vendor dylib + shim → X509 parse → bridge.
+- Open: subjectDN UID renders as the raw OID 0.9.2342.19200300.100.1.1=MST:... (cosmetic, verify vs portal).
