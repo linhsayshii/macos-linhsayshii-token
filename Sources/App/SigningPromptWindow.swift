@@ -20,6 +20,7 @@ final class SigningPromptWindow: NSObject, NSWindowDelegate, SigningPromptPresen
         let panel = NSPanel(contentRect: .zero, styleMask: [.titled, .closable],
                             backing: .buffered, defer: false)
         panel.title = title
+        panel.appearance = NSAppearance(named: .aqua)
         panel.isReleasedWhenClosed = false
         panel.hidesOnDeactivate = false
         panel.level = .floating

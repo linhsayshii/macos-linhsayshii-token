@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-10-22T23:12:13.970606+00:00",
+  "scope": "Menu disclosure arrows, primary actions, muted text and native prompt contrast",
+  "change": "Use explicit chevron and button colors and propagate the fixed light palette to SwiftUI controls and AppKit prompt windows.",
+  "selected_validation": {
+    "AppTests": 13,
+    "passed": true,
+    "build_product": "App",
+    "native_picker_snapshot": true
+  },
+  "visual_review": {
+    "synthetic_light_host": true,
+    "synthetic_dark_host": true,
+    "renders_identical_across_parent_appearances": true,
+    "reviewed": "Collapsed/expanded chevrons, muted labels, primary and disabled buttons, PIN field border, native certificate picker.",
+    "sha256": {
+      "light.png": "cc0c1c8c5f115056db6667bd4b1e9ac6a7fbc64f8a431d43966e08385dd2b3cf",
+      "dark.png": "cc0c1c8c5f115056db6667bd4b1e9ac6a7fbc64f8a431d43966e08385dd2b3cf",
+      "picker.png": "cb5c2806ac8c1c310b7f4f1cb89e5fdb771a6ebaa200bab7017cfee5ab2f3fa1"
+    }
+  },
+  "packaged_app": {
+    "codesign_strict": true,
+    "shim_check": true,
+    "reopened": true,
+    "live_listeners": 6
+  },
+  "smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "esigner_versions": {
+      "8768": "1.1.0",
+      "8769": "1.1.0"
+    },
+    "esigner_unknown_origin_status": 403,
+    "vnpt_wss": {
+      "4433": "1*smoke",
+      "4434": "1*smoke"
+    },
+    "vnpt_unknown_origin_status": 403,
+    "TLS_verified_with_pinned_local_CA": true,
+    "ctsign_post_case_insensitive": true,
+    "ctsign_signxml_route": true,
+    "ctsign_unknown_origin_status": 403,
+    "ctsign_xml_diagnostics": [
+      "XML_PARSE",
+      "XML_DTD_ENTITY",
+      "XML_DUPLICATE_ID",
+      "XML_EXISTING_SIGNATURE"
+    ],
+    "no_signing_or_external_rest": true
+  },
+  "no_real_pin_signing_or_external_submission": true
+}

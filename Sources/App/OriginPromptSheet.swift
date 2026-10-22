@@ -15,7 +15,7 @@ struct OriginPromptSheet: View {
                 .font(.system(size: Theme.Size.sm)).foregroundStyle(Theme.muted)
             HStack(spacing: 8) {
                 Button { model.answerOrigin(allow: true) } label: { Text("Cho phép").frame(maxWidth: .infinity) }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(ThemePrimaryButtonStyle())
                 Button("Từ chối") { model.answerOrigin(allow: false) }
                     .buttonStyle(.plain).frame(maxWidth: .infinity).foregroundStyle(Theme.danger)
             }
@@ -23,6 +23,6 @@ struct OriginPromptSheet: View {
         }
         .padding(20).frame(width: 340)
         .background(Theme.background).foregroundStyle(Theme.foreground)
-        .preferredColorScheme(.light)
+        .tokenSignerAppearance()
     }
 }

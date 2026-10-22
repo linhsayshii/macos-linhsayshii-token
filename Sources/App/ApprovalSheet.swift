@@ -27,7 +27,7 @@ struct ApprovalSheet: View {
                 Button { model.submitApproval(.session) } label: {
                     Text("Cho phép 10 phút").frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(ThemePrimaryButtonStyle())
                 HStack(spacing: 8) {
                     Button("Chỉ lần này") { model.submitApproval(.once) }
                         .buttonStyle(.plain)
@@ -44,6 +44,6 @@ struct ApprovalSheet: View {
         }
         .padding(20).frame(width: 340)
         .background(Theme.background).foregroundStyle(Theme.foreground)
-        .preferredColorScheme(.light)
+        .tokenSignerAppearance()
     }
 }

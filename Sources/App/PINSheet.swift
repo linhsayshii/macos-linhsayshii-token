@@ -48,13 +48,13 @@ struct PINSheet: View {
                     .foregroundStyle(Theme.muted)
                 Button("Đăng nhập", action: submit)
                     .font(.system(size: Theme.Size.sm, weight: .medium))
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(ThemePrimaryButtonStyle())
                     .disabled(prompt.locked || model.pinDraft.isEmpty)
             }
         }
         .padding(20).frame(width: 320)
         .background(Theme.background).foregroundStyle(Theme.foreground)
-        .preferredColorScheme(.light)
+        .tokenSignerAppearance()
     }
 
     private func submit() {

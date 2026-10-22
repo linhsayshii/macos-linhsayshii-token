@@ -43,8 +43,15 @@ CTSigningHub SignXML hiện trả mã lỗi XML cụ thể thay cho `badXML` chu
 Sau báo cáo `XML_DUPLICATE_ID`, đã sửa quy tắc chặn quá rộng: mã dòng id/Id/ID
 không được tham chiếu có thể lặp, giữ nguyên dữ liệu; ID được tham chiếu vẫn
 phải duy nhất toàn tài liệu. dataBV khớp nhiều phần tử bị chặn trước picker/PIN.
-Mẫu có mã dòng lặp qua xmlsec1 cả có/không namespace; cần user thử tờ khai thật.
+Mẫu có mã dòng lặp qua xmlsec1 cả có/không namespace. User đã xác nhận ký XML
+chưa ký thành công; file có chữ ký vẫn bị chặn, chưa hỗ trợ ký lại/ký bổ sung.
 
 Validation cuối: **140 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
 HTTP đạt; không nhập PIN hoặc gửi nghiệp vụ thật.
 [Evidence](re/evidence/ctsign-reference-ids-2026-10-23.json).
+
+UI đã sửa mũi tên disclosure và nút ký thử bị nhạt/trắng trên nền sáng khi
+host macOS dùng giao diện tối; tăng tương phản chữ phụ, divider và viền nhập
+PIN. Các popup dùng cùng palette. 13 AppTests đạt, ảnh render trong host
+sáng/tối giống nhau, native picker và smoke sáu cổng đạt.
+[UI evidence](re/evidence/ui-contrast-2026-10-23.json).

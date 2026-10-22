@@ -9,7 +9,7 @@ struct MenuBarView: View {
             ForEach(model.bridges) { row in
                 HStack(spacing: 8) {
                     Circle().fill(statusColor(row.status)).frame(width: 8, height: 8)
-                    Text("\(row.endpoint.name) · \(row.endpoint.port)").font(.system(size: Theme.Size.sm))
+                    Text("\(row.endpoint.name) · \(String(row.endpoint.port))").font(.system(size: Theme.Size.sm))
                     Spacer(minLength: 4)
                     Text(statusText(row.status)).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
                 }
@@ -21,16 +21,25 @@ struct MenuBarView: View {
                         Text("VNPT dùng SSL localhost. macOS sẽ hỏi quyền khi bạn tin cậy chứng chỉ.")
                             .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
                         Button("Tin cậy localhost cho VNPT") { model.trustLocalhostCertificate() }
+                            .buttonStyle(.bordered)
                     }
                     ForEach(model.allowedOrigins, id: \.self) { host in
-                        HStack { Text(host).font(.system(size: Theme.Size.xs)); Spacer(); Button("Gỡ") { model.removeOrigin(host) } }
+                        HStack {
+                            Text(host).font(.system(size: Theme.Size.xs))
+                            Spacer()
+                            Button("Gỡ") { model.removeOrigin(host) }
+                                .buttonStyle(.plain).foregroundStyle(Theme.danger)
+                        }
                     }
                 }.padding(.top, 6)
             }.font(.system(size: Theme.Size.sm))
             Divider().overlay(Theme.border)
             tokenSection
-            Button("Chọn CKS và ký thử…") { Task { await model.testSign(serial: "") } }
+            Button { Task { await model.testSign(serial: "") } } label: {
+                Text("Chọn CKS và ký thử…").frame(maxWidth: .infinity)
+            }
                 .font(.system(size: Theme.Size.sm))
+                .buttonStyle(ThemePrimaryButtonStyle())
             if let s = model.signingStatus {
                 HStack(spacing: 6) {
                     ProgressView().controlSize(.small)
@@ -59,6 +68,8 @@ struct MenuBarView: View {
         .frame(width: 360)
         .background(Theme.background)
         .foregroundStyle(Theme.foreground)
+        .disclosureGroupStyle(ThemeDisclosureStyle())
+        .tokenSignerAppearance()
     }
 
     private func statusColor(_ status: AppModel.BridgeStatus) -> Color {

@@ -59,14 +59,14 @@ struct CertificatePicker: View {
                         .keyboardShortcut(.cancelAction)
                     Spacer()
                     Button("Tiếp tục") { model.submitCertificate(model.selectedCertificateID) }
-                        .buttonStyle(.borderedProminent)
+                        .buttonStyle(ThemePrimaryButtonStyle())
                         .keyboardShortcut(.defaultAction)
                         .disabled(model.refreshingCertificates || !prompt.choices.contains { $0.id == model.selectedCertificateID && $0.canSelect })
                 }
             }
             .padding(24).frame(width: 460)
             .background(Theme.background).foregroundStyle(Theme.foreground)
-            .preferredColorScheme(.light)
+            .tokenSignerAppearance()
         }
     }
 
