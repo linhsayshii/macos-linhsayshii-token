@@ -58,6 +58,8 @@ public final class AppModel: ObservableObject {
     private let approval = ApprovalCenter()
     private var server: HTTPServer?
     private var scanTask: Task<Void, Never>?
+    private var esignerServers: [WSServer] = []
+    @Published private(set) var esignerStatuses: [Int: BridgeStatus] = [8768: .starting, 8769: .starting]
     private var minvoiceServer: SignalRServer?
     private var activeRequestID: UUID?
     @Published private(set) var minvoiceStatus = "Minvoice đang khởi động…"
@@ -99,6 +101,7 @@ public final class AppModel: ObservableObject {
         started = true
         startServer()
         startMinvoiceServer()
+        startESignerServers()
         scanTask = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.scanTick()
@@ -125,7 +128,7 @@ public final class AppModel: ObservableObject {
     }
 
     private func startServer() {
-        let bridge = CTSignBridge(backend: Backend(model: self))
+        let bridge = CTSignBridge(backend: Backend(model: self), service: AppSigningService(model: self))
         let server = HTTPServer(bridge: bridge, port: 32001, allowlist: .defaults)
         self.server = server
         Task {
@@ -145,6 +148,25 @@ public final class AppModel: ObservableObject {
             do { _ = try await server.start(); minvoiceStatus = "Minvoice 16080 sẵn sàng · cash đơn" }
             catch SignalRServer.StartError.portInUse { minvoiceStatus = "Minvoice: cổng 16080 đã bị chiếm" }
             catch { minvoiceStatus = "Minvoice: không mở được cổng 16080" }
+        }
+    }
+
+    private func startESignerServers() {
+        let file = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("TokenSigner/origins.json")
+        let store = OriginStore(fileURL: file)
+        let bridge = ESignerBridge(service: AppSigningService(model: self), chooser: AppFileChooser(model: self))
+        // Both endpoints are live. A conflict on one port does not disable the other.
+        for port in [8768, 8769] {
+            let server = WSServer(ports: [port], pathPrefix: "/plugin/sign", store: store) { text, origin in
+                await bridge.handle(text: text, origin: origin)
+            }
+            esignerServers.append(server)
+            Task {
+                do { _ = try await server.start(); esignerStatuses[port] = .up }
+                catch WSServer.StartError.portInUse { esignerStatuses[port] = .portInUse }
+                catch { esignerStatuses[port] = .failed("Không mở được dịch vụ") }
+            }
         }
     }
 
@@ -308,12 +330,12 @@ public final class AppModel: ObservableObject {
         continuation.resume(returning: target)
     }
 
-    func selectCertificate(origin: String, serial: String?) async throws -> CertInfo {
+    func selectCertificate(origin: String, serial: String?, operation: String = "Đọc thông tin chứng thư cho Minvoice") async throws -> CertInfo {
         try await withSigningRequest {
             if let remembered = rememberedCertificates[origin],
                let choice = SigningCertificateChoice.list(certificateTargets, requestedSerial: serial)
                 .first(where: { $0.id == remembered && $0.canSelect }) { return choice.target.cert }
-            let target = try await chooseCertificate(origin: origin, operation: "Đọc thông tin chứng thư cho Minvoice",
+            let target = try await chooseCertificate(origin: origin, operation: operation,
                                                       requestedSerial: serial)
             rememberedCertificates[origin] = SigningCertificateChoice.identity(target)
             return target.cert
@@ -384,6 +406,26 @@ public final class AppModel: ObservableObject {
         }
     }
 
+    func chooseESignerFile() async -> URL? {
+        try? await withSigningRequest { await OpenPanelChooser().chooseXML() }
+    }
+
+    func performBridgeSign<T: Sendable>(_ ctx: BridgeContext, serial: String?, operation: String,
+                                        body: (CallbackMessageSigner) async throws -> T) async throws -> T {
+        try await withSigningRequest {
+            let target = try await chooseCertificate(origin: ctx.origin, operation: operation,
+                                                      requestedSerial: serial, requireValid: true)
+            try await requestApproval(target: target, origin: ctx.origin, operation: operation, docCount: 1)
+            let signer = CallbackMessageSigner(certificateDER: Data(base64Encoded: target.cert.derB64) ?? Data()) { digest, hash in
+                let block = Data(try DigestInfo.wrap(Array(digest), hash)).base64EncodedString()
+                let signature = try await self.signApproved(target: target, blockB64: block)
+                guard let bytes = Data(base64Encoded: signature) else { throw SigningFailure.card("Chữ ký không hợp lệ") }
+                return bytes
+            }
+            return try await body(signer)
+        }
+    }
+
     /// Sign a fixed test string so the login/sign path can be exercised from the
     /// menu to exercise the login/sign path without a web request.
     func testSign(serial: String) async {
@@ -446,12 +488,15 @@ struct Backend: SigningBackend {
     let model: AppModel
     func certificates() async -> [CertInfo] { await model.certificates() }
     func sign(serial: String, digestB64: String) async throws -> String {
+        try await sign(serial: serial, digestB64: digestB64, origin: "CTSigningHub")
+    }
+    func sign(serial: String, digestB64: String, origin: String) async throws -> String {
         // DLieuHash is a precomputed SHA-256 (32 bytes), base64 — or hex. Decode,
         // do NOT re-hash, wrap in DigestInfo, sign RSA_PKCS. shortcut: one PIN/spawn
         // per hash item (fine for single-doc SignHash; batch later for multi-hash).
         guard let digest = decodeSHA256(digestB64) else { throw CTSignError.precomputedHashUnsupported }
         let block = try DigestInfo.wrap(Array(digest), .sha256)
-        return try await model.signPreparedBlock(origin: "CTSigningHub", serial: serial,
+        return try await model.signPreparedBlock(origin: origin, serial: serial,
                                                  blockB64: Data(block).base64EncodedString(),
                                                  operation: "Ký", docCount: 1, byCertificateSerial: true)
     }
@@ -479,4 +524,38 @@ struct MinvoiceBackend: MinvoiceSigningBackend {
     func withApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
         try await model.withMinvoiceApproval(origin: origin, serial: serial, operation: operation)
     }
+}
+
+struct AppSigningService: SigningService {
+    let model: AppModel
+    func certificates() async -> [CertInfo] { await model.certificates() }
+    func selectCertificate(_ ctx: BridgeContext, serial: String?) async throws -> CertInfo {
+        try await model.selectCertificate(origin: ctx.origin, serial: serial, operation: "Chọn CKS cho \(ctx.bridge)")
+    }
+    func signXML(_ ctx: BridgeContext, serial: String?, xml: Data, options: XMLSignOptions) async throws -> Data {
+        try XMLDSigSigner.validateInput(xml)
+        return try await model.performBridgeSign(ctx, serial: serial, operation: "Ký XML · \(ctx.bridge)") {
+            try await XMLDSigSigner.signEnveloped(xml: xml, signer: $0, options: options)
+        }
+    }
+    func signMessage(_ ctx: BridgeContext, serial: String?, message: Data, hash: HashAlg) async throws -> (signature: Data, certDER: Data) {
+        try await model.performBridgeSign(ctx, serial: serial, operation: "Ký dữ liệu · \(ctx.bridge)") {
+            (try await $0.sign(message: message, hash: hash), $0.certificateDER)
+        }
+    }
+    func signDigest(_ ctx: BridgeContext, serial: String?, digest: Data, hash: HashAlg) async throws -> Data {
+        try await model.performBridgeSign(ctx, serial: serial, operation: "Ký hash · \(ctx.bridge)") {
+            try await $0.signDigest(digest, hash: hash)
+        }
+    }
+    func signCMS(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {
+        try await model.performBridgeSign(ctx, serial: serial, operation: "Ký CMS · \(ctx.bridge)") {
+            try await CMSSigner.signDetached(content: content, signer: $0, hash: hash)
+        }
+    }
+}
+
+struct AppFileChooser: FileChooser {
+    let model: AppModel
+    func chooseXML() async -> URL? { await model.chooseESignerFile() }
 }

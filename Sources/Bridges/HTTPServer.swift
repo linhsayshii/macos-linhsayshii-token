@@ -59,6 +59,7 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
 
     private var head: HTTPRequestHead?
     private var body = ByteBuffer()
+    private var requests: [UUID: Task<Void, Never>] = [:]
 
     init(bridge: CTSignBridge, port: Int, allowlist: OriginAllowlist) {
         self.bridge = bridge; self.port = port; self.allowlist = allowlist
@@ -70,17 +71,21 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
             head = h
             body.clear()
         case .body(var b):
+            guard body.readableBytes + b.readableBytes <= 32 << 20 else {
+                context.close(promise: nil); return
+            }
             body.writeBuffer(&b)
         case .end:
             guard let h = head else { return }
             let bodyData = Data(body.readableBytesView)
             let origin = h.headers.first(name: "Origin")
             let hostOK = isHostAllowed(h.headers.first(name: "Host"))
+            let originOK = origin.map { allowlist.contains($0) } ?? true
             let loop = context.eventLoop
             let channel = context.channel
 
             // DNS-rebinding guard: reject a mismatched Host outright.
-            guard hostOK else {
+            guard hostOK && originOK else {
                 Self.write(channel: channel, loop: loop, status: .forbidden,
                            headers: [:], body: Data("{}".utf8))
                 return
@@ -101,17 +106,26 @@ private final class RequestHandler: ChannelInboundHandler, @unchecked Sendable {
 
             let method = h.method.rawValue
             let path = String(h.uri.split(separator: "?").first ?? "")
-            Task {
-                let (status, json) = await self.bridge.handle(method: method, path: path, body: bodyData)
+            let id = UUID()
+            requests[id] = Task {
+                let (status, json) = await self.bridge.handle(method: method, path: path, body: bodyData, origin: origin ?? "local")
                 var headers: [String: String] = ["Content-Type": "application/json"]
                 if let origin, self.allowlist.contains(origin) {
                     headers["Access-Control-Allow-Origin"] = origin
                     headers["Access-Control-Allow-Private-Network"] = "true"
                 }
+                loop.execute { self.requests[id] = nil }
+                guard !Task.isCancelled else { return }
                 Self.write(channel: channel, loop: loop,
                            status: HTTPResponseStatus(statusCode: status), headers: headers, body: json)
             }
         }
+    }
+
+    func channelInactive(context: ChannelHandlerContext) {
+        for task in requests.values { task.cancel() }
+        requests.removeAll()
+        context.fireChannelInactive()
     }
 
     private func isHostAllowed(_ host: String?) -> Bool {

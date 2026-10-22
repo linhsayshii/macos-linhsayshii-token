@@ -7,6 +7,12 @@ struct MenuBarView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             statusLine
+            ForEach([8768, 8769], id: \.self) { port in
+                HStack(spacing: 8) {
+                    Circle().fill(esignerColor(port)).frame(width: 8, height: 8)
+                    Text(esignerText(port)).font(.system(size: Theme.Size.xs))
+                }
+            }
             Text(model.minvoiceStatus).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
             Divider().overlay(Theme.border)
             tokenSection
@@ -50,10 +56,27 @@ struct MenuBarView: View {
 
     private var statusText: String {
         switch model.bridgeStatus {
-        case .starting: return "Đang khởi động…"
-        case .up: return "Cổng ký 32001 đang chạy"
-        case .portInUse: return "Cổng 32001 đã bị chiếm"
+        case .starting: return "CTSigningHub · 32001 khởi động…"
+        case .up: return "CTSigningHub · 32001 sẵn sàng"
+        case .portInUse: return "CTSigningHub · 32001 đã bị chiếm"
         case .failed(let m): return "Lỗi: \(m)"
+        }
+    }
+
+    private func esignerColor(_ port: Int) -> Color {
+        switch model.esignerStatuses[port] ?? .starting {
+        case .up: return Theme.success
+        case .starting: return Theme.warning
+        case .portInUse, .failed: return Theme.danger
+        }
+    }
+    private func esignerText(_ port: Int) -> String {
+        let prefix = "eSigner · \(port)"
+        switch model.esignerStatuses[port] ?? .starting {
+        case .up: return "\(prefix) sẵn sàng"
+        case .starting: return "\(prefix) khởi động…"
+        case .portInUse: return "\(prefix) đã bị chiếm"
+        case .failed: return "\(prefix) lỗi khởi động"
         }
     }
 

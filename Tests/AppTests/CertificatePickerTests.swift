@@ -217,3 +217,31 @@ private func fixture(token: String = "USB-A", expired: Bool = false, flags: [Str
     #expect(token["SerialNumber"] == target.cert.serialHex)
     #expect(app.approvalPrompt == nil && app.pinPrompt == nil)
 }
+
+@Test @MainActor func eSignerUsesNativeSelectionApprovalAndPINWithCallerOrigin() async throws {
+    let target = try fixture(), presenter = Presenter()
+    let app = model([target], presenter), service = AppSigningService(model: app)
+    let ctx = BridgeContext(bridge: "esigner", origin: "https://thuedientu.gdt.gov.vn")
+    let task = Task { try await service.signMessage(ctx, serial: nil, message: Data("prepared bytes".utf8), hash: .sha256) }
+    try await waitFor { app.certificatePrompt != nil }
+    #expect(app.certificatePrompt?.origin == ctx.origin)
+    app.submitCertificate(SigningCertificateChoice.identity(target))
+    try await waitFor { app.approvalPrompt != nil }
+    #expect(app.approvalPrompt?.origin == ctx.origin)
+    app.submitApproval(.once)
+    try await waitFor { app.pinPrompt != nil }
+    task.cancel()
+    _ = try? await task.value
+    #expect(app.pinPrompt == nil && app.pinDraft.isEmpty)
+}
+
+@Test @MainActor func CTSignXMLRejectsUnsafeInputBeforeOpeningPrompt() async throws {
+    let presenter = Presenter(), app = model([], Presenter())
+    let service = AppSigningService(model: app)
+    let xml = Data("<!DOCTYPE root [<!ENTITY x SYSTEM 'file:///etc/hosts'>]><root>&x;</root>".utf8)
+    do {
+        _ = try await service.signXML(BridgeContext(bridge: "ctsigninghub", origin: "https://thuedientu.gdt.gov.vn"), serial: nil, xml: xml, options: XMLSignOptions())
+        Issue.record("Unsafe XML accepted")
+    } catch XMLDSigError.badXML {} catch { Issue.record("Unexpected error") }
+    #expect(app.certificatePrompt == nil && presenter.titles.isEmpty)
+}

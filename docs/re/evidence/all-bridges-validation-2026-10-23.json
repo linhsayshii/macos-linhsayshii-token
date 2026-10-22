@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-23",
+  "base_commit": "2c2d36b",
+  "esigner_source_commit": "f58a51c",
+  "listeners": [
+    {
+      "name": "CTSigningHub",
+      "port": 32001,
+      "transport": "http"
+    },
+    {
+      "name": "eSigner",
+      "port": 8768,
+      "transport": "ws",
+      "path": "/plugin/sign"
+    },
+    {
+      "name": "eSigner alternate",
+      "port": 8769,
+      "transport": "ws",
+      "path": "/plugin/sign"
+    },
+    {
+      "name": "Minvoice",
+      "port": 16080,
+      "transport": "http"
+    }
+  ],
+  "bind_host": "127.0.0.1",
+  "esigner_ports_simultaneously_active": true,
+  "tests": {
+    "TSShim": 7,
+    "Core": 35,
+    "Bridges": 56,
+    "App": 11,
+    "total": 109,
+    "passed": true
+  },
+  "packaged_app": {
+    "codesign_strict_passed": true,
+    "NC_CA_shim_gate_passed": true,
+    "smoke": {
+      "ctsign_http_status": 200,
+      "minvoice_protocol": "2.1",
+      "minvoice_getVersion": "2.0.0",
+      "unknown_origin_status": 403,
+      "esigner_versions": {
+        "8768": "1.1.0",
+        "8769": "1.1.0"
+      },
+      "esigner_unknown_origin_status": 403,
+      "ctsign_post_case_insensitive": true,
+      "ctsign_signxml_route": true,
+      "ctsign_unknown_origin_status": 403,
+      "no_signing_or_external_rest": true
+    },
+    "reopened": true
+  },
+  "no_real_PIN_signing_or_business_upload": true,
+  "source_sha256": {
+    "Sources/App/AppModel.swift": "f3dccd45fde7b6a260159756b9ec0e22c285bc1a32132062c5af4a1bc1b88fb8",
+    "Sources/App/MenuBarView.swift": "f63a351e4da5226d1d582382b35298ec9645fe97dead102e49c12ee09b90c356",
+    "Sources/App/OpenPanelChooser.swift": "f8923deaf9c2131af0996a6aa8d205c1f0d24c9ff3f9c5a615a748c0d903189a",
+    "Sources/Bridges/CTSignBridge.swift": "66a0b64a0662057fdd969fe54c8a69ec438e3db4672ad79a42a0b88961dfeb5f",
+    "Sources/Bridges/CTSignModel.swift": "2034725f82017e32c28d533e00087e84cc3287d4684ce4890946290e6180c3a4",
+    "Sources/Bridges/HTTPServer.swift": "3b9e0cb71257eca14030368b2241907c970ab55e54197e5c5f278ba847cbf907",
+    "Sources/Bridges/ESignerBridge.swift": "cd98e23fd7409254394333b4a8325a7df1d269db70c316ae54d19496d11d019f",
+    "Sources/Bridges/ESignerFiles.swift": "dd8bc9e3461bc19f8ffa99b09d27bcd365b15b8ae12d90fa3b1063f76839008f",
+    "Sources/Bridges/SigningService.swift": "7490918c8bc5812f4eb70d6003fe2972da7541b3058ee199a674b3d7bb4072fe",
+    "Sources/Bridges/WSServer.swift": "75dd6b2dea8631e23a3b3e1d2a26509a3190d2b6b0d49563a7657df47570d09d",
+    "Sources/Bridges/XMLSecVerifier.swift": "0a24cb75b10d339342d974169b665a0c081c740b54804338715ba97214bb9e2a",
+    "Sources/Core/MessageSigner.swift": "14a7f0758de1910d090161063f56ace3908b612ea9b2cade320ea4673c870cc1",
+    "Sources/Core/CMSSigner.swift": "18a684a03ad135404c09c71c9a7b42a6425fd3c632b7da9dd566ae3c722248f2",
+    "Sources/Core/DERW.swift": "f2e598bcc0b4d6dff35dbcdad9f3aca20e16a3a668377bf3604e63dd406a82a9",
+    "Sources/Core/XMLDSigSigner.swift": "9de9349dda8628de962dda41a8260ce55b5b57ceaf6023b37e18e598afdce6d9",
+    "scripts/check-integrated-app.py": "b477c335f00f94002c24667ee62d54d69e7e4bd0fb5a1c7f21ebf75a9d47f390"
+  },
+  "app_sha256": "b79d78c58b64ac3f1a1cfff76e868feabffbbd5f19519a5e5d65de6a0c8debbc",
+  "limits": [
+    "Live eTax submission after integration requires user confirmation through an actual portal operation",
+    "WSS/TLS, VNPT and native messaging bridges are not enabled by this change",
+    "xmlsec1 remains optional at runtime per existing eSigner contract"
+  ]
+}
