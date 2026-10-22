@@ -53,6 +53,15 @@ private let xmlB64 = Data("<TKhai/>".utf8).base64EncodedString()
 // MARK: eTax XML-khai flow (CHOOSE_FILE → OFFLINE_XML_SIGN_002 → OFFLINE_XML_SIGN_003)
 
 private struct StubChooser: FileChooser { let url: URL?; func chooseXML() async -> URL? { url } }
+private actor StubXMLVerifier: SignedXMLVerifier {
+    var failure: SigningFailure?
+    var verified: [Data] = []
+    func fail() { failure = .bad("Chữ ký XML không hợp lệ") }
+    func verify(_ data: Data) async throws {
+        verified.append(data)
+        if let failure { throw failure }
+    }
+}
 private final class StubUploader: SignedFileUploader, @unchecked Sendable {
     var sent: (URL, String, String, String, Data)?
     func upload(to url: URL, cookieName: String, cookieValue: String, uploadedFileName: String, fileName: String, data: Data) async throws {
@@ -80,7 +89,8 @@ private func tempXML() throws -> URL {
 
 @Test func signThenUploadOnlyIssuedPaths() async throws {
     let url = try tempXML(), svc = FakeSigningService(), up = StubUploader()
-    let b = ESignerBridge(service: svc, chooser: StubChooser(url: url), uploader: up)
+    let verifier = StubXMLVerifier()
+    let b = ESignerBridge(service: svc, chooser: StubChooser(url: url), uploader: up, verifier: verifier)
     let sign = #"{"CODE":"OFFLINE_XML_SIGN_002","URL_FILE_NAME":"\#(url.path)","XPATH_DATA":"/HSoThueDTu/HSoKhaiThue","XPATH_SIGN":"/HSoThueDTu/CKyDTu","SERIAL_NUMBER":"1409351937","CHECK_TIN":"true","TIN_VALID":"0101","PIN_CODE":"123456"}"#
     // not issued yet → refused, nothing signed
     #expect(obj(await b.handle(text: sign, origin: origin))["ERROR"] as? String == "BAD_INPUT")
@@ -88,6 +98,7 @@ private func tempXML() throws -> URL {
     // 1409351937 decimal == 0x54010101
     let s = obj(await b.handle(text: sign, origin: origin))
     #expect(s["SUCCESS"] as? String == "TRUE")
+    #expect(await verifier.verified == [Data("<signed><ds:Signature/></signed>".utf8)])
     #expect(svc.calls.last?.serial == "54010101")
     #expect(!"\(svc.calls)".contains("123456"))
     let up3 = #"{"CODE":"OFFLINE_XML_SIGN_003","URL_FILE_NAME":"\#(url.path)","REQUEST_URL_ACTION":"https://thuedientu.gdt.gov.vn/etaxnnt/Request?x=1","UPLOADED_FILE_NAME":"0101_1","COOKIE_NAME":"JSESSIONID","COOKIE_VALUE":"abc"}"#
@@ -101,6 +112,15 @@ private func tempXML() throws -> URL {
     // a path the picker never issued is refused
     let other = up3.replacingOccurrences(of: url.path, with: "/etc/hosts")
     #expect(obj(await b.handle(text: other, origin: origin))["ERROR"] as? String == "BAD_INPUT")
+    // A failed re-sign must invalidate the previous signed bytes and prevent
+    // falling back to uploading the original unsigned file from disk.
+    up.sent = nil
+    await verifier.fail()
+    let failed = obj(await b.handle(text: sign, origin: origin))
+    #expect(failed["SUCCESS"] as? String == "FALSE")
+    #expect((failed["ERROR"] as? String)?.contains("Chữ ký XML không hợp lệ") == true)
+    #expect(obj(await b.handle(text: up3, origin: origin))["SUCCESS"] as? String == "FALSE")
+    #expect(up.sent == nil)
 }
 
 @Test func signRejectsWrongSerialAndTin() async throws {

@@ -32,8 +32,7 @@ public struct URLSessionUploader: SignedFileUploader {
         req.setValue("JFileUpload", forHTTPHeaderField: "User-Agent")   // the portal routes by User-Agent (btt.xml device types)
         req.httpShouldHandleCookies = false
         let (respBody, resp) = try await URLSession.shared.data(for: req)
-        try? respBody.write(to: FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs/TokenSigner/upload-response.html"))
-        FrameLog.note("UPLOAD \((resp as? HTTPURLResponse)?.statusCode ?? 0) \(respBody.count)B \(String(decoding: respBody.prefix(400), as: UTF8.self).replacingOccurrences(of: "\n", with: " "))")
+        FrameLog.note("UPLOAD \((resp as? HTTPURLResponse)?.statusCode ?? 0) \(respBody.count)B")
         guard let code = (resp as? HTTPURLResponse)?.statusCode, (200..<300).contains(code) else { throw SigningFailure.bad("UPLOAD_FAILED") }
     }
 }
@@ -48,6 +47,7 @@ actor ESignerFiles {
     func issue(_ path: String) { chosen.insert(path); signed[path] = nil }
     func isIssued(_ path: String) -> Bool { chosen.contains(path) }
     func setSigned(_ d: Data, for path: String) { signed[path] = d }
+    func clearSigned(for path: String) { signed[path] = nil }
     func signedData(_ path: String) -> Data? { signed[path] }
 }
 

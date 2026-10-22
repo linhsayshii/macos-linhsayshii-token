@@ -16,10 +16,12 @@ public struct ESignerBridge: Sendable {
     let service: any SigningService
     let chooser: (any FileChooser)?
     let uploader: any SignedFileUploader
+    let verifier: any SignedXMLVerifier
     let files = ESignerFiles()
     public static let version = "1.1.0"
-    public init(service: any SigningService, chooser: (any FileChooser)? = nil, uploader: any SignedFileUploader = URLSessionUploader()) {
-        self.service = service; self.chooser = chooser; self.uploader = uploader
+    public init(service: any SigningService, chooser: (any FileChooser)? = nil, uploader: any SignedFileUploader = URLSessionUploader(),
+                verifier: any SignedXMLVerifier = XMLSecVerifier()) {
+        self.service = service; self.chooser = chooser; self.uploader = uploader; self.verifier = verifier
     }
 
     public func handle(text: String, origin: String) async -> String {
@@ -88,6 +90,7 @@ public struct ESignerBridge: Sendable {
     private func signFile(_ f: [String: Any], ctx: BridgeContext) async -> [String: Any] {
         guard let path = f["URL_FILE_NAME"] as? String, await files.isIssued(path), let xml = try? Data(contentsOf: URL(fileURLWithPath: path))
         else { return ["SUCCESS": "FALSE", "ERROR": "BAD_INPUT"] }
+        await files.clearSigned(for: path)
         var serialHex: String?
         if let dec = serial(f), !dec.isEmpty {
             let want = ESignerFileOps.decimalToHex(dec) ?? dec
@@ -102,6 +105,7 @@ public struct ESignerBridge: Sendable {
                                              signingTime: ESignerFileOps.parseSigningTime(f["DATE_SIGNING"] as? String, zone: f["TIMEZONE_SIGNING"] as? String))
         do {
             let signed = try await service.signXML(ctx, serial: serialHex, xml: xml, options: opt)
+            try await verifier.verify(signed)
             await files.setSigned(signed, for: path)
             return ["SUCCESS": "TRUE"]
         } catch let e as SigningFailure { return ["SUCCESS": "FALSE", "ERROR": Self.describe(e)] }
@@ -110,7 +114,7 @@ public struct ESignerBridge: Sendable {
 
     private func uploadFile(_ f: [String: Any], origin: String) async -> [String: Any] {
         guard let path = f["URL_FILE_NAME"] as? String, await files.isIssued(path),
-              let data = await files.signedData(path) ?? (try? Data(contentsOf: URL(fileURLWithPath: path))),
+              let data = await files.signedData(path),
               let action = (f["REQUEST_URL_ACTION"] as? String).flatMap(URL.init(string:)),
               let name = f["UPLOADED_FILE_NAME"] as? String, let cn = f["COOKIE_NAME"] as? String, let cv = f["COOKIE_VALUE"] as? String
         else { return ["SUCCESS": "FALSE", "ERROR": "BAD_INPUT"] }

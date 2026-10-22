@@ -181,3 +181,29 @@ Requests are **flat** (`{"CODE":…,fields}`), not nested in `INPUT`.
 2. `OFFLINE_XML_SIGN_002` `{LOAI_HSO, URL_FILE_NAME, XPATH_DATA:"/HSoThueDTu/HSoKhaiThue", XPATH_SIGN:"/HSoThueDTu/CKyDTu", SERIAL_NUMBER(decimal), CHECK_CERT_SERIAL, CHECK_TIN, TIN_VALID, DATE_SIGNING "dd/MM/yyyy HH:mm:ss", TIMEZONE_SIGNING, PKCS_11_LIBRARY_NAME_LIST}` → `{SUCCESS:"TRUE"}`. Original signs the file in place (reference `//ancestor-or-self::HSoKhaiThue`); ours keeps the signed bytes in memory.
 3. `OFFLINE_XML_SIGN_003` `{REQUEST_URL_ACTION, URL_FILE_NAME, UPLOADED_FILE_NAME, CHUNKSIZE, COOKIE_NAME, COOKIE_VALUE, …}` → plugin uploads the file itself (JFileUpload multipart POST, cookie `JSESSIONID`) → `{SUCCESS, PIN_CODE:<maTKhai text, else MSo>}`.
 Upload field names (`todo=upload`, `uploadedFileName`, `filename`, file part `uploadfile`) are reconstructed from bytecode, not captured live.
+
+## Verification before upload (2026-10-22)
+
+`OFFLINE_XML_SIGN_002` verifies the final signed bytes with `xmlsec1 --verify`
+before keeping them in memory. The optional tool is discovered at absolute
+Homebrew/system paths. If absent, verification is skipped with one log line;
+an installed tool returning failure produces a Vietnamese signing error.
+
+Verification uses a private temporary directory, removed with `defer` on success,
+verification failure, and launch failure. Only signed XML is written there.
+`--insecure` skips certificate-chain trust checking; XML digests and the signature
+are still checked against the embedded X.509 certificate. Reference URIs are
+restricted to the current document. `HSoKhaiThue` IDs (`id`/`Id`/`ID`) and the
+XMLDSig `Object` ID are registered explicitly.
+
+`OFFLINE_XML_SIGN_003` only uploads bytes accepted by the signing step. Starting
+another signing attempt clears any earlier signed bytes, so failed verification
+cannot upload an old signature or fall back to the unsigned file. Upload response
+bodies stay in memory; no `upload-response.html` or response excerpt is written
+to the log. The existing redacted frame log still uses the Logs directory.
+
+Validation: `swift build` and all 80 tests pass with the Testing plugin path in
+`docs/BUILD.md`. Added checks cover missing xmlsec1, process failure, temporary
+cleanup, valid signatures and tampered declarations (with/without namespace,
+all three ID spellings), and refusing upload after a failed re-sign. No hardware
+signing or portal upload was performed for this cleanup.
