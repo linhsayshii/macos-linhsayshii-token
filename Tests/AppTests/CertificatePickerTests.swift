@@ -242,6 +242,6 @@ private func fixture(token: String = "USB-A", expired: Bool = false, flags: [Str
     do {
         _ = try await service.signXML(BridgeContext(bridge: "ctsigninghub", origin: "https://thuedientu.gdt.gov.vn"), serial: nil, xml: xml, options: XMLSignOptions())
         Issue.record("Unsafe XML accepted")
-    } catch XMLDSigError.badXML {} catch { Issue.record("Unexpected error") }
+    } catch XMLDSigError.rejected(.declarations) {} catch { Issue.record("Unexpected error") }
     #expect(app.certificatePrompt == nil && presenter.titles.isEmpty)
 }

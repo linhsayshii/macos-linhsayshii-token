@@ -43,6 +43,25 @@ rõ ràng và tiếp quản SignXML, route không phân biệt hoa/thường, GE
 route đọc theo contract đã có. SignXML chỉ nhận `dataFile` base64, `cks` và
 `dataBV`; không đọc `filePath`. Origin từ HTTP được đưa tới popup/approval thật.
 
+SignXML trả mã chẩn đoán trong `message`, thay cho `badXML` chung chung:
+
+| Mã | Nguyên nhân |
+| --- | --- |
+| `XML_PARSE` / `XML_ENCODING` | Không đọc được XML hoặc dữ liệu không phải UTF-8 |
+| `XML_DTD_ENTITY` | Có khai báo DTD/ENTITY bị chặn |
+| `XML_INVALID_ID` / `XML_DUPLICATE_ID` | ID không hợp lệ hoặc trùng nhau |
+| `XML_EXISTING_SIGNATURE` | Tài liệu có sẵn phần tử Signature, kể cả khung chữ ký rỗng |
+| `XML_PLACEMENT` / `XML_OPTIONS` | cks/dataBV hoặc tham số chữ ký không phù hợp |
+| `XML_SIGNATURE_ID_COLLISION` | Trùng ID chữ ký/SigningTime |
+| `XML_REFERENCE_PLACEMENT` | Chèn chữ ký bên trong phần tử dataBV, chưa được hỗ trợ |
+| `XML_CERTIFICATE` / `XML_TOO_LARGE` | Chứng thư không có khóa RSA đọc được hoặc XML vượt 20 MiB |
+
+Chẩn đoán không ghi XML, giá trị ID hoặc lỗi parser chứa dữ liệu tài liệu.
+Các kiểm tra này chạy trước khi gọi token ký. Báo lỗi sau một lần nhập PIN
+cần đối chiếu đúng request SignXML; chưa có request lỗi thật để xác định
+nguyên nhân của báo cáo ngày 23/10. Kiểm thử synthetic chỉ xác minh việc
+phân loại lỗi, không xác nhận tờ khai thật đã ký/nộp được.
+
 Host/Origin được kiểm tra trên cả HTTP và WebSocket trước khi gọi bridge.
 Unknown origin nhận 403. Tất cả listener chỉ bind `127.0.0.1`.
 

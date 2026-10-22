@@ -104,8 +104,46 @@ func xmlsec1VerifiesElementReference() async throws {
 }
 
 @Test func rejectsUnsafeXMLAndDuplicateIDsBeforeSigning() throws {
-    for xml in ["<!DOCTYPE a [<!ENTITY x SYSTEM 'file:///etc/hosts'>]><a>&x;</a>",
-                "<a><b Id='same'/><c id='same'/></a>", "<a><Signature/></a>"] {
-        #expect(throws: XMLDSigError.badXML) { try XMLDSigSigner.validateInput(Data(xml.utf8)) }
+    let cases: [(String, XMLDSigError)] = [
+        ("<!DOCTYPE a [<!ENTITY x SYSTEM 'file:///etc/hosts'>]><a>&x;</a>", .rejected(.declarations)),
+        ("<a><b Id='same'/><c id='same'/></a>", .rejected(.duplicateID)),
+        ("<a><b Id=''/></a>", .rejected(.invalidID)),
+        ("<a><Signature/></a>", .rejected(.existingSignature)),
+        ("not XML", .badXML),
+    ]
+    for (xml, error) in cases {
+        #expect(throws: error) { try XMLDSigSigner.validateInput(Data(xml.utf8)) }
+    }
+}
+
+@Test func XMLValidationDistinguishesEncodingAndSizeWithoutDisclosingInput() throws {
+    #expect(throws: XMLDSigError.rejected(.encoding)) { try XMLDSigSigner.validateInput(Data([0xFF])) }
+    #expect(throws: XMLDSigError.rejected(.tooLarge)) { try XMLDSigSigner.validateInput(Data(count: (20 << 20) + 1)) }
+    let privateValue = "PRIVATE_DOCUMENT_ID_MUST_NOT_LEAK"
+    let xml = Data("<a><b Id='\(privateValue)'/><c ID='\(privateValue)'/></a>".utf8)
+    do {
+        try XMLDSigSigner.validateInput(xml)
+        Issue.record("Duplicate ID accepted")
+    } catch let error as XMLDSigError {
+        #expect(error.description.contains("[XML_DUPLICATE_ID]"))
+        #expect(!error.description.contains(privateValue))
+    }
+    #expect(!XMLDSigError.badPlacement(privateValue).description.contains(privateValue))
+}
+
+@Test func XMLSigningValidationDistinguishesOptionsReservedIDsAndReferencePlacement() async throws {
+    let pki = try TestPKI.make()
+    var options = XMLSignOptions(); options.kind = .underElement(nil)
+    options.signElements = ["a']"]
+    await #expect(throws: XMLDSigError.rejected(.options)) {
+        _ = try await XMLDSigSigner.signEnveloped(xml: Data("<a/>".utf8), signer: pki.signer, options: options)
+    }
+    options.signElements = []
+    await #expect(throws: XMLDSigError.rejected(.reservedID)) {
+        _ = try await XMLDSigSigner.signEnveloped(xml: Data("<a><b Id='SigningTime'/></a>".utf8), signer: pki.signer, options: options)
+    }
+    options.signElements = ["a"]
+    await #expect(throws: XMLDSigError.rejected(.referencePlacement)) {
+        _ = try await XMLDSigSigner.signEnveloped(xml: Data("<a/>".utf8), signer: pki.signer, options: options)
     }
 }

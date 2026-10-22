@@ -39,5 +39,10 @@ Lịch sử đầy đủ trước dọn được giữ tại
 [archive/PROGRESS-before-consolidation.md](archive/PROGRESS-before-consolidation.md).
 Các ghi chú “chưa merge”/“Minvoice 501” trong tài liệu cũ là trạng thái lịch sử.
 
-Validation cuối: **130 tests đạt**, smoke đủ sáu cổng và TLS VNPT đạt; không
-nhập PIN hoặc gửi nghiệp vụ thật. [Evidence](re/evidence/branch-consolidation-validation-2026-10-23.json).
+CTSigningHub SignXML hiện trả mã lỗi XML cụ thể thay cho `badXML` chung chung.
+Báo cáo lỗi sau PIN đang chờ người dùng thử lại để xác định đúng nhánh kiểm tra;
+chưa xác nhận nguyên nhân hay việc ký/nộp được trên portal.
+
+Validation cuối: **133 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
+HTTP đạt; không nhập PIN hoặc gửi nghiệp vụ thật.
+[Evidence](re/evidence/ctsign-xml-diagnostics-2026-10-23.json).

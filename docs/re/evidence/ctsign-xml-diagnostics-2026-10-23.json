@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-10-22T22:53:23.765560+00:00",
+  "scope": "CTSigningHub SignXML diagnostics for user-reported badXML",
+  "change": "Classify existing XML validation rejections without relaxing signing validation or persisting document data.",
+  "tests": {
+    "TSShim": 7,
+    "Core": 39,
+    "Bridges": 76,
+    "App": 11,
+    "total": 133,
+    "passed": true
+  },
+  "packaged_app": {
+    "codesign_strict": true,
+    "bundled_shim_length_repairs": true
+  },
+  "smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "esigner_versions": {
+      "8768": "1.1.0",
+      "8769": "1.1.0"
+    },
+    "esigner_unknown_origin_status": 403,
+    "vnpt_wss": {
+      "4433": "1*smoke",
+      "4434": "1*smoke"
+    },
+    "vnpt_unknown_origin_status": 403,
+    "TLS_verified_with_pinned_local_CA": true,
+    "ctsign_post_case_insensitive": true,
+    "ctsign_signxml_route": true,
+    "ctsign_unknown_origin_status": 403,
+    "ctsign_xml_diagnostics": [
+      "XML_PARSE",
+      "XML_DTD_ENTITY",
+      "XML_DUPLICATE_ID",
+      "XML_EXISTING_SIGNATURE"
+    ],
+    "no_signing_or_external_rest": true
+  },
+  "live_portal": {
+    "status": "awaiting user retry with diagnostic build",
+    "reported_timing": "after PIN",
+    "root_cause_confirmed": false,
+    "real_signing_or_upload_performed_by_agent": false
+  }
+}

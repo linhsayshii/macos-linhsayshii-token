@@ -20,7 +20,45 @@ public struct XMLSignOptions: Sendable {
     public init() {}
 }
 
-public enum XMLDSigError: Error, Equatable { case badXML, badPlacement(String), badCertificate }
+public enum XMLDSigError: Error, Equatable, CustomStringConvertible {
+    case badXML, badPlacement(String), badCertificate
+    case rejected(InputFailure)
+
+    /// Stable diagnostics contain no XML content, attribute values or parser output.
+    public enum InputFailure: String, Sendable {
+        case tooLarge = "XML_TOO_LARGE"
+        case encoding = "XML_ENCODING"
+        case declarations = "XML_DTD_ENTITY"
+        case invalidID = "XML_INVALID_ID"
+        case duplicateID = "XML_DUPLICATE_ID"
+        case existingSignature = "XML_EXISTING_SIGNATURE"
+        case options = "XML_OPTIONS"
+        case reservedID = "XML_SIGNATURE_ID_COLLISION"
+        case referencePlacement = "XML_REFERENCE_PLACEMENT"
+    }
+
+    public var description: String {
+        switch self {
+        case .badXML: return "[XML_PARSE] Không đọc được tài liệu XML hợp lệ."
+        case .badPlacement: return "[XML_PLACEMENT] cks hoặc dataBV không khớp cấu trúc XML."
+        case .badCertificate: return "[XML_CERTIFICATE] Không đọc được khóa RSA từ chứng thư số."
+        case .rejected(let reason):
+            let message: String
+            switch reason {
+            case .tooLarge: message = "Tài liệu XML vượt giới hạn 20 MiB."
+            case .encoding: message = "Mã hóa XML chưa được hỗ trợ; cần XML UTF-8."
+            case .declarations: message = "XML chứa khai báo DTD hoặc ENTITY không được phép."
+            case .invalidID: message = "XML chứa thuộc tính id/Id/ID rỗng hoặc không hợp lệ."
+            case .duplicateID: message = "XML chứa giá trị id/Id/ID trùng nhau."
+            case .existingSignature: message = "XML đã chứa phần tử Signature; chưa hỗ trợ ký lại tài liệu này."
+            case .options: message = "Tham số phần tử hoặc ID chữ ký không hợp lệ."
+            case .reservedID: message = "ID chữ ký hoặc SigningTime bị trùng với ID trong XML."
+            case .referencePlacement: message = "Vị trí chèn chữ ký nằm trong phần tử dataBV cần ký; cấu trúc này chưa được hỗ trợ."
+            }
+            return "[\(reason.rawValue)] \(message)"
+        }
+    }
+}
 
 /// XMLDSig enveloped signature. Inclusive C14N 1.0 (Foundation/libxml2). Two
 /// references: the whole document (enveloped-signature + c14n) and the
@@ -44,14 +82,19 @@ public enum XMLDSigSigner {
     /// Reject external entities and duplicate IDs before requesting a token signature.
     public static func validateInput(_ xml: Data) throws { _ = try document(xml) }
     private static func document(_ xml: Data) throws -> XMLDocument {
-        guard xml.count <= 20 << 20, let text = String(data: xml, encoding: .utf8),
-              !text.uppercased().contains("<!DOCTYPE"), !text.uppercased().contains("<!ENTITY"),
-              let doc = try? XMLDocument(data: xml, options: [.nodePreserveAll]), doc.rootElement() != nil else { throw XMLDSigError.badXML }
+        guard xml.count <= 20 << 20 else { throw XMLDSigError.rejected(.tooLarge) }
+        guard let text = String(data: xml, encoding: .utf8) else { throw XMLDSigError.rejected(.encoding) }
+        guard !text.uppercased().contains("<!DOCTYPE"), !text.uppercased().contains("<!ENTITY")
+        else { throw XMLDSigError.rejected(.declarations) }
+        guard let doc = try? XMLDocument(data: xml, options: [.nodePreserveAll]), doc.rootElement() != nil
+        else { throw XMLDSigError.badXML }
         var ids = Set<String>()
         for node in try doc.nodes(forXPath: "//@Id | //@id | //@ID") {
-            guard let id = node.stringValue, safeID(id), ids.insert(id).inserted else { throw XMLDSigError.badXML }
+            guard let id = node.stringValue, safeID(id) else { throw XMLDSigError.rejected(.invalidID) }
+            guard ids.insert(id).inserted else { throw XMLDSigError.rejected(.duplicateID) }
         }
-        guard (try doc.nodes(forXPath: "//*[local-name()='Signature']")).isEmpty else { throw XMLDSigError.badXML }
+        guard (try doc.nodes(forXPath: "//*[local-name()='Signature']")).isEmpty
+        else { throw XMLDSigError.rejected(.existingSignature) }
         return doc
     }
     private static func safeID(_ value: String) -> Bool {
@@ -64,10 +107,10 @@ public enum XMLDSigSigner {
     public static func signEnveloped(xml: Data, signer: MessageSigner, options o: XMLSignOptions) async throws -> Data {
         let doc = try document(xml)
         guard let root = doc.rootElement(), o.signElements.allSatisfy(safeName),
-              o.signatureId.map(safeID) ?? true else { throw XMLDSigError.badXML }
+              o.signatureId.map(safeID) ?? true else { throw XMLDSigError.rejected(.options) }
         var parent = root
         if case .underElement(let name) = o.kind {
-            if let name, !safeName(name) { throw XMLDSigError.badXML }
+            if let name, !safeName(name) { throw XMLDSigError.rejected(.options) }
             if let name, let hit = ((try? root.nodes(forXPath: ".//*[local-name()='\(name)']")) as? [XMLElement])?.first { parent = hit }
         } else {
             let path = placementPath(o.kind)
@@ -119,12 +162,13 @@ public enum XMLDSigSigner {
             """ }.joined()
         }
         let existingIDs = Set(try doc.nodes(forXPath: "//@Id | //@id | //@ID").compactMap(\.stringValue))
-        guard !existingIDs.contains("SigningTime"), !existingIDs.contains(sigId), sigId != "SigningTime",
-              !targets.contains(where: { target in
+        guard !existingIDs.contains("SigningTime"), !existingIDs.contains(sigId), sigId != "SigningTime"
+        else { throw XMLDSigError.rejected(.reservedID) }
+        guard !targets.contains(where: { target in
                   var node: XMLNode? = parent
                   while let current = node { if current === target.element { return true }; node = current.parent }
                   return false
-              }) else { throw XMLDSigError.badXML }
+              }) else { throw XMLDSigError.rejected(.referencePlacement) }
         let (n, e) = try rsaComponents(signer.certificateDER)
 
         let sigXML = """

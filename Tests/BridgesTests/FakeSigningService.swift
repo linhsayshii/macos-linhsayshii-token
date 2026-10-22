@@ -8,6 +8,7 @@ final class FakeSigningService: SigningService, @unchecked Sendable {
     private var _calls: [Call] = []
     var calls: [Call] { lock.lock(); defer { lock.unlock() }; return _calls }
     var failure: SigningFailure?
+    var xmlFailure: XMLDSigError?
     var certs = [CertInfo(id: "01", derB64: "AAE=", subject: "CN=Test,MST=0101", issuer: "CN=VNPT-CA SHA2",
                           serialHex: "54010101", notBefore: "2024-01-01 00:00:00", notAfter: "2027-01-01 00:00:00")]
 
@@ -17,6 +18,7 @@ final class FakeSigningService: SigningService, @unchecked Sendable {
     func certificates() async -> [CertInfo] { certs }
     func signXML(_ ctx: BridgeContext, serial: String?, xml: Data, options: XMLSignOptions) async throws -> Data {
         record("xml", ctx, serial, xml); if let failure { throw failure }
+        if let xmlFailure { throw xmlFailure }
         return Data("<signed><ds:Signature/></signed>".utf8)
     }
     func signMessage(_ ctx: BridgeContext, serial: String?, message: Data, hash: HashAlg) async throws -> (signature: Data, certDER: Data) {

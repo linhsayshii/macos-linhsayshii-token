@@ -102,6 +102,8 @@ extension CTSignBridge {
             return (200, errorBody(403, "Người dùng từ chối ký"))
         } catch SigningFailure.certExpired {
             return (200, errorBody(500, "Chứng thư số đã hết hạn"))
+        } catch let error as XMLDSigError {
+            return (200, errorBody(500, "Không thể ký XML: \(error.description)"))
         } catch {
             return (200, errorBody(500, "\(error)"))
         }

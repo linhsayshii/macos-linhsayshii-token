@@ -136,6 +136,20 @@ try:
     assert 'status' in ct_post
     _, xml_reply = request('/api/hubclient/signxml', 32001, body=b'{"filePath":"/not-a-picker-grant"}')
     assert xml_reply['status'] == 500 and 'dataFile' in xml_reply['message']
+    # Rejected during input validation: never reach certificate selection or PIN.
+    xml_diagnostics = []
+    for document, code in (
+        (b'not XML', 'XML_PARSE'),
+        (b'<!DOCTYPE a [<!ENTITY x SYSTEM "file:///not-readable">]><a>&x;</a>', 'XML_DTD_ENTITY'),
+        (b'<a><b Id="private-test-value"/><c id="private-test-value"/></a>', 'XML_DUPLICATE_ID'),
+        (b'<a><Signature/></a>', 'XML_EXISTING_SIGNATURE'),
+    ):
+        body = json.dumps({'dataFile': base64.b64encode(document).decode()}).encode()
+        _, diagnostic = request('/api/hubclient/signxml', 32001, body=body,
+                                origin='https://thuedientu.gdt.gov.vn')
+        assert diagnostic['status'] == 500 and f'[{code}]' in diagnostic['message']
+        assert 'private-test-value' not in diagnostic['message'] and 'data' not in diagnostic
+        xml_diagnostics.append(code)
     try:
         request('/api/SignHash/Version', 32001, origin='https://untrusted.invalid')
     except urllib.error.HTTPError as error:
@@ -147,6 +161,7 @@ try:
               'esigner_versions': esigner_versions, 'esigner_unknown_origin_status': 403,
               'vnpt_wss': vnpt_versions, 'vnpt_unknown_origin_status': 403, 'TLS_verified_with_pinned_local_CA': True,
               'ctsign_post_case_insensitive': True, 'ctsign_signxml_route': True, 'ctsign_unknown_origin_status': 403,
+              'ctsign_xml_diagnostics': xml_diagnostics,
               'no_signing_or_external_rest': True}
     (state / 'integration-smoke.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))

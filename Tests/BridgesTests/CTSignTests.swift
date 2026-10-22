@@ -140,3 +140,26 @@ private func xmlBody(_ extra: [String: Any]) throws -> Data {
     #expect(p.options.signElements == ["HSoKhaiThue"])
     if case .custom(let path) = p.options.kind { #expect(path == "HSoThueDTu/CKyDTu") } else { Issue.record("kind not custom") }
 }
+
+@Test func signXmlReturnsActionableXMLDiagnosticsWithoutDocumentContents() async throws {
+    let cases: [(XMLDSigError, String)] = [
+        (.badXML, "XML_PARSE"), (.badPlacement("PRIVATE_PATH"), "XML_PLACEMENT"),
+        (.badCertificate, "XML_CERTIFICATE"), (.rejected(.encoding), "XML_ENCODING"),
+        (.rejected(.declarations), "XML_DTD_ENTITY"), (.rejected(.invalidID), "XML_INVALID_ID"),
+        (.rejected(.duplicateID), "XML_DUPLICATE_ID"), (.rejected(.existingSignature), "XML_EXISTING_SIGNATURE"),
+        (.rejected(.options), "XML_OPTIONS"), (.rejected(.reservedID), "XML_SIGNATURE_ID_COLLISION"),
+        (.rejected(.referencePlacement), "XML_REFERENCE_PLACEMENT"), (.rejected(.tooLarge), "XML_TOO_LARGE"),
+    ]
+    for (error, code) in cases {
+        let service = FakeSigningService(); service.xmlFailure = error
+        let bridge = CTSignBridge(backend: FakeBackend(), service: service)
+        let body = try xmlBody(["dataFile": Data("<a>PRIVATE_DOCUMENT_CONTENT</a>".utf8).base64EncodedString()])
+        let (httpStatus, json) = await bridge.handle(method: "POST", path: "/api/HubClient/signxml", body: body)
+        let response = try #require(JSONSerialization.jsonObject(with: json) as? [String: Any])
+        #expect(httpStatus == 200 && response["status"] as? Int == 500)
+        #expect((response["message"] as? String)?.contains("[\(code)]") == true)
+        #expect(response["data"] == nil)
+        let text = String(decoding: json, as: UTF8.self)
+        #expect(!text.contains("PRIVATE_") && !text.contains("badXML"))
+    }
+}
