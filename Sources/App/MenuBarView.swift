@@ -7,6 +7,7 @@ struct MenuBarView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             statusLine
+            Text(model.minvoiceStatus).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
             Divider().overlay(Theme.border)
             tokenSection
             if let s = model.signingStatus {

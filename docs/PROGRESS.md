@@ -1,4 +1,15 @@
-# TokenSigner — tiến độ (cập nhật 2026-10-22)
+# TokenSigner — tiến độ (cập nhật 2026-10-23)
+
+## Tích hợp hiện tại — 23/10/2026
+
+Minvoice cash đơn và FastCA native đã nằm trong cùng app `p1-token-core`.
+Bản chung build đạt, 57 tests đạt; gói app local/ad-hoc và smoke hai cổng đạt.
+Minvoice đã nối download ZIP → profile XML riêng → backend token → verify →
+upload → callback. Chưa live-test Minvoice macOS + FastCA; chứng thư FastCA hiện
+hết hạn 30/07/2026 nên bridge từ chối nghiệp vụ. Xem
+[MINVOICE.md](MINVOICE.md) và [báo cáo tích hợp](INTEGRATION-2026-10-23.md).
+Các mục theo nhánh/ngày cũ bên dưới là lịch sử; trạng thái “SignInvoices 501”
+trên worktree riêng không còn mô tả checkout tích hợp này.
 
 All-in-one macOS menu-bar signer gom các plugin ký của CA Việt Nam (VNPT, NC-CA,
 FastCA, CMC, I-CA, One-CA, EFY-CA) cho token Feitian ePass2003. Dùng cá nhân, một

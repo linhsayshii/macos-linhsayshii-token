@@ -4,7 +4,6 @@ set -euo pipefail
 
 TASK_ROOT=${0:A:h:h}
 TASK_STATE="$TASK_ROOT/.local/test-env"
-TASK_MI="$TASK_ROOT/.claude/worktrees/beautiful-shirley-8acdc0"
 mkdir -p "$TASK_STATE/tmp" "$TASK_STATE/logs"
 export TMPDIR="$TASK_STATE/tmp/"
 
@@ -70,8 +69,14 @@ test_core() {
 }
 
 test_minvoice() {
-    [[ -f "$TASK_MI/scripts/test-minvoice.sh" ]] || { print -u2 "M-Invoice test script/worktree unavailable."; return 1; }
-    /bin/sh "$TASK_MI/scripts/test-minvoice.sh" --logs "$TASK_STATE/logs/minvoice"
+    local task_developer=$(xcode-select -p)
+    export CLANG_MODULE_CACHE_PATH="$TASK_STATE/clang-cache"
+    export SWIFTPM_MODULECACHE_OVERRIDE="$TASK_STATE/swift-cache"
+    cd "$TASK_ROOT"
+    swift test --cache-path "$TASK_STATE/spm-cache" \
+        -Xswiftc -plugin-path -Xswiftc "$task_developer/usr/lib/swift/host/plugins/testing" \
+        --filter 'minvoice|negotiateAndLongPollRoundTrip|rejectsUnknownOriginAndBadHost|webSocketTransport' \
+        2>&1 | tee "$TASK_STATE/logs/minvoice-tests.log"
 }
 
 case ${1:-check} in
@@ -80,7 +85,7 @@ case ${1:-check} in
     setup) check_environment; setup_fastca "${2:-}" ;;
     test-core) check_environment; test_core ;;
     test-minvoice) check_environment; test_minvoice ;;
-    test-all) check_environment; test_core; test_minvoice ;;
-    all) check_environment; setup_fastca "${2:-}"; test_core; test_minvoice ;;
+    test-all) check_environment; test_core ;;
+    all) check_environment; setup_fastca "${2:-}"; test_core ;;
     *) print -u2 "Usage: $0 check|setup|setup-fastca|test-core|test-minvoice|test-all|all"; exit 2 ;;
 esac

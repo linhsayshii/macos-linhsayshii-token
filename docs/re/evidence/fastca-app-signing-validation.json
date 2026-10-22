@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-22",
+  "recordType": "local live app observation",
+  "backend": "FastCA ESPK / OpenSC 0.27.1",
+  "menuTest": "user reported Ký và xác minh OK",
+  "GetCert": {
+    "status": 200,
+    "knownFastCACertificatePresent": true
+  },
+  "SignHash": {
+    "HTTP": 200,
+    "status": 200,
+    "target": "certificate serial from GetCert mapped to physical token serial",
+    "message": "TokenSigner FastCA app SignHash integration test 2026-10-22",
+    "SHA256": "0730c495c06e53b0d688c050313fb4f4994f6dd725f725bfc90aa43d418476af",
+    "signatureBytes": 256,
+    "signatureB64": "PRSoyqO9mZRUDln4GhVh8PZJGeMRpafH6L6BGFmddh4anMVaT3X2sq1e3co/92nr/dQw5V7c9LNbPgDwqwyeCHUh/jqblEa4nO5fTAaEIkQd59xbvjTgA3kCH1hXJzFmBm0yXwuXV8EYw8LYQsduDBLAyCevSuusfVtmolPLGoiVJF0fqbb4lO9k4LF9fganQ1VnR6DzLmRs5AYH9uZX0q69xXgHU8/iP8mKyuF+Pok3NZ8EOQHrBKarLOkrkclqJ83qIcenpVHEDobOoll7/tAHDgs9x46Q2y7kG0ZBc/IBaBXlldOGAmryqauGa+szPpTmZLW8bX/uSQE31CfUOQ=="
+  },
+  "certificateSHA256": "fe4414c939c92562e13c3b2c8ea13fe292bd4676d35dc7ca625a38ecf0fbc77e",
+  "verification": {
+    "helper": "passed before emitting signature",
+    "AppModel": "passed against approved certificate before HTTP success",
+    "OpenSSL": "Verified OK",
+    "exit": 0
+  },
+  "scope": "local fixed test only; no business request or trust/revocation test",
+  "binarySHA256": {
+    "App": "32ddfeabe9e5625a37177c0c7d702714c09a2f37d939cfc7a6b58f5a3f976f89",
+    "TokenHelper": "b6dc129dfb9dd14710e871ce264eed50d06230de7eb7291d6e2963a939798f29"
+  },
+  "softwareTests": {
+    "command": "swift test -Xswiftc -plugin-path -Xswiftc /Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+    "passed": 38,
+    "groups": {
+      "TSShim": 3,
+      "Core": 24,
+      "Bridges": 11
+    }
+  },
+  "sourceSHA256": {
+    "Sources/CFastCA/fastca.c": "ee12d3be46f9179e0c8f54c6f8c84008bfa316d7d79ee9802baa058a6e838a78",
+    "Sources/TokenHelper/FastCA.swift": "645bc96dddce85b6035e567a09704998278f92cd243c286a8514135ed11be332",
+    "Sources/Core/SigningTarget.swift": "980b5e0b21980f782497ffe67675ecb9721c9c1a8e750516101627bb55962ec4",
+    "Sources/App/AppModel.swift": "0bf50a1c4dee22d338fc605b481672a753a50d1a64e298edee4d128e72d21431",
+    "Sources/Core/ModuleRegistry.swift": "b35c66f263689475b5f030cf786aefe03bfddb0f6164b27aa4df926cfe4d5aed",
+    "Sources/Core/TokenBroker.swift": "f582cf3bbf27d7c2a035ac8e7aa3fee9fc8fa0370e0b30a6c473b4c857f41199"
+  },
+  "OpenSC": {
+    "version": "0.27.1",
+    "library": "/opt/homebrew/lib/libopensc.13.dylib",
+    "sha256": "4d817582d5e5351b2dc0b5dd2f4dd32f0ab3debc81708687d63235028bde6dfa"
+  },
+  "publicKeySHA256": "27a38607d6b6e3f1774aaa68f58805b7512343bdbcd1389317c5370c5ae58df9",
+  "signatureSHA256": "ea6a0ac9a58cf13f9db792651ed342a719ce5007ccc60d829f30efc99d098eb7"
+}

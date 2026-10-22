@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-23",
+  "scope": "offline integrated build/tests and local packaged-app smoke; no hardware signing or business REST",
+  "tests": {
+    "command": "swift test -Xswiftc -plugin-path -Xswiftc /Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+    "passed": 57,
+    "groups": {
+      "TSShim": 3,
+      "Core": 24,
+      "Bridges": 30
+    },
+    "fullLogSHA256": "b3ced7686a2996b1dc293d789582d81f06ba453ed7495f02acf15e9c964b4864"
+  },
+  "sourceSHA256": {
+    "Package.swift": "03c9ce8eb7212b86d73df60358dca028307f68dd2de859a8b1c8a56790c46253",
+    "Sources/App/AppModel.swift": "de10324febfafc039881eefe7735f455a7087332ce5cf16d3483bf7c0dca0243",
+    "Sources/Core/MinvoiceCashXML.swift": "12ff17ef19465a490538a93ef2e469b87afc11055f37058829335e26d78e6791",
+    "Sources/Core/TokenBroker.swift": "f582cf3bbf27d7c2a035ac8e7aa3fee9fc8fa0370e0b30a6c473b4c857f41199",
+    "Sources/TokenHelper/FastCA.swift": "645bc96dddce85b6035e567a09704998278f92cd243c286a8514135ed11be332",
+    "Sources/Bridges/MinvoiceBridge.swift": "f16aaef68c13910529fe22a8f2b72a9b4aa32a534473a54ea26f8036239c7ff0",
+    "Sources/Bridges/MinvoiceHTTP.swift": "2775d3e112cf37401398e7024a66440ac438a2080588dc4bbd725287cac6d782",
+    "Sources/Bridges/MinvoiceInvoices.swift": "08fb346710a913260e763bcc2ad10235ef175b709f54686b6e372d5d5d9c2c96",
+    "Sources/Bridges/MinvoiceZIP.swift": "9a4919ad4144911bd8137822e46cc2296720e898f649386f9fc42180fce06cb9",
+    "Sources/CMinvoiceZIP/zip.c": "abfc2b32619c5c9e26b35e98a056744c7f17398a7e9da394cff6720dec715c93",
+    "Sources/Bridges/SignalRServer.swift": "b5d766f758e6ed6ecd79afb040b637ecf5353c7c172f993f870fee28f6a117c0",
+    "Sources/Bridges/SignalRHub.swift": "e7f2686546438d36b5e2d2c7c7b825e0a6e0008708d109363798e5e9e9fcd9f6",
+    "scripts/check-integrated-app.py": "bdd29ffd8ae51948b6fcf291c2cc2e153f46a6103e398cf395248c4791ebbae2"
+  },
+  "smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "no_signing_or_external_rest": true
+  },
+  "packagedBinarySHA256": {
+    "App": "682667f4f6df23a82c5d86def1c292c0b9d2b2f6425c477b129e23c426ee1e9c",
+    "TokenHelper": "1655257832aecc6f30ca666a9269a51d9506815291137bc3bf4da8ee45e06506",
+    "libTSShim.dylib": "505c4c13dc3a88c14b4a339ffc3dbb5c1055528c89e54cc9354372186c89b928"
+  },
+  "OpenSC": {
+    "expectedVersion": "0.27.1",
+    "runtimeCheck": "passed at /opt/homebrew/lib/libopensc.13.dylib",
+    "bundled": false
+  },
+  "limitations": [
+    "No integrated Minvoice macOS + physical token business transaction",
+    "FastCA test certificate expired 2026-07-30",
+    "Cash single entry only; no HDon/BKe/batch support claim",
+    "No portal state query, chain/revocation validation, distribution/notarization"
+  ]
+}

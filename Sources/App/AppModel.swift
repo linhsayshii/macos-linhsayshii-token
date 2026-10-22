@@ -48,6 +48,9 @@ public final class AppModel: ObservableObject {
     private let approval = ApprovalCenter()
     private var server: HTTPServer?
     private var scanTask: Task<Void, Never>?
+    private var minvoiceServer: SignalRServer?
+    private var activeMinvoiceID: UUID?
+    @Published private(set) var minvoiceStatus = "Minvoice đang khởi động…"
 
     // Sign targets by serial from the last scan: module, chosen cert, token flags.
     private var signTargets: [String: SignTarget] = [:]
@@ -76,6 +79,7 @@ public final class AppModel: ObservableObject {
         guard !started else { return }   // MenuBarExtra onAppear can fire repeatedly
         started = true
         startServer()
+        startMinvoiceServer()
         scanTask = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.scanTick()
@@ -109,6 +113,19 @@ public final class AppModel: ObservableObject {
             do { try await server.start(); self.bridgeStatus = .up }
             catch HTTPServer.StartError.portInUse { self.bridgeStatus = .portInUse }
             catch { self.bridgeStatus = .failed("\(error)") }
+        }
+    }
+
+    private func startMinvoiceServer() {
+        let file = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("TokenSigner/origins.json")
+        let bridge = MinvoiceBridge(backend: MinvoiceBackend(model: self))
+        let server = SignalRServer(store: OriginStore(fileURL: file), hub: SignalRHub(handler: bridge.handler))
+        minvoiceServer = server
+        Task {
+            do { _ = try await server.start(); minvoiceStatus = "Minvoice 16080 sẵn sàng · cash đơn" }
+            catch SignalRServer.StartError.portInUse { minvoiceStatus = "Minvoice: cổng 16080 đã bị chiếm" }
+            catch { minvoiceStatus = "Minvoice: không mở được cổng 16080" }
         }
     }
 
@@ -205,6 +222,12 @@ public final class AppModel: ObservableObject {
         signing = true
         defer { signing = false }
 
+        try await requestApproval(target: target, origin: origin, operation: operation, docCount: docCount)
+        return try await signApproved(target: target, blockB64: blockB64)
+    }
+
+    private func requestApproval(target: SignTarget, origin: String, operation: String, docCount: Int) async throws {
+        try Task.checkCancellation()
         if await approval.decide(origin: origin, certSerial: target.cert.serialHex) != .allowedSession {
             let prompt = ApprovalPrompt(origin: origin, subject: target.cert.subject, ca: target.module.ca,
                                         notAfter: target.cert.notAfter, operation: operation, docCount: docCount)
@@ -221,6 +244,11 @@ public final class AppModel: ObservableObject {
             }
         }
 
+        try Task.checkCancellation()
+    }
+
+    private func signApproved(target: SignTarget, blockB64: String) async throws -> String {
+        try Task.checkCancellation()
         let w = pinWarning(target.flags)
         let prompt = PINPrompt(ca: target.module.ca, serial: target.tokenSerial, warning: w.text, locked: w.locked)
         guard let pin = await withCheckedContinuation({ (c: CheckedContinuation<String?, Never>) in
@@ -232,8 +260,10 @@ public final class AppModel: ObservableObject {
         }),
               !pin.isEmpty else { throw TokenBroker.SignError.card("Đã huỷ nhập PIN") }
 
+        try Task.checkCancellation()
+        let previousStatus = signingStatus
         signingStatus = "Đang ký…"
-        defer { signingStatus = nil }
+        defer { signingStatus = previousStatus }
         let signature = try await broker.sign(module: target.module, serial: target.tokenSerial, certId: target.cert.id,
                                              mech: .rsaPKCS, dataB64: blockB64, pin: pin)
         guard let bytes = Data(base64Encoded: signature), let payload = Data(base64Encoded: blockB64),
@@ -242,6 +272,32 @@ public final class AppModel: ObservableObject {
             throw TokenBroker.SignError.card("Chữ ký không khớp chứng thư/dữ liệu đã duyệt")
         }
         return signature
+    }
+
+    fileprivate func withMinvoiceApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
+        guard !signing else { throw MinvoiceError.busy }
+        let target = try SigningTarget.forCertificate(serial: serial, in: certificateTargets)
+        try MinvoiceCashXML.validateCertificate(target.cert)
+        signing = true
+        let id = UUID()
+        activeMinvoiceID = id
+        defer { signing = false; activeMinvoiceID = nil; signingStatus = nil }
+        try await withTaskCancellationHandler {
+            try await requestApproval(target: target, origin: origin, operation: "Đăng nhập và ký hóa đơn Minvoice cash", docCount: 1)
+            signingStatus = "Đang xử lý hóa đơn Minvoice…"
+            try await operation(target.cert, { message in
+                let block = Data(try DigestInfo.sha256Block(message)).base64EncodedString()
+                let signature = try await self.signApproved(target: target, blockB64: block)
+                guard let bytes = Data(base64Encoded: signature) else { throw MinvoiceError.invalidSignature }
+                return bytes
+            })
+        } onCancel: {
+            Task { @MainActor [weak self] in
+                guard let self, self.activeMinvoiceID == id else { return }
+                if self.approvalCont != nil { self.submitApproval(.deny) }
+                if self.pinCont != nil { self.submitPIN(nil) }
+            }
+        }
     }
 
     /// Sign a fixed test string so the login/sign path can be exercised from the
@@ -325,5 +381,13 @@ struct Backend: SigningBackend {
             out.append(b); i = j
         }
         return out.count == 32 ? out : nil
+    }
+}
+
+struct MinvoiceBackend: MinvoiceSigningBackend {
+    let model: AppModel
+    func certificates() async -> [CertInfo] { await model.certificates() }
+    func withApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
+        try await model.withMinvoiceApproval(origin: origin, serial: serial, operation: operation)
     }
 }

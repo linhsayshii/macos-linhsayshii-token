@@ -10,6 +10,7 @@ fi
 for TASK_FILE in App TokenHelper libTSShim.dylib; do
     [[ -f "$TASK_BIN/$TASK_FILE" ]] || { print -u2 "Build first; missing $TASK_FILE"; exit 1; }
 done
+"$TASK_ROOT/scripts/test-env.sh" setup-fastca
 mkdir -p "$TASK_APP/Contents/MacOS"
 for TASK_FILE in App TokenHelper libTSShim.dylib; do
     cp "$TASK_BIN/$TASK_FILE" "$TASK_APP/Contents/MacOS/$TASK_FILE"

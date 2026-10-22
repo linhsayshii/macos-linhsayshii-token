@@ -17,6 +17,7 @@ let package = Package(
             .linkedFramework("PCSC")
         ]),
         .target(name: "CPKCS11"),
+        .target(name: "CMinvoiceZIP", linkerSettings: [.linkedLibrary("z")]),
         .target(name: "CFastCA", exclude: ["vendor/COPYING", "vendor/README.md"],
                 cSettings: [.define("ENABLE_SM"), .headerSearchPath("vendor")]),
         .target(name: "CPCSC", linkerSettings: [
@@ -33,10 +34,11 @@ let package = Package(
             .product(name: "SwiftASN1", package: "swift-asn1"),
         ]),
         .target(name: "Bridges", dependencies: [
-            "Core",
+            "Core", "CMinvoiceZIP",
             .product(name: "NIOCore", package: "swift-nio"),
             .product(name: "NIOPosix", package: "swift-nio"),
             .product(name: "NIOHTTP1", package: "swift-nio"),
+            .product(name: "NIOWebSocket", package: "swift-nio"),
         ]),
         .executableTarget(name: "App", dependencies: ["Core", "Bridges"]),
         .testTarget(name: "CoreTests", dependencies: ["Core"]),

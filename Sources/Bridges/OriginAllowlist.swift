@@ -7,7 +7,7 @@ import Foundation
 public struct OriginAllowlist: Sendable {
     private let patterns: [String]
 
-    public static let defaults = OriginAllowlist(patterns: [
+    public static let defaultPatterns = [
         "*.gdt.gov.vn",
         "dichvucong.gov.vn",
         "*.dichvucong.gov.vn",
@@ -15,7 +15,8 @@ public struct OriginAllowlist: Sendable {
         "*.minvoice.vn",
         "*.minvoice.com.vn",
         "*.minvoice.net",
-    ])
+    ]
+    public static let defaults = OriginAllowlist(patterns: defaultPatterns)
 
     public init(patterns: [String]) { self.patterns = patterns }
 
