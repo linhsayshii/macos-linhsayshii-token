@@ -75,13 +75,15 @@ public final class AppModel: ObservableObject {
         scanTask = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.scanTick()
-                try? await Task.sleep(for: .milliseconds(500))
+                try? await Task.sleep(for: .milliseconds(175))
             }
         }
     }
 
     private var lastReaderSig = ""
 
+    // Apple's PC/SC reports SCARD_STATE_UNKNOWN for \\?PnP?\Notification, so
+    // use short, cancellable polling rather than a blocking PnP wait here.
     // Listing readers is a cheap PC/SC call; the full refresh (helper spawns for
     // listTokens/listCerts) is not. Poll readers fast so plug/unplug shows up
     // quickly, but only run the full refresh when the reader set actually changes.
