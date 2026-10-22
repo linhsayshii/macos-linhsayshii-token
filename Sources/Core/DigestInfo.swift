@@ -1,3 +1,6 @@
+import Foundation
+import CryptoKit
+
 public enum HashAlg: Sendable { case sha256, sha1 }
 
 public struct DigestInfoError: Error, Sendable { public let message: String }
@@ -17,5 +20,12 @@ public enum DigestInfo {
             guard digest.count == 20 else { throw DigestInfoError(message: "SHA-1 digest must be 20 bytes") }
             return sha1Prefix + digest
         }
+    }
+
+    /// Host-hash `data` with SHA-256 and return the PKCS#1 v1.5 DigestInfo block to
+    /// sign with CKM_RSA_PKCS. Document signing (XMLDSig/CMS/PAdES) uses this path —
+    /// on-card hashing (CKM_SHA256_RSA_PKCS) fails for data ≥240B on these tokens.
+    public static func sha256Block(_ data: Data) throws -> [UInt8] {
+        return try wrap(Array(SHA256.hash(data: data)), .sha256)
     }
 }

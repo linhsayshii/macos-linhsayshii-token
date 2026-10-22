@@ -125,6 +125,17 @@ Response:
 - Any TSA timestamping — none observed (SigningTime is a self-asserted SignatureProperty, not RFC3161).
 - Precise OCSP/CRL hosts (derived at runtime from each cert's AIA).
 
+## STATUS (2026-10-22 — branch `claude/beautiful-shirley-8acdc0`, BLOCKED)
+SignalR server + `GetVersion`/TokenInfo built and serving on `localhost:16080`
+(`handlerHub`, negotiate `/signalr`). **`SignInvoices` blocked, returns code 501.**
+The minvoice 2.0 page downloads the invoice XML and uploads the signed XML through
+minvoice's own **REST endpoints** (the `api-hddt.minvoice.com.vn` / `file-upload`
+paths above), which run **outside the browser tab** — so DevTools on the page does
+not capture them and the SignalR frames carry no XML to sign.
+**To unblock:** capture the actual download-XML and upload-signed-XML REST requests
+from DevTools Network while signing one invoice on the minvoice page, and relay them
+to the minvoice-bridge session.
+
 ## Interop takeaways for the Swift tool
 - Host an HTTP SignalR-protocol server on `localhost:16080`, allow all origins, expose a hub named
   `handlerHub` with methods `GetVersion`, `GetCommandInfo`, `ProcessMessage`, `VoucherHub`,

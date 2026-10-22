@@ -2,8 +2,8 @@ import Foundation
 
 public enum CTSignError: Error, Equatable {
     case unknownSerial(String)
-    /// SignHash hands a pre-built hash; these Feitian tokens sign only the raw
-    /// message on-card (CKM_SHA256_RSA_PKCS). No precomputed-hash mechanism works.
+    /// SignHash handed a hash we cannot sign: not a 32-byte SHA-256 (base64 or hex).
+    /// The hash is wrapped in a DigestInfo and signed with CKM_RSA_PKCS otherwise.
     case precomputedHashUnsupported
 }
 

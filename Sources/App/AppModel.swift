@@ -5,8 +5,8 @@ import Bridges
 /// Ties ReaderScanner + ModuleRegistry + TokenBroker + CTSignBridge together and
 /// drives the menu bar: lists tokens and certs, serves the CTSigningHub bridge,
 /// and runs the raw-data sign path (approval → PIN sheet → broker login/sign/logout).
-/// CTSigningHub SignHash is stubbed — see Backend.sign — because these tokens
-/// cannot sign the precomputed hash it sends.
+/// CTSigningHub SignHash wraps the precomputed hash in a DigestInfo and signs it
+/// on-card with CKM_RSA_PKCS — see Backend.sign.
 @MainActor
 public final class AppModel: ObservableObject {
     /// Prompt state for the PIN sheet. Non-nil presents the sheet; a sign call
@@ -153,8 +153,20 @@ public final class AppModel: ObservableObject {
     // MARK: - Sign path (raw data)
 
     /// Approval → PIN → one login/sign/logout spawn. Returns the base64 signature.
-    /// `dataB64` is the raw message; the token hashes it on-card (SHA256withRSA).
+    /// `dataB64` is the raw message: hashed SHA-256 in software, wrapped in a PKCS#1
+    /// v1.5 DigestInfo, then signed on-card with CKM_RSA_PKCS (on-card hashing fails
+    /// for data ≥240B on these tokens).
     func sign(origin: String, serial: String, dataB64: String, operation: String, docCount: Int) async throws -> String {
+        guard let raw = Data(base64Encoded: dataB64) else { throw TokenBroker.SignError.card("dữ liệu ký không hợp lệ") }
+        let block = try DigestInfo.sha256Block(raw)
+        return try await signPreparedBlock(origin: origin, serial: serial,
+                                           blockB64: Data(block).base64EncodedString(),
+                                           operation: operation, docCount: docCount)
+    }
+
+    /// Approval → PIN → one login/sign/logout spawn. `blockB64` is the already-built
+    /// RSA PKCS#1 v1.5 DigestInfo block (base64), signed on-card with CKM_RSA_PKCS.
+    fileprivate func signPreparedBlock(origin: String, serial: String, blockB64: String, operation: String, docCount: Int) async throws -> String {
         guard let target = signTargets[serial] else { throw CTSignError.unknownSerial(serial) }
         signing = true
         defer { signing = false }
@@ -177,11 +189,11 @@ public final class AppModel: ObservableObject {
         signingStatus = "Đang ký…"
         defer { signingStatus = nil }
         return try await broker.sign(module: target.module, serial: serial, certId: target.cert.id,
-                                     mech: .sha256RSA, dataB64: dataB64, pin: pin)
+                                     mech: .rsaPKCS, dataB64: blockB64, pin: pin)
     }
 
     /// Sign a fixed test string so the login/sign path can be exercised from the
-    /// menu while there is no web sign endpoint yet (SignHash is stubbed).
+    /// menu to exercise the login/sign path without a web request.
     func testSign(serial: String) async {
         let data = Data("TokenSigner ký thử \(Date())".utf8)
         do {
@@ -221,15 +233,33 @@ public final class AppModel: ObservableObject {
     func certificates() async -> [CertInfo] { cachedCerts }
 }
 
-/// Bridge backend. Serves certificates; SignHash signing is stubbed because the
-/// tokens cannot sign the precomputed hash CTSigningHub sends (raw-document
-/// signing via AppModel.sign lands with the P2 bridges).
+/// Bridge backend. Serves certificates and SignHash: CTSigningHub sends a
+/// precomputed SHA-256 hash, which we wrap in a PKCS#1 v1.5 DigestInfo and sign
+/// on-card with CKM_RSA_PKCS — the same path document signing uses.
 struct Backend: SigningBackend {
     let model: AppModel
     func certificates() async -> [CertInfo] { await model.certificates() }
     func sign(serial: String, digestB64: String) async throws -> String {
-        // SignHash sends a precomputed hash; these tokens sign only the raw
-        // message on-card. Honestly unsupported — raw-document signing lands in P2.
-        throw CTSignError.precomputedHashUnsupported
+        // DLieuHash is a precomputed SHA-256 (32 bytes), base64 — or hex. Decode,
+        // do NOT re-hash, wrap in DigestInfo, sign RSA_PKCS. shortcut: one PIN/spawn
+        // per hash item (fine for single-doc SignHash; batch later for multi-hash).
+        guard let digest = decodeSHA256(digestB64) else { throw CTSignError.precomputedHashUnsupported }
+        let block = try DigestInfo.wrap(Array(digest), .sha256)
+        return try await model.signPreparedBlock(origin: "CTSigningHub", serial: serial,
+                                                 blockB64: Data(block).base64EncodedString(),
+                                                 operation: "Ký", docCount: 1)
+    }
+
+    /// Accept a 32-byte SHA-256 as base64 (CTSigningHub default) or hex.
+    private func decodeSHA256(_ s: String) -> Data? {
+        if let d = Data(base64Encoded: s), d.count == 32 { return d }
+        let hex = s.count == 64 ? s : ""
+        var out = Data(); var i = hex.startIndex
+        while i < hex.endIndex {
+            let j = hex.index(i, offsetBy: 2)
+            guard let b = UInt8(hex[i..<j], radix: 16) else { return nil }
+            out.append(b); i = j
+        }
+        return out.count == 32 ? out : nil
     }
 }

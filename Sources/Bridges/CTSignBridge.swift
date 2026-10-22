@@ -40,7 +40,7 @@ public struct CTSignBridge: Sendable {
             } catch CTSignError.unknownSerial(let s) {
                 return (200, errorBody(404, "Không tìm thấy CTS có serinumber \(s)"))
             } catch CTSignError.precomputedHashUnsupported {
-                return (200, errorBody(501, "Token chỉ ký trên dữ liệu gốc (SHA256withRSA trên thẻ); không ký được hash dựng sẵn mà SignHash gửi."))
+                return (200, errorBody(400, "DLieuHash không phải SHA-256 32 byte (base64 hoặc hex)."))
             } catch {
                 return (200, errorBody(500, "\(error)"))
             }

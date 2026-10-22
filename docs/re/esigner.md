@@ -174,3 +174,18 @@ allowlist is the safer choice for a reimplementation.
 ## Correction (2026-10-21, cross-check vs MacSigner repo)
 - **Path:** the endpoint class `com.seatech.server.WebSocketService` is annotated `@ServerEndpoint("/sign")`, and the server context path is `/plugin`. The full URL is therefore **`ws://127.0.0.1:8768/plugin/sign`**, not `/plugin`. MacSigner is right on this point.
 - **Request shape:** `AppConstants` defines `PARAM_CODE="CODE"` and `PARAM_INPUT="INPUT"`, plus `PARAM_INPUT_*` keys such as `PIN_CODE`, `NTDT_SIGN_CODE`, `DATE_SIGNING` and `TIMEZONE_SIGNING`. That supports a nested `{"CODE":..,"INPUT":{..}}` shape. MacSigner claims flat fields. This stays **unresolved until we decompile the `WebSocketService.onMessage` body or capture live traffic** (Parallels VM + eTax portal).
+
+## RESOLVED (2026-10-22, live traffic — PR #2, branch `claude/beautiful-mcnulty-f9bfbf`)
+Decoded against the real eTax portal end-to-end. Supersedes the open question above.
+- **Frames are FLAT**, not nested `INPUT` (MacSigner was right on shape).
+- Real command codes actually used by the eTax XML-khai flow:
+  - `CHOOSE_FILE` → reply `{TKHAI_FORMAT:"9", FULL_PATH_URL, FILE_NAME}` via NSOpenPanel.
+  - `OFFLINE_XML_SIGN_002` (**not** `CER_001`) — signs `HSoKhaiThue` into `CKyDTu`
+    with Core XMLDSig, one PIN.
+  - `OFFLINE_XML_SIGN_003` — uploads signed bytes (multipart POST; must send
+    `User-Agent: JFileUpload` + `cookiename`/`cookievalue` fields); reply `PIN_CODE=maTKhai`.
+- Guards shipped: only picker-issued paths are readable; upload URL must be https on
+  the calling origin host; `SERIAL_NUMBER` matched decimal to cert; TIN check; PIN in
+  requests ignored. Bind is loopback-only (not the original's `0.0.0.0`).
+- Confirmed: eTax tờ-khai signing works live; 77 tests pass. Not yet done:
+  `xmlsec1 --verify` of the signed bytes; drop the `upload-response.html` debug dump.
