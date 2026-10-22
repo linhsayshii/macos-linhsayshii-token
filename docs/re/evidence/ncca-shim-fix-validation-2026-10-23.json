@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-23",
+  "base_commit": "ac35481",
+  "port_of": "fd3554f8a1d3b243a21e8bf9673174300281b624",
+  "reported_error": "C_Sign rv=48",
+  "before": {
+    "selected_tests": 4,
+    "failed_tests": 2,
+    "failed_assertions": 3,
+    "packaged_library_missing_extended_Lc_repair": true
+  },
+  "after": {
+    "tests": {
+      "TSShim": 7,
+      "Core": 24,
+      "Bridges": 30,
+      "App": 9,
+      "total": 70,
+      "passed": true
+    },
+    "packaged_shim_checks_passed": true,
+    "codesign_strict_passed": true,
+    "loopback_smoke": {
+      "ctsign_http_status": 200,
+      "minvoice_protocol": "2.1",
+      "minvoice_getVersion": "2.0.0",
+      "unknown_origin_status": 403,
+      "no_signing_or_external_rest": true
+    }
+  },
+  "no_real_PIN_or_signing_performed": true,
+  "live_invoice_retest_required": true,
+  "source_sha256": {
+    "Sources/TSShim/shim.c": "76e8ef5fe33754c3c99e62217a8d7b90364bc19ad14882a7f5e7c6a9bac7f7a4",
+    "Tests/TSShimTests/ReencodeTests.swift": "49d28bd80fd75ba64aabafab9f478551f2437c43d1d582d0224d01fbda65b52d",
+    "scripts/check-packaged-shim.py": "623345de590bb0714159a98afd34c2bef770ec102e10258916a978c2552c94f6",
+    "scripts/package-test-app.sh": "0229dda0eda65885e00f58d452dad8e63f3bb6d08f72eed96d4f4e41a3f52085"
+  },
+  "packaged_shim_sha256": "58c43b3e80a8d08708b2c2043a3f488a5c92b64b21e3c433df6b77aa5c4df9be"
+}

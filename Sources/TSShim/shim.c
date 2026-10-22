@@ -1,8 +1,19 @@
 #include "tsshim.h"
+#include <string.h>
 
 size_t ts_reencode(const uint8_t *apdu, size_t len, uint8_t *out, size_t outcap) {
     if (len < 7) return 0;
     if ((apdu[0] & 0x0C) != 0x0C) return 0;   /* SM class bit */
+    if (apdu[4] == 0) {
+        /* Feitian SM signing can append a short Le after extended Lc.
+           Widen only that malformed form; keep the authenticated bytes intact.
+           Ported from the hardware-tested P2 fix fd3554f. */
+        size_t elc = ((size_t)apdu[5] << 8) | apdu[6];
+        if (elc == 0 || len != 8 + elc || outcap < len + 1) return 0;
+        memcpy(out, apdu, len - 1);
+        out[len - 1] = 0x00; out[len] = apdu[len - 1];
+        return len + 1;
+    }
     uint8_t lc = apdu[4];
     if (lc == 0) return 0;
     if (len != (size_t)7 + lc) return 0;       /* short Lc + 2-byte Le form */
@@ -16,7 +27,6 @@ size_t ts_reencode(const uint8_t *apdu, size_t len, uint8_t *out, size_t outcap)
     return need;
 }
 
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <PCSC/winscard.h>

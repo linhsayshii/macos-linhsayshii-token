@@ -32,4 +32,5 @@ cat > "$TASK_APP/Contents/Info.plist" <<'PLIST'
 PLIST
 codesign --force --sign - "$TASK_APP"
 codesign --verify --strict "$TASK_APP"
+python3 "$TASK_ROOT/scripts/check-packaged-shim.py"
 print "$TASK_APP"
