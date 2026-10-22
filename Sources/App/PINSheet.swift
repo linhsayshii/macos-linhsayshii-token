@@ -42,6 +42,7 @@ struct PINSheet: View {
             HStack {
                 Spacer()
                 Button("Huỷ") { model.submitPIN(nil) }
+                    .keyboardShortcut(.cancelAction)
                     .buttonStyle(.plain)
                     .font(.system(size: Theme.Size.sm))
                     .foregroundStyle(Theme.muted)

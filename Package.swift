@@ -41,6 +41,7 @@ let package = Package(
             .product(name: "NIOWebSocket", package: "swift-nio"),
         ]),
         .executableTarget(name: "App", dependencies: ["Core", "Bridges"]),
+        .testTarget(name: "AppTests", dependencies: ["App", "Core", "Bridges"]),
         .testTarget(name: "CoreTests", dependencies: ["Core"]),
         .testTarget(name: "BridgesTests", dependencies: ["Bridges", "Core"]),
         .testTarget(name: "TSShimTests", dependencies: ["TSShim"]),

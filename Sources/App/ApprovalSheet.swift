@@ -34,6 +34,7 @@ struct ApprovalSheet: View {
                         .frame(maxWidth: .infinity)
                         .foregroundStyle(Theme.primary)
                     Button("Từ chối") { model.submitApproval(.deny) }
+                        .keyboardShortcut(.cancelAction)
                         .buttonStyle(.plain)
                         .frame(maxWidth: .infinity)
                         .foregroundStyle(Theme.danger)

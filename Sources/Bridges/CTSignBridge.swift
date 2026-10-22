@@ -37,6 +37,10 @@ public struct CTSignBridge: Sendable {
                     req.hash[i].CKy = try await backend.sign(serial: req.serinumber, digestB64: req.hash[i].DLieuHash)
                 }
                 return (200, wrap(status: 200, data: req.hash, message: "SUCCESS"))
+            } catch is CancellationError {
+                return (200, errorBody(500, "Đã huỷ yêu cầu ký"))
+            } catch MinvoiceError.busy {
+                return (200, errorBody(500, "Đang có yêu cầu khác, vui lòng thử lại sau"))
             } catch CTSignError.unknownSerial(let s) {
                 return (200, errorBody(404, "Không tìm thấy CTS có serinumber \(s)"))
             } catch CTSignError.precomputedHashUnsupported {

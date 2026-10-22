@@ -5,9 +5,23 @@ public typealias MinvoiceOperation = @Sendable (CertInfo, MinvoiceSign) async th
 
 public protocol MinvoiceSigningBackend: Sendable {
     func certificates() async -> [CertInfo]
+    func selectCertificate(origin: String, serial: String?) async throws -> CertInfo
     /// Hold the app's signing lock and obtain user consent before REST login.
     /// The signer asks for the PIN and signs exactly the supplied SignedInfo.
     func withApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws
+}
+
+public extension MinvoiceSigningBackend {
+    /// Noninteractive backends must never silently pick among multiple certificates.
+    func selectCertificate(origin: String, serial: String?) async throws -> CertInfo {
+        let certs = await certificates()
+        let matches = certs.filter { cert in
+            guard let serial, !serial.isEmpty else { return true }
+            return cert.serialHex.caseInsensitiveCompare(serial) == .orderedSame
+        }
+        guard matches.count == 1, let cert = matches.first else { throw SigningTargetError.ambiguousCertificate }
+        return cert
+    }
 }
 
 public actor MinvoiceInvoices {
@@ -18,7 +32,7 @@ public actor MinvoiceInvoices {
         self.backend = backend; self.http = http
     }
 
-    struct Command: Decodable { let CommandName: String; let InvoiceIdArray: [UUID]; let SerialNumber: String }
+    struct Command: Decodable { let CommandName: String; let InvoiceIdArray: [UUID]; let SerialNumber: String? }
     struct Envelope: Decodable { let BrowserInfo: MinvoiceBrowserInfo; let PlugCommand: Command }
 
     func sign(_ text: String, origin: String) async throws {
@@ -27,13 +41,12 @@ public actor MinvoiceInvoices {
         guard text.utf8.count <= 65536, let data = text.data(using: .utf8),
               let envelope = try? JSONDecoder().decode(Envelope.self, from: data),
               envelope.PlugCommand.CommandName == "SignInvoices",
-              !envelope.PlugCommand.SerialNumber.isEmpty,
               OriginAllowlist(patterns: ["*.minvoice.com.vn", "*.minvoice.vn", "*.minvoice.net"]).contains(origin)
         else { throw MinvoiceError.invalidInput }
         guard envelope.PlugCommand.InvoiceIdArray.count == 1 else { throw MinvoiceError.unsupported }
         try envelope.BrowserInfo.validate()
         let id = envelope.PlugCommand.InvoiceIdArray[0], http = self.http
-        try await backend.withApproval(origin: origin, serial: envelope.PlugCommand.SerialNumber) { cert, sign in
+        try await backend.withApproval(origin: origin, serial: envelope.PlugCommand.SerialNumber ?? "") { cert, sign in
             try MinvoiceCashXML.validateCertificate(cert)
             let session = try await MinvoiceLogin.session(info: envelope.BrowserInfo, http: http)
             func json(_ request: URLRequest) async throws -> [String: Any] {

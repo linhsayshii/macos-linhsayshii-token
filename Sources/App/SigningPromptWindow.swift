@@ -1,9 +1,15 @@
 import SwiftUI
 import AppKit
 
+@MainActor
+protocol SigningPromptPresenting {
+    func present<Content: View>(title: String, content: Content, onCancel: @escaping () -> Void)
+    func dismiss()
+}
+
 /// Hosts signing prompts even when the menu bar popover has never been opened.
 @MainActor
-final class SigningPromptWindow: NSObject, NSWindowDelegate {
+final class SigningPromptWindow: NSObject, NSWindowDelegate, SigningPromptPresenting {
     private var panel: NSPanel?
     private var onCancel: (() -> Void)?
 

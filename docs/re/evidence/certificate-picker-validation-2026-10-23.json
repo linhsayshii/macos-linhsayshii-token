@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-23",
+  "branch": "p1-token-core",
+  "tests": {
+    "TSShim": 3,
+    "Core": 24,
+    "Bridges": 30,
+    "App": 9,
+    "total": 66,
+    "passed": true
+  },
+  "native_fixture_render": {
+    "passed": true,
+    "multiple_tokens": true,
+    "real_PIN": false
+  },
+  "native_window_harness": {
+    "visible": true,
+    "key": true,
+    "app_active": true,
+    "close_cancels": true,
+    "next_prompt_opens": true
+  },
+  "packaged_app_smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "no_signing_or_external_rest": true
+  },
+  "packaged_app_picker": {
+    "source": "packaged-app-loopback-SignHash",
+    "menubar_opened": false,
+    "native_cancel_response": {
+      "message": "Đã huỷ yêu cầu ký",
+      "status": 500
+    },
+    "PIN_submitted": false,
+    "business_REST_or_upload": false
+  },
+  "sha256": {
+    "Sources/App/AppModel.swift": "1724ead21def012e0aeb0c86afe98d1ffab07e563c84cefb36beeb42e922d99f",
+    "Sources/App/CertificatePicker.swift": "1195c0a8a13ac02d049489e31f8a26185b3a2cf6c2e938c5982349c1f0cb5fde",
+    "Sources/App/TokenSignerApp.swift": "ac18f9893dbde9a959b3190d24cbc85eee9c782657081df6b007e3431091ede6",
+    "Sources/App/SigningPromptWindow.swift": "ef94625ffa7c3ca580700db155e2c3933c433554159512db3053f9acd66578f0",
+    "Sources/Core/SigningCertificateChoice.swift": "b0545227df6411d2263bb73fc7281affb749259ad1abe15ee7563994a98d6cfa",
+    "Sources/Bridges/CTSignBridge.swift": "6e27a115e855a951f0dd2593ea6bbab7f577e2fb1a50c8fcaea702877216431f",
+    "Sources/Bridges/MinvoiceBridge.swift": "7cbc5c1c213c77983f67b169ab80159d9597d293c6cff2d353e35217b62ebb70",
+    "Sources/Bridges/MinvoiceInvoices.swift": "c83f1c214c80f5c0d02b7b939c69b913d9267e79bd6ca9f3683e3fa13c63169b",
+    "Tests/AppTests/CertificatePickerTests.swift": "f8bb30ab2f6b5783af1ed9cb8167d086f41d8808e44a89ec202bb64c28f98490"
+  },
+  "app_sha256": "0189f40708e6b645b915da2022fd908578b6a7f48224260a26997f07996c84d9",
+  "limitations": [
+    "No live macOS invoice signing in this validation",
+    "FastCA invoice signing still requires a certificate valid at request time",
+    "Native TokenSigner picker; no passkey/Windows Hello/Touch ID token authentication"
+  ]
+}

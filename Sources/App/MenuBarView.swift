@@ -10,6 +10,8 @@ struct MenuBarView: View {
             Text(model.minvoiceStatus).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
             Divider().overlay(Theme.border)
             tokenSection
+            Button("Chọn CKS và ký thử…") { Task { await model.testSign(serial: "") } }
+                .font(.system(size: Theme.Size.sm))
             if let s = model.signingStatus {
                 HStack(spacing: 6) {
                     ProgressView().controlSize(.small)

@@ -10,11 +10,16 @@ bridge TokenSigner, không phải version của binary hãng.
 
 `SignInvoices` hỗ trợ **một hóa đơn cash mỗi lần**, ZIP có đúng một GUID.xml,
 XML root `TDiep`. `HDon`, `BKe`, batch và các lệnh ký khác trả lỗi chưa hỗ trợ.
-TokenInfo cần một chứng thư duy nhất hoặc serial cụ thể; không âm thầm chọn thay
-chứng thư khi nhiều token đang cắm.
+TokenInfo/GetCertificate/GetInfoToken mở cửa sổ chọn CKS của TokenSigner khi
+chưa có lựa chọn của origin đó. Người dùng chọn rõ CKS; thông tin lựa chọn được
+nhớ trong bộ nhớ theo origin để các lần hỏi lặp không bật cửa sổ liên tục.
+Yêu cầu ký vẫn mở lại picker. Chi tiết: [CERTIFICATE-PICKER.md](CERTIFICATE-PICKER.md).
 
-1. Kiểm tra origin, API HTTPS cố định và command. Chọn chứng thư theo serial,
-   từ chối serial mơ hồ; giữ physical token serial và CKA_ID đúng cho helper.
+1. Kiểm tra origin, API HTTPS cố định và command. Người dùng chọn CKS trong popup;
+   serial do trang chỉ định luôn ràng buộc lựa chọn. Nếu thiếu/rỗng SerialNumber,
+   picker cho chọn trong các CKS phù hợp. Hai token chứa cùng serial chứng thư
+   được phân biệt bằng physical token/module/CKA_ID/DER; không dùng vị trí hàng
+   hoặc mặc định lấy chứng thư đầu tiên.
 2. Giữ signing lock chung, kiểm tra hiệu lực chứng thư từ DER và hiện approval
    trước REST login. BrowserInfo chỉ tồn tại trong bộ nhớ; không log/lưu credential.
 3. POST `/api/account/login` với `UserNameOrEmailAddress`, `Password`,
@@ -58,7 +63,7 @@ XML Windows verify độc lập đạt. Đây là căn cứ profile, **không ph
 bản macOS tích hợp mới**. [Evidence đã che dữ liệu](re/evidence/minvoice-live-cash-success.json).
 Callback casing lấy từ CIL/web bundle; giao dịch live chưa thu callback envelope.
 
-Bản tích hợp đạt 57 tests: 3 shim, 24 Core, 30 Bridges. Fixture phần mềm kiểm tra
+Đợt tích hợp ban đầu đạt 57 tests: 3 shim, 24 Core, 30 Bridges. Fixture phần mềm kiểm tra
 luồng đủ từ approval đến callback, đăng nhập/cookie, lỗi auth, chọn sai chứng thư,
 hết hạn, huỷ, yêu cầu đồng thời, signature mismatch, ZIP lỗi và upload lỗi/timeout.
 `xmlsec1` kiểm chứng độc lập XML do signer mới tạo và từ chối dữ liệu bị sửa.

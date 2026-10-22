@@ -34,12 +34,14 @@ public struct MinvoiceBridge: Sendable {
         let command = (root["PlugCommand"] as? [String: Any]) ?? root
         switch command["CommandName"] as? String {
         case "TokenInfo", "GetCertificate", "GetInfoToken":
-            let certs = await backend.certificates()
-            let serial = command["SerialNumber"] as? String
-            let matches = serial.map { s in certs.filter { $0.serialHex.caseInsensitiveCompare(s) == .orderedSame } } ?? certs
-            guard matches.count == 1, let cert = matches.first else { return Self.result(code: 404, message: "Hãy chọn đúng một chứng thư số") }
-            return Self.result(code: 1, data: ["token": ["Issuer": cert.issuer, "SerialNumber": cert.serialHex,
-                "Subject": cert.subject, "NotBefore": Self.iso(cert.notBefore), "NotAfter": Self.iso(cert.notAfter), "Base64Certificate": cert.derB64]])
+            do {
+                let cert = try await backend.selectCertificate(origin: origin, serial: command["SerialNumber"] as? String)
+                return Self.result(code: 1, data: ["token": ["Issuer": cert.issuer, "SerialNumber": cert.serialHex,
+                    "Subject": cert.subject, "NotBefore": Self.iso(cert.notBefore), "NotAfter": Self.iso(cert.notAfter), "Base64Certificate": cert.derB64]])
+            } catch {
+                let (code, message) = Self.failure(error)
+                return Self.result(code: code, message: message)
+            }
         case "SignInvoices":
             do {
                 try await invoices.sign(text, origin: origin)
@@ -54,6 +56,8 @@ public struct MinvoiceBridge: Sendable {
 
     static func failure(_ error: Error) -> (Int, String) {
         switch error {
+        case SigningTargetError.unknownCertificate, SigningTargetError.ambiguousCertificate:
+            return (404, "Hãy chọn đúng một chứng thư số")
         case MinvoiceError.unsupported: return (501, "Hiện chỉ hỗ trợ một hóa đơn cash TDiep mỗi lần; HDon/BKe và batch chưa được hỗ trợ")
         case MinvoiceError.expiredCertificate: return (2, "Chứng thư chưa có hiệu lực hoặc đã hết hạn; không gửi hóa đơn")
         case MinvoiceError.busy: return (2, "Đang xử lý yêu cầu ký khác")

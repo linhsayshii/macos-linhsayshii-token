@@ -13,6 +13,14 @@ public final class AppModel: ObservableObject {
     /// awaits the user's answer via `pinCont`.
     struct PINPrompt: Identifiable { let id = UUID(); let ca, serial: String; let warning: String?; let locked: Bool }
     struct ApprovalPrompt: Identifiable { let id = UUID(); let origin, subject, ca, notAfter, operation: String; let docCount: Int }
+    struct CertificatePrompt {
+        let origin, operation: String
+        let requestedSerial: String?
+        let tokenSerial: String?
+        let requireValid: Bool
+        var choices: [SigningCertificateChoice]
+        var message: String?
+    }
     enum ApprovalChoice: Sendable { case session, once, deny }
 
     private typealias SignTarget = SigningTarget
@@ -42,6 +50,8 @@ public final class AppModel: ObservableObject {
     @Published var approvalPrompt: ApprovalPrompt?
     // SecureField binds here (toolchain lacks the SwiftUI @State macro). Cleared on submit.
     @Published var pinDraft = ""
+    @Published private(set) var certificatePrompt: CertificatePrompt?
+    @Published var selectedCertificateID: String?
 
     private let scanner = ReaderScanner()
     private let broker: TokenBroker
@@ -49,18 +59,20 @@ public final class AppModel: ObservableObject {
     private var server: HTTPServer?
     private var scanTask: Task<Void, Never>?
     private var minvoiceServer: SignalRServer?
-    private var activeMinvoiceID: UUID?
+    private var activeRequestID: UUID?
     @Published private(set) var minvoiceStatus = "Minvoice đang khởi động…"
 
-    // Sign targets by serial from the last scan: module, chosen cert, token flags.
-    private var signTargets: [String: SignTarget] = [:]
+    // Every certificate from the last scan, bound to its physical token and module.
     private var certificateTargets: [SignTarget] = []
-    private var signing = false   // vendor PC/SC lock: pause the scan during a sign
+    private var signing = false   // serialize requests; scan only while choosing a certificate
+    @Published private(set) var refreshingCertificates = false
     private var pinCont: CheckedContinuation<String?, Never>?
     private var approvalCont: CheckedContinuation<ApprovalChoice, Never>?
-    private let promptWindow = SigningPromptWindow()
+    private let promptWindow: any SigningPromptPresenting
+    private var certificateCont: CheckedContinuation<SigningTarget?, Never>?
+    private var rememberedCertificates: [String: String] = [:]
 
-    public init() {
+    public convenience init() {
         // Helper + shim live next to the app binary (bundle Contents/Helpers in a
         // packaged build; the build dir during development).
         let binDir = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent()
@@ -70,7 +82,14 @@ public final class AppModel: ObservableObject {
             .appendingPathComponent("TokenSigner/modules", isDirectory: true)
         try? FileManager.default.createDirectory(at: appModules, withIntermediateDirectories: true)
         let moduleDirs = [URL(fileURLWithPath: "/usr/local/lib"), appModules]
-        self.broker = TokenBroker(helperURL: helper, shimURL: shim, moduleDirs: moduleDirs)
+        self.init(broker: TokenBroker(helperURL: helper, shimURL: shim, moduleDirs: moduleDirs),
+                  promptWindow: SigningPromptWindow())
+    }
+
+    init(broker: TokenBroker, promptWindow: any SigningPromptPresenting, targets: [SigningTarget] = []) {
+        self.broker = broker
+        self.promptWindow = promptWindow
+        updateCertificateTargets(targets)
     }
 
     private var started = false
@@ -96,7 +115,7 @@ public final class AppModel: ObservableObject {
     // listTokens/listCerts) is not. Poll readers fast so plug/unplug shows up
     // quickly, but only run the full refresh when the reader set actually changes.
     private func scanTick() async {
-        if signing { return }   // a sign holds the vendor lock
+        if signing && certificatePrompt == nil { return }   // a sign holds the vendor lock
         let sig = scanner.readers()
             .map { "\($0.reader):\(Data($0.atr).base64EncodedString())" }
             .joined(separator: "|")
@@ -135,10 +154,10 @@ public final class AppModel: ObservableObject {
     private var cachedCerts: [CertInfo] = []
 
     private func refreshTokens() async {
-        if signing { return }   // a sign holds the vendor lock; scanning would deadlock
+        if signing && certificatePrompt == nil { return }   // a sign holds the vendor lock; scanning would deadlock
+        refreshingCertificates = true
+        defer { refreshingCertificates = false }
         var rows: [TokenRow] = []
-        var certCache: [CertInfo] = []
-        var targets: [String: SignTarget] = [:]
         var allTargets: [SignTarget] = []
         // Per-CA modules need one enumeration. Generic candidates are scoped
         // separately to each PC/SC reader before accepting signing targets.
@@ -166,13 +185,9 @@ public final class AppModel: ObservableObject {
                 for t in scopedTokens {
                     let certResponse = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error("Không đọc được chứng thư")
                     if case let .certs(certs) = certResponse {
-                        certCache.append(contentsOf: certs)
                         allTargets.append(contentsOf: certs.map {
                             SignTarget(tokenSerial: t.serial, module: module, cert: $0, flags: t.flags)
                         })
-                        if let c = certs.first {
-                            targets[t.serial] = SignTarget(tokenSerial: t.serial, module: module, cert: c, flags: t.flags)
-                        }
                         if t.reader == r.reader || scopedTokens.count == 1 {
                             row.serial = t.serial; row.label = t.label
                             if let c = certs.first { row.certSubject = c.subject; row.notAfter = c.notAfter }
@@ -185,9 +200,7 @@ public final class AppModel: ObservableObject {
             rows.append(row)
         }
         self.tokens = rows
-        self.cachedCerts = certCache
-        self.signTargets = targets
-        self.certificateTargets = allTargets
+        updateCertificateTargets(allTargets)
     }
 
     // MARK: - Sign path (raw data)
@@ -208,22 +221,103 @@ public final class AppModel: ObservableObject {
     /// RSA PKCS#1 v1.5 DigestInfo block (base64), signed on-card with CKM_RSA_PKCS.
     fileprivate func signPreparedBlock(origin: String, serial: String, blockB64: String, operation: String,
                                        docCount: Int, byCertificateSerial: Bool = false) async throws -> String {
-        guard !signing else { throw TokenBroker.SignError.card("Đang có yêu cầu ký khác, vui lòng thử lại sau") }
-        let target: SignTarget
-        if byCertificateSerial {
-            do { target = try SigningTarget.forCertificate(serial: serial, in: certificateTargets) }
-            catch SigningTargetError.ambiguousCertificate {
-                throw TokenBroker.SignError.card("Nhiều token có cùng serial chứng thư; hãy chỉ kết nối token cần ký")
-            } catch { throw CTSignError.unknownSerial(serial) }
-        } else {
-            guard let selected = signTargets[serial] else { throw CTSignError.unknownSerial(serial) }
-            target = selected
+        try await withSigningRequest {
+            let target = try await chooseCertificate(origin: origin, operation: operation,
+                requestedSerial: byCertificateSerial ? serial : nil,
+                tokenSerial: !byCertificateSerial && !serial.isEmpty ? serial : nil)
+            try await requestApproval(target: target, origin: origin, operation: operation, docCount: docCount)
+            return try await signApproved(target: target, blockB64: blockB64)
         }
-        signing = true
-        defer { signing = false }
+    }
 
-        try await requestApproval(target: target, origin: origin, operation: operation, docCount: docCount)
-        return try await signApproved(target: target, blockB64: blockB64)
+    private func withSigningRequest<T: Sendable>(_ body: @MainActor () async throws -> T) async throws -> T {
+        guard !signing else { throw MinvoiceError.busy }
+        try Task.checkCancellation()
+        signing = true
+        let id = UUID()
+        activeRequestID = id
+        defer { signing = false; activeRequestID = nil; signingStatus = nil }
+        return try await withTaskCancellationHandler {
+            try await body()
+        } onCancel: {
+            Task { @MainActor [weak self] in
+                guard let self, self.activeRequestID == id else { return }
+                if self.certificateCont != nil { self.submitCertificate(nil) }
+                if self.approvalCont != nil { self.submitApproval(.deny) }
+                if self.pinCont != nil { self.submitPIN(nil) }
+            }
+        }
+    }
+
+    /// Refresh the open chooser from the latest scan; a removed choice cannot be submitted.
+    func updateCertificateTargets(_ targets: [SigningTarget]) {
+        certificateTargets = targets
+        cachedCerts = targets.map(\.cert)
+        if var prompt = certificatePrompt {
+            prompt.choices = SigningCertificateChoice.list(targets, requestedSerial: prompt.requestedSerial,
+                tokenSerial: prompt.tokenSerial, requireValid: prompt.requireValid)
+            if let id = selectedCertificateID, !prompt.choices.contains(where: { $0.id == id && $0.canSelect }) {
+                selectedCertificateID = nil
+                prompt.message = "CKS đã thay đổi hoặc bị rút. Hãy chọn lại."
+            }
+            certificatePrompt = prompt
+        }
+    }
+
+    private func chooseCertificate(origin: String, operation: String, requestedSerial: String? = nil,
+                                   tokenSerial: String? = nil, requireValid: Bool = false) async throws -> SigningTarget {
+        try Task.checkCancellation()
+        selectedCertificateID = nil
+        let prompt = CertificatePrompt(origin: origin, operation: operation, requestedSerial: requestedSerial,
+            tokenSerial: tokenSerial, requireValid: requireValid,
+            choices: SigningCertificateChoice.list(certificateTargets, requestedSerial: requestedSerial,
+                                                   tokenSerial: tokenSerial, requireValid: requireValid))
+        guard let target = await withCheckedContinuation({ (continuation: CheckedContinuation<SigningTarget?, Never>) in
+            certificateCont = continuation
+            certificatePrompt = prompt
+            promptWindow.present(title: "Chọn chữ ký số", content: CertificatePicker(model: self)) { [weak self] in
+                self?.submitCertificate(nil)
+            }
+        }) else { throw CancellationError() }
+        try Task.checkCancellation()
+        return target
+    }
+
+    func submitCertificate(_ id: String?) {
+        guard let prompt = certificatePrompt, let continuation = certificateCont else { return }
+        var target: SigningTarget?
+        if let id {
+            guard !refreshingCertificates else {
+                certificatePrompt?.message = "Đang đọc token. Vui lòng chờ danh sách cập nhật."
+                return
+            }
+            // Recheck current inventory and DER validity at the moment of confirmation.
+            guard let choice = SigningCertificateChoice.list(certificateTargets,
+                requestedSerial: prompt.requestedSerial, tokenSerial: prompt.tokenSerial,
+                requireValid: prompt.requireValid).first(where: { $0.id == id && $0.canSelect }) else {
+                selectedCertificateID = nil
+                certificatePrompt?.message = "CKS không còn sẵn sàng. Hãy chọn lại."
+                return
+            }
+            target = choice.target
+        }
+        certificateCont = nil
+        certificatePrompt = nil
+        selectedCertificateID = nil
+        promptWindow.dismiss()
+        continuation.resume(returning: target)
+    }
+
+    func selectCertificate(origin: String, serial: String?) async throws -> CertInfo {
+        try await withSigningRequest {
+            if let remembered = rememberedCertificates[origin],
+               let choice = SigningCertificateChoice.list(certificateTargets, requestedSerial: serial)
+                .first(where: { $0.id == remembered && $0.canSelect }) { return choice.target.cert }
+            let target = try await chooseCertificate(origin: origin, operation: "Đọc thông tin chứng thư cho Minvoice",
+                                                      requestedSerial: serial)
+            rememberedCertificates[origin] = SigningCertificateChoice.identity(target)
+            return target.cert
+        }
     }
 
     private func requestApproval(target: SignTarget, origin: String, operation: String, docCount: Int) async throws {
@@ -275,14 +369,10 @@ public final class AppModel: ObservableObject {
     }
 
     fileprivate func withMinvoiceApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
-        guard !signing else { throw MinvoiceError.busy }
-        let target = try SigningTarget.forCertificate(serial: serial, in: certificateTargets)
-        try MinvoiceCashXML.validateCertificate(target.cert)
-        signing = true
-        let id = UUID()
-        activeMinvoiceID = id
-        defer { signing = false; activeMinvoiceID = nil; signingStatus = nil }
-        try await withTaskCancellationHandler {
+        try await withSigningRequest {
+            let target = try await chooseCertificate(origin: origin, operation: "Ký hóa đơn Minvoice cash",
+                                                      requestedSerial: serial, requireValid: true)
+            try MinvoiceCashXML.validateCertificate(target.cert)
             try await requestApproval(target: target, origin: origin, operation: "Đăng nhập và ký hóa đơn Minvoice cash", docCount: 1)
             signingStatus = "Đang xử lý hóa đơn Minvoice…"
             try await operation(target.cert, { message in
@@ -291,12 +381,6 @@ public final class AppModel: ObservableObject {
                 guard let bytes = Data(base64Encoded: signature) else { throw MinvoiceError.invalidSignature }
                 return bytes
             })
-        } onCancel: {
-            Task { @MainActor [weak self] in
-                guard let self, self.activeMinvoiceID == id else { return }
-                if self.approvalCont != nil { self.submitApproval(.deny) }
-                if self.pinCont != nil { self.submitPIN(nil) }
-            }
         }
     }
 
@@ -316,6 +400,8 @@ public final class AppModel: ObservableObject {
     /// Human-readable Vietnamese for a sign failure. pinIncorrect surfaces the
     /// remaining try count — the number that matters before a lockout.
     private func signErrorText(_ error: Error) -> String {
+        if error is CancellationError { return "Đã huỷ yêu cầu ký" }
+        if case MinvoiceError.busy = error { return "Đang có yêu cầu khác, vui lòng thử lại sau" }
         guard let e = error as? TokenBroker.SignError else { return "\(error)" }
         switch e {
         case .loginFailed(.pinIncorrect(let n)):
@@ -387,6 +473,9 @@ struct Backend: SigningBackend {
 struct MinvoiceBackend: MinvoiceSigningBackend {
     let model: AppModel
     func certificates() async -> [CertInfo] { await model.certificates() }
+    func selectCertificate(origin: String, serial: String?) async throws -> CertInfo {
+        try await model.selectCertificate(origin: origin, serial: serial)
+    }
     func withApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
         try await model.withMinvoiceApproval(origin: origin, serial: serial, operation: operation)
     }
