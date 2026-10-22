@@ -26,3 +26,31 @@ private func fakeHelper() throws -> URL {
     let resp = try await broker.request(.listTokens, module: module)
     #expect(resp == .tokens([TokenInfo(slot: 1, reader: "R", serial: "S", label: "L", flags: [])]))
 }
+
+@Test func fastcaBrokerNeedsNoVendorModuleAndPreservesRuntimeErrors() async throws {
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: dir) }
+    let helper = dir.appendingPathComponent("helper.sh")
+    let script = """
+    #!/bin/sh
+    [ "$1" = --backend ] && [ "$2" = fastca ] || exit 21
+    [ -z "${DYLD_INSERT_LIBRARIES:-}" ] || exit 22
+    [ "$OPENSC_DEBUG" = 0 ] || exit 23
+    while IFS= read -r line; do
+      printf '%s\\n' '{"error":{"_0":"OpenSC runtime unavailable"}}'
+    done
+    """
+    try script.write(to: helper, atomically: true, encoding: .utf8)
+    try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: helper.path)
+    let broker = TokenBroker(helperURL: helper, shimURL: dir.appendingPathComponent("absent-shim"), moduleDirs: [])
+    let module = try #require(ModuleRegistry.lookup(atr: FastCAProfile.atr))
+    #expect(try await broker.request(.listTokens, module: module) == .error("OpenSC runtime unavailable"))
+    do {
+        _ = try await broker.sign(module: module, serial: "fixture", certId: "01",
+                                  mech: .rsaPKCS, dataB64: "AA==", pin: "test fixture only")
+        Issue.record("Expected missing-runtime error")
+    } catch {
+        #expect(error as? TokenBroker.SignError == .card("OpenSC runtime unavailable"))
+    }
+}

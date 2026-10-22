@@ -17,6 +17,8 @@ let package = Package(
             .linkedFramework("PCSC")
         ]),
         .target(name: "CPKCS11"),
+        .target(name: "CFastCA", exclude: ["vendor/COPYING", "vendor/README.md"],
+                cSettings: [.define("ENABLE_SM"), .headerSearchPath("vendor")]),
         .target(name: "CPCSC", linkerSettings: [
             .linkedFramework("PCSC")
         ]),
@@ -26,7 +28,7 @@ let package = Package(
             .product(name: "SwiftASN1", package: "swift-asn1"),
         ]),
         .executableTarget(name: "TokenHelper", dependencies: [
-            "Core", "TSShim", "CPKCS11",
+            "Core", "TSShim", "CPKCS11", "CFastCA",
             .product(name: "X509", package: "swift-certificates"),
             .product(name: "SwiftASN1", package: "swift-asn1"),
         ]),

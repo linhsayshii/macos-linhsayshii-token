@@ -278,7 +278,7 @@ final class PKCS11 {
         return f
     }()
 
-    private static func makeCertInfo(id: [UInt8], der: [UInt8]) -> CertInfo? {
+    static func makeCertInfo(id: [UInt8], der: [UInt8]) -> CertInfo? {
         guard let cert = try? Certificate(derEncoded: der) else { return nil }
         return CertInfo(
             id: id.map { String(format: "%02x", $0) }.joined(),

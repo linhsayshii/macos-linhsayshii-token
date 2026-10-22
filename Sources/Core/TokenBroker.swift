@@ -37,7 +37,8 @@ public actor TokenBroker {
         ], module: module)
         guard case let .loginResult(lr) = resp.first, lr == .ok else {
             if case let .loginResult(lr) = resp.first { throw SignError.loginFailed(lr) }
-            throw SignError.loginFailed(.pinIncorrect(retriesLeft: nil))
+            if case let .error(message) = resp.first { throw SignError.card(message) }
+            throw SignError.card("helper không trả kết quả đăng nhập")
         }
         switch resp.count > 1 ? resp[1] : .error("no sign response") {
         case .signature(let b64): return b64
@@ -49,17 +50,28 @@ public actor TokenBroker {
     /// Spawn one helper, send each request on its own line, return the responses
     /// in order (one per line read back).
     private func run(_ reqs: [HelperRequest], module: ModuleInfo) throws -> [HelperResponse] {
-        let modulePath = try resolve(module.moduleName)
         let proc = Process()
-        if module.arch == .x86_64 {
+        if module.backend == .fastca {
+            proc.executableURL = helperURL
+            proc.arguments = ["--backend", "fastca"]
+        } else if module.arch == .x86_64 {
+            let modulePath = try resolve(module.moduleName)
             proc.executableURL = URL(fileURLWithPath: "/usr/bin/arch")
             proc.arguments = ["-x86_64", helperURL.path, "--module", modulePath]
         } else {
+            let modulePath = try resolve(module.moduleName)
             proc.executableURL = helperURL
             proc.arguments = ["--module", modulePath]
         }
         var env = ProcessInfo.processInfo.environment
-        env["DYLD_INSERT_LIBRARIES"] = shimURL.path
+        if module.backend == .fastca {
+            // Native OpenSC emits standard APDUs and needs no vendor shim.
+            // Never permit inherited APDU/key debug settings in a PIN process.
+            for key in ["DYLD_INSERT_LIBRARIES", "OPENSC_DEBUG_FILE", "OPENSC_CONF", "TSSHIM_LOG"] {
+                env.removeValue(forKey: key)
+            }
+            env["OPENSC_DEBUG"] = "0"
+        } else { env["DYLD_INSERT_LIBRARIES"] = shimURL.path }
         proc.environment = env
 
         let stdinPipe = Pipe(), stdoutPipe = Pipe()
@@ -75,6 +87,7 @@ public actor TokenBroker {
 
         let out = stdoutPipe.fileHandleForReading.readDataToEndOfFile()
         proc.waitUntilExit()
+        guard proc.terminationStatus == 0 else { return [.error("TokenHelper đã dừng (\(proc.terminationStatus))")] }
         let dec = JSONDecoder()
         return out.split(separator: 0x0a).map {
             (try? dec.decode(HelperResponse.self, from: Data($0))) ?? .error("decode failed")

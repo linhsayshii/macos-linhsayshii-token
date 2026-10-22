@@ -15,17 +15,19 @@ public final class AppModel: ObservableObject {
     struct ApprovalPrompt: Identifiable { let id = UUID(); let origin, subject, ca, notAfter, operation: String; let docCount: Int }
     enum ApprovalChoice: Sendable { case session, once, deny }
 
-    private struct SignTarget { let module: ModuleInfo; let cert: CertInfo; let flags: [String] }
+    private typealias SignTarget = SigningTarget
 
     public struct TokenRow: Identifiable, Sendable {
         public var id: String { serial.isEmpty ? reader : serial }
         public let ca: String
         public let supported: Bool
+        public var experimental: Bool = false
         public let reader: String
         public var serial: String
         public var label: String
         public var certSubject: String?
         public var notAfter: String?
+        public var readError: String? = nil
     }
 
     public enum BridgeStatus: Sendable, Equatable { case starting, up, portInUse, failed(String) }
@@ -49,6 +51,7 @@ public final class AppModel: ObservableObject {
 
     // Sign targets by serial from the last scan: module, chosen cert, token flags.
     private var signTargets: [String: SignTarget] = [:]
+    private var certificateTargets: [SignTarget] = []
     private var signing = false   // vendor PC/SC lock: pause the scan during a sign
     private var pinCont: CheckedContinuation<String?, Never>?
     private var approvalCont: CheckedContinuation<ApprovalChoice, Never>?
@@ -119,8 +122,9 @@ public final class AppModel: ObservableObject {
         var rows: [TokenRow] = []
         var certCache: [CertInfo] = []
         var targets: [String: SignTarget] = [:]
-        // One module per CA: dedupe so two readers of the same CA don't spawn
-        // two concurrent helpers against the vendor lib.
+        var allTargets: [SignTarget] = []
+        // Per-CA modules need one enumeration. Generic candidates are scoped
+        // separately to each PC/SC reader before accepting signing targets.
         var seenModules = Set<String>()
         for r in scanner.readers() {
             guard let module = ModuleRegistry.lookup(atr: r.atr) else {
@@ -130,19 +134,34 @@ public final class AppModel: ObservableObject {
             }
             var row = TokenRow(ca: module.ca, supported: true, reader: r.reader,
                                serial: "", label: "", certSubject: nil, notAfter: nil)
-            if !seenModules.contains(module.moduleName),
-               case let .tokens(list) = (try? await broker.request(.listTokens, module: module)) ?? .error("") {
+            row.experimental = module.isExperimental
+            if module.tokenScope == .reader || !seenModules.contains(module.moduleName) {
+                let response: HelperResponse
+                do { response = try await broker.request(.listTokens, module: module) }
+                catch { response = .error("\(error)") }
+                guard case let .tokens(list) = response else {
+                    if case let .error(message) = response { row.readError = message }
+                    rows.append(row)
+                    continue
+                }
                 seenModules.insert(module.moduleName)
-                for t in list {
-                    if case let .certs(certs) = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error("") {
+                let scopedTokens = module.tokensForReader(r.reader, from: list)
+                for t in scopedTokens {
+                    let certResponse = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error("Không đọc được chứng thư")
+                    if case let .certs(certs) = certResponse {
                         certCache.append(contentsOf: certs)
+                        allTargets.append(contentsOf: certs.map {
+                            SignTarget(tokenSerial: t.serial, module: module, cert: $0, flags: t.flags)
+                        })
                         if let c = certs.first {
-                            targets[t.serial] = SignTarget(module: module, cert: c, flags: t.flags)
+                            targets[t.serial] = SignTarget(tokenSerial: t.serial, module: module, cert: c, flags: t.flags)
                         }
-                        if t.reader == r.reader || list.count == 1 {
+                        if t.reader == r.reader || scopedTokens.count == 1 {
                             row.serial = t.serial; row.label = t.label
                             if let c = certs.first { row.certSubject = c.subject; row.notAfter = c.notAfter }
                         }
+                    } else if case let .error(message) = certResponse {
+                        row.readError = message
                     }
                 }
             }
@@ -151,6 +170,7 @@ public final class AppModel: ObservableObject {
         self.tokens = rows
         self.cachedCerts = certCache
         self.signTargets = targets
+        self.certificateTargets = allTargets
     }
 
     // MARK: - Sign path (raw data)
@@ -169,9 +189,19 @@ public final class AppModel: ObservableObject {
 
     /// Approval → PIN → one login/sign/logout spawn. `blockB64` is the already-built
     /// RSA PKCS#1 v1.5 DigestInfo block (base64), signed on-card with CKM_RSA_PKCS.
-    fileprivate func signPreparedBlock(origin: String, serial: String, blockB64: String, operation: String, docCount: Int) async throws -> String {
+    fileprivate func signPreparedBlock(origin: String, serial: String, blockB64: String, operation: String,
+                                       docCount: Int, byCertificateSerial: Bool = false) async throws -> String {
         guard !signing else { throw TokenBroker.SignError.card("Đang có yêu cầu ký khác, vui lòng thử lại sau") }
-        guard let target = signTargets[serial] else { throw CTSignError.unknownSerial(serial) }
+        let target: SignTarget
+        if byCertificateSerial {
+            do { target = try SigningTarget.forCertificate(serial: serial, in: certificateTargets) }
+            catch SigningTargetError.ambiguousCertificate {
+                throw TokenBroker.SignError.card("Nhiều token có cùng serial chứng thư; hãy chỉ kết nối token cần ký")
+            } catch { throw CTSignError.unknownSerial(serial) }
+        } else {
+            guard let selected = signTargets[serial] else { throw CTSignError.unknownSerial(serial) }
+            target = selected
+        }
         signing = true
         defer { signing = false }
 
@@ -192,7 +222,7 @@ public final class AppModel: ObservableObject {
         }
 
         let w = pinWarning(target.flags)
-        let prompt = PINPrompt(ca: target.module.ca, serial: serial, warning: w.text, locked: w.locked)
+        let prompt = PINPrompt(ca: target.module.ca, serial: target.tokenSerial, warning: w.text, locked: w.locked)
         guard let pin = await withCheckedContinuation({ (c: CheckedContinuation<String?, Never>) in
             pinCont = c
             pinPrompt = prompt
@@ -204,8 +234,14 @@ public final class AppModel: ObservableObject {
 
         signingStatus = "Đang ký…"
         defer { signingStatus = nil }
-        return try await broker.sign(module: target.module, serial: serial, certId: target.cert.id,
-                                     mech: .rsaPKCS, dataB64: blockB64, pin: pin)
+        let signature = try await broker.sign(module: target.module, serial: target.tokenSerial, certId: target.cert.id,
+                                             mech: .rsaPKCS, dataB64: blockB64, pin: pin)
+        guard let bytes = Data(base64Encoded: signature), let payload = Data(base64Encoded: blockB64),
+              let der = Data(base64Encoded: target.cert.derB64),
+              RSAPKCS1v15.verify(signature: bytes, payload: payload, certificateDER: der) else {
+            throw TokenBroker.SignError.card("Chữ ký không khớp chứng thư/dữ liệu đã duyệt")
+        }
+        return signature
     }
 
     /// Sign a fixed test string so the login/sign path can be exercised from the
@@ -215,7 +251,7 @@ public final class AppModel: ObservableObject {
         do {
             let sig = try await sign(origin: "TokenSigner (ký thử)", serial: serial,
                                      dataB64: data.base64EncodedString(), operation: "Ký thử", docCount: 1)
-            lastSignResult = "Ký OK — chữ ký \(Data(base64Encoded: sig)?.count ?? 0) byte"
+            lastSignResult = "Ký và xác minh OK — chữ ký \(Data(base64Encoded: sig)?.count ?? 0) byte"
         } catch {
             lastSignResult = "Lỗi ký: \(signErrorText(error))"
         }
@@ -253,6 +289,7 @@ public final class AppModel: ObservableObject {
         if flags.contains("USER_PIN_LOCKED") { return ("PIN đã bị khoá", true) }
         if flags.contains("USER_PIN_FINAL_TRY") { return ("Còn 1 lần thử — sai là khoá token", false) }
         if flags.contains("USER_PIN_COUNT_LOW") { return ("Token sắp bị khoá — nhập PIN cẩn thận", false) }
+        if flags.contains("PIN_RETRIES_UNKNOWN") { return ("Chưa biết số lần thử PIN còn lại; chỉ xác thực một lần, không tự thử lại", false) }
         return (nil, false)
     }
 
@@ -274,7 +311,7 @@ struct Backend: SigningBackend {
         let block = try DigestInfo.wrap(Array(digest), .sha256)
         return try await model.signPreparedBlock(origin: "CTSigningHub", serial: serial,
                                                  blockB64: Data(block).base64EncodedString(),
-                                                 operation: "Ký", docCount: 1)
+                                                 operation: "Ký", docCount: 1, byCertificateSerial: true)
     }
 
     /// Accept a 32-byte SHA-256 as base64 (CTSigningHub default) or hex.

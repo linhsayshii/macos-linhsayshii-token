@@ -3,3 +3,4 @@
 *.app/
 .swiftpm/
 Package.resolved
+.local/

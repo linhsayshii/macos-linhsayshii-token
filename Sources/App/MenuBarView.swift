@@ -67,6 +67,10 @@ struct MenuBarView: View {
                             Text("Chưa hỗ trợ")
                                 .font(.system(size: Theme.Size.xs))
                                 .foregroundStyle(Theme.warning)
+                        } else if t.experimental {
+                            Text("Thử nghiệm")
+                                .font(.system(size: Theme.Size.xs))
+                                .foregroundStyle(Theme.warning)
                         }
                         Spacer()
                         if !t.serial.isEmpty {
@@ -78,6 +82,9 @@ struct MenuBarView: View {
                     }
                     if let exp = t.notAfter {
                         Text("Hết hạn: \(exp)").font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                    }
+                    if let error = t.readError {
+                        Text(error).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.warning)
                     }
                     if t.supported && !t.serial.isEmpty {
                         Button("Ký thử") { Task { await model.testSign(serial: t.serial) } }
