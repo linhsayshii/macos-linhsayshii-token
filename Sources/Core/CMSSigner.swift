@@ -15,6 +15,14 @@ public enum CMSSigner {
 
     public static func signDetached(content: Data, signer: MessageSigner, hash: HashAlg = .sha256,
                                     signingTime: Date = Date()) async throws -> Data {
+        try await sign(content: content, signer: signer, hash: hash, signingTime: signingTime, attached: false)
+    }
+    public static func signAttached(content: Data, signer: MessageSigner, hash: HashAlg = .sha256,
+                                    signingTime: Date = Date()) async throws -> Data {
+        try await sign(content: content, signer: signer, hash: hash, signingTime: signingTime, attached: true)
+    }
+    private static func sign(content: Data, signer: MessageSigner, hash: HashAlg,
+                             signingTime: Date, attached: Bool) async throws -> Data {
         let certDER = signer.certificateDER
         guard let cert = try? Certificate(derEncoded: Array(certDER)) else { throw CMSError.badCertificate }
         var s = SwiftASN1.DER.Serializer(); try s.serialize(cert.issuer)
@@ -40,7 +48,10 @@ public enum CMSSigner {
 
         let signerInfo = DERW.seq(DERW.int(1), DERW.seq(issuerDER, serial), digestAlg, signedAttrs,
                                  DERW.seq(DERW.oid("1.2.840.113549.1.1.1"), DERW.null), DERW.octets(signature))
-        let signedData = DERW.seq(DERW.int(1), DERW.set([digestAlg]), DERW.seq(DERW.oid("1.2.840.113549.1.7.1")),
+        let encapsulated = attached
+            ? DERW.seq(DERW.oid("1.2.840.113549.1.7.1"), DERW.tlv(0xA0, DERW.octets(content)))
+            : DERW.seq(DERW.oid("1.2.840.113549.1.7.1"))
+        let signedData = DERW.seq(DERW.int(1), DERW.set([digestAlg]), encapsulated,
                                  DERW.tlv(0xA0, certDER), DERW.set([signerInfo]))
         return DERW.seq(DERW.oid("1.2.840.113549.1.7.2"), DERW.tlv(0xA0, signedData))
     }

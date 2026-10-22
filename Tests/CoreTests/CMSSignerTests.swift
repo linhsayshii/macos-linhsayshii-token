@@ -21,3 +21,16 @@ func cmsDetachedVerifiesWithOpenSSL(h: HashAlg) async throws {
     let bad = try verify(pki, content: Data("<a>HELLO</a>".utf8), sig: der)
     #expect(bad.status != 0)
 }
+
+@Test(.enabled(if: Tool.exists("openssl")))
+func cmsAttachedCarriesContentAndVerifiesWithOpenSSL() async throws {
+    let pki = try TestPKI.make(), directory = try TempDir()
+    defer { try? FileManager.default.removeItem(at: directory.url) }
+    let content = Data("attached CMS fixture".utf8)
+    let signature = try await CMSSigner.signAttached(content: content, signer: pki.signer)
+    try signature.write(to: directory["signed.der"])
+    let result = try Tool.run("openssl", ["cms", "-verify", "-binary", "-inform", "DER", "-in", directory["signed.der"].path,
+        "-CAfile", pki.certPEMPath, "-purpose", "any", "-out", directory["content.bin"].path])
+    #expect(result.status == 0, "\(result.stderr)")
+    #expect(try Data(contentsOf: directory["content.bin"]) == content)
+}

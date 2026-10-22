@@ -2,5 +2,7 @@
 .build/
 *.app/
 .swiftpm/
-Package.resolved
 .local/
+__pycache__/
+*.py[cod]
+.claude/worktrees/

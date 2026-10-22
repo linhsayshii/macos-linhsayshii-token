@@ -21,10 +21,14 @@ public protocol SigningService: Sendable {
     func signMessage(_ ctx: BridgeContext, serial: String?, message: Data, hash: HashAlg) async throws -> (signature: Data, certDER: Data)
     /// Sign a precomputed digest (SHA-256 32B / SHA-1 20B) on-card.
     func signDigest(_ ctx: BridgeContext, serial: String?, digest: Data, hash: HashAlg) async throws -> Data
+    func signCMSAttached(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data
     func signCMS(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data
 }
 
 public extension SigningService {
+    func signCMSAttached(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {
+        throw SigningFailure.bad("Attached CMS chưa được hỗ trợ")
+    }
     func selectCertificate(_ ctx: BridgeContext, serial: String?) async throws -> CertInfo {
         let matches = await certificates().filter { cert in
             guard let serial, !serial.isEmpty else { return true }

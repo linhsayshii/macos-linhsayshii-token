@@ -6,14 +6,27 @@ struct MenuBarView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            statusLine
-            ForEach([8768, 8769], id: \.self) { port in
+            ForEach(model.bridges) { row in
                 HStack(spacing: 8) {
-                    Circle().fill(esignerColor(port)).frame(width: 8, height: 8)
-                    Text(esignerText(port)).font(.system(size: Theme.Size.xs))
+                    Circle().fill(statusColor(row.status)).frame(width: 8, height: 8)
+                    Text("\(row.endpoint.name) · \(row.endpoint.port)").font(.system(size: Theme.Size.sm))
+                    Spacer(minLength: 4)
+                    Text(statusText(row.status)).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
                 }
             }
-            Text(model.minvoiceStatus).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+            DisclosureGroup("Kết nối và quyền") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(model.trustStatus).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                    if !model.localhostTrusted {
+                        Text("VNPT dùng SSL localhost. macOS sẽ hỏi quyền khi bạn tin cậy chứng chỉ.")
+                            .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                        Button("Tin cậy localhost cho VNPT") { model.trustLocalhostCertificate() }
+                    }
+                    ForEach(model.allowedOrigins, id: \.self) { host in
+                        HStack { Text(host).font(.system(size: Theme.Size.xs)); Spacer(); Button("Gỡ") { model.removeOrigin(host) } }
+                    }
+                }.padding(.top, 6)
+            }.font(.system(size: Theme.Size.sm))
             Divider().overlay(Theme.border)
             tokenSection
             Button("Chọn CKS và ký thử…") { Task { await model.testSign(serial: "") } }
@@ -26,6 +39,16 @@ struct MenuBarView: View {
             } else if let r = model.lastSignResult {
                 Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
             }
+            if !model.recentAudit.isEmpty {
+                DisclosureGroup("Lịch sử ký gần đây") {
+                    VStack(alignment: .leading, spacing: 4) {
+                        ForEach(Array(model.recentAudit.reversed().enumerated()), id: \.offset) { _, entry in
+                            Text("\(entry.bridge) · \(entry.result) · \(entry.time)")
+                                .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                        }
+                    }
+                }.font(.system(size: Theme.Size.sm))
+            }
             Divider().overlay(Theme.border)
             Button("Thoát") { NSApplication.shared.terminate(nil) }
                 .buttonStyle(.plain)
@@ -33,50 +56,24 @@ struct MenuBarView: View {
                 .foregroundStyle(Theme.muted)
         }
         .padding(16)
-        .frame(width: 320)
+        .frame(width: 360)
         .background(Theme.background)
         .foregroundStyle(Theme.foreground)
     }
 
-    private var statusLine: some View {
-        HStack(spacing: 8) {
-            Circle().fill(statusColor).frame(width: 8, height: 8)
-            Text(statusText).font(.system(size: Theme.Size.sm))
-            Spacer()
-        }
-    }
-
-    private var statusColor: Color {
-        switch model.bridgeStatus {
+    private func statusColor(_ status: AppModel.BridgeStatus) -> Color {
+        switch status {
         case .up: return Theme.success
         case .starting: return Theme.warning
         case .portInUse, .failed: return Theme.danger
         }
     }
-
-    private var statusText: String {
-        switch model.bridgeStatus {
-        case .starting: return "CTSigningHub · 32001 khởi động…"
-        case .up: return "CTSigningHub · 32001 sẵn sàng"
-        case .portInUse: return "CTSigningHub · 32001 đã bị chiếm"
-        case .failed(let m): return "Lỗi: \(m)"
-        }
-    }
-
-    private func esignerColor(_ port: Int) -> Color {
-        switch model.esignerStatuses[port] ?? .starting {
-        case .up: return Theme.success
-        case .starting: return Theme.warning
-        case .portInUse, .failed: return Theme.danger
-        }
-    }
-    private func esignerText(_ port: Int) -> String {
-        let prefix = "eSigner · \(port)"
-        switch model.esignerStatuses[port] ?? .starting {
-        case .up: return "\(prefix) sẵn sàng"
-        case .starting: return "\(prefix) khởi động…"
-        case .portInUse: return "\(prefix) đã bị chiếm"
-        case .failed: return "\(prefix) lỗi khởi động"
+    private func statusText(_ status: AppModel.BridgeStatus) -> String {
+        switch status {
+        case .up: return "Sẵn sàng"
+        case .starting: return "Khởi động…"
+        case .portInUse: return "Cổng bị chiếm"
+        case .failed: return "Lỗi khởi động"
         }
     }
 

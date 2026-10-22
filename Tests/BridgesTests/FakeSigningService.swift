@@ -27,6 +27,10 @@ final class FakeSigningService: SigningService, @unchecked Sendable {
         record("digest-\(hash)", ctx, serial, digest); if let failure { throw failure }
         return Data([7, 7])
     }
+    func signCMSAttached(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {
+        record("cms-attached", ctx, serial, content); if let failure { throw failure }
+        return Data([0x30, 0x03, 0x02, 0x01, 0x01])
+    }
     func signCMS(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {
         record("cms", ctx, serial, content); if let failure { throw failure }
         return Data([0x30, 0x03, 0x02, 0x01, 0x01])

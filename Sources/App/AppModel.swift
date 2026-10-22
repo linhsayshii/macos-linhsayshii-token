@@ -40,8 +40,29 @@ public final class AppModel: ObservableObject {
 
     public enum BridgeStatus: Sendable, Equatable { case starting, up, portInUse, failed(String) }
 
+    struct BridgeRow: Identifiable {
+        var id: BridgeKind { endpoint.kind }
+        let endpoint: BridgeEndpoint
+        var status: BridgeStatus
+    }
+    static let defaultSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        .appendingPathComponent("TokenSigner", isDirectory: true)
+    @Published private(set) var bridges: [BridgeRow] = []
+    @Published private(set) var recentAudit: [AuditEntry] = []
+    @Published private(set) var localhostTrusted = false
+    @Published private(set) var trustStatus = "Đang kiểm tra localhost…"
+    @Published var originPrompt: String?
+    @Published private(set) var allowedOrigins: [String] = []
+    private var pendingOrigins: [String] = []
+    private var dismissedOrigins = Set<String>()
+    private var originTask: Task<Void, Never>?
+    private let supportDirectory: URL
+    private let audit: AuditLog
+    private let localCA: LocalCA
+    private let originStore: OriginStore
+    private let configurationValid: Bool
+
     @Published public private(set) var tokens: [TokenRow] = []
-    @Published public private(set) var bridgeStatus: BridgeStatus = .starting
     @Published private(set) var lastSignResult: String?
     // Non-nil while a sign is running (login→sign→logout, ~10s on some tokens);
     // the menu shows it so the user isn't left guessing after submitting the PIN.
@@ -59,10 +80,8 @@ public final class AppModel: ObservableObject {
     private var server: HTTPServer?
     private var scanTask: Task<Void, Never>?
     private var esignerServers: [WSServer] = []
-    @Published private(set) var esignerStatuses: [Int: BridgeStatus] = [8768: .starting, 8769: .starting]
     private var minvoiceServer: SignalRServer?
     private var activeRequestID: UUID?
-    @Published private(set) var minvoiceStatus = "Minvoice đang khởi động…"
 
     // Every certificate from the last scan, bound to its physical token and module.
     private var certificateTargets: [SignTarget] = []
@@ -85,10 +104,21 @@ public final class AppModel: ObservableObject {
         try? FileManager.default.createDirectory(at: appModules, withIntermediateDirectories: true)
         let moduleDirs = [URL(fileURLWithPath: "/usr/local/lib"), appModules]
         self.init(broker: TokenBroker(helperURL: helper, shimURL: shim, moduleDirs: moduleDirs),
-                  promptWindow: SigningPromptWindow())
+                  promptWindow: SigningPromptWindow(), supportDirectory: Self.defaultSupportDirectory,
+                  portOffset: ProcessInfo.processInfo.environment["TOKENSIGNER_PORT_OFFSET"].map { Int($0) ?? -1 } ?? 0)
     }
 
-    init(broker: TokenBroker, promptWindow: any SigningPromptPresenting, targets: [SigningTarget] = []) {
+    init(broker: TokenBroker, promptWindow: any SigningPromptPresenting, targets: [SigningTarget] = [],
+         supportDirectory: URL? = nil, portOffset: Int = 0) {
+        let directory = supportDirectory ?? FileManager.default.temporaryDirectory.appendingPathComponent("TokenSigner-test-\(UUID())")
+        self.supportDirectory = directory
+        audit = AuditLog(fileURL: directory.appendingPathComponent("audit.jsonl"))
+        localCA = LocalCA(directory: directory.appendingPathComponent("tls", isDirectory: true))
+        originStore = OriginStore(fileURL: directory.appendingPathComponent("origins.json"))
+        let validConfiguration = (try? BridgeCatalog.endpoints(offset: portOffset)) != nil
+        configurationValid = validConfiguration
+        let endpoints = (try? BridgeCatalog.endpoints(offset: portOffset)) ?? (try! BridgeCatalog.endpoints())
+        bridges = endpoints.map { BridgeRow(endpoint: $0, status: validConfiguration ? .starting : .failed("Sai TOKENSIGNER_PORT_OFFSET")) }
         self.broker = broker
         self.promptWindow = promptWindow
         updateCertificateTargets(targets)
@@ -99,9 +129,14 @@ public final class AppModel: ObservableObject {
     public func start() {
         guard !started else { return }   // MenuBarExtra onAppear can fire repeatedly
         started = true
-        startServer()
-        startMinvoiceServer()
-        startESignerServers()
+        guard configurationValid else { return }
+        startServers()
+        originTask = Task { [weak self] in
+            while !Task.isCancelled {
+                await self?.pollOrigins()
+                try? await Task.sleep(for: .seconds(1))
+            }
+        }
         scanTask = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.scanTick()
@@ -127,47 +162,116 @@ public final class AppModel: ObservableObject {
         await refreshTokens()
     }
 
-    private func startServer() {
-        let bridge = CTSignBridge(backend: Backend(model: self), service: AppSigningService(model: self))
-        let server = HTTPServer(bridge: bridge, port: 32001, allowlist: .defaults)
-        self.server = server
+    private func setBridge(_ kind: BridgeKind, _ status: BridgeStatus) {
+        guard let index = bridges.firstIndex(where: { $0.id == kind }) else { return }
+        bridges[index].status = status
+    }
+
+    private func startServers() {
+        let service = AppSigningService(model: self)
+        let esigner = ESignerBridge(service: service, chooser: AppFileChooser(model: self))
+        let vnpt = VNPTBridge(service: service)
+        for row in bridges {
+            let endpoint = row.endpoint
+            switch endpoint.kind {
+            case .ctsign:
+                let server = HTTPServer(bridge: CTSignBridge(backend: Backend(model: self), service: service),
+                                        port: endpoint.port, store: originStore)
+                self.server = server
+                Task {
+                    do { try await server.start(); setBridge(endpoint.kind, .up) }
+                    catch HTTPServer.StartError.portInUse { setBridge(endpoint.kind, .portInUse) }
+                    catch { setBridge(endpoint.kind, .failed("Không mở được dịch vụ")) }
+                }
+            case .minvoice:
+                let bridge = MinvoiceBridge(backend: MinvoiceBackend(model: self))
+                let server = SignalRServer(port: endpoint.port, store: originStore, hub: SignalRHub(handler: bridge.handler))
+                minvoiceServer = server
+                Task {
+                    do { _ = try await server.start(); setBridge(endpoint.kind, .up) }
+                    catch SignalRServer.StartError.portInUse { setBridge(endpoint.kind, .portInUse) }
+                    catch { setBridge(endpoint.kind, .failed("Không mở được dịch vụ")) }
+                }
+            case .esigner, .esignerAlternate:
+                let server = WSServer(ports: [endpoint.port], pathPrefix: endpoint.path, store: originStore) { text, origin in
+                    await esigner.handle(text: text, origin: origin)
+                }
+                esignerServers.append(server)
+                launch(server, endpoint: endpoint)
+            case .vnpt, .vnptDVC:
+                // TLS initialization is shared below; never fall back to plaintext on a WSS port.
+                break
+            }
+        }
         Task {
-            do { try await server.start(); self.bridgeStatus = .up }
-            catch HTTPServer.StartError.portInUse { self.bridgeStatus = .portInUse }
-            catch { self.bridgeStatus = .failed("\(error)") }
+            do {
+                let tls = try await Task.detached { [localCA] in try localCA.sslContext() }.value
+                for row in bridges where row.endpoint.tls {
+                    let endpoint = row.endpoint
+                    let server = WSServer(ports: [endpoint.port], pathPrefix: endpoint.path, store: originStore, tls: tls) { text, origin in
+                        await vnpt.handle(text: text, origin: origin)
+                    }
+                    esignerServers.append(server)
+                    launch(server, endpoint: endpoint)
+                }
+                localhostTrusted = await Task.detached { [localCA] in localCA.isTrusted() }.value
+                trustStatus = localhostTrusted ? "localhost đã được tin cậy" : "VNPT cần tin cậy localhost để trình duyệt kết nối"
+            } catch {
+                for kind in [BridgeKind.vnpt, .vnptDVC] { setBridge(kind, .failed("Không tạo được TLS localhost")) }
+                trustStatus = "Không tạo được chứng chỉ localhost"
+            }
+        }
+        Task { recentAudit = await audit.recent(5); allowedOrigins = await originStore.userPatterns() }
+    }
+
+    private func launch(_ server: WSServer, endpoint: BridgeEndpoint) {
+        Task {
+            do { _ = try await server.start(); setBridge(endpoint.kind, .up) }
+            catch WSServer.StartError.portInUse { setBridge(endpoint.kind, .portInUse) }
+            catch { setBridge(endpoint.kind, .failed("Không mở được dịch vụ")) }
         }
     }
 
-    private func startMinvoiceServer() {
-        let file = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("TokenSigner/origins.json")
-        let bridge = MinvoiceBridge(backend: MinvoiceBackend(model: self))
-        let server = SignalRServer(store: OriginStore(fileURL: file), hub: SignalRHub(handler: bridge.handler))
-        minvoiceServer = server
+    /// Invoked only by the user's button; trust is scoped to SSL/localhost in their login keychain.
+    func trustLocalhostCertificate() {
+        trustStatus = "Đang chờ xác nhận của macOS…"
         Task {
-            do { _ = try await server.start(); minvoiceStatus = "Minvoice 16080 sẵn sàng · cash đơn" }
-            catch SignalRServer.StartError.portInUse { minvoiceStatus = "Minvoice: cổng 16080 đã bị chiếm" }
-            catch { minvoiceStatus = "Minvoice: không mở được cổng 16080" }
+            let trusted = await Task.detached { [localCA] in
+                let command = localCA.trustCommand()
+                let process = Process()
+                process.executableURL = URL(fileURLWithPath: command[0]); process.arguments = Array(command.dropFirst())
+                process.standardOutput = FileHandle.nullDevice; process.standardError = FileHandle.nullDevice
+                do { try process.run(); process.waitUntilExit() } catch { return false }
+                return localCA.isTrusted()
+            }.value
+            localhostTrusted = trusted
+            trustStatus = trusted ? "localhost đã được tin cậy" : "Chưa tin cậy localhost; macOS có thể đã huỷ thao tác"
         }
     }
 
-    private func startESignerServers() {
-        let file = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("TokenSigner/origins.json")
-        let store = OriginStore(fileURL: file)
-        let bridge = ESignerBridge(service: AppSigningService(model: self), chooser: AppFileChooser(model: self))
-        // Both endpoints are live. A conflict on one port does not disable the other.
-        for port in [8768, 8769] {
-            let server = WSServer(ports: [port], pathPrefix: "/plugin/sign", store: store) { text, origin in
-                await bridge.handle(text: text, origin: origin)
-            }
-            esignerServers.append(server)
-            Task {
-                do { _ = try await server.start(); esignerStatuses[port] = .up }
-                catch WSServer.StartError.portInUse { esignerStatuses[port] = .portInUse }
-                catch { esignerStatuses[port] = .failed("Không mở được dịch vụ") }
-            }
+    private func pollOrigins() async {
+        for origin in await originStore.takePending() where !dismissedOrigins.contains(origin) && !pendingOrigins.contains(origin) {
+            pendingOrigins.append(origin)
         }
+        guard !signing, originPrompt == nil, let origin = pendingOrigins.first else { return }
+        pendingOrigins.removeFirst()
+        originPrompt = origin
+        promptWindow.present(title: "Quyền truy cập trang web", content: OriginPromptSheet(origin: origin, model: self)) { [weak self] in
+            self?.answerOrigin(allow: false)
+        }
+    }
+
+    func answerOrigin(allow: Bool) {
+        guard let origin = originPrompt else { return }
+        originPrompt = nil
+        dismissedOrigins.insert(origin)
+        promptWindow.dismiss()
+        if allow, let host = URL(string: origin)?.host {
+            Task { try? await originStore.add(host); allowedOrigins = await originStore.userPatterns() }
+        }
+    }
+    func removeOrigin(_ host: String) {
+        Task { try? await originStore.remove(host); allowedOrigins = await originStore.userPatterns() }
     }
 
     // Certs cached by the scan loop. The bridge reads this instead of spawning
@@ -248,12 +352,12 @@ public final class AppModel: ObservableObject {
                 requestedSerial: byCertificateSerial ? serial : nil,
                 tokenSerial: !byCertificateSerial && !serial.isEmpty ? serial : nil)
             try await requestApproval(target: target, origin: origin, operation: operation, docCount: docCount)
-            return try await signApproved(target: target, blockB64: blockB64)
+            return try await signApproved(target: target, blockB64: blockB64, context: BridgeContext(bridge: byCertificateSerial ? "ctsign" : "menu", origin: origin))
         }
     }
 
     private func withSigningRequest<T: Sendable>(_ body: @MainActor () async throws -> T) async throws -> T {
-        guard !signing else { throw MinvoiceError.busy }
+        guard !signing, originPrompt == nil else { throw MinvoiceError.busy }
         try Task.checkCancellation()
         signing = true
         let id = UUID()
@@ -363,7 +467,22 @@ public final class AppModel: ObservableObject {
         try Task.checkCancellation()
     }
 
-    private func signApproved(target: SignTarget, blockB64: String) async throws -> String {
+    private func signApproved(target: SignTarget, blockB64: String, context: BridgeContext = BridgeContext(bridge: "menu", origin: "TokenSigner")) async throws -> String {
+        do {
+            let signature = try await signWithPIN(target: target, blockB64: blockB64)
+            await audit.append(origin: context.origin, bridge: context.bridge, certSerial: target.cert.serialHex,
+                operation: "RSA_PKCS", input: Data(base64Encoded: blockB64) ?? Data(), result: "ok")
+            recentAudit = await audit.recent(5)
+            return signature
+        } catch {
+            await audit.append(origin: context.origin, bridge: context.bridge, certSerial: target.cert.serialHex,
+                operation: "RSA_PKCS", input: Data(base64Encoded: blockB64) ?? Data(), result: error is CancellationError ? "cancelled" : "failed")
+            recentAudit = await audit.recent(5)
+            throw error
+        }
+    }
+
+    private func signWithPIN(target: SignTarget, blockB64: String) async throws -> String {
         try Task.checkCancellation()
         let w = pinWarning(target.flags)
         let prompt = PINPrompt(ca: target.module.ca, serial: target.tokenSerial, warning: w.text, locked: w.locked)
@@ -399,7 +518,7 @@ public final class AppModel: ObservableObject {
             signingStatus = "Đang xử lý hóa đơn Minvoice…"
             try await operation(target.cert, { message in
                 let block = Data(try DigestInfo.sha256Block(message)).base64EncodedString()
-                let signature = try await self.signApproved(target: target, blockB64: block)
+                let signature = try await self.signApproved(target: target, blockB64: block, context: BridgeContext(bridge: "minvoice", origin: origin))
                 guard let bytes = Data(base64Encoded: signature) else { throw MinvoiceError.invalidSignature }
                 return bytes
             })
@@ -418,7 +537,7 @@ public final class AppModel: ObservableObject {
             try await requestApproval(target: target, origin: ctx.origin, operation: operation, docCount: 1)
             let signer = CallbackMessageSigner(certificateDER: Data(base64Encoded: target.cert.derB64) ?? Data()) { digest, hash in
                 let block = Data(try DigestInfo.wrap(Array(digest), hash)).base64EncodedString()
-                let signature = try await self.signApproved(target: target, blockB64: block)
+                let signature = try await self.signApproved(target: target, blockB64: block, context: ctx)
                 guard let bytes = Data(base64Encoded: signature) else { throw SigningFailure.card("Chữ ký không hợp lệ") }
                 return bytes
             }
@@ -546,6 +665,11 @@ struct AppSigningService: SigningService {
     func signDigest(_ ctx: BridgeContext, serial: String?, digest: Data, hash: HashAlg) async throws -> Data {
         try await model.performBridgeSign(ctx, serial: serial, operation: "Ký hash · \(ctx.bridge)") {
             try await $0.signDigest(digest, hash: hash)
+        }
+    }
+    func signCMSAttached(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {
+        try await model.performBridgeSign(ctx, serial: serial, operation: "Ký CMS · \(ctx.bridge)") {
+            try await CMSSigner.signAttached(content: content, signer: $0, hash: hash)
         }
     }
     func signCMS(_ ctx: BridgeContext, serial: String?, content: Data, hash: HashAlg) async throws -> Data {

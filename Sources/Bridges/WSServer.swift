@@ -3,6 +3,7 @@ import NIOCore
 import NIOPosix
 import NIOHTTP1
 import NIOWebSocket
+import NIOSSL
 
 /// WebSocket server on 127.0.0.1. One text frame in →
 /// `handler(text, origin)` → one text frame out. Host/Origin are checked at the
@@ -14,13 +15,14 @@ public final class WSServer: @unchecked Sendable {
     private let ports: [Int]
     private let pathPrefix: String
     private let store: OriginStore
+    private let tls: NIOSSLContext?
     private let handler: Handler
     private var group: MultiThreadedEventLoopGroup?
     private var channel: Channel?
 
     /// `ports` are tried in order (primary, fallback); the first free one wins.
-    public init(ports: [Int], pathPrefix: String, store: OriginStore, handler: @escaping Handler) {
-        self.ports = ports; self.pathPrefix = pathPrefix; self.store = store; self.handler = handler
+    public init(ports: [Int], pathPrefix: String, store: OriginStore, tls: NIOSSLContext? = nil, handler: @escaping Handler) {
+        self.ports = ports; self.pathPrefix = pathPrefix; self.store = store; self.tls = tls; self.handler = handler
     }
 
     public func start() async throws -> Int {
@@ -28,7 +30,7 @@ public final class WSServer: @unchecked Sendable {
         self.group = group
         for port in ports {
             let bound = PortBox(port)   // Host check must use the real port (matters when port is 0)
-            let (pathPrefix, store, handler) = (self.pathPrefix, self.store, self.handler)
+            let (pathPrefix, store, tls, handler) = (self.pathPrefix, self.store, self.tls, self.handler)
             let bootstrap = ServerBootstrap(group: group)
                 .serverChannelOption(ChannelOptions.backlog, value: 64)
                 .serverChannelOption(ChannelOptions.socketOption(.so_reuseaddr), value: 1)
@@ -59,7 +61,10 @@ public final class WSServer: @unchecked Sendable {
                             }
                         })
                     let config: NIOHTTPServerUpgradeConfiguration = (upgraders: [upgrader], completionHandler: { _ in })
-                    return ch.pipeline.configureHTTPServerPipeline(withServerUpgrade: config)
+                    let ready: EventLoopFuture<Void>
+                    if let tls { ready = ch.pipeline.addHandler(NIOSSLServerHandler(context: tls)) }
+                    else { ready = ch.eventLoop.makeSucceededVoidFuture() }
+                    return ready.flatMap { ch.pipeline.configureHTTPServerPipeline(withServerUpgrade: config) }
                         .flatMap { ch.pipeline.addHandler(RejectHandler(), name: "reject") }
                 }
             do {
