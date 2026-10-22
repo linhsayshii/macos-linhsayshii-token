@@ -27,8 +27,6 @@ struct MenuBarView: View {
         .frame(width: 320)
         .background(Theme.background)
         .foregroundStyle(Theme.foreground)
-        .sheet(item: $model.approvalPrompt) { ApprovalSheet(prompt: $0, model: model) }
-        .sheet(item: $model.pinPrompt) { PINSheet(prompt: $0, model: model) }
     }
 
     private var statusLine: some View {

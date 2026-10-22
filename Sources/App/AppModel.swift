@@ -9,7 +9,7 @@ import Bridges
 /// on-card with CKM_RSA_PKCS — see Backend.sign.
 @MainActor
 public final class AppModel: ObservableObject {
-    /// Prompt state for the PIN sheet. Non-nil presents the sheet; a sign call
+    /// Prompt state for the dedicated signing window; a sign call
     /// awaits the user's answer via `pinCont`.
     struct PINPrompt: Identifiable { let id = UUID(); let ca, serial: String; let warning: String?; let locked: Bool }
     struct ApprovalPrompt: Identifiable { let id = UUID(); let origin, subject, ca, notAfter, operation: String; let docCount: Int }
@@ -52,6 +52,7 @@ public final class AppModel: ObservableObject {
     private var signing = false   // vendor PC/SC lock: pause the scan during a sign
     private var pinCont: CheckedContinuation<String?, Never>?
     private var approvalCont: CheckedContinuation<ApprovalChoice, Never>?
+    private let promptWindow = SigningPromptWindow()
 
     public init() {
         // Helper + shim live next to the app binary (bundle Contents/Helpers in a
@@ -169,14 +170,21 @@ public final class AppModel: ObservableObject {
     /// Approval → PIN → one login/sign/logout spawn. `blockB64` is the already-built
     /// RSA PKCS#1 v1.5 DigestInfo block (base64), signed on-card with CKM_RSA_PKCS.
     fileprivate func signPreparedBlock(origin: String, serial: String, blockB64: String, operation: String, docCount: Int) async throws -> String {
+        guard !signing else { throw TokenBroker.SignError.card("Đang có yêu cầu ký khác, vui lòng thử lại sau") }
         guard let target = signTargets[serial] else { throw CTSignError.unknownSerial(serial) }
         signing = true
         defer { signing = false }
 
         if await approval.decide(origin: origin, certSerial: target.cert.serialHex) != .allowedSession {
-            approvalPrompt = ApprovalPrompt(origin: origin, subject: target.cert.subject, ca: target.module.ca,
-                                            notAfter: target.cert.notAfter, operation: operation, docCount: docCount)
-            switch await withCheckedContinuation({ approvalCont = $0 }) {
+            let prompt = ApprovalPrompt(origin: origin, subject: target.cert.subject, ca: target.module.ca,
+                                        notAfter: target.cert.notAfter, operation: operation, docCount: docCount)
+            switch await withCheckedContinuation({
+                approvalCont = $0
+                approvalPrompt = prompt
+                promptWindow.present(title: "Yêu cầu ký số", content: ApprovalSheet(prompt: prompt, model: self)) { [weak self] in
+                    self?.submitApproval(.deny)
+                }
+            }) {
             case .deny: throw TokenBroker.SignError.card("Người dùng từ chối ký")
             case .session: await approval.allow(origin: origin, certSerial: target.cert.serialHex, minutes: 10)
             case .once: break
@@ -184,8 +192,14 @@ public final class AppModel: ObservableObject {
         }
 
         let w = pinWarning(target.flags)
-        pinPrompt = PINPrompt(ca: target.module.ca, serial: serial, warning: w.text, locked: w.locked)
-        guard let pin = await withCheckedContinuation({ (c: CheckedContinuation<String?, Never>) in pinCont = c }),
+        let prompt = PINPrompt(ca: target.module.ca, serial: serial, warning: w.text, locked: w.locked)
+        guard let pin = await withCheckedContinuation({ (c: CheckedContinuation<String?, Never>) in
+            pinCont = c
+            pinPrompt = prompt
+            promptWindow.present(title: "Đăng nhập token", content: PINSheet(prompt: prompt, model: self)) { [weak self] in
+                self?.submitPIN(nil)
+            }
+        }),
               !pin.isEmpty else { throw TokenBroker.SignError.card("Đã huỷ nhập PIN") }
 
         signingStatus = "Đang ký…"
@@ -221,8 +235,19 @@ public final class AppModel: ObservableObject {
         }
     }
 
-    func submitPIN(_ pin: String?) { pinDraft = ""; pinPrompt = nil; pinCont?.resume(returning: pin); pinCont = nil }
-    func submitApproval(_ choice: ApprovalChoice) { approvalPrompt = nil; approvalCont?.resume(returning: choice); approvalCont = nil }
+    func submitPIN(_ pin: String?) {
+        pinDraft = ""; pinPrompt = nil
+        promptWindow.dismiss()
+        let continuation = pinCont; pinCont = nil
+        continuation?.resume(returning: pin)
+    }
+
+    func submitApproval(_ choice: ApprovalChoice) {
+        approvalPrompt = nil
+        promptWindow.dismiss()
+        let continuation = approvalCont; approvalCont = nil
+        continuation?.resume(returning: choice)
+    }
 
     private func pinWarning(_ flags: [String]) -> (text: String?, locked: Bool) {
         if flags.contains("USER_PIN_LOCKED") { return ("PIN đã bị khoá", true) }
