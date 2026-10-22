@@ -22,14 +22,44 @@ List certs (no PIN):
     curl -s http://127.0.0.1:32001/api/SignHash/Version
     curl -s http://127.0.0.1:32001/api/HubClient/GetCert | python3 -m json.tool
 
-GetCert must list the plugged VNPT/NC-CA certs. SignHash is NOT wired yet (needs login, the
-rest of Task 11).
+GetCert must list the plugged VNPT/NC-CA certs. SignHash is wired through
+host-side SHA-256 DigestInfo + CKM_RSA_PKCS (commit `caa25ba`).
 
-## 3. (Task 11 Step 1) CKM_RSA_PKCS spike — settles the spec's top risk
+## Signing prompts with the menu bar closed
 
-This needs the login/sign path added to token-helper (next work). Once added, the user signs a
-SHA-256 DigestInfo via CKM_RSA_PKCS and verifies with openssl. If the lib rejects CKM_RSA_PKCS,
-fall back to CKM_SHA256_RSA_PKCS and report.
+1. Start the app, leave the menu bar popover closed, and send a valid SignHash
+   request from an allowed origin using a serial returned by GetCert.
+2. A separate approval window must appear in front of the browser. Close it:
+   the request must return a refusal, without asking for a PIN.
+3. Repeat and choose “Chỉ lần này”. The PIN window must appear. Close it:
+   the request must return cancellation and clear the PIN draft.
+4. Repeat with “Cho phép 10 phút”. Later requests within that session skip
+   approval but must still show the PIN window and its retry warning.
+5. Send a second request while the first awaits approval/PIN. It must return
+   a busy error without replacing the first prompt.
+
+The reader loop polls every 175 ms and only refreshes helpers when the reader/ATR
+set changes. A read-only PC/SC probe on this host returned `dwEventState=0x6`
+(`SCARD_STATE_UNKNOWN | SCARD_STATE_CHANGED`) for `\\?PnP?\Notification`, so
+blocking PnP notifications are unavailable here.
+
+The window presenter can also be checked without a token or a PIN:
+
+    swiftc -parse-as-library Sources/App/SigningPromptWindow.swift scripts/check-prompt-window.swift -o /tmp/tokensigner-window-check
+    /tmp/tokensigner-window-check
+
+Run in a logged-in macOS desktop session with WindowServer access. The harness
+starts a complete AppKit event loop, asserts window visibility/key focus/app
+activation, close cancellation, the next prompt, and programmatic dismissal.
+It exits automatically without opening the menu bar popover or a token helper.
+
+## 3. Confirm signing on hardware
+
+Use “Ký thử” in the app or the existing `scripts/sign-test.sh` harness, approve
+the request, and enter the PIN yourself. The app signs a host-computed SHA-256
+DigestInfo with CKM_RSA_PKCS. Verify the returned signature with the certificate's
+public key. Do not switch real document signing back to on-card hashing:
+CKM_SHA256_RSA_PKCS fails for messages of 240 bytes or more on these tokens.
 
 ## Verified 2026-10-21 (by Claude, read-only, no PIN)
 - Step 1 token-helper: listTokens → VNPT token serial 271C52B10035A10F, label "VNPT-CA PKI Token".
@@ -47,6 +77,9 @@ fall back to CKM_SHA256_RSA_PKCS and report.
 - Open: subjectDN UID renders as the raw OID 0.9.2342.19200300.100.1.1=MST:... (cosmetic, verify vs portal).
 
 ## Sign-mechanism finding (2026-10-21, hardware, VNPT/NC-CA/I-CA)
+
+Historical findings below are superseded by the transport/Le fix and the
+host-hash signing path documented in [PROGRESS.md](PROGRESS.md).
 - CKM_RSA_PKCS (sign a precomputed SHA-256 DigestInfo) → C_Sign rv=48 CKR_DEVICE_ERROR on all.
 - CKM_SHA256_RSA_PKCS (token hashes the raw message on-card) → works, 256-byte sig, openssl verified.
 - CMC was not tested (wrong PIN entered).

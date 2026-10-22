@@ -32,7 +32,7 @@ Messaging. P2 thêm Le-fix: ghi lại Le 1-byte ở cuối APDU PSO sign SM lớ
 mềm, gói vào DigestInfo, rồi ký `RSA_PKCS` — đúng đường **ok**. => Bế tắc ">255B"
 đã được gỡ cho ký tài liệu.
 
-**Hệ quả còn phải sửa trong app:** xem phần "Việc tiếp theo" §A.
+**Đường ký trong app đã sửa ở `caa25ba`:** xem phần "Việc tiếp theo" §A.
 
 ---
 
@@ -45,7 +45,9 @@ mềm, gói vào DigestInfo, rồi ký `RSA_PKCS` — đúng đường **ok**. =
 - [x] Core raw-hash + `DigestInfo.wrap` (SHA-256/SHA-1 prefix) — [Sources/Core/DigestInfo.swift](../Sources/Core/DigestInfo.swift).
 - [x] `SignMech`: `sha256RSA` / `rsaPKCS` / `rsaX509` — [Sources/Core/HelperProtocol.swift:19](../Sources/Core/HelperProtocol.swift).
 - [x] CTSigningHub bridge: Version / GetCert / GetInfoCert; UI live refresh, "Đang ký…", thông báo lỗi tiếng Việt.
-- [ ] **SignHash còn stub** — [Sources/App/AppModel.swift:230](../Sources/App/AppModel.swift) ném `precomputedHashUnsupported`. Gỡ được rồi (xem §A).
+- [x] SignHash đã nối: SHA-256 dựng sẵn (base64/hex) → DigestInfo → `.rsaPKCS` (`caa25ba`).
+- [x] Reader polling 175 ms, chỉ refresh helper khi reader/ATR đổi và dừng quét khi đang ký (`7609b92`). Probe PC/SC trên máy trả `SCARD_STATE_UNKNOWN` cho reader giả PnP, nên dùng phương án polling dự phòng.
+- [x] Approval/PIN hiện trong NSPanel riêng, tự active khi yêu cầu ký đến dù popover đóng; đóng cửa sổ sẽ từ chối/huỷ continuation; yêu cầu đồng thời bị từ chối để không ghi đè prompt (`65fcf9e`).
 
 ### P2 — bridges (nhánh `claude/p2-bridges-a4728b`, **PR #1**)
 - [x] Shim Le-fix cho PSO sign SM lớn (đã xác nhận bằng sign-size-test).
@@ -59,8 +61,7 @@ mềm, gói vào DigestInfo, rồi ký `RSA_PKCS` — đúng đường **ok**. =
 - [x] Chạy thật end-to-end: ký tờ khai XML eTax OK; 77 test pass.
 - Bảo vệ: chỉ path do picker cấp mới đọc; upload phải https cùng origin host; match
   SERIAL_NUMBER thập phân với cert; check TIN; bỏ qua PIN trong request.
-- Chưa làm: `xmlsec1 --verify` bytes đã ký (hiện chỉ giữ trong RAM); bỏ dump debug
-  `upload-response.html` ở `~/Library/Logs/TokenSigner`.
+- [x] Dọn eSigner trên nhánh riêng (`f58a51c`): `xmlsec1 --verify` trước khi chấp nhận chữ ký; thiếu công cụ thì bỏ qua có log, verify lỗi thì không upload; file tạm xoá bằng `defer`. Bỏ dump debug `upload-response.html` và trích đoạn body trong log. Đã build và 80 test đạt, chưa kiểm thử lại với cổng thuế/token thật.
 
 ### M-Invoice bridge (nhánh `claude/beautiful-shirley-8acdc0`, chưa push, chưa PR) — **BẾ TẮC**
 - [x] SignalR cổ điển (ASP.NET SignalR.Core) trên OWIN tại `http://localhost:16080`;
@@ -88,12 +89,10 @@ Mỗi nhánh ở worktree riêng; chưa gộp. Chỉ gộp khi người dùng y�
 
 ## Việc tiếp theo
 
-### A. Sửa cơ chế ký trong app (ưu tiên cao, prompt sẵn ở dưới)
-Hiện [AppModel.sign](../Sources/App/AppModel.swift) dùng `.sha256RSA` (hash trên
-thẻ) → **hỏng với tài liệu thật >240B**. Phải:
-1. `AppModel.sign`: hash SHA-256 bằng phần mềm, `DigestInfo.wrap`, ký `.rsaPKCS`.
-2. Gỡ stub `Backend.sign` (SignHash): `DLieuHash` là hash dựng sẵn → `DigestInfo.wrap`
-   → ký `.rsaPKCS`. Bỏ `precomputedHashUnsupported` ở nhánh này.
+### A. Đường ký trong app — đã hoàn tất ở `caa25ba`
+[AppModel.sign](../Sources/App/AppModel.swift) hash SHA-256 bằng phần mềm, bọc
+DigestInfo rồi ký `.rsaPKCS`. `Backend.sign` nhận `DLieuHash` SHA-256 đã dựng sẵn,
+decode base64/hex và bọc DigestInfo mà không hash lại. Dữ liệu không hợp lệ bị từ chối.
 
 Prompt chi tiết: [docs/agent-prompt-sign-mech.md](agent-prompt-sign-mech.md).
 
@@ -101,8 +100,14 @@ Prompt chi tiết: [docs/agent-prompt-sign-mech.md](agent-prompt-sign-mech.md).
 Mở DevTools Network trên trang minvoice 2.0, ký một hóa đơn, ghi lại request
 download XML và upload XML đã ký, đưa cho session minvoice-bridge.
 
-### C. Dọn eSigner (nhỏ)
-`xmlsec1 --verify` output đã ký; bỏ dump `upload-response.html`.
+### C. Dọn eSigner — đã hoàn tất ở nhánh riêng (`f58a51c`)
+Đã verify output ký bằng xmlsec1 và bỏ dump response. Chưa gộp nhánh, chưa push.
+
+### D. Xác minh thay đổi ngày 2026-10-22
+- P1: `swift build` đạt; 30 test đạt với đường dẫn Testing macro plugin trong [BUILD.md](BUILD.md).
+- Cửa sổ duyệt/PIN: harness [check-prompt-window.swift](../scripts/check-prompt-window.swift) chạy trong event loop AppKit đầy đủ, xác nhận visible/key/active, đóng cửa sổ gọi huỷ, mở prompt tiếp và dismiss không gọi huỷ. Xem [VERIFY-P1.md](VERIFY-P1.md) để kiểm thử từ SignHash thật.
+- eSigner: build đạt, 80 test đạt; gồm kiểm chứng chữ ký XML thật và phát hiện sửa dữ liệu, namespace/ID, thiếu binary, process lỗi, dọn file tạm và chặn upload sau ký lại thất bại.
+- Chưa đo lại độ trễ cắm/rút hay ký trên token thật trong đợt này. minvoice chờ capture theo xác nhận của người dùng; chưa sửa endpoint.
 
 ---
 
