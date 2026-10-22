@@ -1,5 +1,10 @@
 # FastCA + OneCA token installers — RE notes (macOS PKCS#11 hunt)
 
+Historical bounded search. For the later generic Feitian/Castle candidate,
+current signature-validation caveat, experimental app integration and hardware
+unknowns, see [fastca-signing.md](fastca-signing.md). A missing download in this
+search does not prove that no FastCA macOS build exists.
+
 Interop research for a self-built all-in-one macOS signing app. All analysis was static (strings, innoextract,
 pkgutil --expand, cpio, nm/otool/lipo). Nothing was executed or installed, and no sudo was used.
 Scratch root: `S=/private/tmp/claude-501/-Users-linhsayshii-macos-linhsayshii-token/c7155b36-14ea-4bde-bcd5-4cbdb36c6967/scratchpad/re`
@@ -7,7 +12,7 @@ Scratch root: `S=/private/tmp/claude-501/-Users-linhsayshii-macos-linhsayshii-to
 ## TL;DR
 | CA | Token (live) | Windows PKCS#11 | macOS PKCS#11 found |
 |---|---|---|---|
-| FastCA | Feitian ePass2003Auto, USB 096e:080a, ATR byte19 = 0x69 | `fca_v1.dll` (Feitian "EnterSafe CSP PKCS11 Library") | **None published.** No macOS package anywhere. |
+| FastCA | Feitian ePass2003Auto, USB 096e:080a, ATR byte19 = 0x69 | `fca_v1.dll` (Feitian "EnterSafe CSP PKCS11 Library") | No FastCA-branded macOS package found within the sources inspected below. Generic candidate investigated later; see linked report. |
 | OneCA | Longmai **mToken OneCAV3**, USB 055c:0223 | `one-ca_v3.dll` (Longmai CryptoID customization) | **Longmai generic** `libcryptoid_pkcs11.dylib` (x86_64 only, unsigned) from a reseller zip. Not from OneCA. |
 
 ---
@@ -72,7 +77,7 @@ Source: Longmai reseller `https://mtokens.in/download/upmac.zip`. The zip is 11.
 - In `fca_v1.dll` the template byte 19 is 0x09. The mask that follows is offset by 4 bytes (`00000000 ff×12 000000 ffff 00…`), so the exact struct layout and whether byte 19 is masked there are unverified.
 
 ## Inferred
-- **FastCA has no macOS middleware.** Neither the vendor server nor the website nor the reseller hosts a mac build. The Windows module is a stock Feitian EnterSafe ePass2003 PKCS#11 rebrand (`fca_v1.dll`, same family as `ncca_csp11_v1`).
+- **No FastCA-branded macOS middleware was found in this bounded search.** The inspected vendor server, website and reseller pages supplied no mac build. The Windows module is a Feitian EnterSafe ePass2003 PKCS#11 rebrand (`fca_v1.dll`, same family as `ncca_csp11_v1`).
   For macOS the realistic routes are:
   1. **OpenSC's `epass2003` driver**, which reads the standard ENTERSAFE-ESPK layout. The user reports the same layout works for VNPT/NC-CA/CMC/I-CA.
   2. Reusing a sibling CA's Feitian mac dylib (`ncca_csp11_v1.dylib` etc.). This would likely **fail because of the customer-byte ATR check** (0x59 ≠ 0x69) unless that build has another code path.

@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-22",
+  "host": "Windows 11 ARM64 in Parallels on macOS",
+  "signerProcess": "x86 .NET Framework CSP",
+  "pinEntry": "User operated vendor dialogs; no PIN supplied to agent",
+  "results": [
+    {
+      "provider": "fastca",
+      "thumbprint": "7EF1E56BF406078890C6CEE040CB2DC9C373913D",
+      "algorithm": "SHA256-RSA-PKCS1-v1_5",
+      "signatureBytes": 256,
+      "verified": true,
+      "certificateExpired": true,
+      "macOSOpenSSLVerification": {
+        "exitCode": 0,
+        "output": "Verified OK"
+      },
+      "artifactsSha256": {
+        "message.bin": "616f4c4e62c91fae1a166ab1d573754741ed7a65cce5a283b8aa3dbed6d5e4ba",
+        "signature.bin": "3f6965ce88861b71086c12f6600d6b1bb6c3ff1db742c5316ce663a74ad8692a",
+        "certificate.der": "fe4414c939c92562e13c3b2c8ea13fe292bd4676d35dc7ca625a38ecf0fbc77e"
+      },
+      "resultDirectory": "fastca-20261022T114504014Z"
+    },
+    {
+      "provider": "ncca",
+      "thumbprint": "1D7D0085100C00587E7EF382548088BA4CDA3A66",
+      "algorithm": "SHA256-RSA-PKCS1-v1_5",
+      "signatureBytes": 256,
+      "verified": true,
+      "certificateExpired": false,
+      "macOSOpenSSLVerification": {
+        "exitCode": 0,
+        "output": "Verified OK"
+      },
+      "artifactsSha256": {
+        "message.bin": "f659fe038dcf40aec0cb376e27b632d91ea3ce07fd15c29ff515abe34deede24",
+        "signature.bin": "3b9133f9190a727594475ce3a83893e53eeabe848d11796e580e29391dfdf22b",
+        "certificate.der": "3beed5fcf9d9ca166bebe2c935c3b12473edaec5e75f443e9d9d5e038d851169"
+      },
+      "resultDirectory": "ncca-20261022T114513135Z"
+    }
+  ],
+  "claimsNotTested": [
+    "certificate chain / revocation",
+    "portal acceptance",
+    "native macOS FastCA middleware signing"
+  ],
+  "diagnosticSourcesSha256": {
+    "TokenMetadata.cs": "0c7e55b4bc20e12d643a98081e5c5fbff32103fed76eb581f04e22cc9e1fe254",
+    "TokenSignerWindowsTest.cs": "2c008362ab80bc8b4dd7a45dae207869800c7c7f24bb1971ea0643338c43fed5"
+  },
+  "readOnlyPKCS11Probe": {
+    "process": "x86",
+    "fastca": {
+      "moduleSha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3",
+      "initializeRV": 0,
+      "slotCount": 1,
+      "getTokenInfoRV": 0,
+      "label": "FastCA Token"
+    },
+    "ncca": {
+      "moduleSha256": "986b0e861ec27a8ee8bd0008dac87a03c6f5e898fa492085d7ac6c866a00aa90",
+      "initializeRV": 0,
+      "slotCount": 1,
+      "getTokenInfoRV": 0,
+      "label": "NC-CA Token v1.0"
+    }
+  }
+}

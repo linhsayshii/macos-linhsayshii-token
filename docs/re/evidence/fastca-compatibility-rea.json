@@ -1,0 +1,1062 @@
+{
+  "records": [
+    {
+      "evidence_id": "ev_ab3799de2e99cd7494b7c11123d69137301cd49b99f6ab2157fd1e85427942fc",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0xdd94c"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x190;\n    var_10 = r28;\n    decomp_var_8 = r27;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_18 = **___stack_chk_guard;\n    var_58 = arg1;\n    var_60 = arg2;\n    var_68 = arg3;\n    var_70 = arg4;\n    var_E0 = arg0;\n    sub_dc7e8(&decomp_var_78, arg0 + 0x90);\n    r0 = sub_dc81c(&decomp_var_78);\n    if (r0 != 0x0) {\n            var_44 = 0xa;\n    }\n    else {\n            var_8C = (*(*var_E0 + 0x30))(var_E0, 0x0 & 0x1);\n            if (var_8C != 0x0) {\n                    var_44 = var_8C;\n            }\n            else {\n                    var_90 = 0x0;\n                    while (var_90 < sub_ddd34(var_58)) {\n                            var_98 = 0x0;\n                            sub_dc90c(&var_A4);\n                            r0 = sub_ddd5c(var_58, sign_extend_64(var_90));\n                            r0 = sub_dc7d0(r0);\n                            r0 = sub_237e4(r0);\n                            r0 = sub_dc938(var_E0, r0, &var_98, &var_A4);\n                            if (r0 != 0x0) {\n                                    sub_ddd80(var_68, sub_ddd5c(var_58, sign_extend_64(var_90)));\n                            }\n                            var_90 = var_90 + 0x1;\n                    }\n                    var_40 = var_E0 + 0x30;\n                    var_A4 = 0x0;\n                    while (var_A4 < 0x5) {\n                            var_B0 = sub_dd0d0(*(&var_40 + sign_extend_64(var_A4) * 0x8));\n                            while (true) {\n                                    var_B8 = sub_dd130(*(&var_40 + sign_extend_64(var_A4) * 0x8));\n                                    r0 = sub_dd0fc(&var_B0, &var_B8);\n                                    if ((r0 & 0x1) == 0x0) {\n                                            break;\n                                    }\n                                    r0 = sub_dcf10(&var_B0);\n                                    r8 = r0[0xc];\n                                    var_10C = r8;\n                                    if (r8 != 0x1) {\n                                            if (var_10C != 0x2) {\n                                                    if (var_10C == 0x3) {\n                                                            r0 = sub_dcf10(&var_B0);\n                                                            sub_ddd80(var_68, r0);\n                                                    }\n                                            }\n                                            else {\n                                                    r0 = sub_dcf10(&var_B0);\n                                                    sub_ddd80(var_70, r0);\n                                            }\n                                    }\n                                    else {\n                                            var_B9 = 0x0;\n                                            var_C0 = 0x0;\n                                            while (true) {\n                                                    if (var_C0 >= sub_ddd34(var_58)) {\n                                                            temp_0 = 0x1;\n                                                            break;\n                                                    }\n                                                    var_11C = sub_237e4(sub_dc7d0(sub_ddd5c(var_58, var_C0)));\n                                                    r0 = sub_dcf10(&var_B0);\n                                                    if (var_11C != sub_237e4(sub_dc7d0(r0))) {\n                                                            var_C0 = var_C0 + 0x1;\n                                                            continue;\n                                                    }\n                                                    temp_0 = 0x0;\n                                                    break;\n                                            }\n                                            if (temp_0 == 0x0) {\n                                                    var_B9 = 0x1;\n                                            }\n                                            if ((var_B9 & 0x1) == 0x0) {\n                                                    r0 = sub_dcf10(&var_B0);\n                                                    sub_ddd80(var_60, r0);\n                                            }\n                                    }\n                                    r0 = sub_dcf10(&var_B0);\n                                    r0[0xc] = 0x0;\n                                    r0 = sub_dd2a8(&var_B0, 0x0);\n                            }\n                            var_A4 = var_A4 + 0x1;\n                    }\n                    var_44 = 0x0;\n            }\n    }\n    r0 = sub_dd424(&decomp_var_78);\n    var_174 = var_44;\n    if (**___stack_chk_guard != var_18) {\n            __stack_chk_fail();\n    }\n    r0 = var_174;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_af1904e802d3c31d253fd7946e9ae78de7b48c80c2d5d277675225a130836162",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0xd4a08"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x40;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_10 = arg1;\n    var_28 = arg0;\n    var_18 = sub_d4a8c(arg0 + 0x8);\n    while (true) {\n            var_20 = sub_d4958(var_28 + 0x8);\n            r0 = sub_d4ac4(&var_18, &var_20);\n            if ((r0 & 0x1) == 0x0) {\n                    break;\n            }\n            r0 = sub_d49bc(&var_18);\n            sub_d4af4(var_10, r0 + 0x8);\n            r0 = sub_d4b54(&var_18);\n    }\n    return 0x0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_572b2db13c488a8db5e7212ff5ef5148e73777a58392d53833c21af94f7f6a53",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0xdedb0"
+      },
+      "raw_result": null,
+      "normalized_result": "    var_10 = r28;\n    decomp_var_8 = r27;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    r31 = r31 + 0xffffffffffffffe0 - 0x320;\n    var_18 = **___stack_chk_guard;\n    var_51 = arg1 & 0x1;\n    var_1E0 = arg0;\n    sub_dc7e8(&decomp_var_60, arg0 + 0x90);\n    r0 = sub_dc81c(&decomp_var_60);\n    if (r0 != 0x0) {\n            var_44 = 0xa;\n    }\n    else {\n            if ((var_51 & 0x1) != 0x0) {\n                    r0 = var_1E0[0x1];\n                    if ((*(*r0 + 0x70))(r0, var_51 & 0x1) != 0x0) {\n                            var_44 = 0x30;\n                    }\n                    else {\n                            sub_df688(var_1E0 + 0x30);\n                            sub_df688(var_1E0 + 0x60);\n                            sub_df688(var_1E0 + 0x48);\n                            sub_df688(var_1E0 + 0x18);\n                            sub_df688(var_1E0 + 0x78);\n                            var_44 = 0x0;\n                    }\n            }\n            else {\n                    var_40 = var_1E0 + 0x30;\n                    var_74 = 0x0;\n                    while (var_74 < 0x5) {\n                            var_80 = sub_dd0d0(*(&var_40 + var_74 * 0x8));\n                            while (true) {\n                                    var_88 = sub_dd130(*(&var_40 + var_74 * 0x8));\n                                    r0 = sub_dd0fc(&var_80, &var_88);\n                                    if ((r0 & 0x1) == 0x0) {\n                                            break;\n                                    }\n                                    r0 = sub_dcf10(&var_80);\n                                    r0[0x2c] = 0x0;\n                                    r0 = sub_dd2a8(&var_80, 0x0);\n                            }\n                            var_74 = var_74 + 0x1;\n                    }\n                    sub_db8a8(&decomp_var_a8, \"pkcs11\");\n                    sub_de35c(&decomp_var_c0);\n                    sub_de35c(&decomp_var_d8);\n                    var_DC = 0x0;\n                    r0 = var_1E0[0x1];\n                    r0 = (*(*r0 + 0x30))(r0, &decomp_var_a8, &decomp_var_c0, &decomp_var_d8, &var_DC);\n                    var_E0 = r0;\n                    if (var_E0 != 0x0) {\n                            var_44 = var_E0;\n                    }\n                    else {\n                            r0 = sub_df6ac(&decomp_var_f8);\n                            var_74 = 0x0;\n                            while (true) {\n                                    r0 = sub_de6c4(&decomp_var_d8);\n                                    if (var_74 >= r0) {\n                                            break;\n                                    }\n                                    sub_df6d8(&decomp_var_110);\n                                    r0 = sub_dcf60(&decomp_var_148);\n                                    var_218 = var_1E0[0x1];\n                                    r0 = sub_de758(&decomp_var_d8, var_74);\n                                    r0 = (*(*var_218 + 0x50))(var_218, &decomp_var_a8, r0, 0x0, &decomp_var_110, &decomp_var_148 + 0x28);\n                                    if (r0 != 0x0) {\n                                            var_70 = 0xc;\n                                    }\n                                    else {\n                                            r0 = sub_dc8bc(&decomp_var_110, 0x0);\n                                            var_220 = r0;\n                                            r0 = sub_dcf40(&decomp_var_110);\n                                            sub_ddde0(var_1E0, var_220, r0);\n                                            r0 = sub_ded88();\n                                            r0 = sub_ded58(r0, &decomp_var_160);\n                                            if ((r0 & 0x1) != 0x0) {\n                                                    var_70 = 0xc;\n                                            }\n                                            else {\n                                                    var_170 = 0x0;\n                                                    sub_dc90c(&decomp_var_178);\n                                                    r0 = sub_de758(&decomp_var_d8, var_74);\n                                                    r0 = sub_de8c8(var_1E0, r0, &var_170, &decomp_var_178);\n                                                    if (r0 == 0x0) {\n                                                            r0 = sub_dcf10(&decomp_var_178);\n                                                            r0[0x2c] = 0x1;\n                                                            r0 = sub_dcf10(&decomp_var_178);\n                                                            if (var_120 >= r0[0xa]) {\n                                                                    r0 = sub_dcf10(&decomp_var_178);\n                                                                    if (r0[0xc] == 0x0) {\n                                                                            r0 = sub_dcf10(&decomp_var_178);\n                                                                            r0[0xc] = 0x2;\n                                                                    }\n                                                                    r0 = sub_dc7d0(&decomp_var_160);\n                                                                    var_280 = r0;\n                                                                    r0 = sub_dcf10(&decomp_var_178);\n                                                                    sub_d49e8(var_280, sub_237e4(sub_dc7d0(r0)));\n                                                                    r0 = sub_dcf10(&decomp_var_178);\n                                                                    r0[0xa] = var_120;\n                                                                    r0 = sub_dcf10(&decomp_var_178);\n                                                                    if (r0[0xc] == 0x2) {\n                                                                            r0 = sub_dcf10(&decomp_var_178);\n                                                                            var_2A8 = r0;\n                                                                            r0 = sub_df98c(&decomp_var_188, &decomp_var_160);\n                                                                            var_2AC = sub_df704(var_1E0, var_2A8, &decomp_var_188);\n                                                                            r0 = sub_9c6c(&decomp_var_188);\n                                                                            if (var_2AC != 0x0) {\n                                                                                    var_70 = 0xc;\n                                                                            }\n                                                                            else {\n                                                                                    r0 = sub_dc7d0(&decomp_var_160);\n                                                                                    sub_ac2a0(r0);\n                                                                                    var_70 = 0x0;\n                                                                            }\n                                                                    }\n                                                                    else {\n                                                                            r0 = sub_dcf10(&decomp_var_178);\n                                                                            if ((sub_dd15c(r0) & 0x1) == 0x0) {\n                                                                                    r0 = sub_dcf10(&decomp_var_178);\n                                                                                    sub_dd7c0(r0);\n                                                                                    r0 = sub_dcf10(&decomp_var_178);\n                                                                                    r0 = sub_dcf8c(r0, &decomp_var_160);\n                                                                            }\n                                                                            r0 = sub_dc7d0(&decomp_var_160);\n                                                                            sub_ac2a0(r0);\n                                                                            var_70 = 0x0;\n                                                                    }\n                                                            }\n                                                            else {\n                                                                    var_70 = 0xc;\n                                                            }\n                                                    }\n                                                    else {\n                                                            var_18C = 0x80000000;\n                                                            r0 = sub_dc7d0(&decomp_var_160);\n                                                            sub_2381c(r0, &var_18C);\n                                                            sub_dcf8c(&decomp_var_148, &decomp_var_160);\n                                                            r0 = sub_de758(&decomp_var_d8, var_74);\n                                                            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::operator=(&decomp_var_148 + 0x10);\n                                                            sub_dcff0(var_1E0, var_18C, &var_170);\n                                                            r0 = sub_dd2dc(var_170, &decomp_var_148);\n                                                            r0 = sub_dc7d0(&decomp_var_160);\n                                                            sub_ac2a0(r0);\n                                                            var_70 = 0x0;\n                                                    }\n                                            }\n                                            r0 = sub_9c6c(&decomp_var_160);\n                                    }\n                                    r0 = sub_dd3cc(&decomp_var_148);\n                                    r0 = sub_dc8e0(&decomp_var_110);\n                                    var_74 = var_74 + 0x1;\n                            }\n                            var_74 = 0x0;\n                            while (var_74 < 0x5) {\n                                    var_198 = sub_dd0d0(*(&var_40 + var_74 * 0x8));\n                                    while (true) {\n                                            var_1A0 = sub_dd130(*(&var_40 + var_74 * 0x8));\n                                            r0 = sub_dd0fc(&var_198, &var_1A0);\n                                            if ((r0 & 0x1) == 0x0) {\n                                                    break;\n                                            }\n                                            r0 = sub_dcf10(&var_198);\n                                            if ((r0[0x2c] & 0x1) == 0x0) {\n                                                    r0 = sub_dcf10(&var_198);\n                                                    r0[0xc] = 0x3;\n                                                    var_1A8 = var_198;\n                                                    r0 = sub_dd2a8(&var_198, 0x0);\n                                                    r0 = sub_dcf10(&var_1A8);\n                                                    sub_ac2a0(sub_dc7d0(r0));\n                                                    var_318 = *(&var_40 + var_74 * 0x8);\n                                                    r0 = sub_dd274(&var_1B8, &var_1A8);\n                                                    sub_dd1c4(var_318, var_1B8);\n                                            }\n                                            else {\n                                                    r0 = sub_dd2a8(&var_198, 0x0);\n                                            }\n                                    }\n                                    var_74 = var_74 + 0x1;\n                            }\n                            var_44 = 0x0;\n                            sub_df9c0(&decomp_var_f8);\n                    }\n                    sub_de784(&decomp_var_d8);\n                    sub_de784(&decomp_var_c0);\n                    std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string();\n            }\n    }\n    r0 = sub_dd424(&decomp_var_60);\n    var_324 = var_44;\n    if (**___stack_chk_guard != var_18) {\n            __stack_chk_fail();\n    }\n    r0 = var_324;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_55ca44386b6dcfa0c4c6c148f80fdce18947d42fc6c0cfa67906de31186e7bac",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0xa55d4"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0xd0;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_18 = arg1;\n    var_20 = arg2;\n    var_28 = arg3;\n    var_88 = arg0;\n    *(int32_t *)arg4 = 0x0;\n    if (sub_a4dbc(var_18) >= 0xa) {\n            var_4 = 0x7;\n    }\n    else {\n            var_34 = (*(*var_88 + 0x80))(var_88);\n            if (var_34 != 0x0) {\n                    var_4 = var_34;\n            }\n            else {\n                    if (0x0 > sub_a4e14(var_88, sub_a518c(var_18), 0x0)) {\n                            var_4 = 0x80100023;\n                    }\n                    else {\n                            var_40 = 0x0;\n                            while (var_40 < sub_a55ac(var_88 + 0x10)) {\n                                    if (0xffff == *(int16_t *)sub_a52f4(var_88 + 0x10, var_40)) {\n                                            if ((sub_a4d8c(var_18) & 0x1) != 0x0) {\n                                                    sub_a4de0(&decomp_var_58, sub_a52f4(var_88 + 0x10, var_40) + 0x2);\n                                                    r0 = sub_a5814(var_20, &decomp_var_58);\n                                                    std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string();\n                                            }\n                                    }\n                                    else {\n                                            if (*(int16_t *)sub_a52f4(var_88 + 0x10, var_40) != 0x0) {\n                                                    sub_a52f4(var_88 + 0x10, var_40) + 0x2;\n                                                    if (std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::compare(var_18) == 0x0) {\n                                                            sub_a4de0(&decomp_var_80, sub_a52f4(var_88 + 0x10, var_40) + 0xc);\n                                                            r0 = sub_a5814(var_28, &decomp_var_80);\n                                                            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string();\n                                                    }\n                                            }\n                                    }\n                                    var_40 = var_40 + 0x1;\n                            }\n                            var_4 = 0x0;\n                    }\n            }\n    }\n    r0 = var_4;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_72477c9482025f9eb3b7047e5da478ed04f170f86dede4b04f548effeed3dea0",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0xa6658"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x40;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_14 = (*(*arg0 + 0x90))(arg0, arg0[0x4], 0x0, 0x32, sub_a52f4(arg0 + 0x10, 0x0));\n    if (var_14 != 0x0) {\n            var_4 = var_14;\n    }\n    else {\n            var_4 = 0x0;\n    }\n    r0 = var_4;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_2f09abc412f7b641aaabddbf8ad12da4305598cea2cacfc5dc3213bcf82a01d3",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0xa69b0"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x80;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_1C = arg3;\n    var_28 = arg4;\n    r0 = sub_a6ab4(&decomp_var_40);\n    r0 = arg0[0x8];\n    asm { ldurh      w1, [fp, var_12] };\n    var_48 = (*(*r0 + 0x38))(r0);\n    if (var_48 != 0x0) {\n            var_4 = var_48;\n    }\n    else {\n            r0 = sub_a52d0(&decomp_var_40, 0x0);\n            memcpy(var_28, r0, var_1C * 0x1e);\n            var_4 = 0x0;\n    }\n    sub_a5320(&decomp_var_40);\n    r0 = var_4;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_569aa3d5616d73a180da9144400e67e365b525c31bd2da0a3ae3dd5d0551b1f5",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x9f58c"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x140;\n    var_10 = r28;\n    decomp_var_8 = r27;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_18 = **___stack_chk_guard;\n    var_50 = arg2;\n    var_58 = arg3;\n    var_60 = arg4;\n    var_D8 = arg0;\n    var_64 = (*(*var_D8 + 0x58))(var_D8, arg1, arg2, arg3, arg4);\n    if (var_64 != 0x0) {\n            var_3C = var_64;\n            var_124 = var_3C;\n            if (**___stack_chk_guard != var_18) {\n                    __stack_chk_fail();\n            }\n            r0 = var_124;\n    }\n    else {\n            sub_9fb40(&decomp_var_70, var_D8[0x4]);\n            r0 = sub_9fb74(&decomp_var_70);\n            if (r0 == 0x0) {\n                    var_3C = 0xa;\n                    r0 = sub_9fcac(&decomp_var_70);\n                    var_124 = var_3C;\n                    if (**___stack_chk_guard != var_18) {\n                            __stack_chk_fail();\n                    }\n                    r0 = var_124;\n            }\n            else {\n                    r8 = var_D8[0x8];\n                    asm { ldurh      w9, [fp, var_4A] };\n                    if (r8 == r9) {\n                            if (var_50 != var_50 / 0x1e * 0x1e) {\n                                    var_3C = 0x7;\n                            }\n                            else {\n                                    var_84 = var_50 / 0x1e;\n                                    r0 = sub_9fb9c(&decomp_var_a0, var_D8[0x2] - var_50);\n                                    var_A4 = 0x0;\n                                    while ((var_A4 - var_D8[0x2]) + var_50 < 0x0) {\n                                            asm { umaddl     x0, w8, w9, x10 };\n                                            sub_9e558(r0);\n                                            r0 = sub_9fbd0(&decomp_var_a0, sign_extend_64(var_A4));\n                                            *(int128_t *)r0 = var_36;\n                                            *(int128_t *)(r0 + 0xe) = decomp_var_28;\n                                            r0 = sub_9e668(&var_36);\n                                            var_A4 = var_A4 + 0x1;\n                                    }\n                                    sub_9fbfc(var_58);\n                                    sub_32f8c(var_58, 0x1e * (var_D8[0x2] - var_50));\n                                    var_F8 = sub_9fc5c(var_58, 0x0);\n                                    r0 = sub_9fbd0(&decomp_var_a0, 0x0);\n                                    memcpy(var_F8, r0, 0x1e * (var_D8[0x2] - var_50));\n                                    sub_9fc80(&decomp_var_a0);\n                                    var_3C = 0x0;\n                            }\n                            r0 = sub_9fcac(&decomp_var_70);\n                            var_124 = var_3C;\n                            if (**___stack_chk_guard != var_18) {\n                                    __stack_chk_fail();\n                            }\n                            r0 = var_124;\n                    }\n                    else {\n                            r0 = var_D8;\n                            asm { ldurh      w1, [fp, var_4A] };\n                            var_A8 = (*(*r0 + 0x50))(r0);\n                            if (0x0 > var_A8) {\n                                    var_3C = 0x10003;\n                                    r0 = sub_9fcac(&decomp_var_70);\n                                    var_124 = var_3C;\n                                    if (**___stack_chk_guard != var_18) {\n                                            __stack_chk_fail();\n                                    }\n                                    r0 = var_124;\n                            }\n                            else {\n                                    var_A9 = 0x0;\n                                    if ((*(int8_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1e) & 0x1) != 0x0) {\n                                            r8 = var_D8[0x6];\n                                            r8 = r8 + sign_extend_64(var_A8) * 0x27;\n                                            asm { ldurh      w8, [x8, #0x23] };\n                                            var_B0 = r8;\n                                            r0 = var_D8[0x3];\n                                            asm { ldurh      w1, [fp, var_4A] };\n                                            var_B4 = (*(*r0 + 0x168))(r0);\n                                            if (var_B4 != 0x0) {\n                                                    var_3C = var_B4;\n                                                    r0 = sub_9fcac(&decomp_var_70);\n                                                    var_124 = var_3C;\n                                                    if (**___stack_chk_guard != var_18) {\n                                                            __stack_chk_fail();\n                                                    }\n                                                    r0 = var_124;\n                                            }\n                                            else {\n                                                    r8 = var_B0;\n                                                    r9 = var_D8[0x6];\n                                                    r9 = r9 + sign_extend_64(var_A8) * 0x27;\n                                                    asm { ldurh      w9, [x9, #0x23] };\n                                                    if (r8 != r9) {\n                                                            var_C0 = sub_a30e0(var_D8[0x5], var_B0);\n                                                            if (var_C0 == 0x0) {\n                                                                    var_3C = 0x2;\n                                                                    r0 = sub_9fcac(&decomp_var_70);\n                                                                    var_124 = var_3C;\n                                                                    if (**___stack_chk_guard != var_18) {\n                                                                            __stack_chk_fail();\n                                                                    }\n                                                                    r0 = var_124;\n                                                            }\n                                                            else {\n                                                                    sub_a3988(var_D8[0x5], var_D8[0x7] + *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1f));\n                                                                    *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1f) = var_C0 - var_D8[0x7];\n                                                                    *(int16_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x23) = var_B0;\n                                                                    r0 = var_D8[0x3];\n                                                                    asm { ldurh      w1, [fp, var_4A] };\n                                                                    asm { ldurh      w4, [x8, #0x23] };\n                                                                    var_C4 = (*(*r0 + 0x158))(r0);\n                                                                    if (var_C4 != 0x0) {\n                                                                            var_3C = var_C4;\n                                                                            r0 = sub_9fcac(&decomp_var_70);\n                                                                            var_124 = var_3C;\n                                                                            if (**___stack_chk_guard != var_18) {\n                                                                                    __stack_chk_fail();\n                                                                            }\n                                                                            r0 = var_124;\n                                                                    }\n                                                                    else {\n                                                                            *(int8_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1e) = 0x0;\n                                                                            var_A9 = 0x1;\n                                                                            sub_9fbfc(var_58);\n                                                                            r0 = var_58;\n                                                                            r8 = var_D8[0x6];\n                                                                            r8 = r8 + sign_extend_64(var_A8) * 0x27;\n                                                                            asm { ldurh      w8, [x8, #0x23] };\n                                                                            sub_32f8c(r0, r8);\n                                                                            r0 = sub_9fc5c(var_58, 0x0);\n                                                                            var_120 = 0x27;\n                                                                            r1 = var_D8[0x7] + *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1f);\n                                                                            r8 = var_D8[0x6];\n                                                                            r8 = r8 + sign_extend_64(var_A8) * 0x27;\n                                                                            asm { ldurh      w8, [x8, #0x23] };\n                                                                            memcpy(r0, r1, r8);\n                                                                            *(int32_t *)var_60 = *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * var_120 + 0x1a);\n                                                                            if ((var_A9 & 0x1) != 0x0) {\n                                                                                    sub_9ee18(&decomp_var_d0, var_D8[0x4]);\n                                                                                    sub_9ee74(&decomp_var_d0);\n                                                                            }\n                                                                            var_3C = 0x0;\n                                                                            r0 = sub_9fcac(&decomp_var_70);\n                                                                            var_124 = var_3C;\n                                                                            if (**___stack_chk_guard != var_18) {\n                                                                                    __stack_chk_fail();\n                                                                            }\n                                                                            r0 = var_124;\n                                                                    }\n                                                            }\n                                                    }\n                                                    else {\n                                                            r0 = var_D8[0x3];\n                                                            asm { ldurh      w1, [fp, var_4A] };\n                                                            asm { ldurh      w4, [x8, #0x23] };\n                                                            var_C4 = (*(*r0 + 0x158))(r0);\n                                                            if (var_C4 != 0x0) {\n                                                                    var_3C = var_C4;\n                                                                    r0 = sub_9fcac(&decomp_var_70);\n                                                                    var_124 = var_3C;\n                                                                    if (**___stack_chk_guard != var_18) {\n                                                                            __stack_chk_fail();\n                                                                    }\n                                                                    r0 = var_124;\n                                                            }\n                                                            else {\n                                                                    *(int8_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1e) = 0x0;\n                                                                    var_A9 = 0x1;\n                                                                    sub_9fbfc(var_58);\n                                                                    r0 = var_58;\n                                                                    r8 = var_D8[0x6];\n                                                                    r8 = r8 + sign_extend_64(var_A8) * 0x27;\n                                                                    asm { ldurh      w8, [x8, #0x23] };\n                                                                    sub_32f8c(r0, r8);\n                                                                    r0 = sub_9fc5c(var_58, 0x0);\n                                                                    var_120 = 0x27;\n                                                                    r1 = var_D8[0x7] + *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1f);\n                                                                    r8 = var_D8[0x6];\n                                                                    r8 = r8 + sign_extend_64(var_A8) * 0x27;\n                                                                    asm { ldurh      w8, [x8, #0x23] };\n                                                                    memcpy(r0, r1, r8);\n                                                                    *(int32_t *)var_60 = *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * var_120 + 0x1a);\n                                                                    if ((var_A9 & 0x1) != 0x0) {\n                                                                            sub_9ee18(&decomp_var_d0, var_D8[0x4]);\n                                                                            sub_9ee74(&decomp_var_d0);\n                                                                    }\n                                                                    var_3C = 0x0;\n                                                                    r0 = sub_9fcac(&decomp_var_70);\n                                                                    var_124 = var_3C;\n                                                                    if (**___stack_chk_guard != var_18) {\n                                                                            __stack_chk_fail();\n                                                                    }\n                                                                    r0 = var_124;\n                                                            }\n                                                    }\n                                            }\n                                    }\n                                    else {\n                                            sub_9fbfc(var_58);\n                                            r0 = var_58;\n                                            r8 = var_D8[0x6];\n                                            r8 = r8 + sign_extend_64(var_A8) * 0x27;\n                                            asm { ldurh      w8, [x8, #0x23] };\n                                            sub_32f8c(r0, r8);\n                                            r0 = sub_9fc5c(var_58, 0x0);\n                                            var_120 = 0x27;\n                                            r1 = var_D8[0x7] + *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * 0x27 + 0x1f);\n                                            r8 = var_D8[0x6];\n                                            r8 = r8 + sign_extend_64(var_A8) * 0x27;\n                                            asm { ldurh      w8, [x8, #0x23] };\n                                            memcpy(r0, r1, r8);\n                                            *(int32_t *)var_60 = *(int32_t *)(var_D8[0x6] + sign_extend_64(var_A8) * var_120 + 0x1a);\n                                            if ((var_A9 & 0x1) != 0x0) {\n                                                    sub_9ee18(&decomp_var_d0, var_D8[0x4]);\n                                                    sub_9ee74(&decomp_var_d0);\n                                            }\n                                            var_3C = 0x0;\n                                            r0 = sub_9fcac(&decomp_var_70);\n                                            var_124 = var_3C;\n                                            if (**___stack_chk_guard != var_18) {\n                                                    __stack_chk_fail();\n                                            }\n                                            r0 = var_124;\n                                    }\n                            }\n                    }\n            }\n    }\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_0bcf2d76510aff4277da6347e43b5f027475e8297552d36f4496d8561291374d",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0xa0310"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x120;\n    var_10 = r28;\n    decomp_var_8 = r27;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_C0 = \"A3D4312D-C54C-4f1f-9466-BBAD4081789C\";\n    var_B8 = arg0;\n    var_26 = 0x0;\n    if ((arg0[0x58] & 0x1) != 0x0) {\n            var_14 = 0x0;\n    }\n    else {\n            sub_9e91c(&decomp_var_48);\n            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::append(&decomp_var_48);\n            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::append(&decomp_var_48);\n            r0 = sub_a0964(&decomp_var_48, var_B8 + 0x40);\n            sub_9e91c(&decomp_var_70);\n            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::append(&decomp_var_70);\n            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::append(&decomp_var_70);\n            r0 = sub_a0964(&decomp_var_70, var_B8 + 0x40);\n            if (var_B8[0x4] != 0x0) {\n                    r8 = var_B8[0x4];\n                    var_D0 = r8;\n                    if (r8 != 0x0) {\n                            sub_12a40c(var_D0);\n                            operator delete(var_D0);\n                    }\n                    var_B8[0x4] = 0x0;\n            }\n            var_D8 = operator new(0x70);\n            r0 = sub_12a290(var_D8, &decomp_var_48, &decomp_var_70, 0x27 * var_B8[0x2] + 0x8 + (var_B8[0x3] << 0x1));\n            var_B8[0x4] = var_D8;\n            sub_9ee18(&decomp_var_78, var_B8[0x4]);\n            r0 = sub_9ee4c(&decomp_var_78);\n            var_30 = r0;\n            if (r0 == 0x0) {\n                    var_14 = 0xa;\n            }\n            else {\n                    if (0x0 < *(int32_t *)var_30) {\n                            var_25 = 0x0;\n                    }\n                    else {\n                            *(int32_t *)var_30 = 0x1;\n                            var_25 = 0x1;\n                            var_30[0x1] = 0x0;\n                    }\n                    var_B8[0x6] = var_30 + 0x8;\n                    var_B8[0x7] = var_B8[0x6] + 0x27 * var_B8[0x2];\n                    if ((var_25 & 0x1) != 0x0) {\n                            memset(var_B8[0x7], 0x0, var_B8[0x3] << 0x1);\n                            var_26 = 0x1;\n                    }\n                    if (var_B8[0x5] != 0x0) {\n                            r8 = var_B8[0x5];\n                            var_E8 = r8;\n                            if (r8 != 0x0) {\n                                    sub_a30b4(var_E8);\n                                    operator delete(var_E8);\n                            }\n                            var_B8[0x5] = 0x0;\n                    }\n                    var_F0 = operator new(0x28);\n                    sub_a3030(var_F0, var_B8[0x7], var_B8[0x3] << 0x1, 0x0, var_26 & 0x1);\n                    var_B8[0x5] = var_F0;\n                    if ((var_25 & 0x1) == 0x0) {\n                            var_B8[0x58] = 0x1;\n                            var_14 = 0x0;\n                    }\n                    else {\n                            memset(var_B8[0x6], 0x0, 0x27 * var_B8[0x2]);\n                            sub_9fb9c(&decomp_var_a0, var_B8[0x2]);\n                            var_100 = var_B8[0x3];\n                            var_104 = var_B8[0x8];\n                            r0 = sub_9fbd0(&decomp_var_a0, 0x0);\n                            r1 = var_104;\n                            var_A4 = (*(*var_100 + 0x158))(var_100, r1, r0, 0x0, 0x1e * var_B8[0x2]);\n                            if (var_A4 != 0x0) {\n                                    var_14 = var_A4;\n                            }\n                            else {\n                                    var_A8 = 0x0;\n                                    while (var_A8 < var_B8[0x2]) {\n                                            r0 = sub_9fbd0(&decomp_var_a0, var_A8);\n                                            r1 = r0;\n                                            sub_9e694(var_B8[0x6] + var_A8 * 0x27, r1);\n                                            *(int32_t *)(var_B8[0x6] + var_A8 * 0x27 + 0x1a) = 0x1;\n                                            *(int8_t *)(var_B8[0x6] + var_A8 * 0x27 + 0x1e) = 0x1;\n                                            var_A8 = var_A8 + 0x1;\n                                    }\n                                    var_A8 = 0x0;\n                                    while (true) {\n                                            if (var_A8 >= var_B8[0x2]) {\n                                                    var_B8[0x58] = 0x1;\n                                                    var_14 = 0x0;\n                                                    temp_0 = 0x1;\n                                                    break;\n                                            }\n                                            if (*(int16_t *)(var_B8[0x6] + var_A8 * 0x27) == 0x0) {\n                                                    var_A8 = var_A8 + 0x1;\n                                                    continue;\n                                            }\n                                            if (0xffff == *(int16_t *)(var_B8[0x6] + var_A8 * 0x27)) {\n                                                    var_A8 = var_A8 + 0x1;\n                                                    continue;\n                                            }\n                                            r8 = var_B8[0x6];\n                                            r8 = r8 + var_A8 * 0x27;\n                                            asm { ldurh      w8, [x8, #0x25] };\n                                            if (r8 == 0x0) {\n                                                    var_A8 = var_A8 + 0x1;\n                                                    continue;\n                                            }\n                                            r0 = var_B8[0x5];\n                                            asm { ldurh      w1, [x8, #0x25] };\n                                            var_B0 = sub_a30e0(r0, r1);\n                                            if (var_B0 != 0x0) {\n                                                    *(int32_t *)(var_B8[0x6] + var_A8 * 0x27 + 0x1f) = var_B0 - var_B8[0x7];\n                                                    var_A8 = var_A8 + 0x1;\n                                                    continue;\n                                            }\n                                            var_14 = 0x2;\n                                            temp_0 = 0x0;\n                                            break;\n                                    }\n                            }\n                            sub_9fc80(&decomp_var_a0);\n                    }\n            }\n            sub_9ee74(&decomp_var_78);\n            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string();\n            std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string();\n    }\n    r0 = var_14;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_0a9366446ababd25d5e3cbaadb61f8f3cb0862d4380dbc492544fd87f30bf8de",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x114b08"
+      },
+      "raw_result": null,
+      "normalized_result": "    r4 = arg4;\n    r3 = arg3;\n    r2 = arg2;\n    r1 = arg1;\n    r31 = r31 - 0xc0;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_A0 = &decomp_var_4;\n    var_20 = r2;\n    var_24 = r3;\n    var_28 = r4;\n    var_98 = arg0;\n    r0 = var_98;\n    asm { ldurh      w1, [fp, var_12] };\n    var_2C = (*(*r0 + 0x170))(r0, r1, r2, r3, r4);\n    if (var_2C != 0x0) {\n            *(int32_t *)var_A0 = var_2C;\n    }\n    else {\n            var_30 = 0x40;\n            r0 = sub_10aeb0(&decomp_var_68, 0x0, 0xb0, SAR((var_24 & 0xffff), 0x8) & 0xff, var_24 & 0xff, 0x0, 0x0, 0x0);\n            var_6C = 0x40;\n            var_70 = 0x0;\n            while (true) {\n                    if (var_70 >= var_28 / var_30) {\n                            if (var_28 != var_28 / var_30 * var_30) {\n                                    var_8A = sub_10af14();\n                                    if (0xfffe == var_8A) {\n                                            *(int32_t *)var_A0 = 0x7;\n                                            temp_0 = 0x1;\n                                    }\n                                    else {\n                                            if (0x9000 != var_8A) {\n                                                    *(int32_t *)var_A0 = sub_108010(var_8A);\n                                                    temp_0 = 0x2;\n                                            }\n                                            else {\n                                                    temp_0 = 0x3;\n                                            }\n                                    }\n                            }\n                            else {\n                                    temp_0 = 0x3;\n                            }\n                            break;\n                    }\n                    var_72 = sub_10af14();\n                    if (0xfffe != var_72) {\n                            if (0x9000 == var_72) {\n                                    var_70 = var_70 + 0x1;\n                                    continue;\n                            }\n                            *(int32_t *)var_A0 = sub_108010(var_72);\n                            temp_0 = 0x0;\n                            break;\n                    }\n                    *(int32_t *)var_A0 = 0x7;\n                    temp_0 = 0x0;\n                    break;\n            }\n            if (temp_0 != 0x0 && temp_0 != 0x1) {\n                    if (temp_0 != 0x2) {\n                            *(int32_t *)var_A0 = 0x0;\n                    }\n            }\n            sub_10b340(&decomp_var_68);\n    }\n    r0 = *(int32_t *)var_A0;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_719f0aaf3e8655fc4dfacae638337e5165607838a07fdcfe16af61ec6b525309",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x114acc"
+      },
+      "raw_result": null,
+      "normalized_result": "    var_10 = 0x0;\n    r0 = (*(*arg0 + 0x168))(arg0, arg1, &var_10);\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_1500b52ab5c70fe9fef8d269dd2a81ca0bdbd39e4e19699c7d509de92d83a640",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x11493c"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x120;\n    var_10 = r28;\n    decomp_var_8 = r27;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_18 = **___stack_chk_guard;\n    var_98 = arg2;\n    memset(&decomp_var_7c, 0x0, 0x64);\n    var_9A = SAR(arg1, 0x8);\n    r0 = sub_10aeb0(&decomp_var_d0, 0x0, 0xa4, 0x0, 0x0, 0x2, &var_9A, 0x0);\n    var_D2 = sub_10af14();\n    if (0xfffe == var_D2) {\n            var_80 = 0x7;\n    }\n    else {\n            if (0x9000 != var_D2) {\n                    var_80 = sub_108010(var_D2);\n            }\n            else {\n                    *(int32_t *)var_98 = var_77 + var_78 * 0x100;\n                    var_80 = 0x0;\n            }\n    }\n    r0 = sub_10b340(&decomp_var_d0);\n    var_108 = var_80;\n    if (**___stack_chk_guard != var_18) {\n            __stack_chk_fail();\n    }\n    r0 = var_108;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_519388c4615d7fb3e7f48d22b0d9b5f00bcc2d5d9ef2331437362c42be3cc0c0",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x115f70"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0xe0;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_B8 = 0x1a961d;\n    var_8 = **___stack_chk_guard;\n    var_B0 = arg0;\n    if ((arg0[0x300] & 0x1) == 0x0) {\n            var_B0[0x300] = 0x1;\n            var_B0[0x304] = 0x0;\n            var_B0[0x306] = 0x1;\n            var_84 = sub_10b7a8(var_B0);\n            if (var_84 != 0x0) {\n                    var_74 = var_84;\n                    var_C4 = var_74;\n                    if (**___stack_chk_guard != var_8) {\n                            __stack_chk_fail();\n                    }\n            }\n            else {\n                    memset(&decomp_var_48, 0x0, 0x40);\n                    var_85 = var_B0[0xaa];\n                    var_B0[0xaa] = 0x0;\n                    r0 = sub_10b6a4(var_B0, 0x86, &decomp_var_48);\n                    var_B0[0xaa] = var_85;\n                    var_90 = r0;\n                    if (var_90 != 0x0) {\n                            var_74 = var_90;\n                            var_C4 = var_74;\n                            if (**___stack_chk_guard != var_8) {\n                                    __stack_chk_fail();\n                            }\n                    }\n                    else {\n                            if (0x1 == var_46) {\n                                    var_B0[0x2b4] = 0x1;\n                            }\n                            else {\n                                    var_B0[0x2b4] = 0x2;\n                            }\n                            if (0x84 == var_3A) {\n                                    if (var_38 == 0x0) {\n                                            var_B0[0xaa] = 0x0;\n                                    }\n                                    else {\n                                            var_B0[0xaa] = 0x1;\n                                    }\n                            }\n                            if (var_B0[0xaa] != 0x0) {\n                                    var_94 = sub_10ee6c(var_B0, 0x1a9108, 0x1a9118);\n                                    if (var_94 != 0x0) {\n                                            var_74 = var_94;\n                                            var_C4 = var_74;\n                                            if (**___stack_chk_guard != var_8) {\n                                                    __stack_chk_fail();\n                                            }\n                                    }\n                                    else {\n                                            var_70 = q0;\n                                            r0 = sub_10b6a4(var_B0, 0x84, &var_70);\n                                            var_98 = r0;\n                                            if (var_98 != 0x0) {\n                                                    var_74 = var_98;\n                                                    var_C4 = var_74;\n                                                    if (**___stack_chk_guard != var_8) {\n                                                            __stack_chk_fail();\n                                                    }\n                                            }\n                                            else {\n                                                    var_B0[0xac] = var_70 << 0xa;\n                                                    (*(*var_B0 + 0x170))(var_B0, 0x2003);\n                                                    var_B0[0x304] = 0x1;\n                                                    var_B0[0x306] = 0x0;\n                                                    if ((var_B0[0x305] & 0x1) == 0x0) {\n                                                            if ((var_B0[0x306] & 0x1) == 0x0) {\n                                                                    var_B0[0x306] = 0x1;\n                                                                    var_9C = 0x0;\n                                                                    r0 = (*(*var_B0 + 0x60))(var_B0, &var_9C);\n                                                                    var_A0 = r0;\n                                                                    if (var_A0 != 0x0) {\n                                                                            var_74 = var_A0;\n                                                                    }\n                                                                    else {\n                                                                            var_A4 = 0x600;\n                                                                            r0 = memcmp(&var_9C, var_B8, 0x4);\n                                                                            if (r0 != 0x0) {\n                                                                                    r0 = memcmp(&var_9C, &var_A4, 0x4);\n                                                                                    if (r0 != 0x0) {\n                                                                                            var_74 = 0x5;\n                                                                                    }\n                                                                                    else {\n                                                                                            var_74 = 0x0;\n                                                                                    }\n                                                                            }\n                                                                            else {\n                                                                                    var_74 = 0x0;\n                                                                            }\n                                                                    }\n                                                            }\n                                                            else {\n                                                                    var_74 = 0x0;\n                                                            }\n                                                    }\n                                                    else {\n                                                            var_74 = 0x0;\n                                                    }\n                                                    var_C4 = var_74;\n                                                    if (**___stack_chk_guard != var_8) {\n                                                            __stack_chk_fail();\n                                                    }\n                                            }\n                                    }\n                            }\n                            else {\n                                    var_70 = q0;\n                                    r0 = sub_10b6a4(var_B0, 0x84, &var_70);\n                                    var_98 = r0;\n                                    if (var_98 != 0x0) {\n                                            var_74 = var_98;\n                                            var_C4 = var_74;\n                                            if (**___stack_chk_guard != var_8) {\n                                                    __stack_chk_fail();\n                                            }\n                                    }\n                                    else {\n                                            var_B0[0xac] = var_70 << 0xa;\n                                            (*(*var_B0 + 0x170))(var_B0, 0x2003);\n                                            var_B0[0x304] = 0x1;\n                                            var_B0[0x306] = 0x0;\n                                            if ((var_B0[0x305] & 0x1) == 0x0) {\n                                                    if ((var_B0[0x306] & 0x1) == 0x0) {\n                                                            var_B0[0x306] = 0x1;\n                                                            var_9C = 0x0;\n                                                            r0 = (*(*var_B0 + 0x60))(var_B0, &var_9C);\n                                                            var_A0 = r0;\n                                                            if (var_A0 != 0x0) {\n                                                                    var_74 = var_A0;\n                                                            }\n                                                            else {\n                                                                    var_A4 = 0x600;\n                                                                    r0 = memcmp(&var_9C, var_B8, 0x4);\n                                                                    if (r0 != 0x0) {\n                                                                            r0 = memcmp(&var_9C, &var_A4, 0x4);\n                                                                            if (r0 != 0x0) {\n                                                                                    var_74 = 0x5;\n                                                                            }\n                                                                            else {\n                                                                                    var_74 = 0x0;\n                                                                            }\n                                                                    }\n                                                                    else {\n                                                                            var_74 = 0x0;\n                                                                    }\n                                                            }\n                                                    }\n                                                    else {\n                                                            var_74 = 0x0;\n                                                    }\n                                            }\n                                            else {\n                                                    var_74 = 0x0;\n                                            }\n                                            var_C4 = var_74;\n                                            if (**___stack_chk_guard != var_8) {\n                                                    __stack_chk_fail();\n                                            }\n                                    }\n                            }\n                    }\n            }\n    }\n    else {\n            if ((var_B0[0x305] & 0x1) == 0x0) {\n                    if ((var_B0[0x306] & 0x1) == 0x0) {\n                            var_B0[0x306] = 0x1;\n                            var_9C = 0x0;\n                            r0 = (*(*var_B0 + 0x60))(var_B0, &var_9C);\n                            var_A0 = r0;\n                            if (var_A0 != 0x0) {\n                                    var_74 = var_A0;\n                            }\n                            else {\n                                    var_A4 = 0x600;\n                                    r0 = memcmp(&var_9C, var_B8, 0x4);\n                                    if (r0 != 0x0) {\n                                            r0 = memcmp(&var_9C, &var_A4, 0x4);\n                                            if (r0 != 0x0) {\n                                                    var_74 = 0x5;\n                                            }\n                                            else {\n                                                    var_74 = 0x0;\n                                            }\n                                    }\n                                    else {\n                                            var_74 = 0x0;\n                                    }\n                            }\n                    }\n                    else {\n                            var_74 = 0x0;\n                    }\n            }\n            else {\n                    var_74 = 0x0;\n            }\n            var_C4 = var_74;\n            if (**___stack_chk_guard != var_8) {\n                    __stack_chk_fail();\n            }\n    }\n    return;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_bd2e10b4e6dd8b08ef9e8bd80f01ecbba878d3f7f9ee1064c884965294945cd3",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_assembly",
+      "parameters": {
+        "procedure": "0x115f70"
+      },
+      "raw_result": null,
+      "normalized_result": "0x115f70: sub sp, sp, #0xe0\n0x115f74: stp fp, lr, [sp, #0xd0]\n0x115f78: add fp, sp, #0xd0\n0x115f7c: adrp x8, #0x1a9000\n0x115f80: add x8, x8, #0x26a\n0x115f84: add x8, x8, #0x3b3\n0x115f88: str x8, [sp, #0xd0 + var_B8]\n0x115f8c: adrp x8, #0x19c000\n0x115f90: ldr x8, [x8, #0x68]\n0x115f94: ldr x8, [x8]\n0x115f98: stur x8, [fp, var_8]\n0x115f9c: str x0, [sp, #0xd0 + var_80]\n0x115fa0: ldr x8, [sp, #0xd0 + var_80]\n0x115fa4: str x8, [sp, #0xd0 + var_B0]\n0x115fa8: ldrb w8, [x8, #0x300]\n0x115fac: tbnz w8, 0x0, loc_11613c\n0x115fb0: ldr x9, [sp, #0xd0 + var_B0]\n0x115fb4: mov w8, #0x1\n0x115fb8: strb w8, [x9, #0x300]\n0x115fbc: strb wzr, [x9, #0x304]\n0x115fc0: strb w8, [x9, #0x306]\n0x115fc4: ldr x0, [sp, #0xd0 + var_B0]\n0x115fc8: bl sub_10b7a8\n0x115fcc: str w0, [sp, #0xd0 + var_84]\n0x115fd0: ldr w8, [sp, #0xd0 + var_84]\n0x115fd4: cbz w8, loc_115fe4\n0x115fd8: ldr w8, [sp, #0xd0 + var_84]\n0x115fdc: str w8, [sp, #0xd0 + var_74]\n0x115fe0: b loc_1161d8\n0x1161d8: ldr w8, [sp, #0xd0 + var_74]\n0x1161dc: str w8, [sp, #0xd0 + var_C4]\n0x1161e0: adrp x8, #0x19c000\n0x1161e4: ldr x8, [x8, #0x68]\n0x1161e8: ldr x8, [x8]\n0x1161ec: ldur x9, [fp, var_8]\n0x1161f0: subs x8, x8, x9\n0x1161f4: b.ne loc_116208\n0x1161f8: ldr w0, [sp, #0xd0 + var_C4]\n0x1161fc: ldp fp, lr, [sp, #0xd0]\n0x116200: add sp, sp, #0xe0\n0x116204: ret\n0x116208: bl imp___stubs____stack_chk_fail\n0x115fe4: sub x0, fp, #0x48\n0x115fe8: str x0, [sp, #0xd0 + var_C0]\n0x115fec: mov w1, #0x0\n0x115ff0: mov x2, #0x40\n0x115ff4: bl imp___stubs__memset\n0x115ff8: ldr x2, [sp, #0xd0 + var_C0]\n0x115ffc: ldr x0, [sp, #0xd0 + var_B0]\n0x116000: ldrb w8, [x0, #0xaa]\n0x116004: strb w8, [sp, #0xd0 + var_85]\n0x116008: strb wzr, [x0, #0xaa]\n0x11600c: mov w1, #0x86\n0x116010: bl sub_10b6a4\n0x116014: ldr x9, [sp, #0xd0 + var_B0]\n0x116018: str w0, [sp, #0xd0 + var_8C]\n0x11601c: ldrb w8, [sp, #0xd0 + var_85]\n0x116020: strb w8, [x9, #0xaa]\n0x116024: ldr w8, [sp, #0xd0 + var_8C]\n0x116028: str w8, [sp, #0xd0 + var_90]\n0x11602c: ldr w8, [sp, #0xd0 + var_90]\n0x116030: cbz w8, loc_116040\n0x116034: ldr w8, [sp, #0xd0 + var_90]\n0x116038: str w8, [sp, #0xd0 + var_74]\n0x11603c: b loc_1161d8\n0x116040: ldurb w9, [fp, var_46]\n0x116044: mov w8, #0x1\n0x116048: subs w8, w8, w9\n0x11604c: b.ne loc_116060\n0x116050: ldr x9, [sp, #0xd0 + var_B0]\n0x116054: mov w8, #0x1\n0x116058: strb w8, [x9, #0x2b4]\n0x11605c: b loc_11606c\n0x11606c: ldurb w9, [fp, var_3A]\n0x116070: mov w8, #0x84\n0x116074: subs w8, w8, w9\n0x116078: b.ne loc_11609c\n0x11607c: ldurb w8, [fp, var_38]\n0x116080: cbnz w8, loc_116090\n0x116084: ldr x8, [sp, #0xd0 + var_B0]\n0x116088: strb wzr, [x8, #0xaa]\n0x11608c: b loc_11609c\n0x11609c: ldr x8, [sp, #0xd0 + var_B0]\n0x1160a0: ldrb w8, [x8, #0xaa]\n0x1160a4: cbz w8, loc_1160d8\n0x1160a8: ldr x0, [sp, #0xd0 + var_B0]\n0x1160ac: adrp x1, #0x1a9000\n0x1160b0: add x1, x1, #0x108\n0x1160b4: adrp x2, #0x1a9000\n0x1160b8: add x2, x2, #0x118\n0x1160bc: bl sub_10ee6c\n0x1160c0: str w0, [sp, #0xd0 + var_94]\n0x1160c4: ldr w8, [sp, #0xd0 + var_94]\n0x1160c8: cbz w8, loc_1160d8\n0x1160cc: ldr w8, [sp, #0xd0 + var_94]\n0x1160d0: str w8, [sp, #0xd0 + var_74]\n0x1160d4: b loc_1161d8\n0x1160d8: movi v0.2d, #0x0\n0x1160dc: str q0, [sp, #0xd0 + var_70]\n0x1160e0: str q0, [sp, #0xd0 + var_60]\n0x1160e4: ldr x0, [sp, #0xd0 + var_B0]\n0x1160e8: mov w1, #0x84\n0x1160ec: add x2, sp, #0x60\n0x1160f0: bl sub_10b6a4\n0x1160f4: str w0, [sp, #0xd0 + var_98]\n0x1160f8: ldr w8, [sp, #0xd0 + var_98]\n0x1160fc: cbz w8, loc_11610c\n0x116100: ldr w8, [sp, #0xd0 + var_98]\n0x116104: str w8, [sp, #0xd0 + var_74]\n0x116108: b loc_1161d8\n0x11610c: ldr x0, [sp, #0xd0 + var_B0]\n0x116110: ldrb w8, [sp, #0xd0 + var_70]\n0x116114: lsl w8, w8, #0xa\n0x116118: str w8, [x0, #0x2b0]\n0x11611c: ldr x8, [x0]\n0x116120: ldr x8, [x8, #0x170]\n0x116124: mov w1, #0x2003\n0x116128: blr x8\n0x11612c: ldr x8, [sp, #0xd0 + var_B0]\n0x116130: mov w9, #0x1\n0x116134: strb w9, [x8, #0x304]\n0x116138: strb wzr, [x8, #0x306]\n0x116148: ldr x8, [sp, #0xd0 + var_B0]\n0x11614c: ldrb w8, [x8, #0x306]\n0x116150: tbnz w8, 0x0, loc_1161d4\n0x116154: ldr x9, [sp, #0xd0 + var_B0]\n0x116158: mov w8, #0x1\n0x11615c: strb w8, [x9, #0x306]\n0x116160: str wzr, [sp, #0xd0 + var_9C]\n0x116164: ldr x0, [sp, #0xd0 + var_B0]\n0x116168: ldr x8, [x0]\n0x11616c: ldr x8, [x8, #0x60]\n0x116170: add x1, sp, #0x34\n0x116174: blr x8\n0x116178: str w0, [sp, #0xd0 + var_A0]\n0x11617c: ldr w8, [sp, #0xd0 + var_A0]\n0x116180: cbz w8, loc_116190\n0x116184: ldr w8, [sp, #0xd0 + var_A0]\n0x116188: str w8, [sp, #0xd0 + var_74]\n0x11618c: b loc_1161d8\n0x116190: ldr x1, [sp, #0xd0 + var_B8]\n0x116194: adrp x8, #0x188000\n0x116198: add x8, x8, #0x540\n0x11619c: ldr w8, [x8]\n0x1161a0: str w8, [sp, #0xd0 + var_A4]\n0x1161a4: add x0, sp, #0x34\n0x1161a8: mov x2, #0x4\n0x1161ac: bl imp___stubs__memcmp\n0x1161b0: cbz w0, loc_1161d4\n0x1161b4: add x0, sp, #0x34\n0x1161b8: add x1, sp, #0x2c\n0x1161bc: mov x2, #0x4\n0x1161c0: bl imp___stubs__memcmp\n0x1161c4: cbz w0, loc_1161d4\n0x1161c8: mov w8, #0x5\n0x1161cc: str w8, [sp, #0xd0 + var_74]\n0x1161d0: b loc_1161d8\n0x1161d4: str wzr, [sp, #0xd0 + var_74]\n0x116090: ldr x9, [sp, #0xd0 + var_B0]\n0x116094: mov w8, #0x1\n0x116098: strb w8, [x9, #0xaa]\n0x116060: ldr x9, [sp, #0xd0 + var_B0]\n0x116064: mov w8, #0x2\n0x116068: strb w8, [x9, #0x2b4]\n0x11613c: ldr x8, [sp, #0xd0 + var_B0]\n0x116140: ldrb w8, [x8, #0x305]\n0x116144: tbnz w8, 0x0, loc_1161d4",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_fbf6b6a8a4fdf03ef29db96953d7682e52ba3fa8eda8125c0ad8eb4f43cc70be",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x10ff0c"
+      },
+      "raw_result": null,
+      "normalized_result": "    r31 = r31 - 0x70;\n    saved_fp = r29;\n    decomp_var_m8 = r30;\n    var_8 = **___stack_chk_guard;\n    var_48 = arg1;\n    var_58 = arg0;\n    var_30 = q0;\n    var_20 = q0;\n    r0 = sub_10b6a4(var_58, 0x81, &var_30);\n    var_4C = r0;\n    if (var_4C != 0x0) {\n            var_34 = var_4C;\n    }\n    else {\n            *(int32_t *)var_48 = var_30;\n            *(int128_t *)(var_58 + 0x2b5) = var_30;\n            *(int128_t *)(var_58 + 0x2c5) = var_20;\n            var_58[0x79] = var_2F;\n            var_58[0x78] = var_11;\n            var_34 = 0x0;\n    }\n    var_5C = var_34;\n    if (**___stack_chk_guard != var_8) {\n            __stack_chk_fail();\n    }\n    r0 = var_5C;\n    return r0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_35acaaa54311f0faa68ddecb0e314121416363b28ff115b90bcf2e9e9d7dcd51",
+      "subject": {
+        "name": "libcastle_v2.1.0.0.dylib",
+        "digest": {
+          "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c"
+        },
+        "local_path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+        "format": "mach-o-universal",
+        "architecture": "arm64"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "mach-o-universal",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "arm64",
+          "available_architectures": [
+            "arm64",
+            "x86_64"
+          ],
+          "macho_container": "fat32",
+          "prepared_image": {
+            "method": "fat32_thin_slice",
+            "architecture_count": 2,
+            "container_table_sha256": "c84e0737e0ea1948457f22e7fb3a83d4db6d8b59727c83a784522694921a2744",
+            "source_offset": 1884160,
+            "byte_length": 1833136,
+            "cpu_type": 16777228,
+            "cpu_subtype": 0
+          },
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "Mach-O",
+              "--aarch64"
+            ]
+          }
+        },
+        "digest": "cc1980556ab818553cd64db6295f71e95b161efdd77a66ab3f9db3c45afff880"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "read_bytes",
+      "parameters": {
+        "address": "0x1a961d",
+        "length": 4
+      },
+      "raw_result": null,
+      "normalized_result": {
+        "address": "0x1a961d",
+        "requested_bytes": 4,
+        "returned_bytes": 4,
+        "bytes_hex": "00860000",
+        "complete": true
+      },
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "REA loaded a verified thin Mach-O slice from the original FAT source. Identity and file offsets refer to the original file. The owned temporary image and its Hopper document close together, including on MCP shutdown.",
+        "Results depend on Hopper's completed static analysis.",
+        "Hopper byte reads stop at the containing segment's exclusive end; a readable prefix is returned with complete=false when the requested range crosses it."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    }
+  ]
+}

@@ -6,6 +6,12 @@ Artifact: `MinvoicePlug.exe` SHA-256 `57ffb22ea1c0555479d88bb120e9e1a09f8658b1fb
 Delivered by ClickOnce `MinvoicePlug.application` v**1.0.9.3** from
 `https://plugin.minvoice.com.vn/MinvoicePlugin_NewApp/`. Static analysis only; nothing executed.
 
+**2026-10-22 correction:** this file preserves the initial metadata/string survey.
+The invoice-specific CIL findings in [minvoice-rest-static.md](minvoice-rest-static.md)
+supersede its inferred wire examples, authentication and signing-profile assumptions.
+The user-supplied `setup.exe` is a separate ClickOnce bootstrapper; see
+[setup-clickonce.md](setup-clickonce.md). It is not the managed assembly itself.
+
 ## Version
 - ClickOnce deployment: **1.0.9.3**; assembly: 1.1.1.0; `appSettings/AppVersion` = `1.1.1`.
 - Second updater `MinvoiceUpdate.exe` (reads `Version.txt`, pulls `*_Update.zip`, restarts).
@@ -100,7 +106,7 @@ Response:
 
 ## Network endpoints contacted
 
-### Observed (REST, `RestClient`/`RestInvoiceClient`/`VoucherApiService`)
+### Initial string/configuration observations (not established request paths)
 - Base `appSettings/API Base Uri = https://api-hddt.minvoice.com.vn/api/app/`; header
   `api-key: cRm12#$56`; Bearer/JWT + `RequestVerificationToken`; backend is ABP
   (`abp/application-configuration`).
@@ -125,24 +131,26 @@ Response:
 - Any TSA timestamping — none observed (SigningTime is a self-asserted SignatureProperty, not RFC3161).
 - Precise OCSP/CRL hosts (derived at runtime from each cert's AIA).
 
-## STATUS (2026-10-22 — branch `claude/beautiful-shirley-8acdc0`, BLOCKED)
+## STATUS (2026-10-22 — branch `claude/beautiful-shirley-8acdc0`)
 SignalR server + `GetVersion`/TokenInfo built and serving on `localhost:16080`
 (`handlerHub`, negotiate `/signalr`). **`SignInvoices` blocked, returns code 501.**
-The minvoice 2.0 page downloads the invoice XML and uploads the signed XML through
-minvoice's own **REST endpoints** (the `api-hddt.minvoice.com.vn` / `file-upload`
-paths above), which run **outside the browser tab** — so DevTools on the page does
-not capture them and the SignalR frames carry no XML to sign.
-**To unblock:** capture the actual download-XML and upload-signed-XML REST requests
-from DevTools Network while signing one invoice on the minvoice page, and relay them
-to the minvoice-bridge session.
+The minvoice 2.0 page sends `BrowserInfo` and `PlugCommand` to the plugin, without
+XML. The **plugin process** downloads and uploads the XML. Page DevTools can show
+the localhost invocation; it cannot observe the plugin's own REST requests.
+The new static CIL investigation resolves concrete download/upload construction
+without making business requests. Remaining checks concern the invoice signing
+profile, authentication/response behavior and controlled plugin-process capture.
+See [minvoice-rest-static.md](minvoice-rest-static.md) for evidence and exact gaps.
 
 ## Interop takeaways for the Swift tool
-- Host an HTTP SignalR-protocol server on `localhost:16080`, allow all origins, expose a hub named
+- Host an HTTP SignalR-protocol server bound to `127.0.0.1:16080`, enforce the project's origin allowlist, expose a hub named
   `handlerHub` with methods `GetVersion`, `GetCommandInfo`, `ProcessMessage`, `VoucherHub`,
   `SwichTask`, `RunUpdate`, each taking one JSON-string arg. Classic SignalR protocol (JSONP/
   long-poll/WebSocket + `/signalr/negotiate`) is required for compatibility with minvoice pages.
-- Produce enveloped XMLDSig: inclusive C14N + enveloped-signature transforms, rsa-sha256,
+- Initial voucher findings: inclusive C14N + enveloped-signature transforms, rsa-sha256,
   SHA-256 digests, `<X509Data>`+`<RSAKeyValue>` KeyInfo, a `SigningTime` SignatureProperty,
-  `<Signature>` inserted under the role `DSCKS` node per the XPaths above.
+  `<Signature>` inserted under the role `DSCKS` node per the XPaths above. Do not
+  assume this is the invoice profile; the invoice CIL uses a different method.
 - Drive the token through PKCS#11 (macOS has no Windows cert store); map "select by serial number"
-  and "default token" to PKCS#11 slot/cert enumeration; let the PKCS#11 module prompt for PIN.
+  and "default token" to PKCS#11 slot/cert enumeration. In this app, retain explicit
+  approval/PIN UI and pass PIN only to TokenHelper through stdin.

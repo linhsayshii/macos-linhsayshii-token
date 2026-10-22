@@ -1,18 +1,20 @@
 # Các bridge trong app chung
 
-App menu bar tự khởi động cả bốn listener từ lúc mở app:
+App menu bar tự khởi động cả sáu listener từ lúc mở app:
 
 | Dịch vụ | Địa chỉ | Chức năng |
 | --- | --- | --- |
 | CTSigningHub | `http://127.0.0.1:32001` | Version, GetInfoCert, GetCert, SignHash, SignXML |
 | eSigner | `ws://127.0.0.1:8768/plugin/sign` | eTax XML-khai và các lệnh ký XML/bytes đã hỗ trợ |
 | eSigner dự phòng | `ws://127.0.0.1:8769/plugin/sign` | Cùng bridge, listener độc lập với 8768 |
+| VNPT-CA | `wss://localhost:4433/plugin` | Callback DVC, chọn CKS, XML/hash/CMS |
+| VNPT-CA dự phòng | `wss://localhost:4434/plugin` | Listener WSS độc lập |
 | Minvoice | `http://127.0.0.1:16080/signalr` | SignalR classic, TokenInfo, cash đơn |
 
 Menu hiển thị rõ CTSigningHub và hai cổng eSigner cùng trạng thái riêng. Cả
 8768 và 8769 được mở đồng thời; nếu một cổng bị chiếm, cổng còn lại vẫn phục vụ.
 Không chỉ thử 8769 sau khi bind 8768 thất bại. Đây là hai endpoint WebSocket
-plain giống luồng eSigner đã xác minh, không thêm TLS hoặc cài chứng thư hệ thống.
+plain giống luồng eSigner đã xác minh, VNPT dùng WSS riêng trên 4433/4434 với CA localhost của TokenSigner.
 
 ## Tích hợp eSigner
 
@@ -52,17 +54,28 @@ swift test -Xswiftc -plugin-path -Xswiftc /Library/Developer/CommandLineTools/us
 python3 scripts/check-integrated-app.py
 ```
 
-Smoke mở đúng gói app đã đóng, kiểm tra version CTSign, Minvoice SignalR,
-CHECK_VERSION qua WebSocket trên cả 8768/8769, route CTSign case/POST/SignXML và
-403. Không gửi PIN, ký, đăng nhập cổng thuế/Minvoice hoặc upload thật.
+Smoke mở đúng gói app đã đóng, kiểm tra CTSign, Minvoice SignalR, CHECK_VERSION
+trên cả 8768/8769, VNPT CheckPlugin qua TLS 4433/4434, route CTSign và 403. Không gửi PIN, ký, đăng nhập cổng thuế/Minvoice hoặc upload thật.
 
 Luồng eTax từng được xác nhận trên nhánh riêng; sau tích hợp cần người dùng
 thử lại tờ khai thật với CKS còn hiệu lực. Không coi unit test và handshake là
 bằng chứng nộp tờ khai thành công trên bản app mới. Xem
 [validation record](re/evidence/all-bridges-validation-2026-10-23.json).
 
-Validation 23/10/2026: 109 tests đạt (7 shim, 35 Core, 56 Bridges, 11 App).
+Validation trước khi gộp VNPT: 109 tests đạt (7 shim, 35 Core, 56 Bridges, 11 App).
 Có kiểm tra XMLDSig bằng xmlsec1 và CMS bằng OpenSSL, origin thực qua HTTP,
 cả hai WebSocket, huỷ socket, grant tệp khác origin và luồng popup app. Gói app
 qua codesign strict và kiểm tra NC-CA shim. Smoke cả bốn cổng đạt; bản app đã
 mở lại và cùng một process đang listen trên cả bốn địa chỉ loopback.
+
+
+## Hợp nhất toàn bộ nhánh
+
+VNPT 4433/4434 đã bật, cùng shared OriginStore, audit digest-only và service
+catalog. Menu “Kết nối và quyền” cho phép user chủ động tin cậy chứng chỉ SSL
+localhost trong login keychain; app không tự cài trust. CA và leaf key chỉ ở
+Application Support (600/700), không đưa vào repo. Nhật ký ký chỉ giữ hash của
+block chuẩn bị ký và metadata kết quả, không giữ nội dung/PIN/cookie.
+
+Xem [đối chiếu nhánh và giới hạn còn lại](BRANCH-CONSOLIDATION.md). Bản hợp nhất
+cuối đạt 130 tests (7 shim, 37 Core, 75 Bridges, 11 App).

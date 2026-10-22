@@ -1,0 +1,80 @@
+{
+  "kind": "local-execution-summary",
+  "date": "2026-10-22",
+  "scope": "FastCA/core and M-Invoice software test environment; no vendor runtime or business REST",
+  "command": "./scripts/test-env.sh all",
+  "exit_code": 0,
+  "preflight": {
+    "loopback_bind": "pass",
+    "ephemeral_rsa_2048": "pass",
+    "system_codesign_control": "pass"
+  },
+  "suites": [
+    {
+      "worktree": "p1-token-core",
+      "build": "pass",
+      "tests_passed": 31,
+      "groups": {
+        "TSShim": 3,
+        "Core": 17,
+        "Bridges": 11
+      }
+    },
+    {
+      "worktree": "claude/beautiful-shirley-8acdc0",
+      "build": "pass",
+      "tests_passed": 81
+    }
+  ],
+  "fastca_module": {
+    "path": "/Users/linhsayshii/Library/Application Support/TokenSigner/modules/libcastle_v2.1.0.0.dylib",
+    "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c",
+    "codesign_strict_all_architectures": "pass",
+    "team_id": "S47T4UESP3",
+    "provisioned": true,
+    "loaded": false,
+    "login_or_sign_attempted": false
+  },
+  "vm_inventory": {
+    "name": "Windows 11 LTSC",
+    "observed_state": "suspended",
+    "resumed": false
+  },
+  "source_logs": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/logs/all.log",
+      "sha256": "2a132d3c463fec94b68c4dac095254514ac4417b9677fb337218953a43189985",
+      "bytes": 21450
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/logs/core-build.log",
+      "sha256": "8ae9155602fb63666b25b72f4671def21bdf0c30c8ff0c86c72553653c629c2d",
+      "bytes": 9207
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/logs/core-tests.log",
+      "sha256": "584119e2f051cfafd315a373e0ab20dd981c6a0bcb515730ec101f19ce4fd7bb",
+      "bytes": 11096
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/logs/minvoice/build.log",
+      "sha256": "4bde45b936c34a1da1631919573ba0faafa50129ba611461a927127c480e5e74",
+      "bytes": 608
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/logs/minvoice/tests.log",
+      "sha256": "e05e5bd12eee14cd912ba4dd69c8dd3709a72a757960a1540e45752592bfd49b",
+      "bytes": 10814
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/logs/minvoice/preflight.log",
+      "sha256": "bddce16cc0d0a1d6ce64f637472bff09654f03e9d58741868aa6c8b135000320",
+      "bytes": 39
+    }
+  ],
+  "limitations": [
+    "Not a hardware FastCA signing result",
+    "No Minvoice Windows process capture",
+    "Minvoice SignInvoices remains 501 pending XML/response verification"
+  ]
+}

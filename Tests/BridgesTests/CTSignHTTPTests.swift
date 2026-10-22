@@ -43,3 +43,26 @@ private func availableHTTPPort() -> Int {
     #expect((blocked as? HTTPURLResponse)?.statusCode == 403)
     #expect(await backend.origins == [origin])
 }
+
+@Test func CTSignSharedOriginStoreUpdatesLiveAndEchoesPreflightHeaders() async throws {
+    let directory = FileManager.default.temporaryDirectory.appendingPathComponent("origins-\(UUID())")
+    defer { try? FileManager.default.removeItem(at: directory) }
+    let store = OriginStore(fileURL: directory.appendingPathComponent("origins.json")), port = availableHTTPPort()
+    let server = HTTPServer(bridge: CTSignBridge(backend: OriginBackend()), port: port, store: store)
+    try await server.start()
+    defer { Task { await server.stop() } }
+    let session = URLSession(configuration: .ephemeral)
+    defer { session.invalidateAndCancel() }
+    var request = URLRequest(url: URL(string: "http://127.0.0.1:\(port)/api/SignHash/Version")!)
+    request.setValue("https://approved.example", forHTTPHeaderField: "Origin")
+    let (_, blocked) = try await session.data(for: request)
+    #expect((blocked as? HTTPURLResponse)?.statusCode == 403)
+    #expect(await store.takePending() == ["https://approved.example"])
+    try await store.add("approved.example")
+    request.httpMethod = "OPTIONS"
+    request.setValue("content-type,x-xsrf-token", forHTTPHeaderField: "Access-Control-Request-Headers")
+    let (_, allowed) = try await session.data(for: request)
+    let response = try #require(allowed as? HTTPURLResponse)
+    #expect(response.statusCode == 200)
+    #expect(response.value(forHTTPHeaderField: "Access-Control-Allow-Headers") == "content-type,x-xsrf-token")
+}

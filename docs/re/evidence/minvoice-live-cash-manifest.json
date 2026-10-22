@@ -1,0 +1,41 @@
+{
+  "kind": "analyst-live-capture-sanitized-evidence-integrity-manifest",
+  "date_local": "2026-10-23",
+  "files": [
+    {
+      "path": "scripts/re/MinvoiceCaptureRelay.cs",
+      "byte_length": 20329,
+      "sha256": "ae0de3a563dbe08786e4db79a4517a8f02d185aca26ab8860426afb755280c55"
+    },
+    {
+      "path": "scripts/re/minvoice-capture-hook.js",
+      "byte_length": 8294,
+      "sha256": "15143c13c7ac24f9931710f1e159a2a862dcde9279476bad6f4b2f5d3dd9d67e"
+    },
+    {
+      "path": "scripts/re/minvoice-capture-hook.test.mjs",
+      "byte_length": 8088,
+      "sha256": "1feb8e4068e0345406d026b6676da3dcd6da4f4f73aa4f7855b93b7cf9e46f37"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-capture-preparation.json",
+      "byte_length": 5070,
+      "sha256": "aa3ad495beaff4f6507f323aa1765dac710b1c0c4a9d601f6af628d40d03dc4f"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-live-cash-success.json",
+      "byte_length": 15307,
+      "sha256": "2e14ab6aba94f62b31cd7ac97613b26cd743e01a94a9c70ab7bc6a8694e2f092"
+    },
+    {
+      "path": "docs/re/minvoice-live-capture.md",
+      "byte_length": 11757,
+      "sha256": "423c81ffd89b5e06b5a6c1ac93747eb78931c2749e2de6d261106c2584d95d54"
+    },
+    {
+      "path": "docs/re/minvoice-windows-2.0.md",
+      "byte_length": 28661,
+      "sha256": "c7c88f08749f18228814e2c8c1325b5ca458ae2e3874e990162e944b98365193"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "artifact": "/private/tmp/fastca-mac-94626/inspect/libcastle_v2.1.0.0.dylib",
+  "sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c",
+  "bytes": 3717296,
+  "slices": [
+    {
+      "architecture": "x86_64",
+      "file_offset": 16384,
+      "bytes": 1865904,
+      "sha256": "1b913b2ae95aa56d873859c38eadfc3841d01e5e966adef3ac6c27ef71cd5063",
+      "code_directories": [
+        {
+          "sha256": "10b66102dd66ce88f1d054ef8e5240693f83e1bf98d333ca11d0dd1cdd1f5228",
+          "hash_type": 1,
+          "hash_size": 20,
+          "page_size": 4096,
+          "code_limit": 1824144,
+          "code_slots": 446,
+          "mismatched_code_slots": []
+        },
+        {
+          "sha256": "0035c8d84dbf4d393a2a1329a2aab3665e37983955ddd2e8270af63324efe421",
+          "hash_type": 2,
+          "hash_size": 32,
+          "page_size": 4096,
+          "code_limit": 1824144,
+          "code_slots": 446,
+          "mismatched_code_slots": []
+        }
+      ],
+      "atr_pattern_candidates": [
+        {
+          "slice_offset": 1667728,
+          "file_offset": 1684112,
+          "value": "3b9f958131fe9f006646530500000071df000000000000",
+          "following_23_bytes": "000000000000000000ffffffffffffffffffffffff0000",
+          "candidate_mask_slice_offset": 1667760,
+          "candidate_mask": "ffffffffffffffffffffffff000000ffffff0000000000"
+        }
+      ],
+      "cms_sha256": "958aa3fac7e36182f86f3242c1a88b66ed08104ba8b682fd23995339307e838f"
+    },
+    {
+      "architecture": "arm64",
+      "file_offset": 1884160,
+      "bytes": 1833136,
+      "sha256": "7de76bea13da1a51bf97585ed499580803a6c67620967107a1c0c40b573d19ff",
+      "code_directories": [
+        {
+          "sha256": "e947cc4c9a28ea37abe093de80e2815de3e8b9781d91563c65f80951f0ff7bf3",
+          "hash_type": 1,
+          "hash_size": 20,
+          "page_size": 4096,
+          "code_limit": 1791792,
+          "code_slots": 438,
+          "mismatched_code_slots": []
+        },
+        {
+          "sha256": "a049a22c0ceb174a0b99f0dcc4354777f0018ffc089ad596e89465e0a1f2d96b",
+          "hash_type": 2,
+          "hash_size": 32,
+          "page_size": 4096,
+          "code_limit": 1791792,
+          "code_slots": 438,
+          "mismatched_code_slots": []
+        }
+      ],
+      "atr_pattern_candidates": [
+        {
+          "slice_offset": 1606034,
+          "file_offset": 3490194,
+          "value": "3b9f958131fe9f006646530500000071df000000000000",
+          "following_23_bytes": "ffffffffffffffffffffffff000000ffffff0000000000",
+          "candidate_mask_slice_offset": 1606057,
+          "candidate_mask": "ffffffffffffffffffffffff000000ffffff0000000000"
+        }
+      ],
+      "cms_sha256": "5aca6b38d8a007848e329665009470ccba1c5fc20647607b50ac80e0089ab193"
+    }
+  ]
+}

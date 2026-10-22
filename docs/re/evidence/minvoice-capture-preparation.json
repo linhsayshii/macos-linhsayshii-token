@@ -1,0 +1,96 @@
+{
+  "kind": "analyst-controlled-capture-preparation",
+  "date": "2026-10-22",
+  "plugin_version": "1.0.3.0",
+  "plugin_sha256": "4e891736c97f593f4306f56ce645f039ac91aa3e54ed01d81cb7b822093331e0",
+  "relay_source_sha256": "072b4818e9f82a01919b7c46d54180334e157eb0dd3573a1d91e7bb6c8075dbd",
+  "relay_exe_sha256": "926a40fc42c068d5efbd7209b9d612312552c492ca99c2e68b376283cf7dbf14",
+  "browser_hook_template_sha256": "708a09834aa44f1f12e6a36193522d38a59cb7eca15d3d9dda88df4303806894",
+  "validation": [
+    "Windows x86 compile and fake HttpMessageHandler self-test passed; no external network",
+    "Node WebSocket/XHR, one-command, fixed API, callback-redaction and restore checks passed",
+    "Live loopback /status GET returned ready=true",
+    "Exact configured minvoice.net tenant page accepted; other tenant origins, HTTP and suffix lookalikes rejected; API allowlist unchanged."
+  ],
+  "trust_or_system_proxy_changed": false,
+  "usb_or_middleware_changed": false,
+  "signing_initiated_by_agent": false,
+  "limitations": [
+    "LinkApi is intentionally changed for one user-triggered command; this is not unmodified passive TLS capture.",
+    "No real invoice transaction has been observed at preparation time.",
+    "Session nonce and artifact output paths remain only in private local state."
+  ],
+  "page_origin_correction": {
+    "source": "User screenshot of the intended tenant page plus unauthenticated public HTML/JS acquisition; no authenticated browser storage accessed.",
+    "html_sha256": "a2d6fbfa046bd6d607c363f858370067d6ac37da1280e58863de70c28e503abf",
+    "bundle_name": "main.99bcd98f.js",
+    "bundle_byte_length": 2912870,
+    "bundle_sha256": "de7ee581ea758146b546aa7d92a5ca2661c4adc1be3947e5ab1ba68363ac7b53",
+    "rea_parent_evidence_id": "ev_04a7f2b1abc0b6df158397b7e5750f3dc84a0ba86658f33ef9557fff702811a9",
+    "rea_limitations": [
+      "Static bundle parsing only; no code execution or authenticated traffic.",
+      "Semantic graph partial at file/node ceilings; no absence claims.",
+      "HTML inventoried but not selected for semantic analysis."
+    ],
+    "link_api_observed": "https://api-hddt.minvoice.com.vn/api/app/",
+    "hub_observed": "handlerHub",
+    "command_method_observed": "processMessage",
+    "analyst_literal_coordinates_unicode_codepoints": {
+      "reponseResult": 2193528,
+      "LinkApi": 2193787
+    }
+  },
+  "current_revision": {
+    "version": 3,
+    "date": "2026-10-23",
+    "relay_lifetime_minutes": 240,
+    "relay_source_sha256": "ae0de3a563dbe08786e4db79a4517a8f02d185aca26ab8860426afb755280c55",
+    "relay_exe_sha256": "a474c352b02c511487c8fa8af4182bf19084fac95f8558192280f46152ef0f72",
+    "browser_hook_template_sha256": "15143c13c7ac24f9931710f1e159a2a862dcde9279476bad6f4b2f5d3dd9d67e",
+    "hook_tests_sha256": "1feb8e4068e0345406d026b6676da3dcd6da4f4f73aa4f7855b93b7cf9e46f37",
+    "validation": [
+      "Windows .NET Framework x86 compile passed",
+      "Offline fake upstream: health GET/OPTIONS, health-only CORS, near-expiry and used-session readiness passed; no external network",
+      "Raw HTTP underscore header forwarding, allowlist, framing, response schema and credential redaction passed",
+      "Node: setup/send-time readiness, unavailable/expired relay blocks sends, WebSocket/XHR one-invoice routing, synchronous duplicate reservation, abort while waiting, exact tenant/API, callback restoration and credential redaction passed"
+    ],
+    "policy_changes": {
+      "certificate_trust": false,
+      "system_proxy": false,
+      "usb_or_middleware": false,
+      "agent_initiated_signing": false
+    },
+    "limitations": [
+      "Browser loopback fetch was confirmed by user running the hook in this session.",
+      "Successful single cash invoice captured after preparation; see minvoice-live-cash-success.json. Ordinary/batch/error semantics and live callback envelope remain unobserved."
+    ],
+    "live_readiness": {
+      "checked_utc": "2026-10-22T17:17:12Z",
+      "checked_local": "2026-10-23T00:17:12+07:00",
+      "health_ready": true,
+      "health_options_status": 204,
+      "health_cors": true,
+      "private_network_preflight_allowed": true,
+      "protected_output_root": true,
+      "business_events_file_present": false,
+      "artifact_count": 0,
+      "plugin_version": "1.0.3.0",
+      "plugin_sha256": "4e891736c97f593f4306f56ce645f039ac91aa3e54ed01d81cb7b822093331e0",
+      "expires_local": "2026-10-23T04:16:12.930970+07:00",
+      "signing_initiated_by_agent": false
+    },
+    "completion_evidence": "docs/re/evidence/minvoice-live-cash-success.json"
+  },
+  "v2_expiry_failure": {
+    "expires_utc": "2026-10-22T13:59:45.4400535Z",
+    "expires_local": "2026-10-22T20:59:45.4400535+07:00",
+    "user_screenshot_local": "2026-10-22T21:04:04+07:00",
+    "guest_followup": {
+      "relay_running": false,
+      "business_events_file_present": false,
+      "plugin_running": true,
+      "loopback_port_listening": false
+    },
+    "conclusion": "No business request recorded by v2 relay; screenshot does not establish Minvoice upstream failure."
+  }
+}

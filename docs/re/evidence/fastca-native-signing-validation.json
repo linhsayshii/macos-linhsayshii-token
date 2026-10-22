@@ -1,0 +1,73 @@
+{
+  "recordType": "local analyst observation; not a REA Evidence record",
+  "date": "2026-10-22",
+  "host": "macOS arm64",
+  "backend": "OpenSC 0.27.1 libopensc.13.dylib epass2003 driver + analyst FastCA ESPK commands",
+  "sourceURL": "https://github.com/OpenSC/OpenSC/tree/0.27.1",
+  "reader": "FT ePass2003Auto",
+  "atr": "3b9f958131fe9f006646530510523971df000069000011",
+  "certificateSHA1": "7EF1E56BF406078890C6CEE040CB2DC9C373913D",
+  "certificateSHA256": "fe4414c939c92562e13c3b2c8ea13fe292bd4676d35dc7ca625a38ecf0fbc77e",
+  "certificateExpired": "2026-07-30",
+  "catalogBytes": 1500,
+  "catalogFiles": 9,
+  "certificateDERBytes": 1395,
+  "privateKeyMetadata": {
+    "sign": true,
+    "modulusBytes": 256,
+    "reference": "A020",
+    "privateKeyExported": false
+  },
+  "authentication": {
+    "attemptsInSuccessfulSigningRun": 1,
+    "SW": "9000",
+    "automaticRetry": false,
+    "PINInput": "user-operated NSSecureTextField -> helper stdin; never logged"
+  },
+  "MSE": {
+    "rv": 0,
+    "SW": "9000",
+    "apdu": "00 22 41 B8 07 80 01 84 81 02 A0 20"
+  },
+  "PSO": {
+    "rv": 0,
+    "SW": "9000",
+    "header": "00 2A 80 86",
+    "case": "4 extended",
+    "inputBytes": 256,
+    "signatureBytes": 256
+  },
+  "message": "TokenSigner FastCA native macOS signing test 2026-10-22",
+  "signatureB64": "PVgf6JIh8/m7QE8HRMFOgB8Hdm0mCSDuYlsG4eUjHM+ME0zScdeSqnkJHoZoa2DLjgWSfCvDgDOG6/n5kQfYj0C7KF4doEPRnsWsXER027hrDF0MMdKiwOa4ZgHgkLCcS9P6TrikGgXGghMU8wO5g2h6yUO/+eT41JM7LlajGbIedyWeHaAmvKhy+J6B9FZGy1SylU/vlIsTZbn7YBQq+0ljXr7220g0JAaPBQZhU+0ss1CeB34Kac5TFctmQ3vQxbTqnfhIEFlw6TwpSYSJJFxY9EG0uIDErheSLJfZjLhIey/254NOMAp+Ho5araUJq3e9qpZjK9EgoISqLilmVA==",
+  "verification": {
+    "Security.framework": "VERIFIED",
+    "OpenSSL": "Verified OK",
+    "OpenSSLExit": 0,
+    "scheme": "SHA-256 / RSASSA-PKCS1-v1_5"
+  },
+  "sha256": {
+    "probe.c": "fd068d326e5a462e5ba08d8cb909252a86dad0ee8987f002ce1a5868c5a8c10b",
+    "auth_probe.c": "bd3db2a52c2a5980866329365f3ad63c8bbba09e90bbd2f3e612c6a9541bd0da",
+    "sign_probe.c": "2019b4173243343d31b92f1b3e101d89a16f60ad57d53e22b6256982145b836c",
+    "AuthPrompt.swift": "c349dcfb548a3ed2d982c2bef776def72531fd75a65b8a41078673079c2077e4",
+    "SignPrompt.swift": "44a76aff5b30a55592abf03cc6078cbcc51117462cd84860c4480eff84c34639",
+    "message.bin": "22f99bc698bee957b055972f7c3d10d29d3ca79351e17355f9a8c8fcb88b8243",
+    "signature.bin": "81434df2fa0172054ced0ca76de121a5ba6b95b12d62fe8c5bb74906f3cd9587",
+    "public.pem": "27a38607d6b6e3f1774aaa68f58805b7512343bdbcd1389317c5370c5ae58df9"
+  },
+  "limits": [
+    "Standalone native proof; App/TokenHelper registry still selects incompatible generic module.",
+    "No portal, certificate-chain, revocation or business document acceptance tested.",
+    "Only this exact FastCA card/certificate/key; no claim covering other models.",
+    "Original first auth UI attempt stopped before any authentication APDU due to challenge return-value check; fixed to accept SC_SUCCESS=0."
+  ],
+  "softwareTests": {
+    "command": "scripts/test-env.sh test-core",
+    "passed": 33,
+    "groups": {
+      "TSShim": 3,
+      "Core": 19,
+      "Bridges": 11
+    }
+  }
+}

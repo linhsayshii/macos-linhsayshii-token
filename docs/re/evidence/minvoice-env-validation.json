@@ -1,0 +1,53 @@
+{
+  "kind": "local-validation-evidence",
+  "date": "2026-10-22",
+  "scope": "native fixture tests, generated ephemeral RSA and local loopback only; no vendor executable, USB token, PIN, production REST, or real credentials",
+  "workspace": "/Users/linhsayshii/macos-linhsayshii-token/.claude/worktrees/beautiful-shirley-8acdc0",
+  "script": "scripts/test-minvoice.sh",
+  "script_sha256": "10859e710a70a6163c27fc8c060c415e5611f1afd326758837288cf445dbecbf",
+  "command": [
+    "zsh",
+    "/Users/linhsayshii/macos-linhsayshii-token/.claude/worktrees/beautiful-shirley-8acdc0/scripts/test-minvoice.sh",
+    "--logs",
+    "/private/tmp/minvoice-env-parent"
+  ],
+  "runtime_observations": {
+    "loopback_bind": "ok",
+    "ephemeral_rsa_2048": "ok",
+    "swift_build": "passed",
+    "full_test_suite": {
+      "tests": 81,
+      "suites": 0,
+      "status": "passed",
+      "elapsed_seconds": 1.01
+    }
+  },
+  "source_logs": [
+    {
+      "path": "/private/tmp/minvoice-env-parent/environment.txt",
+      "sha256": "4f22b6aadb8a6aa99842eaeacba41824c787606f9b696267ffb903302c05c13e"
+    },
+    {
+      "path": "/private/tmp/minvoice-env-parent/preflight.log",
+      "sha256": "bddce16cc0d0a1d6ce64f637472bff09654f03e9d58741868aa6c8b135000320"
+    },
+    {
+      "path": "/private/tmp/minvoice-env-parent/build.log",
+      "sha256": "9bf2062bf903545e9959938c6e071845ad01c523fa4a24ef07e66957ac6fad8e"
+    },
+    {
+      "path": "/private/tmp/minvoice-env-parent/tests.log",
+      "sha256": "3e17a27f9f9cc8bcb0113265ee697a825e4be11ea3beb7e6c088c5a584d61346"
+    }
+  ],
+  "retained_projection": {
+    "path": "docs/re/evidence/minvoice-env-validation.log",
+    "sha256": "d20a57075a766cdf633f2bc4e52d87cc59cb456c0fc6aa09bbee69b2f83a349b",
+    "policy": "Only explicit environment paths/tool versions, preflight status, compiler status/warnings and test names/status are retained. Original logs remain in /private/tmp and may be removed later."
+  },
+  "limitations": [
+    "Local test success does not establish Minvoice server or portal acceptance.",
+    "The M-Invoice bridge still returns 501 for SignInvoices.",
+    "No Windows plugin execution or process network capture was performed."
+  ]
+}

@@ -6,3 +6,8 @@
 __pycache__/
 *.py[cod]
 .claude/worktrees/
+
+# Private/generated investigation traces remain local; publish sanitized summaries only.
+docs/re/evidence/*.log
+docs/re/evidence/*.txt
+docs/re/evidence/*-probe/

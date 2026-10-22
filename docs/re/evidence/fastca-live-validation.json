@@ -1,0 +1,82 @@
+{
+  "kind": "local-runtime-observation",
+  "date": "2026-10-22",
+  "result": "blocked-before-PIN; no signature produced",
+  "candidate_sha256": "3e7b9e91a861fccbafa9e992daa4c3c4746d9a20eb99e2f43ac860037159cf9c",
+  "reader": "FT ePass2003Auto 02",
+  "atr": "3b9f958131fe9f006646530510523971df000069000011",
+  "helper_list_tokens": [],
+  "multi_reader_probes": {
+    "arm64": {
+      "slots": 5,
+      "token_info_rv": 5
+    },
+    "x86_64": {
+      "slots": 5,
+      "token_info_rv": 5
+    }
+  },
+  "fastca_isolated_probe": {
+    "method": "process-local SCardListReaders filter; actual reader name, ATR and card replies preserved",
+    "slots": 1,
+    "slot_description": "ES SLOT 1",
+    "token_info_rv": 5,
+    "internal_return_at_0x22d20": "0x30",
+    "internal_return_at_0x8c34": "0x30",
+    "internal_method": "0xd79ec",
+    "return_translation": "0x30 becomes CKR_GENERAL_ERROR (5) in 0x8a64",
+    "apdu_header_counts": {
+      "[tsshim] pass len=5 hdr=00ca018600 rv=0x0 SW=9000": 15,
+      "[tsshim] pass len=13 hdr=8050000008 rv=0x0 SW=9000": 15,
+      "[tsshim] pass len=21 hdr=8482030010 rv=0x0 SW=9000": 15,
+      "[tsshim] pass len=19 hdr=0cca01840d rv=0x0 SW=9000": 15,
+      "[tsshim] pass len=38 hdr=0ca4000020 rv=0x0 SW=9000": 15,
+      "[tsshim] pass len=19 hdr=0cca01810d rv=0x0 SW=9000": 15
+    }
+  },
+  "not_fastca_root_cause": {
+    "multi_reader_slot_5": "returned 0x80100023 while reading mscp/cmapfile; slot-reader attribution was not established; superseded by isolated FastCA measurement"
+  },
+  "authentication": {
+    "user_pin_received": false,
+    "C_Login_called": false,
+    "C_Sign_called": false,
+    "signature_created": false
+  },
+  "alternative": {
+    "source": "https://download.ftsafe.com/files/ePass/temp/ePass2003-India-20210512.dmg",
+    "dmg_sha256": "d1e1d036bc8e8959223f5ced5d97a7ebbb52443235de0a4d7660fa8e9c96b69b",
+    "module_sha256": "bef7acde8531105c3b8734869877d83add13efed9ef2404c3663c3011f36b9e0",
+    "arch": "x86_64",
+    "signature": "unsigned",
+    "probe": "6 slots; every token-info read rv=5; no PIN, no installation"
+  },
+  "source_logs": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/fastca-live/tokens.json",
+      "sha256": "ed46900c16ec792119a0f56ce2168b41bbd19f5abdbd2aea00dddf01cb1fe368"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/fastca-live/slots-x86_64.log",
+      "sha256": "cd17d7690adcdc5d3e0b26134c4f9eba891bc3c77a1036cc64006d3eca32bf1a"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/fastca-live/fastca-isolated.log",
+      "sha256": "07e52b6c70acb4dadc3e88d9cff76625e6c66e720cd461e6a7f8a6ddf97b529c"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/fastca-live/lldb-fastca-catalog.log",
+      "sha256": "b13fba767e118fe2174b198b0d947d8eb5869cd904195b33840d700e8f8fde4a"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/fastca-live/feitian-2021-all-slots.log",
+      "sha256": "a7b12a6e614136947721b88b607f33e2a072cd1997d6e02cc18ee0ed8a0c3e2f"
+    }
+  ],
+  "limits": [
+    "Outer APDU SW=9000 does not prove secure-message decoding or logical catalog success",
+    "Exact failure inside catalog enumeration remains unresolved",
+    "No claim that this middleware can sign FastCA",
+    "No claim that the historical expired FastCA certificate is current"
+  ]
+}

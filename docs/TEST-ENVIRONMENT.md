@@ -1,0 +1,31 @@
+# Môi trường test app tích hợp
+
+Chỉ dùng checkout gốc `p1-token-core`. Toàn bộ app/helper/bridge build từ cùng
+`Package.swift` và `Package.resolved`; không còn tuyến test Minvoice worktree riêng.
+
+```sh
+./scripts/test-env.sh check
+./scripts/test-env.sh test-all
+./scripts/test-env.sh test-minvoice
+./scripts/package-test-app.sh
+python3 scripts/check-integrated-app.py
+./scripts/run-test-app.sh all --print
+./scripts/run-test-app.sh all
+```
+
+Không chạy đồng thời hai builder trong checkout hoặc hai app đang dùng token.
+`run-test-app.sh fastca|minvoice|esigner|vnpt` chỉ là alias của app gốc.
+`TOKENSIGNER_PORT_OFFSET=100` dịch cả sáu cổng khi chủ động thử dev instance;
+không dùng offset để chạy hai luồng đăng nhập token cùng lúc.
+
+App đóng gói tại `.local/test-env/TokenSigner.app`, ký ad-hoc. FastCA yêu cầu
+runtime OpenSC 0.27.1 bên ngoài bundle; script chỉ kiểm tra, không cài vendor.
+TLS VNPT tạo/tái dùng `~/Library/Application Support/TokenSigner/tls`; khóa mode
+0600, thư mục 0700. Tin cậy Keychain không chạy trong suite hay smoke.
+
+Smoke kiểm tra sáu listener với request version/check-plugin, TLS bằng public
+CA được pin riêng trong client test, origin 403, route CTSign và Minvoice SignalR.
+Không nhập PIN, tạo chữ ký, đăng nhập nghiệp vụ hoặc upload thật.
+
+Hướng dẫn cũ đã lưu tại
+[archive/TEST-ENVIRONMENT-before-consolidation.md](archive/TEST-ENVIRONMENT-before-consolidation.md).

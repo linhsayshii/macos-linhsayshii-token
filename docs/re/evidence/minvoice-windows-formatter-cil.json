@@ -1,0 +1,2444 @@
+{
+  "kind": "analyst-selected-static-CIL-projection",
+  "limitations": [
+    "No dependency execution or HTTP transaction observed.",
+    "Raw strings intentionally omitted."
+  ],
+  "records": [
+    {
+      "source_evidence_id": "ev_ed9a7977eb392eff3984affe41e32e27fd6a8e21e65de454ca8e9eed4e2a7e1b",
+      "artifact": {
+        "byte_length": 178808,
+        "format": "pe",
+        "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/minvoice-windows-2.0/System.Net.Http.Formatting.dll",
+        "sha256": "7b58adc6e23b24cd6615b35e848a002bda053a26d48f9ddafacfc8098e97c49c"
+      },
+      "module": {
+        "enc_base_id": null,
+        "enc_id": null,
+        "generation": 0,
+        "mvid": "bfdadc3b-0c0a-4d10-b981-98c04eccd25d",
+        "name": "System.Net.Http.Formatting.dll",
+        "row_offset": 55088,
+        "token": "0x00000001"
+      },
+      "coverage": {
+        "issues": [],
+        "state": "complete"
+      },
+      "methods": [
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 4,
+                "opcode": "call",
+                "operand": "0x0a00006d",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 6,
+            "exception_regions": [],
+            "file_offset": 3042,
+            "header_format": "tiny",
+            "il_sha256": "167d83d0863e1ef3f6e905cb9acfe08e4b935244351352553a59de70492324a9",
+            "il_size": 10,
+            "init_locals": false,
+            "instruction_count": 6,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "e918c7d7da4ef22353829f66ed6b78ebfd5abf9f8e6a395bb84d4a4f24904520",
+            "opcode_counts": {
+              "call": 1,
+              "ldarg.0": 1,
+              "ldarg.1": 1,
+              "ldarg.2": 1,
+              "ldnull": 1,
+              "ret": 1
+            },
+            "rva": 10722,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.ObjectContent`1",
+          "declaring_type_token": "0x0200000f",
+          "flags": 6278,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 62760,
+          "rva": 10722,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 2,
+            "parameter_types": [
+              "var:0",
+              "class:272"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 8,
+            "raw_sha256": "c9ea83dba54c2616aef9aebf200b4dbd2ef3880efc88eb566968377b271cbcda",
+            "return_type": "void"
+          },
+          "token": "0x06000043",
+          "raw_il_hex": "02030414286d00000a2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 4,
+                "opcode": "call",
+                "operand": "0x06000105",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 9,
+                "opcode": "call",
+                "operand": "0x0a00006d",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 7,
+            "exception_regions": [],
+            "file_offset": 3053,
+            "header_format": "tiny",
+            "il_sha256": "838bed6f1f80cc24e329b4a6d487d361b1ce81a2283104d47adcdcc0225d592b",
+            "il_size": 15,
+            "init_locals": false,
+            "instruction_count": 7,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "53b9097cbf697d8b334e99c5277d705b55ea1780119379c37eb34550e2fa3dde",
+            "opcode_counts": {
+              "call": 2,
+              "ldarg.0": 1,
+              "ldarg.1": 1,
+              "ldarg.2": 1,
+              "ldarg.3": 1,
+              "ret": 1
+            },
+            "rva": 10733,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.ObjectContent`1",
+          "declaring_type_token": "0x0200000f",
+          "flags": 6278,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 62774,
+          "rva": 10733,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 3,
+            "parameter_types": [
+              "var:0",
+              "class:272",
+              "string"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 9,
+            "raw_sha256": "294353926aa738bdc4ba0139cd5987d99a6217ed0f7b3ccc1eb6f663e629fad5",
+            "return_type": "void"
+          },
+          "token": "0x06000044",
+          "raw_il_hex": "020304052805010006286d00000a2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "ldtoken",
+                "operand": "0x1b000017",
+                "operand_kind": "type"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "call",
+                "operand": "0x0a00002d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 12,
+                "opcode": "box",
+                "operand": "0x1b000017",
+                "operand_kind": "type"
+              },
+              {
+                "il_offset": 19,
+                "opcode": "call",
+                "operand": "0x060000ff",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 9,
+            "exception_regions": [],
+            "file_offset": 3069,
+            "header_format": "tiny",
+            "il_sha256": "d92a6d19a84d668a8b7d1c97262efe4b7d43f45c9c6454c35b46d5b7069ca660",
+            "il_size": 25,
+            "init_locals": false,
+            "instruction_count": 9,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "a147929ba8d5135aba3cc59b33669c680a5e6a4167847f37667d641a1bd8ce26",
+            "opcode_counts": {
+              "box": 1,
+              "call": 2,
+              "ldarg.0": 1,
+              "ldarg.1": 1,
+              "ldarg.2": 1,
+              "ldarg.3": 1,
+              "ldtoken": 1,
+              "ret": 1
+            },
+            "rva": 10749,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.ObjectContent`1",
+          "declaring_type_token": "0x0200000f",
+          "flags": 6278,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 62788,
+          "rva": 10749,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 3,
+            "parameter_types": [
+              "var:0",
+              "class:272",
+              "class:105"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 10,
+            "raw_sha256": "0321d10af5605fb7889d1bf0c61f4791307757631b4eeb75810dbc42b6731119",
+            "return_type": "void"
+          },
+          "token": "0x06000045",
+          "raw_il_hex": "02d01700001b282d00000a038c1700001b040528ff0000062a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 3,
+                "opcode": "call",
+                "operand": "0x0a00004d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 8,
+                "opcode": "call",
+                "operand": "0x2b00000d",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 6,
+            "exception_regions": [],
+            "file_offset": 3934,
+            "header_format": "tiny",
+            "il_sha256": "0032189db0e9860e2b1935536dedac9fdd116166386a5ef7149e35b18dafb173",
+            "il_size": 14,
+            "init_locals": false,
+            "instruction_count": 6,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "dfda39c9f29241c7115238f63c8dbcf2c1d204c07ea72a2ee5eb2e391594cd7a",
+            "opcode_counts": {
+              "call": 2,
+              "ldarg.0": 1,
+              "ldarg.1": 1,
+              "ldarg.2": 1,
+              "ret": 1
+            },
+            "rva": 11614,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.HttpClientExtensions",
+          "declaring_type_token": "0x02000014",
+          "flags": 150,
+          "impl_flags": 0,
+          "name": "PostAsJsonAsync",
+          "row_offset": 63012,
+          "rva": 11614,
+          "signature": {
+            "calling_convention": "default generic",
+            "field_type": null,
+            "generic_parameter_count": 1,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 3,
+            "parameter_types": [
+              "class:257",
+              "string",
+              "mvar:0"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 17,
+            "raw_sha256": "1f6514e643d94dc047f92b18ec417195b1cce25f54f4de933d1089f946f9e276",
+            "return_type": "class:157<class:281>"
+          },
+          "token": "0x06000055",
+          "raw_il_hex": "020304284d00000a280d00002b2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 3,
+                "opcode": "newobj",
+                "operand": "0x06000274",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 9,
+                "opcode": "call",
+                "operand": "0x2b00000e",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 7,
+            "exception_regions": [],
+            "file_offset": 3949,
+            "header_format": "tiny",
+            "il_sha256": "3d795ad23ec1c38d23be4b384789e616f002c861bd99d75b3bdd934b57e8de5a",
+            "il_size": 15,
+            "init_locals": false,
+            "instruction_count": 7,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "0afe7152e519962caf7a0530bc982d0badadf31c4c189c321ba015122b82960a",
+            "opcode_counts": {
+              "call": 1,
+              "ldarg.0": 1,
+              "ldarg.1": 1,
+              "ldarg.2": 1,
+              "ldarg.3": 1,
+              "newobj": 1,
+              "ret": 1
+            },
+            "rva": 11629,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.HttpClientExtensions",
+          "declaring_type_token": "0x02000014",
+          "flags": 150,
+          "impl_flags": 0,
+          "name": "PostAsJsonAsync",
+          "row_offset": 63026,
+          "rva": 11629,
+          "signature": {
+            "calling_convention": "default generic",
+            "field_type": null,
+            "generic_parameter_count": 1,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 4,
+            "parameter_types": [
+              "class:257",
+              "string",
+              "mvar:0",
+              "valuetype:165"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 20,
+            "raw_sha256": "5d6ed5f926898883a307296f8e6b04b1fc33c7d8060e3e1b2dd26ca745996ac9",
+            "return_type": "class:157<class:281>"
+          },
+          "token": "0x06000056",
+          "raw_il_hex": "020304737402000605280e00002b2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 3,
+                "opcode": "call",
+                "operand": "0x0a00004d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 8,
+                "opcode": "call",
+                "operand": "0x2b00000f",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 6,
+            "exception_regions": [],
+            "file_offset": 3965,
+            "header_format": "tiny",
+            "il_sha256": "94c4ada4249995bdae1af6260537808e5e44e1d3d2feac7af2812566af0fe2b7",
+            "il_size": 14,
+            "init_locals": false,
+            "instruction_count": 6,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "aa5c97cf022169cbf7f36512208c565205809fde2d463f6385d0e4759850d7cf",
+            "opcode_counts": {
+              "call": 2,
+              "ldarg.0": 1,
+              "ldarg.1": 1,
+              "ldarg.2": 1,
+              "ret": 1
+            },
+            "rva": 11645,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.HttpClientExtensions",
+          "declaring_type_token": "0x02000014",
+          "flags": 150,
+          "impl_flags": 0,
+          "name": "PostAsJsonAsync",
+          "row_offset": 63040,
+          "rva": 11645,
+          "signature": {
+            "calling_convention": "default generic",
+            "field_type": null,
+            "generic_parameter_count": 1,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 3,
+            "parameter_types": [
+              "class:257",
+              "class:285",
+              "mvar:0"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 19,
+            "raw_sha256": "d1c34aee818bad49f03e8c1d159ad53e9a8914e7e93ebb58afbee6b2fbf32a31",
+            "return_type": "class:157<class:281>"
+          },
+          "token": "0x06000057",
+          "raw_il_hex": "020304284d00000a280f00002b2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 3,
+                "opcode": "newobj",
+                "operand": "0x06000274",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 9,
+                "opcode": "call",
+                "operand": "0x2b000010",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 7,
+            "exception_regions": [],
+            "file_offset": 3980,
+            "header_format": "tiny",
+            "il_sha256": "c4ed235b3342424fc6f9f51d4c3fc5d86e72a082d4071fb6e75c2c1419e87936",
+            "il_size": 15,
+            "init_locals": false,
+            "instruction_count": 7,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "cb9e2db45d0b8151c6b66c38242f991d851cd34551eb109270b885fa83fd2468",
+            "opcode_counts": {
+              "call": 1,
+              "ldarg.0": 1,
+              "ldarg.1": 1,
+              "ldarg.2": 1,
+              "ldarg.3": 1,
+              "newobj": 1,
+              "ret": 1
+            },
+            "rva": 11660,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.HttpClientExtensions",
+          "declaring_type_token": "0x02000014",
+          "flags": 150,
+          "impl_flags": 0,
+          "name": "PostAsJsonAsync",
+          "row_offset": 63054,
+          "rva": 11660,
+          "signature": {
+            "calling_convention": "default generic",
+            "field_type": null,
+            "generic_parameter_count": 1,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 4,
+            "parameter_types": [
+              "class:257",
+              "class:285",
+              "mvar:0",
+              "valuetype:165"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 22,
+            "raw_sha256": "27d6e057ef3a203de5c737f728292182f26242ec44b06775aa4a394a11957d48",
+            "return_type": "class:157<class:281>"
+          },
+          "token": "0x06000058",
+          "raw_il_hex": "020304737402000605281000002b2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "ldc.i4",
+                "operand": "256",
+                "operand_kind": "constant"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "stfld",
+                "operand": "0x04000096",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 12,
+                "opcode": "call",
+                "operand": "0x06000291",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 19,
+                "opcode": "newobj",
+                "operand": "0x0600023e",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 24,
+                "opcode": "stfld",
+                "operand": "0x04000097",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 31,
+                "opcode": "call",
+                "operand": "0x060001fb",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 36,
+                "opcode": "stfld",
+                "operand": "0x04000098",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 42,
+                "opcode": "call",
+                "operand": "0x06000298",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 49,
+                "opcode": "newobj",
+                "operand": "0x0a000160",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 54,
+                "opcode": "callvirt",
+                "operand": "0x0a000161",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 60,
+                "opcode": "call",
+                "operand": "0x06000298",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 68,
+                "opcode": "newobj",
+                "operand": "0x0a000162",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 73,
+                "opcode": "callvirt",
+                "operand": "0x0a000161",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 27,
+            "exception_regions": [],
+            "file_offset": 19284,
+            "header_format": "fat",
+            "il_sha256": "31f01c3a3cf6b3a172970a8940d1048d692eb0aefa561c2f118c8d0a18e0a090",
+            "il_size": 79,
+            "init_locals": true,
+            "instruction_count": 27,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 4,
+            "normalized_il_sha256": "4523897fec0ac90946b5dfcc004324bf6bb2667d0b7260d7bb1ccbd1385a6e27",
+            "opcode_counts": {
+              "call": 4,
+              "callvirt": 2,
+              "ldarg.0": 8,
+              "ldc.i4": 1,
+              "ldc.i4.0": 2,
+              "ldc.i4.1": 3,
+              "newobj": 3,
+              "ret": 1,
+              "stfld": 3
+            },
+            "rva": 26964,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "declaring_type_token": "0x02000032",
+          "flags": 6276,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 68836,
+          "rva": 26964,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 3,
+            "raw_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df",
+            "return_type": "void"
+          },
+          "token": "0x060001f5",
+          "raw_il_hex": "0220000100007d960000040228910200060202733e0200067d97000004020228fb0100067d980000040228980200061617736001000a6f6101000a022898020006161717736201000a6f6101000a2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "ldc.i4",
+                "operand": "256",
+                "operand_kind": "constant"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "stfld",
+                "operand": "0x04000096",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 13,
+                "opcode": "call",
+                "operand": "0x06000292",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 20,
+                "opcode": "callvirt",
+                "operand": "0x060001f7",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 25,
+                "opcode": "call",
+                "operand": "0x060001f8",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 32,
+                "opcode": "ldfld",
+                "operand": "0x04000096",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 37,
+                "opcode": "callvirt",
+                "operand": "0x060001fa",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 15,
+            "exception_regions": [],
+            "file_offset": 19375,
+            "header_format": "tiny",
+            "il_sha256": "ad7f89cc1c4ad51dc95c8da5eb419e54794df609861468d6f89af5ff7f09b58a",
+            "il_size": 43,
+            "init_locals": false,
+            "instruction_count": 15,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "8e9692d81cb0e23cc0ac588add2517c402457d4a9d6d81d2426b0c918760dee3",
+            "opcode_counts": {
+              "call": 2,
+              "callvirt": 2,
+              "ldarg.0": 4,
+              "ldarg.1": 3,
+              "ldc.i4": 1,
+              "ldfld": 1,
+              "ret": 1,
+              "stfld": 1
+            },
+            "rva": 27055,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "declaring_type_token": "0x02000032",
+          "flags": 6276,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 68850,
+          "rva": 27055,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "class:200"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 6,
+            "raw_sha256": "9ed7f95b45f82a6f51ac090eb62f1a47793a7ba7a687b6b3934233a9fcdb9733",
+            "return_type": "void"
+          },
+          "token": "0x060001f6",
+          "raw_il_hex": "0220000100007d960000040203289202000602036ff701000628f801000602037b960000046ffa0100062a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 0,
+                "opcode": "newobj",
+                "operand": "0x0a000163",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 7,
+                "opcode": "ldfld",
+                "operand": "0x04000097",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 12,
+                "opcode": "callvirt",
+                "operand": "0x0a000164",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 19,
+                "opcode": "callvirt",
+                "operand": "0x0a000165",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 26,
+                "opcode": "callvirt",
+                "operand": "0x0a000166",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 12,
+            "exception_regions": [],
+            "file_offset": 19494,
+            "header_format": "tiny",
+            "il_sha256": "bef615c40271954a9b4b6b8691a636005a7a37b9cbd348b98644873efb552194",
+            "il_size": 32,
+            "init_locals": false,
+            "instruction_count": 12,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "383166954b6bb37ff07a3ff44cdb72fc00e7a9c9a922c400065bab6b05a7dfe7",
+            "opcode_counts": {
+              "callvirt": 3,
+              "dup": 3,
+              "ldarg.0": 1,
+              "ldc.i4.0": 2,
+              "ldfld": 1,
+              "newobj": 1,
+              "ret": 1
+            },
+            "rva": 27174,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "declaring_type_token": "0x02000032",
+          "flags": 134,
+          "impl_flags": 0,
+          "name": "CreateDefaultSerializerSettings",
+          "row_offset": 68920,
+          "rva": 27174,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "79378686aa450433993df0328223b5df265c13ce184d59c613057ed4796849eb",
+            "return_type": "class:429"
+          },
+          "token": "0x060001fb",
+          "raw_il_hex": "736301000a25027b970000046f6401000a25166f6501000a25166f6601000a2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "call",
+                "operand": "0x060001f7",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "call",
+                "operand": "0x0a00016d",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 4,
+            "exception_regions": [],
+            "file_offset": 20144,
+            "header_format": "tiny",
+            "il_sha256": "21e4c9a888650327a654de103b67290ef16f1e0ef2b1df51d0761f3173deb40b",
+            "il_size": 12,
+            "init_locals": false,
+            "instruction_count": 4,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "7252de944031c2a2540fa6527ce4b5211c8943dd282df216c6b30ce000746f60",
+            "opcode_counts": {
+              "call": 2,
+              "ldarg.0": 1,
+              "ret": 1
+            },
+            "rva": 27824,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "declaring_type_token": "0x02000032",
+          "flags": 454,
+          "impl_flags": 0,
+          "name": "CreateJsonSerializer",
+          "row_offset": 69046,
+          "rva": 27824,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "00214c6c0c56f98dc789b0a16c7a6fade403471c974fd04157e8b9a2c50a16b2",
+            "return_type": "class:437"
+          },
+          "token": "0x06000204",
+          "raw_il_hex": "0228f7010006286d01000a2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "call",
+                "operand": "0x0a0001af",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 7,
+                "opcode": "brtrue.s",
+                "operand": "20",
+                "operand_kind": "branch"
+              },
+              {
+                "il_offset": 9,
+                "opcode": "ldstr",
+                "operand": "0x70000781",
+                "operand_kind": "string"
+              },
+              {
+                "il_offset": 14,
+                "opcode": "call",
+                "operand": "0x06000363",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 22,
+                "opcode": "stfld",
+                "operand": "0x040000a6",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 29,
+                "opcode": "call",
+                "operand": "0x0a0001b0",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 14,
+            "exception_regions": [],
+            "file_offset": 24550,
+            "header_format": "tiny",
+            "il_sha256": "611e33cb56f3b56ca94e54eda97bd0764feb01bfeea155f9334c82668d51c276",
+            "il_size": 35,
+            "init_locals": false,
+            "instruction_count": 14,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "5fccf00d979e4580d64ac48677d98a18dcf3f7f8bebc9f20573d086757a7eee7",
+            "opcode_counts": {
+              "brtrue.s": 1,
+              "call": 3,
+              "ldarg.0": 3,
+              "ldarg.1": 2,
+              "ldc.i4.0": 1,
+              "ldstr": 1,
+              "ret": 1,
+              "stfld": 1,
+              "throw": 1
+            },
+            "rva": 32230,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.Formatting.JsonContractResolver",
+          "declaring_type_token": "0x0200003c",
+          "flags": 6278,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 69858,
+          "rva": 32230,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "class:272"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 6,
+            "raw_sha256": "88df6be0534d806c2b3274792a850cb6e8b7735876d7f99c22fbd2eba86fb754",
+            "return_type": "void"
+          },
+          "token": "0x0600023e",
+          "raw_il_hex": "0228af01000a032d0b728107007028630300067a02037da6000004021628b001000a2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "newobj",
+                "operand": "0x0a0001d5",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "stfld",
+                "operand": "0x040000b1",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 12,
+                "opcode": "call",
+                "operand": "0x0600007d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 17,
+                "opcode": "stfld",
+                "operand": "0x040000b2",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 23,
+                "opcode": "call",
+                "operand": "0x060001f5",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 29,
+                "opcode": "call",
+                "operand": "0x06000295",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 34,
+                "opcode": "call",
+                "operand": "0x0600028b",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 39,
+                "opcode": "callvirt",
+                "operand": "0x0a000171",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 45,
+                "opcode": "call",
+                "operand": "0x06000295",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 50,
+                "opcode": "call",
+                "operand": "0x0600028d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 55,
+                "opcode": "callvirt",
+                "operand": "0x0a000171",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 61,
+                "opcode": "newobj",
+                "operand": "0x060002fe",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 66,
+                "opcode": "stfld",
+                "operand": "0x040000b3",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 72,
+                "opcode": "call",
+                "operand": "0x0600029b",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 78,
+                "opcode": "ldfld",
+                "operand": "0x040000b3",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 83,
+                "opcode": "callvirt",
+                "operand": "0x0a0001d6",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 25,
+            "exception_regions": [],
+            "file_offset": 28020,
+            "header_format": "fat",
+            "il_sha256": "7dd7315eff733b0229f8752add76971a6bccc06ed71e186d729c8b6c1c58d18e",
+            "il_size": 89,
+            "init_locals": true,
+            "instruction_count": 25,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 2,
+            "normalized_il_sha256": "f7bf7c0f939e6d92b5e4fa99d729437cb64a4c08727944ae8f04ca5e2e7f9b7c",
+            "opcode_counts": {
+              "call": 7,
+              "callvirt": 3,
+              "ldarg.0": 8,
+              "ldfld": 1,
+              "newobj": 2,
+              "ret": 1,
+              "stfld": 3
+            },
+            "rva": 35700,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "declaring_type_token": "0x02000042",
+          "flags": 6278,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 70614,
+          "rva": 35700,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 3,
+            "raw_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df",
+            "return_type": "void"
+          },
+          "token": "0x06000274",
+          "raw_il_hex": "0273d501000a7db100000402287d0000067db20000040228f5010006022895020006288b0200066f7101000a022895020006288d0200066f7101000a0273fe0200067db300000402289b020006027bb30000046fd601000a2a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "newobj",
+                "operand": "0x0a0001d5",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "stfld",
+                "operand": "0x040000b1",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 12,
+                "opcode": "call",
+                "operand": "0x0600007d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 17,
+                "opcode": "stfld",
+                "operand": "0x040000b2",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 24,
+                "opcode": "call",
+                "operand": "0x060001f6",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 31,
+                "opcode": "callvirt",
+                "operand": "0x06000277",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 36,
+                "opcode": "call",
+                "operand": "0x06000278",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 43,
+                "opcode": "callvirt",
+                "operand": "0x06000279",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 48,
+                "opcode": "call",
+                "operand": "0x0600027a",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 18,
+            "exception_regions": [],
+            "file_offset": 28121,
+            "header_format": "tiny",
+            "il_sha256": "3fb26273b49fcec2b332ac6895d482bbd5be4706987cd859eb3f7dd0e2860d0e",
+            "il_size": 54,
+            "init_locals": false,
+            "instruction_count": 18,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "643203c3a6f55f38e007a94f1d9971a1f9d686b36c48e480fb6e2b05338c48aa",
+            "opcode_counts": {
+              "call": 4,
+              "callvirt": 2,
+              "ldarg.0": 5,
+              "ldarg.1": 3,
+              "newobj": 1,
+              "ret": 1,
+              "stfld": 2
+            },
+            "rva": 35801,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "declaring_type_token": "0x02000042",
+          "flags": 6276,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 70628,
+          "rva": 35801,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "class:264"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 6,
+            "raw_sha256": "e3c8048b4a0056306b1f6a20082e6a0d2e202f2cbe98d52493e1182b25fe82e0",
+            "return_type": "void"
+          },
+          "token": "0x06000275",
+          "raw_il_hex": "0273d501000a7db100000402287d0000067db2000004020328f601000602036f77020006287802000602036f79020006287a0200062a"
+        }
+      ],
+      "call_edges": [
+        {
+          "caller": "System.Net.Http.ObjectContent`1..ctor",
+          "caller_token": "0x06000043",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.ObjectContent`1",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a00006d"
+        },
+        {
+          "caller": "System.Net.Http.ObjectContent`1..ctor",
+          "caller_token": "0x06000044",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.ObjectContent",
+          "target_kind": "method-def",
+          "target_name": "BuildHeaderValue",
+          "target_token": "0x06000105"
+        },
+        {
+          "caller": "System.Net.Http.ObjectContent`1..ctor",
+          "caller_token": "0x06000044",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.ObjectContent`1",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a00006d"
+        },
+        {
+          "caller": "System.Net.Http.ObjectContent`1..ctor",
+          "caller_token": "0x06000045",
+          "opcode": "call",
+          "target_declaring_type": "System.Type",
+          "target_kind": "member-ref",
+          "target_name": "GetTypeFromHandle",
+          "target_token": "0x0a00002d"
+        },
+        {
+          "caller": "System.Net.Http.ObjectContent`1..ctor",
+          "caller_token": "0x06000045",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.ObjectContent",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x060000ff"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000055",
+          "opcode": "call",
+          "target_declaring_type": "System.Threading.CancellationToken",
+          "target_kind": "member-ref",
+          "target_name": "get_None",
+          "target_token": "0x0a00004d"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000055",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.HttpClientExtensions",
+          "target_kind": "method-spec",
+          "target_name": "PostAsJsonAsync",
+          "target_token": "0x2b00000d"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000056",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x06000274"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000056",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.HttpClientExtensions",
+          "target_kind": "method-spec",
+          "target_name": "PostAsync",
+          "target_token": "0x2b00000e"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000057",
+          "opcode": "call",
+          "target_declaring_type": "System.Threading.CancellationToken",
+          "target_kind": "member-ref",
+          "target_name": "get_None",
+          "target_token": "0x0a00004d"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000057",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.HttpClientExtensions",
+          "target_kind": "method-spec",
+          "target_name": "PostAsJsonAsync",
+          "target_token": "0x2b00000f"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000058",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x06000274"
+        },
+        {
+          "caller": "System.Net.Http.HttpClientExtensions.PostAsJsonAsync",
+          "caller_token": "0x06000058",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.HttpClientExtensions",
+          "target_kind": "method-spec",
+          "target_name": "PostAsync",
+          "target_token": "0x2b000010"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x06000291"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Net.Http.Formatting.JsonContractResolver",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x0600023e"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "CreateDefaultSerializerSettings",
+          "target_token": "0x060001fb"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_SupportedEncodings",
+          "target_token": "0x06000298"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Text.UTF8Encoding",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a000160"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Collections.ObjectModel.Collection`1",
+          "target_kind": "member-ref",
+          "target_name": "Add",
+          "target_token": "0x0a000161"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_SupportedEncodings",
+          "target_token": "0x06000298"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Text.UnicodeEncoding",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a000162"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f5",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Collections.ObjectModel.Collection`1",
+          "target_kind": "member-ref",
+          "target_name": "Add",
+          "target_token": "0x0a000161"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f6",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x06000292"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f6",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_SerializerSettings",
+          "target_token": "0x060001f7"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f6",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "set_SerializerSettings",
+          "target_token": "0x060001f8"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter..ctor",
+          "caller_token": "0x060001f6",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "set_MaxDepth",
+          "target_token": "0x060001fa"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateDefaultSerializerSettings",
+          "caller_token": "0x060001fb",
+          "opcode": "newobj",
+          "target_declaring_type": "Newtonsoft.Json.JsonSerializerSettings",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a000163"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateDefaultSerializerSettings",
+          "caller_token": "0x060001fb",
+          "opcode": "callvirt",
+          "target_declaring_type": "Newtonsoft.Json.JsonSerializerSettings",
+          "target_kind": "member-ref",
+          "target_name": "set_ContractResolver",
+          "target_token": "0x0a000164"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateDefaultSerializerSettings",
+          "caller_token": "0x060001fb",
+          "opcode": "callvirt",
+          "target_declaring_type": "Newtonsoft.Json.JsonSerializerSettings",
+          "target_kind": "member-ref",
+          "target_name": "set_MissingMemberHandling",
+          "target_token": "0x0a000165"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateDefaultSerializerSettings",
+          "caller_token": "0x060001fb",
+          "opcode": "callvirt",
+          "target_declaring_type": "Newtonsoft.Json.JsonSerializerSettings",
+          "target_kind": "member-ref",
+          "target_name": "set_TypeNameHandling",
+          "target_token": "0x0a000166"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateJsonSerializer",
+          "caller_token": "0x06000204",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_SerializerSettings",
+          "target_token": "0x060001f7"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateJsonSerializer",
+          "caller_token": "0x06000204",
+          "opcode": "call",
+          "target_declaring_type": "Newtonsoft.Json.JsonSerializer",
+          "target_kind": "member-ref",
+          "target_name": "Create",
+          "target_token": "0x0a00016d"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonContractResolver..ctor",
+          "caller_token": "0x0600023e",
+          "opcode": "call",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a0001af"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonContractResolver..ctor",
+          "caller_token": "0x0600023e",
+          "opcode": "call",
+          "target_declaring_type": "System.Web.Http.Error",
+          "target_kind": "method-def",
+          "target_name": "ArgumentNull",
+          "target_token": "0x06000363"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonContractResolver..ctor",
+          "caller_token": "0x0600023e",
+          "opcode": "call",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "target_kind": "member-ref",
+          "target_name": "set_IgnoreSerializableAttribute",
+          "target_token": "0x0a0001b0"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Collections.Concurrent.ConcurrentDictionary`2",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a0001d5"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.FormattingUtilities",
+          "target_kind": "method-def",
+          "target_name": "CreateDefaultReaderQuotas",
+          "target_token": "0x0600007d"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x060001f5"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_SupportedMediaTypes",
+          "target_token": "0x06000295"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeConstants",
+          "target_kind": "method-def",
+          "target_name": "get_ApplicationJsonMediaType",
+          "target_token": "0x0600028b"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Collections.ObjectModel.Collection`1",
+          "target_kind": "member-ref",
+          "target_name": "Add",
+          "target_token": "0x0a000171"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_SupportedMediaTypes",
+          "target_token": "0x06000295"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeConstants",
+          "target_kind": "method-def",
+          "target_name": "get_TextJsonMediaType",
+          "target_token": "0x0600028d"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Collections.ObjectModel.Collection`1",
+          "target_kind": "member-ref",
+          "target_name": "Add",
+          "target_token": "0x0a000171"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Net.Http.Formatting.XmlHttpRequestHeaderMapping",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x060002fe"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.MediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_MediaTypeMappings",
+          "target_token": "0x0600029b"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000274",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Collections.ObjectModel.Collection`1",
+          "target_kind": "member-ref",
+          "target_name": "Add",
+          "target_token": "0x0a0001d6"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000275",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Collections.Concurrent.ConcurrentDictionary`2",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a0001d5"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000275",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.FormattingUtilities",
+          "target_kind": "method-def",
+          "target_name": "CreateDefaultReaderQuotas",
+          "target_token": "0x0600007d"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000275",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.BaseJsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x060001f6"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000275",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_UseDataContractJsonSerializer",
+          "target_token": "0x06000277"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000275",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "set_UseDataContractJsonSerializer",
+          "target_token": "0x06000278"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000275",
+          "opcode": "callvirt",
+          "target_declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "get_Indent",
+          "target_token": "0x06000279"
+        },
+        {
+          "caller": "System.Net.Http.Formatting.JsonMediaTypeFormatter..ctor",
+          "caller_token": "0x06000275",
+          "opcode": "call",
+          "target_declaring_type": "System.Net.Http.Formatting.JsonMediaTypeFormatter",
+          "target_kind": "method-def",
+          "target_name": "set_Indent",
+          "target_token": "0x0600027a"
+        }
+      ],
+      "member_refs": [
+        {
+          "name": "GetTypeFromHandle",
+          "parent_name": "System.Type",
+          "parent_token": "0x0100002a",
+          "row_offset": 85620,
+          "signature": {
+            "calling_convention": "default",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "valuetype:617"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 8,
+            "raw_sha256": "109633cc9aa840675f0c8bb647ef29347ddb015bbb834fe9682e3b07ddf5b413",
+            "return_type": "class:169"
+          },
+          "token": "0x0a00002d"
+        },
+        {
+          "name": "get_None",
+          "parent_name": "System.Threading.CancellationToken",
+          "parent_token": "0x01000029",
+          "row_offset": 85812,
+          "signature": {
+            "calling_convention": "default",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "19057b38dd1b362a27967af72e670831269ef1d491c94f27970000556e482d9a",
+            "return_type": "valuetype:165"
+          },
+          "token": "0x0a00004d"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "System.Net.Http.ObjectContent`1",
+          "parent_token": "0x1b000016",
+          "row_offset": 86004,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 3,
+            "parameter_types": [
+              "var:0",
+              "class:272",
+              "class:105"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 10,
+            "raw_sha256": "0321d10af5605fb7889d1bf0c61f4791307757631b4eeb75810dbc42b6731119",
+            "return_type": "void"
+          },
+          "token": "0x0a00006d"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "System.Text.UTF8Encoding",
+          "parent_token": "0x010000b9",
+          "row_offset": 87462,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 2,
+            "parameter_types": [
+              "bool",
+              "bool"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "2d16db8b96e961e3a662218ec9861c0fd66e464c18562a1328509b2d5623955f",
+            "return_type": "void"
+          },
+          "token": "0x0a000160"
+        },
+        {
+          "name": "Add",
+          "parent_name": "System.Collections.ObjectModel.Collection`1",
+          "parent_token": "0x1b00003a",
+          "row_offset": 87468,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "var:0"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "a09ef67399ead586825bc1d0464a8c5ddc413f90894151dab075ceab029a8b6a",
+            "return_type": "void"
+          },
+          "token": "0x0a000161"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "System.Text.UnicodeEncoding",
+          "parent_token": "0x010000ba",
+          "row_offset": 87474,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 3,
+            "parameter_types": [
+              "bool",
+              "bool",
+              "bool"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 6,
+            "raw_sha256": "66debd906e935a46b91c73bdc0c97c6cf8e713898e7fffaa5c73b7fd13b622fa",
+            "return_type": "void"
+          },
+          "token": "0x0a000162"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "Newtonsoft.Json.JsonSerializerSettings",
+          "parent_token": "0x0100006b",
+          "row_offset": 87480,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 3,
+            "raw_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df",
+            "return_type": "void"
+          },
+          "token": "0x0a000163"
+        },
+        {
+          "name": "set_ContractResolver",
+          "parent_name": "Newtonsoft.Json.JsonSerializerSettings",
+          "parent_token": "0x0100006b",
+          "row_offset": 87486,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "class:425"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 6,
+            "raw_sha256": "1764d1f1b97517cb30cc4b76faf4ee460c255742065025720bce5bb809fd4267",
+            "return_type": "void"
+          },
+          "token": "0x0a000164"
+        },
+        {
+          "name": "set_MissingMemberHandling",
+          "parent_name": "Newtonsoft.Json.JsonSerializerSettings",
+          "parent_token": "0x0100006b",
+          "row_offset": 87492,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "valuetype:749"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 6,
+            "raw_sha256": "9c2ee938b6cb1f6e2ef3a09d050d08ea721efeda383e8f67bff8384fd5d4e8c6",
+            "return_type": "void"
+          },
+          "token": "0x0a000165"
+        },
+        {
+          "name": "set_TypeNameHandling",
+          "parent_name": "Newtonsoft.Json.JsonSerializerSettings",
+          "parent_token": "0x0100006b",
+          "row_offset": 87498,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "valuetype:753"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 6,
+            "raw_sha256": "8bb72645dac7858c78b0d9e7fe53872ca518e11ea2da697e13dc824cb489831a",
+            "return_type": "void"
+          },
+          "token": "0x0a000166"
+        },
+        {
+          "name": "Create",
+          "parent_name": "Newtonsoft.Json.JsonSerializer",
+          "parent_token": "0x0100006d",
+          "row_offset": 87540,
+          "signature": {
+            "calling_convention": "default",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "class:429"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 8,
+            "raw_sha256": "c72f516d18cddc746fa30d59fbca47947d3be92f5fb1f43bbb270d2b659d35b2",
+            "return_type": "class:437"
+          },
+          "token": "0x0a00016d"
+        },
+        {
+          "name": "Add",
+          "parent_name": "System.Collections.ObjectModel.Collection`1",
+          "parent_token": "0x1b000005",
+          "row_offset": 87564,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "var:0"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "a09ef67399ead586825bc1d0464a8c5ddc413f90894151dab075ceab029a8b6a",
+            "return_type": "void"
+          },
+          "token": "0x0a000171"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "parent_token": "0x0100007e",
+          "row_offset": 87936,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 3,
+            "raw_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df",
+            "return_type": "void"
+          },
+          "token": "0x0a0001af"
+        },
+        {
+          "name": "set_IgnoreSerializableAttribute",
+          "parent_name": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "parent_token": "0x0100007e",
+          "row_offset": 87942,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "bool"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 4,
+            "raw_sha256": "7366e2ddae008ee5e5ba63f1c2504e9a452ccd8cc0f40fdd3d8d03430bae9e33",
+            "return_type": "void"
+          },
+          "token": "0x0a0001b0"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "System.Collections.Concurrent.ConcurrentDictionary`2",
+          "parent_token": "0x1b00005b",
+          "row_offset": 88164,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 3,
+            "raw_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df",
+            "return_type": "void"
+          },
+          "token": "0x0a0001d5"
+        },
+        {
+          "name": "Add",
+          "parent_name": "System.Collections.ObjectModel.Collection`1",
+          "parent_token": "0x1b00005c",
+          "row_offset": 88170,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "var:0"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "a09ef67399ead586825bc1d0464a8c5ddc413f90894151dab075ceab029a8b6a",
+            "return_type": "void"
+          },
+          "token": "0x0a0001d6"
+        }
+      ]
+    },
+    {
+      "source_evidence_id": "ev_cd64468c53f821e4199fa00ad51b94360a947861146f9823ada2234ef9419889",
+      "artifact": {
+        "byte_length": 675240,
+        "format": "pe",
+        "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/minvoice-windows-2.0/Newtonsoft.Json.dll",
+        "sha256": "b66749b81e1489fcd8d754b2ad39ebe0db681344e392a3f49dc9235643bdbd06"
+      },
+      "module": {
+        "enc_base_id": null,
+        "enc_id": null,
+        "generation": 0,
+        "mvid": "836484b0-267d-488c-8d30-f28b57efebd9",
+        "name": "Newtonsoft.Json.dll",
+        "row_offset": 285916,
+        "token": "0x00000001"
+      },
+      "coverage": {
+        "issues": [],
+        "state": "complete"
+      },
+      "methods": [
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "newobj",
+                "operand": "0x06000004",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "stfld",
+                "operand": "0x04000210",
+                "operand_kind": "field"
+              },
+              {
+                "il_offset": 12,
+                "opcode": "call",
+                "operand": "0x0a0000bf",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 19,
+                "opcode": "call",
+                "operand": "0x06000608",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 25,
+                "opcode": "ldc.i4.s",
+                "operand": "20",
+                "operand_kind": "constant"
+              },
+              {
+                "il_offset": 27,
+                "opcode": "call",
+                "operand": "0x06000602",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 35,
+                "opcode": "ldvirtftn",
+                "operand": "0x0600062e",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 41,
+                "opcode": "newobj",
+                "operand": "0x0a00048e",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 46,
+                "opcode": "newobj",
+                "operand": "0x0a00048f",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 51,
+                "opcode": "stfld",
+                "operand": "0x04000211",
+                "operand_kind": "field"
+              }
+            ],
+            "decoded_instruction_count": 19,
+            "exception_regions": [],
+            "file_offset": 97970,
+            "header_format": "tiny",
+            "il_sha256": "4c07a228b1c5969ac81906ab7996b0eb1746c2d1fc60978cc61afd175fafaaa7",
+            "il_size": 57,
+            "init_locals": false,
+            "instruction_count": 19,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "3da3abc8dcaf2b2e7ce7eac4b9099783615659eade14a30b9ea2888f31c533be",
+            "opcode_counts": {
+              "call": 3,
+              "dup": 1,
+              "ldarg.0": 6,
+              "ldc.i4.1": 1,
+              "ldc.i4.s": 1,
+              "ldvirtftn": 1,
+              "newobj": 3,
+              "ret": 1,
+              "stfld": 2
+            },
+            "rva": 105650,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "declaring_type_token": "0x0200006d",
+          "flags": 6278,
+          "impl_flags": 0,
+          "name": ".ctor",
+          "row_offset": 340230,
+          "rva": 105650,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 3,
+            "raw_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df",
+            "return_type": "void"
+          },
+          "token": "0x0600060f",
+          "raw_il_hex": "0273040000067d100200040228bf00000a02172808060006021f142802060006020225fe072e060006738e04000a738f04000a7d110200042a"
+        },
+        {
+          "body": {
+            "anchors": [
+              {
+                "il_offset": 1,
+                "opcode": "call",
+                "operand": "0x0600060d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 6,
+                "opcode": "brfalse.s",
+                "operand": "22",
+                "operand_kind": "branch"
+              },
+              {
+                "il_offset": 9,
+                "opcode": "call",
+                "operand": "0x0600060d",
+                "operand_kind": "method"
+              },
+              {
+                "il_offset": 16,
+                "opcode": "callvirt",
+                "operand": "0x0600080a",
+                "operand_kind": "method"
+              }
+            ],
+            "decoded_instruction_count": 11,
+            "exception_regions": [],
+            "file_offset": 105391,
+            "header_format": "tiny",
+            "il_sha256": "5e37a08d38aa95e54e551121c96b14dd566cd972ffd8d45e236f2e75cc6028fa",
+            "il_size": 24,
+            "init_locals": false,
+            "instruction_count": 11,
+            "issue": null,
+            "local_var_sig_token": null,
+            "max_stack": 8,
+            "normalized_il_sha256": "825dbcf635f9f9456918a40b3e407e92eeace684137f370763df5eb0e3271553",
+            "opcode_counts": {
+              "brfalse.s": 1,
+              "call": 2,
+              "callvirt": 1,
+              "ldarg.0": 2,
+              "ldarg.1": 2,
+              "ldc.i4.0": 1,
+              "ret": 2
+            },
+            "rva": 113071,
+            "status": "present",
+            "truncated_instructions": 0
+          },
+          "declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "declaring_type_token": "0x0200006d",
+          "flags": 452,
+          "impl_flags": 0,
+          "name": "ResolvePropertyName",
+          "row_offset": 340934,
+          "rva": 113071,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "string"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 4,
+            "raw_sha256": "b7ee7a27e884ef3ae7f033968aae76cb7144c7dafeada0616bffe7343d941264",
+            "return_type": "string"
+          },
+          "token": "0x0600063b",
+          "raw_il_hex": "02280d0600062c0e02280d06000603166f0a0800062a032a"
+        }
+      ],
+      "call_edges": [
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor",
+          "caller_token": "0x0600060f",
+          "opcode": "newobj",
+          "target_declaring_type": "Newtonsoft.Json.DefaultJsonNameTable",
+          "target_kind": "method-def",
+          "target_name": ".ctor",
+          "target_token": "0x06000004"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor",
+          "caller_token": "0x0600060f",
+          "opcode": "call",
+          "target_declaring_type": "System.Object",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a0000bf"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor",
+          "caller_token": "0x0600060f",
+          "opcode": "call",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "target_kind": "method-def",
+          "target_name": "set_IgnoreSerializableAttribute",
+          "target_token": "0x06000608"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor",
+          "caller_token": "0x0600060f",
+          "opcode": "call",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "target_kind": "method-def",
+          "target_name": "set_DefaultMembersSearchFlags",
+          "target_token": "0x06000602"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor",
+          "caller_token": "0x0600060f",
+          "opcode": "ldvirtftn",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "target_kind": "method-def",
+          "target_name": "CreateContract",
+          "target_token": "0x0600062e"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor",
+          "caller_token": "0x0600060f",
+          "opcode": "newobj",
+          "target_declaring_type": "System.Func`2",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a00048e"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver..ctor",
+          "caller_token": "0x0600060f",
+          "opcode": "newobj",
+          "target_declaring_type": "Newtonsoft.Json.Utilities.ThreadSafeStore`2",
+          "target_kind": "member-ref",
+          "target_name": ".ctor",
+          "target_token": "0x0a00048f"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver.ResolvePropertyName",
+          "caller_token": "0x0600063b",
+          "opcode": "call",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "target_kind": "method-def",
+          "target_name": "get_NamingStrategy",
+          "target_token": "0x0600060d"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver.ResolvePropertyName",
+          "caller_token": "0x0600063b",
+          "opcode": "call",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.DefaultContractResolver",
+          "target_kind": "method-def",
+          "target_name": "get_NamingStrategy",
+          "target_token": "0x0600060d"
+        },
+        {
+          "caller": "Newtonsoft.Json.Serialization.DefaultContractResolver.ResolvePropertyName",
+          "caller_token": "0x0600063b",
+          "opcode": "callvirt",
+          "target_declaring_type": "Newtonsoft.Json.Serialization.NamingStrategy",
+          "target_kind": "method-def",
+          "target_name": "GetPropertyName",
+          "target_token": "0x0600080a"
+        }
+      ],
+      "member_refs": [
+        {
+          "name": ".ctor",
+          "parent_name": "System.Object",
+          "parent_token": "0x01000019",
+          "row_offset": 420506,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 0,
+            "parameter_types": [],
+            "parse_status": "decoded",
+            "raw_length": 3,
+            "raw_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df",
+            "return_type": "void"
+          },
+          "token": "0x0a0000bf"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "System.Func`2",
+          "parent_token": "0x1b0000f8",
+          "row_offset": 428306,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 2,
+            "parameter_types": [
+              "object",
+              "native-int"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 5,
+            "raw_sha256": "0052b6e077fac63010429b99bca5fb4e60662e7d1064b08ed76223ec591c095e",
+            "return_type": "void"
+          },
+          "token": "0x0a00048e"
+        },
+        {
+          "name": ".ctor",
+          "parent_name": "Newtonsoft.Json.Utilities.ThreadSafeStore`2",
+          "parent_token": "0x1b0000f9",
+          "row_offset": 428314,
+          "signature": {
+            "calling_convention": "default has-this",
+            "field_type": null,
+            "generic_parameter_count": null,
+            "issue": null,
+            "kind": "method",
+            "parameter_count": 1,
+            "parameter_types": [
+              "class:333<var:0,var:1>"
+            ],
+            "parse_status": "decoded",
+            "raw_length": 12,
+            "raw_sha256": "9d1b9da87791dd40c390cd1ed6b7eb9b7179fe9e5f170b96cfb5cca85826930f",
+            "return_type": "void"
+          },
+          "token": "0x0a00048f"
+        }
+      ]
+    }
+  ]
+}

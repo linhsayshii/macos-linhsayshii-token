@@ -38,3 +38,15 @@ func leafHasSANAndVerifiesAgainstCA() throws {
     #expect(c.prefix(4) == ["/usr/bin/security", "add-trusted-cert", "-r", "trustRoot"])
     #expect(c.contains { $0.hasSuffix("login.keychain-db") })
 }
+
+@Test func trustIsConstrainedToLocalhostSSLAndTLSKeysStayPrivate() throws {
+    let directory = tmp()
+    defer { try? FileManager.default.removeItem(at: directory) }
+    let ca = LocalCA(directory: directory)
+    _ = try ca.ensure()
+    let command = ca.trustCommand()
+    let policy = try #require(command.firstIndex(of: "-p")), host = try #require(command.firstIndex(of: "-s"))
+    #expect(command[policy + 1] == "ssl" && command[host + 1] == "localhost")
+    let permissions = try FileManager.default.attributesOfItem(atPath: directory.path)[.posixPermissions] as? Int
+    #expect(permissions == 0o700)
+}

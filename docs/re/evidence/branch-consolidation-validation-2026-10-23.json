@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-23",
+  "integrated_branch": "p1-token-core",
+  "merges": {
+    "master": {
+      "tip": "7f11ad1b9ee00ecd2ecf9085ab12ae00da037e9a",
+      "ancestor_of_integrated_HEAD": true
+    },
+    "claude/p2-bridges-a4728b": {
+      "tip": "bbdb7d2d24d67eccc1aba5055e0b091c34f11468",
+      "ancestor_of_integrated_HEAD": true
+    },
+    "claude/beautiful-mcnulty-f9bfbf": {
+      "tip": "f58a51c173136da3406f0aa943dbd2a33f27ecad",
+      "ancestor_of_integrated_HEAD": true
+    },
+    "claude/beautiful-shirley-8acdc0": {
+      "tip": "b47257225e530e496c9a8fd9ab7b29cc2d9da6a6",
+      "ancestor_of_integrated_HEAD": true
+    }
+  },
+  "merge_commits": [
+    "3a4dcd4",
+    "e63c9fd"
+  ],
+  "tests": {
+    "TSShim": 7,
+    "Core": 37,
+    "Bridges": 75,
+    "App": 11,
+    "total": 130,
+    "passed": true
+  },
+  "additional_checks": {
+    "capture_hook_fixture_test": "pass",
+    "retained_FastCA_signature_verification": "Verified OK",
+    "retained_FastCA_app_signature_verification": "Verified OK",
+    "launcher_aliases_use_root": true
+  },
+  "packaged_app": {
+    "codesign_strict": true,
+    "NC_CA_shim_gate": true,
+    "six_listeners_same_process_after_reopen": true,
+    "TLS_localhost_already_trusted_by_macOS": true,
+    "keychain_trust_modified_by_agent": false,
+    "smoke": {
+      "ctsign_http_status": 200,
+      "minvoice_protocol": "2.1",
+      "minvoice_getVersion": "2.0.0",
+      "unknown_origin_status": 403,
+      "esigner_versions": {
+        "8768": "1.1.0",
+        "8769": "1.1.0"
+      },
+      "esigner_unknown_origin_status": 403,
+      "vnpt_wss": {
+        "4433": "1*smoke",
+        "4434": "1*smoke"
+      },
+      "vnpt_unknown_origin_status": 403,
+      "TLS_verified_with_pinned_local_CA": true,
+      "ctsign_post_case_insensitive": true,
+      "ctsign_signxml_route": true,
+      "ctsign_unknown_origin_status": 403,
+      "no_signing_or_external_rest": true
+    }
+  },
+  "no_real_PIN_signing_or_business_upload": true,
+  "source_sha256": {
+    "Package.swift": "e39297e526a4b655ca1ac98768a670dce4ce4b613cd89f62c1a0d15558928f0d",
+    "Package.resolved": "7162c73731e26abd0298251c0027f69098bbfc380a8b04840325fecdbd46f11f",
+    "Sources/Bridges/BridgeCatalog.swift": "de335cd6f52a214fcc1bd5196ecba731f81a24daf12e97d683488b8fde5a9804",
+    "Sources/Bridges/VNPTBridge.swift": "aecfe1dd354b5a0ad8835649de72a1501034ef61008d4590037632e0db71a283",
+    "Sources/Bridges/LocalCA.swift": "5eec816b8c0b2c132f6722c5f24f8067a08b3480105f75e35e6e2681d694738a",
+    "Sources/Bridges/WSServer.swift": "234ed88ebce29ab1b78e665ee250278d04e2343608c1b7242a4821af70a63785",
+    "Sources/Bridges/HTTPServer.swift": "dbf20266ca033266d11c825cbd3fabf956f072d92f4cac1a909e83bbb6b19e71",
+    "Sources/Core/CMSSigner.swift": "27aa449abaa02b8b397487e8f29850a61bab7f87ccaae5debe92aec04b40c426",
+    "Sources/Core/AuditLog.swift": "bbdbe446e0af52c7bd572baa8b14906439537a833eaf450fa261fb003ef21caf",
+    "Sources/App/AppModel.swift": "00ed59eb3d643b5798dc939625c84e9cf33c7f60a63ed3b30732e72ece5984dd",
+    "Sources/App/MenuBarView.swift": "bfc359a95d0180e738ede165c6246ada20e09e42be3b5dff71dc5a16f207ce0b",
+    "scripts/check-integrated-app.py": "a0cf2a9684e7cbae689c193361975f54c01d5f35c642d02e29e21fbf93f377a7",
+    "scripts/run-test-app.sh": "1925d91103fad1003e600b96586fb2a5fa9d944c19a6e63eb823e01b92358067"
+  },
+  "app_sha256": "23b2cc353ab0d3a95432a3a55768595f976da8a1f54ad4711c1b656dad7b3245",
+  "research_preserved": true,
+  "legacy_worktrees_preserved": true,
+  "remote_push": false,
+  "remaining_scope_document": "docs/BRANCH-CONSOLIDATION.md"
+}

@@ -1,0 +1,909 @@
+{
+  "kind": "analyst-decoded-JsonProperty-attribute-projection",
+  "source_evidence_id": "ev_15d1e8b37b9aa88142c4db660f6765c1418421022108c720a0d36de795037e0f",
+  "artifact": {
+    "byte_length": 1693384,
+    "format": "pe",
+    "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/minvoice-windows-2.0/MinvoicePlug.exe",
+    "sha256": "4e891736c97f593f4306f56ce645f039ac91aa3e54ed01d81cb7b822093331e0"
+  },
+  "module": {
+    "enc_base_id": null,
+    "enc_id": null,
+    "generation": 0,
+    "mvid": "00bd5b9b-4c09-43d5-a226-01047473e217",
+    "name": "MinvoicePlug.exe",
+    "row_offset": 78296,
+    "token": "0x00000001"
+  },
+  "limitations": [
+    "Analyst decoding of recorded rows and raw #Blob SerString; static, not serialization runtime.",
+    "Each raw blob hash checked against REA value_sha256."
+  ],
+  "properties": [
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700001e",
+      "row_offset": 121444,
+      "token": "0x0c000043",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 9,
+      "value_sha256": "c1a23b310391f93837cfbd78b8fea7efd1c175e3eb5fd0e390033697da29797e",
+      "property": {
+        "name": "Data",
+        "row_offset": 130552
+      },
+      "decoded_json_name": "data",
+      "blob_file_offset": 218259,
+      "raw_blob_hex": "010004646174610000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700001f",
+      "row_offset": 121456,
+      "token": "0x0c000045",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 9,
+      "value_sha256": "1da651e2cb68a3002641a61c9cb6f5791fdb2fdecf5596b2e2dc709bdbd8adff",
+      "property": {
+        "name": "Code",
+        "row_offset": 130558
+      },
+      "decoded_json_name": "code",
+      "blob_file_offset": 218269,
+      "raw_blob_hex": "010004636f64650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000020",
+      "row_offset": 121468,
+      "token": "0x0c000047",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 12,
+      "value_sha256": "4e03e6940d59e3862108bff048e70938e4eb88eb1ad8e1357f7a78cedf76a7f8",
+      "property": {
+        "name": "Message",
+        "row_offset": 130564
+      },
+      "decoded_json_name": "message",
+      "blob_file_offset": 218279,
+      "raw_blob_hex": "0100076d6573736167650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000029",
+      "row_offset": 121492,
+      "token": "0x0c00004b",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 15,
+      "value_sha256": "63d53cc7d221237b2fc35141701857279c5a182244331daef8077b3e24c14949",
+      "property": {
+        "name": "PrivateKey",
+        "row_offset": 130618
+      },
+      "decoded_json_name": "privateKey",
+      "blob_file_offset": 218292,
+      "raw_blob_hex": "01000a707269766174654b65790000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700002a",
+      "row_offset": 121498,
+      "token": "0x0c00004c",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 16,
+      "value_sha256": "0ba3403c15fc65f6ed77cc8117ec4657c59479356e54f6fd77a5c438bd417482",
+      "property": {
+        "name": "VendorToken",
+        "row_offset": 130624
+      },
+      "decoded_json_name": "vendorToken",
+      "blob_file_offset": 218308,
+      "raw_blob_hex": "01000b76656e646f72546f6b656e0000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700002b",
+      "row_offset": 121504,
+      "token": "0x0c00004d",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 13,
+      "value_sha256": "15b529e593a8170c5d8fab2d0ee4c241da102e483615bfc674efcfb1f3751132",
+      "property": {
+        "name": "FromDate",
+        "row_offset": 130630
+      },
+      "decoded_json_name": "fromDate",
+      "blob_file_offset": 218325,
+      "raw_blob_hex": "01000866726f6d446174650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700002c",
+      "row_offset": 121522,
+      "token": "0x0c000050",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 12,
+      "value_sha256": "2fd301f41a89c7eeb7eada5ab28b9b32cce089b0e4e15de928b09432a74b7774",
+      "property": {
+        "name": "Expired",
+        "row_offset": 130636
+      },
+      "decoded_json_name": "expired",
+      "blob_file_offset": 218388,
+      "raw_blob_hex": "010007657870697265640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700002d",
+      "row_offset": 121528,
+      "token": "0x0c000051",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 12,
+      "value_sha256": "d351202835dc40a2aee5547073e159a5c7f5c73f8a2bababbebab80b45eef0f0",
+      "property": {
+        "name": "TaxCode",
+        "row_offset": 130642
+      },
+      "decoded_json_name": "taxCode",
+      "blob_file_offset": 218401,
+      "raw_blob_hex": "010007746178436f64650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700002e",
+      "row_offset": 121546,
+      "token": "0x0c000054",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 14,
+      "value_sha256": "d776b18cdbf3e1291b73015b7b34e53c7819a2fe3ed42e3dea06965d35242137",
+      "property": {
+        "name": "CompanyId",
+        "row_offset": 130648
+      },
+      "decoded_json_name": "companyId",
+      "blob_file_offset": 218414,
+      "raw_blob_hex": "010009636f6d70616e7949640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700002f",
+      "row_offset": 121564,
+      "token": "0x0c000057",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 11,
+      "value_sha256": "d0ab246bf51b50f92147102ff61130632ab828429b74cc7865663f97dd3328c4",
+      "property": {
+        "name": "UserId",
+        "row_offset": 130654
+      },
+      "decoded_json_name": "userId",
+      "blob_file_offset": 218429,
+      "raw_blob_hex": "0100067573657249640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000030",
+      "row_offset": 121582,
+      "token": "0x0c00005a",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 13,
+      "value_sha256": "3f33b90b09c6fbc619cae28894a2e3dc62735ed0c4983c1425c5edbb6981580b",
+      "property": {
+        "name": "Password",
+        "row_offset": 130660
+      },
+      "decoded_json_name": "password",
+      "blob_file_offset": 218441,
+      "raw_blob_hex": "01000870617373776f72640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000049",
+      "row_offset": 121678,
+      "token": "0x0c00006a",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 9,
+      "value_sha256": "1da651e2cb68a3002641a61c9cb6f5791fdb2fdecf5596b2e2dc709bdbd8adff",
+      "property": {
+        "name": "Code",
+        "row_offset": 130810
+      },
+      "decoded_json_name": "code",
+      "blob_file_offset": 218269,
+      "raw_blob_hex": "010004636f64650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700004a",
+      "row_offset": 121690,
+      "token": "0x0c00006c",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 12,
+      "value_sha256": "4e03e6940d59e3862108bff048e70938e4eb88eb1ad8e1357f7a78cedf76a7f8",
+      "property": {
+        "name": "Message",
+        "row_offset": 130816
+      },
+      "decoded_json_name": "message",
+      "blob_file_offset": 218279,
+      "raw_blob_hex": "0100076d6573736167650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700004b",
+      "row_offset": 121696,
+      "token": "0x0c00006d",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 14,
+      "value_sha256": "6cd2179f722d1ffb7c0c09401573a8a8b476d150e7bf218511e93e68570b1763",
+      "property": {
+        "name": "ErrorName",
+        "row_offset": 130822
+      },
+      "decoded_json_name": "errorName",
+      "blob_file_offset": 218536,
+      "raw_blob_hex": "0100096572726f724e616d650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700004c",
+      "row_offset": 121714,
+      "token": "0x0c000070",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 9,
+      "value_sha256": "c1a23b310391f93837cfbd78b8fea7efd1c175e3eb5fd0e390033697da29797e",
+      "property": {
+        "name": "Data",
+        "row_offset": 130828
+      },
+      "decoded_json_name": "data",
+      "blob_file_offset": 218259,
+      "raw_blob_hex": "010004646174610000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700004d",
+      "row_offset": 121726,
+      "token": "0x0c000072",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 12,
+      "value_sha256": "eb8094a191f9097e1158f35d4f9f05861b829df0c1ee5b9a93bbb919b3c19cd1",
+      "property": {
+        "name": "Command",
+        "row_offset": 130834
+      },
+      "decoded_json_name": "command",
+      "blob_file_offset": 218551,
+      "raw_blob_hex": "010007636f6d6d616e640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700007c",
+      "row_offset": 122314,
+      "token": "0x0c0000d4",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 10,
+      "value_sha256": "13a0407718d14ced38936c5cc1624ecfb3315810c2d444dfaa70504a6da97d8d",
+      "property": {
+        "name": "Width",
+        "row_offset": 131116
+      },
+      "decoded_json_name": "width",
+      "blob_file_offset": 218564,
+      "raw_blob_hex": "01000577696474680000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700007d",
+      "row_offset": 122338,
+      "token": "0x0c0000d8",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 11,
+      "value_sha256": "d5407a28f9a03051e5ab62d86f696cb57b28ae7fe958b11ef877500ff8d9b28e",
+      "property": {
+        "name": "Height",
+        "row_offset": 131122
+      },
+      "decoded_json_name": "height",
+      "blob_file_offset": 218575,
+      "raw_blob_hex": "0100066865696768740000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700007e",
+      "row_offset": 122362,
+      "token": "0x0c0000dc",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 13,
+      "value_sha256": "d3e2bcd2566cec47036760bf261702295a206a46056b277fad35f2c10df90792",
+      "property": {
+        "name": "PageSize",
+        "row_offset": 131128
+      },
+      "decoded_json_name": "pageSize",
+      "blob_file_offset": 218587,
+      "raw_blob_hex": "0100087061676553697a650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700007f",
+      "row_offset": 122386,
+      "token": "0x0c0000e0",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 20,
+      "value_sha256": "2f13a613e26393cf68777eb705fac1501b7fcc65cd9c20dd58414745b562f3d6",
+      "property": {
+        "name": "PageOrientation",
+        "row_offset": 131134
+      },
+      "decoded_json_name": "pageOrientation",
+      "blob_file_offset": 218601,
+      "raw_blob_hex": "01000f706167654f7269656e746174696f6e0000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000080",
+      "row_offset": 122410,
+      "token": "0x0c0000e4",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 26,
+      "value_sha256": "d8f0c7dcde62dd99f999d125735dce119611ef7c5569da7b600b8411982eec07",
+      "property": {
+        "name": "RatioConvertUpperCase",
+        "row_offset": 131140
+      },
+      "decoded_json_name": "ratioConvertUpperCase",
+      "blob_file_offset": 218622,
+      "raw_blob_hex": "010015726174696f436f6e766572745570706572436173650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000081",
+      "row_offset": 122446,
+      "token": "0x0c0000ea",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 21,
+      "value_sha256": "ebc1d4afa256abb433d980d65e46c4cb7d89ac849db948eede0a51c9005bea3b",
+      "property": {
+        "name": "NumberLineOfPage",
+        "row_offset": 131146
+      },
+      "decoded_json_name": "numberLineOfPage",
+      "blob_file_offset": 218649,
+      "raw_blob_hex": "0100106e756d6265724c696e654f66506167650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000082",
+      "row_offset": 122470,
+      "token": "0x0c0000ee",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 27,
+      "value_sha256": "335edccf92e8ef37576df7aaf502d934a002765be7c6583424aa22fb73f7dfd1",
+      "property": {
+        "name": "NumberLineOfMutilePage",
+        "row_offset": 131152
+      },
+      "decoded_json_name": "numberLineOfMutilePage",
+      "blob_file_offset": 218671,
+      "raw_blob_hex": "0100166e756d6265724c696e654f664d7574696c65506167650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000083",
+      "row_offset": 122494,
+      "token": "0x0c0000f2",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 26,
+      "value_sha256": "3d637a7332b348d09081d556ecb44ceaa60a85fba4752953c7a8db0d4a16fa26",
+      "property": {
+        "name": "NumberCharacterOfLine",
+        "row_offset": 131158
+      },
+      "decoded_json_name": "numberCharacterOfLine",
+      "blob_file_offset": 218699,
+      "raw_blob_hex": "0100156e756d6265724368617261637465724f664c696e650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000084",
+      "row_offset": 122518,
+      "token": "0x0c0000f6",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 20,
+      "value_sha256": "2f13a613e26393cf68777eb705fac1501b7fcc65cd9c20dd58414745b562f3d6",
+      "property": {
+        "name": "PageOrientation",
+        "row_offset": 131164
+      },
+      "decoded_json_name": "pageOrientation",
+      "blob_file_offset": 218601,
+      "raw_blob_hex": "01000f706167654f7269656e746174696f6e0000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000085",
+      "row_offset": 122554,
+      "token": "0x0c0000fc",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 13,
+      "value_sha256": "d3e2bcd2566cec47036760bf261702295a206a46056b277fad35f2c10df90792",
+      "property": {
+        "name": "PageSize",
+        "row_offset": 131170
+      },
+      "decoded_json_name": "pageSize",
+      "blob_file_offset": 218587,
+      "raw_blob_hex": "0100087061676553697a650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000086",
+      "row_offset": 122590,
+      "token": "0x0c000102",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 10,
+      "value_sha256": "13a0407718d14ced38936c5cc1624ecfb3315810c2d444dfaa70504a6da97d8d",
+      "property": {
+        "name": "Width",
+        "row_offset": 131176
+      },
+      "decoded_json_name": "width",
+      "blob_file_offset": 218564,
+      "raw_blob_hex": "01000577696474680000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000087",
+      "row_offset": 122614,
+      "token": "0x0c000106",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 11,
+      "value_sha256": "d5407a28f9a03051e5ab62d86f696cb57b28ae7fe958b11ef877500ff8d9b28e",
+      "property": {
+        "name": "Height",
+        "row_offset": 131182
+      },
+      "decoded_json_name": "height",
+      "blob_file_offset": 218575,
+      "raw_blob_hex": "0100066865696768740000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000088",
+      "row_offset": 122638,
+      "token": "0x0c00010a",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 17,
+      "value_sha256": "5e2a285a860803e38730c7612322687c5fb7d5c6ce1ec241e6a4dbd5d9957325",
+      "property": {
+        "name": "BuyerTaxCode",
+        "row_offset": 131188
+      },
+      "decoded_json_name": "buyerTaxCode",
+      "blob_file_offset": 218726,
+      "raw_blob_hex": "01000c6275796572546178436f64650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000089",
+      "row_offset": 122662,
+      "token": "0x0c00010e",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 18,
+      "value_sha256": "bdb9f2b6d7a73473146132c5d89b32cf68357f1de5ea79f5ce18a729e7dc277d",
+      "property": {
+        "name": "InvoiceSerial",
+        "row_offset": 131194
+      },
+      "decoded_json_name": "invoiceSerial",
+      "blob_file_offset": 218744,
+      "raw_blob_hex": "01000d696e766f69636553657269616c0000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700008a",
+      "row_offset": 122686,
+      "token": "0x0c000112",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 18,
+      "value_sha256": "8e1745db9547afbb582197def28a71c129860c172ee68b4fe2b14daf8dc6a4b2",
+      "property": {
+        "name": "InvoiceNumber",
+        "row_offset": 131200
+      },
+      "decoded_json_name": "invoiceNumber",
+      "blob_file_offset": 218763,
+      "raw_blob_hex": "01000d696e766f6963654e756d6265720000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x1700008d",
+      "row_offset": 122758,
+      "token": "0x0c00011e",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 13,
+      "value_sha256": "76a0a7fb3d065e3c9fd2c524675ee1fb4b95845f9631d3d4b4351d0fab29d225",
+      "property": {
+        "name": "Invoices",
+        "row_offset": 131218
+      },
+      "decoded_json_name": "invoices",
+      "blob_file_offset": 218782,
+      "raw_blob_hex": "010008696e766f696365730000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000093",
+      "row_offset": 122884,
+      "token": "0x0c000133",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 22,
+      "value_sha256": "216bc12fa319921a017c6c4dca952c17458139e8f5db2fd678ec945a47bfa097",
+      "property": {
+        "name": "RegisterInvoiceId",
+        "row_offset": 131254
+      },
+      "decoded_json_name": "registerInvoiceId",
+      "blob_file_offset": 218796,
+      "raw_blob_hex": "0100117265676973746572496e766f69636549640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000094",
+      "row_offset": 122920,
+      "token": "0x0c000139",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 21,
+      "value_sha256": "3691f64288319b91d6af117e112e44599dad9146dbab3ca58c3662555ad49c3b",
+      "property": {
+        "name": "RelatedInvoiceId",
+        "row_offset": 131260
+      },
+      "decoded_json_name": "relatedInvoiceId",
+      "blob_file_offset": 218819,
+      "raw_blob_hex": "01001072656c61746564496e766f69636549640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000095",
+      "row_offset": 122944,
+      "token": "0x0c00013d",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 18,
+      "value_sha256": "3f908ef1bed85768b4cb34399dbc06807b34cbc04de89b27792d970cc3f027f1",
+      "property": {
+        "name": "InvoiceStatus",
+        "row_offset": 131266
+      },
+      "decoded_json_name": "invoiceStatus",
+      "blob_file_offset": 218841,
+      "raw_blob_hex": "01000d696e766f6963655374617475730000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000096",
+      "row_offset": 122968,
+      "token": "0x0c000141",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 18,
+      "value_sha256": "bdb9f2b6d7a73473146132c5d89b32cf68357f1de5ea79f5ce18a729e7dc277d",
+      "property": {
+        "name": "InvoiceSerial",
+        "row_offset": 131272
+      },
+      "decoded_json_name": "invoiceSerial",
+      "blob_file_offset": 218744,
+      "raw_blob_hex": "01000d696e766f69636553657269616c0000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x17000097",
+      "row_offset": 122992,
+      "token": "0x0c000145",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 18,
+      "value_sha256": "8e1745db9547afbb582197def28a71c129860c172ee68b4fe2b14daf8dc6a4b2",
+      "property": {
+        "name": "InvoiceNumber",
+        "row_offset": 131278
+      },
+      "decoded_json_name": "invoiceNumber",
+      "blob_file_offset": 218763,
+      "raw_blob_hex": "01000d696e766f6963654e756d6265720000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000a7",
+      "row_offset": 123334,
+      "token": "0x0c00017e",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 11,
+      "value_sha256": "5c6c33debe4ad76d9b3df3b79c7ef42d0604ded3eba0128ff5ef4ffff6028dad",
+      "property": {
+        "name": "Status",
+        "row_offset": 131374
+      },
+      "decoded_json_name": "status",
+      "blob_file_offset": 218860,
+      "raw_blob_hex": "0100067374617475730000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000a8",
+      "row_offset": 123358,
+      "token": "0x0c000182",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 7,
+      "value_sha256": "c60dec209cc9715ff0b1f4c643c42adee5a85bc6fea1cc95ed793b23ed4ec0c9",
+      "property": {
+        "name": "Id",
+        "row_offset": 131380
+      },
+      "decoded_json_name": "id",
+      "blob_file_offset": 218872,
+      "raw_blob_hex": "01000269640000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000a9",
+      "row_offset": 123382,
+      "token": "0x0c000186",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 14,
+      "value_sha256": "246c92e92a03ffa803bcfaa5b704f013d6f512faa3b3d815762ac9b379d5be97",
+      "property": {
+        "name": "ErrorCode",
+        "row_offset": 131386
+      },
+      "decoded_json_name": "errorCode",
+      "blob_file_offset": 218880,
+      "raw_blob_hex": "0100096572726f72436f64650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000aa",
+      "row_offset": 123400,
+      "token": "0x0c000189",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 17,
+      "value_sha256": "573fada013226de4139ed4a0a9b47c801abf0ed4e870b5b613496f856ad0fdd8",
+      "property": {
+        "name": "ErrorMessage",
+        "row_offset": 131392
+      },
+      "decoded_json_name": "errorMessage",
+      "blob_file_offset": 218895,
+      "raw_blob_hex": "01000c6572726f724d6573736167650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000ab",
+      "row_offset": 123424,
+      "token": "0x0c00018d",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 14,
+      "value_sha256": "6cd2179f722d1ffb7c0c09401573a8a8b476d150e7bf218511e93e68570b1763",
+      "property": {
+        "name": "ErrorName",
+        "row_offset": 131398
+      },
+      "decoded_json_name": "errorName",
+      "blob_file_offset": 218536,
+      "raw_blob_hex": "0100096572726f724e616d650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000ad",
+      "row_offset": 123484,
+      "token": "0x0c000197",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 11,
+      "value_sha256": "5c6c33debe4ad76d9b3df3b79c7ef42d0604ded3eba0128ff5ef4ffff6028dad",
+      "property": {
+        "name": "Status",
+        "row_offset": 131410
+      },
+      "decoded_json_name": "status",
+      "blob_file_offset": 218860,
+      "raw_blob_hex": "0100067374617475730000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000ae",
+      "row_offset": 123514,
+      "token": "0x0c00019c",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 10,
+      "value_sha256": "6eacd8bcc2d635d1e10a336cfb6ef1803a55c67376c45195c2bbd846d596bc77",
+      "property": {
+        "name": "Token",
+        "row_offset": 131416
+      },
+      "decoded_json_name": "token",
+      "blob_file_offset": 218913,
+      "raw_blob_hex": "010005746f6b656e0000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000b1",
+      "row_offset": 123592,
+      "token": "0x0c0001a9",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 11,
+      "value_sha256": "5c6c33debe4ad76d9b3df3b79c7ef42d0604ded3eba0128ff5ef4ffff6028dad",
+      "property": {
+        "name": "Status",
+        "row_offset": 131434
+      },
+      "decoded_json_name": "status",
+      "blob_file_offset": 218860,
+      "raw_blob_hex": "0100067374617475730000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000b2",
+      "row_offset": 123622,
+      "token": "0x0c0001ae",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 10,
+      "value_sha256": "6eacd8bcc2d635d1e10a336cfb6ef1803a55c67376c45195c2bbd846d596bc77",
+      "property": {
+        "name": "Token",
+        "row_offset": 131440
+      },
+      "decoded_json_name": "token",
+      "blob_file_offset": 218913,
+      "raw_blob_hex": "010005746f6b656e0000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000b3",
+      "row_offset": 123652,
+      "token": "0x0c0001b3",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 11,
+      "value_sha256": "5c6c33debe4ad76d9b3df3b79c7ef42d0604ded3eba0128ff5ef4ffff6028dad",
+      "property": {
+        "name": "Status",
+        "row_offset": 131446
+      },
+      "decoded_json_name": "status",
+      "blob_file_offset": 218860,
+      "raw_blob_hex": "0100067374617475730000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000d7",
+      "row_offset": 124408,
+      "token": "0x0c000231",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 15,
+      "value_sha256": "3aafede43ebb92bda8ee4cfc5601665808e971eea0c0fd887b5e4f6ea2e1afee",
+      "property": {
+        "name": "TotalCount",
+        "row_offset": 131662
+      },
+      "decoded_json_name": "totalCount",
+      "blob_file_offset": 218924,
+      "raw_blob_hex": "01000a746f74616c436f756e740000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000d8",
+      "row_offset": 124432,
+      "token": "0x0c000235",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 10,
+      "value_sha256": "d7ddf2f0124e0bb40129beecc98bfdefdf9368290a67ffe1da6c094ec3642903",
+      "property": {
+        "name": "Settings",
+        "row_offset": 131668
+      },
+      "decoded_json_name": "items",
+      "blob_file_offset": 218940,
+      "raw_blob_hex": "0100056974656d730000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000d9",
+      "row_offset": 124456,
+      "token": "0x0c000239",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 9,
+      "value_sha256": "1da651e2cb68a3002641a61c9cb6f5791fdb2fdecf5596b2e2dc709bdbd8adff",
+      "property": {
+        "name": "Code",
+        "row_offset": 131674
+      },
+      "decoded_json_name": "code",
+      "blob_file_offset": 218269,
+      "raw_blob_hex": "010004636f64650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000da",
+      "row_offset": 124480,
+      "token": "0x0c00023d",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 9,
+      "value_sha256": "e5982393737ab20ba91ef6a95281e1efcc63b3dc7e25ac449930072caffbc94a",
+      "property": {
+        "name": "Name",
+        "row_offset": 131680
+      },
+      "decoded_json_name": "name",
+      "blob_file_offset": 218951,
+      "raw_blob_hex": "0100046e616d650000"
+    },
+    {
+      "constructor_token": "0x0a00001c",
+      "decoded_fixed_string": null,
+      "parent_token": "0x170000db",
+      "row_offset": 124504,
+      "token": "0x0c000241",
+      "type_name": "Newtonsoft.Json.JsonPropertyAttribute",
+      "value_length": 14,
+      "value_sha256": "8d5638b7f112408ec8157fc0294815449ed3466d118032377d68b855ec96441c",
+      "property": {
+        "name": "GroupCode",
+        "row_offset": 131686
+      },
+      "decoded_json_name": "groupCode",
+      "blob_file_offset": 218961,
+      "raw_blob_hex": "01000967726f7570436f64650000"
+    }
+  ]
+}

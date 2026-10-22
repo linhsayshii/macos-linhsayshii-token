@@ -1,0 +1,39 @@
+{
+  "UTC": "2026-10-22T12:16:28.4711780Z",
+  "SystemSecuritySHA256": "5b0947d867dc177da5d2055ff04d4f0ce3eb769b057c5782e3551369179a64c9",
+  "SystemSecurityVersion": "4.8.9332.0 built by: NET481REL1LAST_B",
+  "DotNetRelease": 533320,
+  "Hub": {
+    "HasProcessMessage": true,
+    "HasHandlerHub": true,
+    "SHA256": "43d2f56bc25a51440bc6cd2938637a8c516858055f2961291c72f66a02f871f3",
+    "HasGetVersion": false
+  },
+  "Listeners": [
+    {
+      "LocalAddress": "127.0.0.1",
+      "LocalPort": 16080,
+      "OwningProcess": 10248
+    }
+  ],
+  "FixtureSHA256": "e2f179492af2a4fb3faffc8dcee7fbf839e88f59ad17f83f06d52d8480a21bf8",
+  "ProbeSourceSHA256": "cc5108b21a0773c587802fdb8f4fcab8277d2e826807f244f7d3586681d38897",
+  "Scope": "Analyst software replay: no vendor assemblies loaded in probe, no token/certificate store or network used by probe. Separately, an already-running plugin was observed after VM resume through read-only GET /signalr/hubs; this is not a captured SignInvoices transaction.",
+  "ProbeOutputTranscribedFromSuccessfulGuestExec": [
+    "verify=True",
+    "signature=http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+    "canonicalization=http://www.w3.org/TR/2001/REC-xml-c14n-20010315",
+    "digest=#12345678-90ab-cdef-1234-567890abcdef http://www.w3.org/2001/04/xmlenc#sha256",
+    "digest=#signtime http://www.w3.org/2001/04/xmlenc#sha256",
+    "framework=.NETFramework,Version=v4.7.2",
+    "clr=4.0.30319.42000",
+    "is64bit=False"
+  ],
+  "IndependentXMLVerification": {
+    "tool": "xmlsec1",
+    "command": "xmlsec1 --verify --pubkey-cert-pem .local/minvoice-windows-2.0/fixture-cert.pem --id-attr:Id DLHDon --id-attr:Id Object docs/re/evidence/minvoice-software-fixture.xml",
+    "exit_code": 0,
+    "output": "Verification status: OK",
+    "scope": "Public fixture certificate supplied as verification key; no trust/validity/server acceptance check."
+  }
+}

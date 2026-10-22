@@ -1,0 +1,1022 @@
+{
+  "Path": "C:\\Users\\linhsayshii\\AppData\\Local\\Apps\\2.0\\A5W58B5J.Y0N\\BXXHB1EL.AN8\\minv..tion_3c1948b7a6c2ca7f_0001.0000_9627e42a1794346b\\MinvoicePlug.exe",
+  "SignatureStatus": "Valid",
+  "SignerThumbprint": "CE702677FDE51A37FF392A43ADC3E241DE636E0F",
+  "Files": [
+    {
+      "Name": "itextsharp.cdf-ms",
+      "Length": 3832,
+      "SHA256": "cc7d11da1b4d99860b8511c02cab2c1a0914640f9055a143cc8e4742881cd75b",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "itextsharp.dll",
+      "Length": 4071424,
+      "SHA256": "9ee26a3ce3ba1141a00adc8b84f2f4faa75073a7a38446dcf6fae61086a740eb",
+      "FileVersion": "5.5.12.0",
+      "Assembly": "itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca"
+    },
+    {
+      "Name": "itextsharp.manifest",
+      "Length": 1377,
+      "SHA256": "15e73dc727ed347d5993f18af9e04ce9687be19d49a3e508eeb34f6bb4c8e20d",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNet.SignalR.Core.cdf-ms",
+      "Length": 5888,
+      "SHA256": "d735cbe3c0f5e24106df62a3a1270ba58a8b934b7a9ca0072774b1f73db77724",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNet.SignalR.Core.dll",
+      "Length": 347016,
+      "SHA256": "2672829713f57630f2fc4da57926456dda7832f0e0f474f06462d2340b4dc4e3",
+      "FileVersion": "2.4.3.22014",
+      "Assembly": "Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "Microsoft.AspNet.SignalR.Core.manifest",
+      "Length": 2161,
+      "SHA256": "eeaa0820295b3fad66f6c7c92869bfd84ad8fe9aad4fff56889191947d64c103",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Connections.Abstractions.cdf-ms",
+      "Length": 5532,
+      "SHA256": "ebfa58d54bd12b05b90a9e3de682bf7c013021f144552c18859a4d00acd864f0",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Connections.Abstractions.dll",
+      "Length": 42144,
+      "SHA256": "3c1407402198c5788f64badb989cc28c8743f8c8aec6fe8bd74eba954578d6bb",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.AspNetCore.Connections.Abstractions, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Connections.Abstractions.manifest",
+      "Length": 2057,
+      "SHA256": "17244df468a62c5c9039e0cb69be3176464a4dc29b7bd5d030b8fff0b3db14fd",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Http.Connections.Client.cdf-ms",
+      "Length": 8556,
+      "SHA256": "996c4030a0bc17c70002dd542d162280a7451c6e978007c9d0cf496008f92d38",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Http.Connections.Client.dll",
+      "Length": 122120,
+      "SHA256": "c2f73ec61cdfc0753c9a3ddd0b0d15d6cead91aff6e263f6c837b4311409bf43",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.AspNetCore.Http.Connections.Client, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Http.Connections.Client.manifest",
+      "Length": 3305,
+      "SHA256": "4efd17d6da5d7cbec777f422866994f8d154190093b246e229273eed0535fd00",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Http.Connections.Common.cdf-ms",
+      "Length": 4100,
+      "SHA256": "9ea28a5b498c35e16e35615c0447717f0707dbb50442f6bfaed5a847541eb17f",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Http.Connections.Common.dll",
+      "Length": 31496,
+      "SHA256": "c42c79d7ba14a43a22c4314321f9adf40e4b144f5e9b0ec5536238f39321afaa",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.AspNetCore.Http.Connections.Common, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.AspNetCore.Http.Connections.Common.manifest",
+      "Length": 1459,
+      "SHA256": "7a7e14a7a987500676d02cab69374b5a771a31bbbbd0d38f5ddc0681ee8f0d27",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Client.cdf-ms",
+      "Length": 6096,
+      "SHA256": "47941f0840b1c36d0907b4e47afcc974ce3e06143e726dae3ee71181fdd80376",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Client.Core.cdf-ms",
+      "Length": 10780,
+      "SHA256": "5dc42d8c39326f780d5a0b1be284544aaba98daf2638df4ab421223b20c9a353",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Client.Core.dll",
+      "Length": 200464,
+      "SHA256": "eab3b8d15be04cc97b557bc37f70e67dfeed2c195ffc35602d3076bb3a8aa665",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.AspNetCore.SignalR.Client.Core, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Client.Core.manifest",
+      "Length": 4320,
+      "SHA256": "28faa98fa7fa2a7d4d6dff746a04144675da99bd9bb1b23cc5103805ce512ff9",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Client.dll",
+      "Length": 24336,
+      "SHA256": "909b8aa280804e0776c97531d146fb4a586e7fc95981e27f30f4c724081d23a8",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.AspNetCore.SignalR.Client, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Client.manifest",
+      "Length": 2364,
+      "SHA256": "d088acee32168148170bc548077272f733f01842222d993d711d0498ea3fae87",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Common.cdf-ms",
+      "Length": 6008,
+      "SHA256": "1e83829f8b397026254b98cfeff689b43811c7bbaa2c58d6d986429c588d7e37",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Common.dll",
+      "Length": 44720,
+      "SHA256": "823f2477362c2e986a77aefb2935a23527f41f4e9551a9f2871857700b88de00",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.AspNetCore.SignalR.Common, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Common.manifest",
+      "Length": 2252,
+      "SHA256": "1f50819aa899540299251dd85376b177101f113432c2c8a66e39f17c6530bed4",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Protocols.Json.cdf-ms",
+      "Length": 6112,
+      "SHA256": "feb616ed7fe98428a3d144714848226951e20b3b5d9d199a0ccbeaa266295abb",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Protocols.Json.dll",
+      "Length": 39584,
+      "SHA256": "f264d9a30d47282d1258479f28f0f4e1415bf03e9df98503a9dfefc9d31c03c6",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.AspNetCore.SignalR.Protocols.Json, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.AspNetCore.SignalR.Protocols.Json.manifest",
+      "Length": 2306,
+      "SHA256": "0d5b8f7924c07e73b9948e94851d99e0b9e9c6debc2f743ebacf4330adf2afe4",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Bcl.AsyncInterfaces.cdf-ms",
+      "Length": 2720,
+      "SHA256": "7dccb72664bc80520f5291a52edf89b6b696e1e1e0a0c9af87cad098e1cf0e78",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Bcl.AsyncInterfaces.dll",
+      "Length": 26904,
+      "SHA256": "80678203bd0203a6594f4e330b22543c0de5059382bb1c9334b7868b8f31b1bc",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "Microsoft.Bcl.AsyncInterfaces.manifest",
+      "Length": 886,
+      "SHA256": "c5d2a55649b707de2836b5cd94be3aed665dda0896cbe77991d20b074c5d24d8",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Bcl.TimeProvider.cdf-ms",
+      "Length": 3616,
+      "SHA256": "3ff901dae44b845c09d4f8b99ddaee64aa3625088e7de752bbdf549cccff3aca",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Bcl.TimeProvider.dll",
+      "Length": 32520,
+      "SHA256": "1c5a3d263b723ecf05a98d9bec4e59c476d553c75e912dfefb3e137671b7be72",
+      "FileVersion": "8.0.123.58001",
+      "Assembly": "Microsoft.Bcl.TimeProvider, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "Microsoft.Bcl.TimeProvider.manifest",
+      "Length": 1259,
+      "SHA256": "9a9ee0610d5efe106e2e123de4f6bee27fc89f0d0c15ac97e7dbe32da6a1feba",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.Abstractions.cdf-ms",
+      "Length": 3736,
+      "SHA256": "ea7b7647973cff0f441775504f1b9ff999a5126f838abd3260bd95a5ce5acdcc",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "Length": 64160,
+      "SHA256": "11564c3c648f3d4fbdce989b50aa4cb4c58d953b7cec5a0fe8c484e7cf5146f3",
+      "FileVersion": "8.0.324.11423",
+      "Assembly": "Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.Abstractions.manifest",
+      "Length": 1318,
+      "SHA256": "6e4dbd07b6081d747f0c965e0617e2c81375d9000dc7be65a1bc8012efc5a17a",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.cdf-ms",
+      "Length": 4200,
+      "SHA256": "693cbeb2ebf3c78c6b4dbc30e1140fe63cec7419aa9339eadf08272e17c7fba7",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.dll",
+      "Length": 96928,
+      "SHA256": "18b39777ee45220217459641991ab700bc9253acaf0940cf6e017e9392b43698",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "Microsoft.Extensions.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.manifest",
+      "Length": 1517,
+      "SHA256": "8ef6ab4cdd962f7d3bf4bc533244098309bc0b6da71e04d6574067d619eb8cd3",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Features.cdf-ms",
+      "Length": 2584,
+      "SHA256": "d950a2126c98cb3a2f0b73cb0959e1d078c9e8282567ad1dbd5c3252acb61065",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Features.dll",
+      "Length": 29872,
+      "SHA256": "e23c82850028f78dbb4ce61e2ec0ceffd88227a370e44593427fd2617fc5d410",
+      "FileVersion": "8.0.824.36908",
+      "Assembly": "Microsoft.Extensions.Features, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.Extensions.Features.manifest",
+      "Length": 864,
+      "SHA256": "65067ea684774a49211bf55ea59ed29187aa126c1428ef08afc7bedab7e437e3",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Logging.Abstractions.cdf-ms",
+      "Length": 3756,
+      "SHA256": "f8b263d7cd5c0e7182229bab0ea9d1d45dd1d791cbb1199a445eca2a649b07c4",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Logging.Abstractions.dll",
+      "Length": 67848,
+      "SHA256": "18e86833745bf0c5c6cf270e349053973f4e27a8410f76522b504f318e4dc944",
+      "FileVersion": "8.0.324.11423",
+      "Assembly": "Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.Extensions.Logging.Abstractions.manifest",
+      "Length": 1301,
+      "SHA256": "bbcbaa7edfd8405670dcd1ab8e63ba8f0ec2a5d54fdd2ceb5c164140092ab064",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Logging.cdf-ms",
+      "Length": 6012,
+      "SHA256": "028db0ac8553b8947fae15e355c175c7424a63731cfc6fc64c52690c4b473c58",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Logging.dll",
+      "Length": 54032,
+      "SHA256": "c7756fe1d2641d905a61d11ccdda2acc94c3379a81ba5a280aaf4c1fe4f289ab",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "Microsoft.Extensions.Logging, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.Extensions.Logging.manifest",
+      "Length": 2293,
+      "SHA256": "dee466b7788f77cb88b938d3ac3a698c6f24791d3b1e6c477989ef917d4a462b",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Options.cdf-ms",
+      "Length": 4264,
+      "SHA256": "3f903e317b6f81c3f52d6c728d7411c95dd6f373291401648156e1f219cc8eac",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Options.dll",
+      "Length": 68768,
+      "SHA256": "7370c72f875d991187e27b5ab2ec2442ba34e6ff27950153c6696aec90553c5d",
+      "FileVersion": "8.0.224.6711",
+      "Assembly": "Microsoft.Extensions.Options, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.Extensions.Options.manifest",
+      "Length": 1505,
+      "SHA256": "46dd14d0f5d017b94933349055db74c551770f81cafac70f3b0d26140967a5c4",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Primitives.cdf-ms",
+      "Length": 4128,
+      "SHA256": "06d636536c900336fe4c822a018ca83af90f1c5410e700c2e51add9518eeb468",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Extensions.Primitives.dll",
+      "Length": 49936,
+      "SHA256": "3c6ea55594433e2f0340227bd1588fbab1ba8a10c99319b528cc5573259340cb",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+    },
+    {
+      "Name": "Microsoft.Extensions.Primitives.manifest",
+      "Length": 1444,
+      "SHA256": "7a8576db6c4b2de1563deff7a9dcda62a98cc3e9394b43365e32649d57ba4a31",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.cdf-ms",
+      "Length": 3432,
+      "SHA256": "2021a029bba9849e059f68a6afd7eeb116b35789c17f3eb1fcbdf9d2dd6da79a",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.Cors.cdf-ms",
+      "Length": 3976,
+      "SHA256": "484f2bbc6f612e7e3133e4bc4107f4e9d84204912757d04478de77de1f4c418f",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.Cors.dll",
+      "Length": 20904,
+      "SHA256": "fbeede8d089e3745b45bd0f7e0942b83f0b0909f6d332baead648ecee410a512",
+      "FileVersion": "4.2.100507.142",
+      "Assembly": "Microsoft.Owin.Cors, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "Microsoft.Owin.Cors.manifest",
+      "Length": 1388,
+      "SHA256": "d2527f20edd184a5748211cd5d92737500feacdb64f31b62d243c295e4a0ee8c",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.dll",
+      "Length": 101272,
+      "SHA256": "1aee803fb4e8b8cebc53540840748a05a08a37e55ea3722eaee09efafb785131",
+      "FileVersion": "4.2.100507.142",
+      "Assembly": "Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "Microsoft.Owin.Host.HttpListener.cdf-ms",
+      "Length": 3004,
+      "SHA256": "f7e57a7bf0839d37e3c0326ed41ade17c2a0b2e0a421ebe9205a6d7891ea51d2",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.Host.HttpListener.dll",
+      "Length": 85928,
+      "SHA256": "752675b5a6882ad8a0ab58097777ba446299729dcb401e211045180f2c659139",
+      "FileVersion": "4.2.100507.142",
+      "Assembly": "Microsoft.Owin.Host.HttpListener, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "Microsoft.Owin.Host.HttpListener.manifest",
+      "Length": 1048,
+      "SHA256": "2f57280f5ceb6da4a181c27e128ea66d2ccf3a86392724606f69a8c844552e14",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.Hosting.cdf-ms",
+      "Length": 3944,
+      "SHA256": "88a19c24166e4f12ecbaf1f195ed5673f1a531d41c8024f6caf37a53afd81ee4",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.Hosting.dll",
+      "Length": 65968,
+      "SHA256": "83d8ac42236a27b02171b11105aff7c07ff63e282b16d0bcd68a6a74ec0db2fd",
+      "FileVersion": "4.2.100507.142",
+      "Assembly": "Microsoft.Owin.Hosting, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "Microsoft.Owin.Hosting.manifest",
+      "Length": 1390,
+      "SHA256": "cef1931f2d92e08e721c2d26d580c5808ae347cc7af86496ec2cf8fd653e27fc",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.manifest",
+      "Length": 1188,
+      "SHA256": "9a82a22e48ca824a73195d27edcdc510cc17fe9011ab043b2c3006b692b22865",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.Security.cdf-ms",
+      "Length": 4432,
+      "SHA256": "fbd86e8a4dfcbc3f803987ad61e06d0203d53668ce3e68839fb984acc2ad8e87",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Microsoft.Owin.Security.dll",
+      "Length": 49840,
+      "SHA256": "a06d6f4f578ec594e573dc721a8b57da9a355e1ea00ec5aed06a2d495c62d646",
+      "FileVersion": "2.1.30113.529",
+      "Assembly": "Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "Microsoft.Owin.Security.manifest",
+      "Length": 1579,
+      "SHA256": "8608e46697670a64cb55d495876f9ff9279050c7944b9b360c2527d1e17a873d",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "MinvoicePlug.cdf-ms",
+      "Length": 14332,
+      "SHA256": "47eb4bf4123638a6627a22d0247d791d0e220c7ecfa3b2e8eb94fa816f8fe007",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "MinvoicePlug.exe",
+      "Length": 1693384,
+      "SHA256": "4e891736c97f593f4306f56ce645f039ac91aa3e54ed01d81cb7b822093331e0",
+      "FileVersion": "1.0.3.0",
+      "Assembly": "MinvoicePlug, Version=1.0.3.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "Name": "MinvoicePlug.exe.cdf-ms",
+      "Length": 76932,
+      "SHA256": "8c7fd13783e832d702037d90c3c6001d51721e54c5e9b4ebd8d2baf5767066c5",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "MinvoicePlug.exe.config",
+      "Length": 7604,
+      "SHA256": "eb08690c5f895886d47d48f8b290c1193b486964d9259acc8797e44a8fe68713",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "MinvoicePlug.exe.manifest",
+      "Length": 47949,
+      "SHA256": "4be7ce8152eaf4977fd6b3dfcda66eb6dc6ecd73c9db87607d85faa6f4b7d8b0",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "MinvoicePlug.manifest",
+      "Length": 5452,
+      "SHA256": "d63f968cc0306ab4d068adc0547f933206e7a7c4198543605b0a650a4efe1300",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "MinvoiceUpdate.exe",
+      "Length": 1692160,
+      "SHA256": "64d176491101a7026f738d954f94c8fb5b08a8667fdf31ec3a33adfa40fda8b2",
+      "FileVersion": "1.0.0.0",
+      "Assembly": "MinvoiceUpdate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "Name": "MinvoiceUpdate.pdb",
+      "Length": 58880,
+      "SHA256": "b168931c934424bc2742a3ec722f819cc50005f579a389cf690faadb6f91954f",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Newtonsoft.Json.cdf-ms",
+      "Length": 5096,
+      "SHA256": "18a745d6dbfb852cd8ef38fe6831371c9c1cd6e6ee105cfa047dbead0e1b8fcc",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Newtonsoft.Json.dll",
+      "Length": 675240,
+      "SHA256": "b66749b81e1489fcd8d754b2ad39ebe0db681344e392a3f49dc9235643bdbd06",
+      "FileVersion": "12.0.1.22727",
+      "Assembly": "Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed"
+    },
+    {
+      "Name": "Newtonsoft.Json.manifest",
+      "Length": 1954,
+      "SHA256": "720a7d2971218d27c4b1d4f2c054dc1193bb3f1fd778d0ec559ec8fbde8e44fa",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "NLog.cdf-ms",
+      "Length": 6392,
+      "SHA256": "0ce1a047c7c9dff7fe402efe287019fa6f43f7358f7b0d2a32011fc7016e4524",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "NLog.dll",
+      "Length": 478208,
+      "SHA256": "37f91f16bb05c507fb441418e9c711fe3ec98c9182ddfcd5293ac7f3bef00fce",
+      "FileVersion": "4.0.0.0",
+      "Assembly": "NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c"
+    },
+    {
+      "Name": "NLog.manifest",
+      "Length": 2510,
+      "SHA256": "82f146e63ea351ef851280b496a420554112df7c1ac3ef648f81829768173e5b",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "NLog.Windows.Forms.cdf-ms",
+      "Length": 4368,
+      "SHA256": "fa9c0be8b5f4c25825363f375b4561e92cb699a7f9fbc0d30a2fb82e1f86c664",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "NLog.Windows.Forms.dll",
+      "Length": 99328,
+      "SHA256": "400cc206035db53c44799da262c63f4415e31081570a6ce884f7b81f796aa3c8",
+      "FileVersion": "4.2.3.167",
+      "Assembly": "NLog.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c"
+    },
+    {
+      "Name": "NLog.Windows.Forms.manifest",
+      "Length": 1574,
+      "SHA256": "e44a01e3b01eb6d98a00869b263339dce51d51c51607d18a6bc97682839e545b",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Nowin.cdf-ms",
+      "Length": 2812,
+      "SHA256": "33fc5356541fe54bfb41a78893965aefbe3c777d566a772720e42ff988cac2ba",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Nowin.dll",
+      "Length": 84480,
+      "SHA256": "c6e360a24200e31dc0cfcf9a5b23d5891161c7ed20b1f615734d2ffd84207778",
+      "FileVersion": "0.22.1.0",
+      "Assembly": "Nowin, Version=0.22.1.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "Name": "Nowin.manifest",
+      "Length": 961,
+      "SHA256": "1f63c5769256dd9d37687e83170f1ed28319879b03835ccfb9861acb30daf010",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Owin.cdf-ms",
+      "Length": 2056,
+      "SHA256": "1c5981349ce782f3fc845022df223194727b2f701637bd61030e7f9c753cd1c4",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Owin.dll",
+      "Length": 4608,
+      "SHA256": "7fedc19bf6c18a0f9629e90040d38dafd69b62ef46baadb3a079071a53ef5619",
+      "FileVersion": "1.0",
+      "Assembly": "Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5"
+    },
+    {
+      "Name": "Owin.manifest",
+      "Length": 631,
+      "SHA256": "eca3809be16295c2b14f7d158d82b6ee6545cd5c9a66c13accc563cd03d76657",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "RawPrint.cdf-ms",
+      "Length": 2816,
+      "SHA256": "32034cbe798e871212333739689e447bfec3d7fb4e22370a9fa8e6a73b7fcf7f",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "RawPrint.dll",
+      "Length": 11776,
+      "SHA256": "9165e11a19885829b0bd4eff91d1c3835acf4ca77dc5e6709cf2fd343e8a7994",
+      "FileVersion": "0.2.0.0",
+      "Assembly": "RawPrint, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "Name": "RawPrint.manifest",
+      "Length": 966,
+      "SHA256": "db8bb8f0eb0ebc11e2999a83b2f47dacb647b427a17055052f70aeafad9a203e",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Select.Html.dep",
+      "Length": 54457856,
+      "SHA256": "e09a1aea9acbd5bf7868c72bb2923ceb211ac17ae315fdb283f4a1f582fd62a1",
+      "FileVersion": "25.2.0.0",
+      "Assembly": null
+    },
+    {
+      "Name": "Select.HtmlToPdf.cdf-ms",
+      "Length": 5336,
+      "SHA256": "a2402f0f6713e32a68156eeff4ceeb48e249fb6bd56305d128c90ec5e9991ba0",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Select.HtmlToPdf.dll",
+      "Length": 2059776,
+      "SHA256": "cd771995c591e9a7b85513527e40892ce7054fc44a441528e350ce817f43df93",
+      "FileVersion": "25.2.0.0",
+      "Assembly": "Select.HtmlToPdf, Version=25.2.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018"
+    },
+    {
+      "Name": "Select.HtmlToPdf.manifest",
+      "Length": 1977,
+      "SHA256": "09e14a2cc0402b7dd7a9e942561fb193c1ee71e4a67842076ae6148bd851d287",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Buffers.cdf-ms",
+      "Length": 2100,
+      "SHA256": "462899b7ec55ed1fa0da86137ed56987533c558f0f90f084d0086bb1ea3af82a",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Buffers.dll",
+      "Length": 20856,
+      "SHA256": "accccfbe45d9f08ffeed9916e37b33e98c65be012cfff6e7fa7b67210ce1fefb",
+      "FileVersion": "4.6.28619.01",
+      "Assembly": "System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.Buffers.manifest",
+      "Length": 651,
+      "SHA256": "c147857496700060372ce40e4e522851f3680412013237a96b7eeac8f270e85d",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.ComponentModel.Annotations.cdf-ms",
+      "Length": 2708,
+      "SHA256": "c7eb21af0956b77d8f002640b527e4d6a7d1580b03c689b525061dcb2adb97c4",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.ComponentModel.Annotations.dll",
+      "Length": 43152,
+      "SHA256": "04113c8549185519f3202790ceb23df609644872b9c249a56d2bcf59566102c4",
+      "FileVersion": "4.6.26515.06",
+      "Assembly": "System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    },
+    {
+      "Name": "System.ComponentModel.Annotations.manifest",
+      "Length": 898,
+      "SHA256": "e9a41c976aa31a78b609666ef578f180602658cc05e98b91b113a76af0ca8db1",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Diagnostics.DiagnosticSource.cdf-ms",
+      "Length": 4100,
+      "SHA256": "a8e75c1bf267c07ae5bdc48e37af06fb976886c3c637d2ddf668bd60c59b40d2",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Diagnostics.DiagnosticSource.dll",
+      "Length": 189088,
+      "SHA256": "c8a5ca93d8e40dafd48759226f70f90af8ccbc3a8df45d4e6fd5dc5626b05ab9",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.Diagnostics.DiagnosticSource.manifest",
+      "Length": 1449,
+      "SHA256": "b55a716cccabbfeea392836375e1fb3096624340fc0eeb7de3c70b302371486f",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.IO.Pipelines.cdf-ms",
+      "Length": 3604,
+      "SHA256": "dc7deb8d4c9e9b80e85676fe86cef82efafdfd9b5dccbbe4d121e6f28b046399",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.IO.Pipelines.dll",
+      "Length": 84744,
+      "SHA256": "07a57b9c555a278c359267674aa139aba352b464fea3cc4714a664ad999faf42",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "System.IO.Pipelines, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.IO.Pipelines.manifest",
+      "Length": 1237,
+      "SHA256": "804dc9dea08c513c2bf5801e5095f1739d6415147ed273037f2a7d384ad9de4f",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Memory.cdf-ms",
+      "Length": 4076,
+      "SHA256": "604cacb96f2940f5baa2fc1f013d76deb73e552e573f83613c4aee58156a1b4d",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Memory.dll",
+      "Length": 142240,
+      "SHA256": "bf3fb84664f4097f1a8a9bc71a51dcf8cf1a905d4080a4d290da1730866e856f",
+      "FileVersion": "4.6.31308.01",
+      "Assembly": "System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.Memory.manifest",
+      "Length": 1418,
+      "SHA256": "7c0c5494b8f503e8cb926c947ef3298b36af569acec8ddb3d53c1361e1dc541f",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Net.Http.Formatting.cdf-ms",
+      "Length": 5292,
+      "SHA256": "eaf394d17447d5456b2d2c8f7f8cc6f27279f57427616742984d4e0790bf6bff",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Net.Http.Formatting.dll",
+      "Length": 178808,
+      "SHA256": "7b58adc6e23b24cd6615b35e848a002bda053a26d48f9ddafacfc8098e97c49c",
+      "FileVersion": "5.2.61128.0",
+      "Assembly": "System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "System.Net.Http.Formatting.manifest",
+      "Length": 1979,
+      "SHA256": "d966407ea99347a4b10efb3e8404c145a2bfd8544aac24297c2faaff8d8a367c",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Numerics.Vectors.cdf-ms",
+      "Length": 2564,
+      "SHA256": "4bd1fc7d101b2396c282dd5f803356990426fe6cdda2c02f988185a8738e2993",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Numerics.Vectors.dll",
+      "Length": 115856,
+      "SHA256": "1d3ef8698281e7cf7371d1554afef5872b39f96c26da772210a33da041ba1183",
+      "FileVersion": "4.6.26515.06",
+      "Assembly": "System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    },
+    {
+      "Name": "System.Numerics.Vectors.manifest",
+      "Length": 856,
+      "SHA256": "fc203f8981a19c4e27a9dfd7ec090aaa6c068e42fb41b35711ce59d226eeb649",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Runtime.CompilerServices.Unsafe.cdf-ms",
+      "Length": 2196,
+      "SHA256": "470ca7c794a96622629e19b796a5d473e05eddf90bba1781d7f6ac0313c0df5a",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Runtime.CompilerServices.Unsafe.dll",
+      "Length": 18024,
+      "SHA256": "37768488e8ef45729bc7d9a2677633c6450042975bb96516e186da6cb9cd0dcf",
+      "FileVersion": "6.0.21.52210",
+      "Assembly": "System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    },
+    {
+      "Name": "System.Runtime.CompilerServices.Unsafe.manifest",
+      "Length": 699,
+      "SHA256": "08a239fecc690d92be02f948582bfbb435a1bcc7a5fbd73828ff797c4cbd87c3",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Text.Encodings.Web.cdf-ms",
+      "Length": 4532,
+      "SHA256": "e2c7a44ad1bd8d240ec0acb150d443975ee07ba509a12431c493d04f296a6a60",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Text.Encodings.Web.dll",
+      "Length": 79024,
+      "SHA256": "e9c4f5eed186cb129c527c4b8d67d163ea2f2396e9d8b96e30b5e7c12203ce84",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.Text.Encodings.Web.manifest",
+      "Length": 1615,
+      "SHA256": "bfd226d7572432a15301b5640f13e7c05df2f1d9f4db1c9e6a2694d479608459",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Text.Json.cdf-ms",
+      "Length": 6856,
+      "SHA256": "3db25a3cccd293f7763fb0665818b8325a9ef265d3749d61d9617a6ceed4290e",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Text.Json.dll",
+      "Length": 643864,
+      "SHA256": "7eb217f0a0b9fe681de288511cb230708bb1c66e0c4a8553b9c0058632cfd20f",
+      "FileVersion": "8.0.724.31311",
+      "Assembly": "System.Text.Json, Version=8.0.0.4, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.Text.Json.manifest",
+      "Length": 2584,
+      "SHA256": "6235c5e752c303f221e2516f8d02e3e8415918efe9fd6e47a9587eb0ad0b625d",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Threading.Channels.cdf-ms",
+      "Length": 2704,
+      "SHA256": "9b7bd8698a1823fbf05a3a130f1b3703a77945b8e849991ec3fb15592353d7c3",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Threading.Channels.dll",
+      "Length": 74000,
+      "SHA256": "a42e45a1bb8e6528d244f8611cf1e3e731cab481a67928c1be815e635ffe8ec7",
+      "FileVersion": "8.0.23.53103",
+      "Assembly": "System.Threading.Channels, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.Threading.Channels.manifest",
+      "Length": 878,
+      "SHA256": "3a5a54c478d0d3286ccf9b8b771e590a02531f49f8416c39ef36fe8f953759d6",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Threading.Tasks.Extensions.cdf-ms",
+      "Length": 2744,
+      "SHA256": "b55be98b811e23e349518f9125de1dbdf075642f9213fd80a9af2ad16e7af8a6",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Threading.Tasks.Extensions.dll",
+      "Length": 25984,
+      "SHA256": "4f81ffd0dc7204db75afc35ea4291769b07c440592f28894260eea76626a23c6",
+      "FileVersion": "4.6.28619.01",
+      "Assembly": "System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.Threading.Tasks.Extensions.manifest",
+      "Length": 899,
+      "SHA256": "f7fce6786a7cd41f9af1a57e453a04ef22f1fd2e7ed10a57bf882e4d40e7ed05",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.ValueTuple.cdf-ms",
+      "Length": 2112,
+      "SHA256": "20b9761e542b063d814c1629792e4029102064c039e4ee5eb71d5a49985fe226",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.ValueTuple.dll",
+      "Length": 25232,
+      "SHA256": "e905d102585b22c6df04f219af5cbdbfa7bc165979e9788b62df6dcc165e10f4",
+      "FileVersion": "4.6.26515.06",
+      "Assembly": "System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+    },
+    {
+      "Name": "System.ValueTuple.manifest",
+      "Length": 657,
+      "SHA256": "73e54a56289f63984e6e7b669577925e33ceab560546b742b035b93957ccaf71",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Web.Cors.cdf-ms",
+      "Length": 2936,
+      "SHA256": "b685978f9b98765b3a7af6ffea1974ad73ab9fb691a38b4d29e7f3c53f3e5cb5",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "System.Web.Cors.dll",
+      "Length": 27768,
+      "SHA256": "62f6c125179cdc13c8ee6e2c252f2872ea8e3b96b24580fd45c38654967074de",
+      "FileVersion": "5.2.61128.0",
+      "Assembly": "System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    },
+    {
+      "Name": "System.Web.Cors.manifest",
+      "Length": 1014,
+      "SHA256": "1850b1ae1ce2e39e157663d44ae4dad53c9e5891fd104bf64ecfac0b068ec166",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "Version.txt",
+      "Length": 0,
+      "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "WaitWnd.cdf-ms",
+      "Length": 3316,
+      "SHA256": "7a7e0acfddbd726583339252dab8578247a627506681ef4f61fd938d63353a17",
+      "FileVersion": null,
+      "Assembly": null
+    },
+    {
+      "Name": "WaitWnd.dll",
+      "Length": 227840,
+      "SHA256": "0d267c7d68928e078e19e058fc622af7f2434193128745b72dbce8f8fbe16f08",
+      "FileVersion": "1.0.0.0",
+      "Assembly": "WaitWnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "Name": "WaitWnd.manifest",
+      "Length": 1159,
+      "SHA256": "d1ef8e8a679934d646415aaf8edf65f22562997e332147e3f6c4b32624f2b157",
+      "FileVersion": null,
+      "Assembly": null
+    }
+  ]
+}

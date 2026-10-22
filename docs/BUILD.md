@@ -1,10 +1,19 @@
-# Build and test
+# Build và test app tích hợp
 
-Môi trường test FastCA + M-Invoice đã được chuẩn bị: xem
-[TEST-ENVIRONMENT.md](TEST-ENVIRONMENT.md). Từ checkout gốc, chạy
-`./scripts/test-env.sh test-all`; runner tự cấu hình cache và Testing paths cho
-hai worktree. Dùng `./scripts/run-test-app.sh fastca|minvoice` để mở từng app sau
-khi build. Hai app phải chạy lần lượt vì cùng dùng cổng 32001.
+Chạy tại checkout gốc, nhánh `p1-token-core`. Tất cả bridge dùng cùng một app;
+không build/chạy worktree eSigner hoặc Minvoice riêng để nghiệm thu bản hiện tại.
+`Package.resolved` được version hóa để cố định dependency đã kiểm tra.
+
+```sh
+./scripts/test-env.sh test-all
+./scripts/package-test-app.sh
+python3 scripts/check-integrated-app.py
+./scripts/run-test-app.sh all
+```
+
+Smoke tự mở rồi đóng app của nó; hãy đóng app đang chạy trước khi smoke hoặc
+đóng gói. `run-test-app.sh fastca|minvoice|esigner|vnpt` là alias của cùng app gốc,
+không chuyển worktree. Xem [BRIDGES.md](BRIDGES.md) về sáu listener và TLS localhost.
 
 Command Line Tools only (no Xcode). Build:
 

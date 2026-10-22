@@ -1,0 +1,40 @@
+{
+  "kind": "analyst-evidence-file-integrity-manifest",
+  "files": [
+    {
+      "path": "docs/re/evidence/minvoice-windows-formatter-cil.json",
+      "byte_length": 86180,
+      "sha256": "e20e2e41866247f96a76cbf3e05c7d33707484460e1fe9beddea6f29bb83a71e"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-windows-installed-cil.json",
+      "byte_length": 859648,
+      "sha256": "af977d0ebcd44500ef76e279d3700ed2563fef0452bff7973ebefc2c7fb6b768"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-windows-installed-inventory.json",
+      "byte_length": 36611,
+      "sha256": "d24bdc53329bbc8d1683e675bb42a0b19fae19f90e4a2e19d171c70430707ca2"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-windows-json-properties.json",
+      "byte_length": 30664,
+      "sha256": "672207e3b5016a59eaff1ea8dd9f8664cda6eb948b65624503e474e18f58a0be"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-windows-runtime-observations.json",
+      "byte_length": 1889,
+      "sha256": "ab1e6225f1f981a56cadaff7a990f22fc118bd7b447ed574b4e1387b27027953"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-dotnet-profile-probe.cs",
+      "byte_length": 3619,
+      "sha256": "cc5108b21a0773c587802fdb8f4fcab8277d2e826807f244f7d3586681d38897"
+    },
+    {
+      "path": "docs/re/evidence/minvoice-software-fixture.xml",
+      "byte_length": 2628,
+      "sha256": "e2f179492af2a4fb3faffc8dcee7fbf839e88f59ad17f83f06d52d8480a21bf8"
+    }
+  ]
+}
