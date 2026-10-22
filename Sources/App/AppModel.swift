@@ -652,7 +652,7 @@ struct AppSigningService: SigningService {
         try await model.selectCertificate(origin: ctx.origin, serial: serial, operation: "Chọn CKS cho \(ctx.bridge)")
     }
     func signXML(_ ctx: BridgeContext, serial: String?, xml: Data, options: XMLSignOptions) async throws -> Data {
-        try XMLDSigSigner.validateInput(xml)
+        try XMLDSigSigner.validateInput(xml, options: options)
         return try await model.performBridgeSign(ctx, serial: serial, operation: "Ký XML · \(ctx.bridge)") {
             try await XMLDSigSigner.signEnveloped(xml: xml, signer: $0, options: options)
         }

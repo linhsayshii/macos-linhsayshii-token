@@ -245,3 +245,27 @@ private func fixture(token: String = "USB-A", expired: Bool = false, flags: [Str
     } catch XMLDSigError.rejected(.declarations) {} catch { Issue.record("Unexpected error") }
     #expect(app.certificatePrompt == nil && presenter.titles.isEmpty)
 }
+
+@Test @MainActor func CTSignXMLRejectsDuplicateReferencedIDBeforeOpeningPrompt() async throws {
+    let presenter = Presenter()
+    let app = model([], presenter)
+    let service = AppSigningService(model: app)
+    var options = XMLSignOptions(); options.signElements = ["HSoKhaiThue"]
+    let xml = Data("<HSoThueDTu><HSoKhaiThue id='ID_1'/><Other ID='ID_1'/></HSoThueDTu>".utf8)
+    await #expect(throws: XMLDSigError.rejected(.duplicateID)) {
+        _ = try await service.signXML(BridgeContext(bridge: "ctsigninghub", origin: "https://thuedientu.gdt.gov.vn"), serial: nil, xml: xml, options: options)
+    }
+    #expect(app.certificatePrompt == nil && app.pinPrompt == nil && presenter.titles.isEmpty)
+}
+
+@Test @MainActor func CTSignXMLWithRepeatedBusinessIDsReachesCertificateChooser() async throws {
+    let presenter = Presenter(), app = model([], presenter)
+    let service = AppSigningService(model: app)
+    var options = XMLSignOptions(); options.kind = .custom(parentXPath: "HSoThueDTu/CKyDTu"); options.signElements = ["HSoKhaiThue"]
+    let xml = Data("<HSoThueDTu><HSoKhaiThue id='ID_1'><Row id='1'/><Row id='1'/></HSoKhaiThue></HSoThueDTu>".utf8)
+    let task = Task { try await service.signXML(BridgeContext(bridge: "ctsigninghub", origin: "https://thuedientu.gdt.gov.vn"), serial: nil, xml: xml, options: options) }
+    try await waitFor { app.certificatePrompt != nil }
+    #expect(presenter.titles == ["Chọn chữ ký số"])
+    task.cancel(); _ = try? await task.value
+    #expect(app.certificatePrompt == nil && app.pinPrompt == nil)
+}

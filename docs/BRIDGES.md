@@ -49,18 +49,25 @@ SignXML trả mã chẩn đoán trong `message`, thay cho `badXML` chung chung:
 | --- | --- |
 | `XML_PARSE` / `XML_ENCODING` | Không đọc được XML hoặc dữ liệu không phải UTF-8 |
 | `XML_DTD_ENTITY` | Có khai báo DTD/ENTITY bị chặn |
-| `XML_INVALID_ID` / `XML_DUPLICATE_ID` | ID không hợp lệ hoặc trùng nhau |
+| `XML_INVALID_ID` / `XML_DUPLICATE_ID` | ID của phần tử được ký không hợp lệ hoặc không duy nhất; xml:id cũng phải hợp lệ/duy nhất |
+| `XML_AMBIGUOUS_REFERENCE` | Tên phần tử trong dataBV khớp nhiều phần tử |
 | `XML_EXISTING_SIGNATURE` | Tài liệu có sẵn phần tử Signature, kể cả khung chữ ký rỗng |
 | `XML_PLACEMENT` / `XML_OPTIONS` | cks/dataBV hoặc tham số chữ ký không phù hợp |
 | `XML_SIGNATURE_ID_COLLISION` | Trùng ID chữ ký/SigningTime |
 | `XML_REFERENCE_PLACEMENT` | Chèn chữ ký bên trong phần tử dataBV, chưa được hỗ trợ |
 | `XML_CERTIFICATE` / `XML_TOO_LARGE` | Chứng thư không có khóa RSA đọc được hoặc XML vượt 20 MiB |
 
+Thuộc tính `id`/`Id`/`ID` thông thường có thể là mã dòng lặp ở nhiều bảng.
+App giữ nguyên các mã dữ liệu này. Khi ký theo `dataBV`, phần tử được chọn
+phải duy nhất; ID dùng trong `Reference URI="#…"` phải duy nhất trên toàn
+tài liệu, kể cả khi đụng ID của phần tử khác hoặc `xml:id`. App không tự đổi
+ID có sẵn để che lỗi tham chiếu. ID tự sinh bỏ qua cả mã dòng và `xml:id` đã có.
+
 Chẩn đoán không ghi XML, giá trị ID hoặc lỗi parser chứa dữ liệu tài liệu.
-Các kiểm tra này chạy trước khi gọi token ký. Báo lỗi sau một lần nhập PIN
-cần đối chiếu đúng request SignXML; chưa có request lỗi thật để xác định
-nguyên nhân của báo cáo ngày 23/10. Kiểm thử synthetic chỉ xác minh việc
-phân loại lỗi, không xác nhận tờ khai thật đã ký/nộp được.
+Kiểm tra tham chiếu chạy trước popup chọn CKS/PIN. Báo cáo ngày 23/10 đã
+xác nhận `XML_DUPLICATE_ID`; bộ kiểm tra cũ chặn quá rộng cả mã dòng không
+được tham chiếu. Mẫu synthetic có mã dòng lặp đã được ký và kiểm tra độc lập
+bằng xmlsec1, giữ nguyên phần dữ liệu; vẫn cần người dùng thử lại tờ khai thật.
 
 Host/Origin được kiểm tra trên cả HTTP và WebSocket trước khi gọi bridge.
 Unknown origin nhận 403. Tất cả listener chỉ bind `127.0.0.1`.

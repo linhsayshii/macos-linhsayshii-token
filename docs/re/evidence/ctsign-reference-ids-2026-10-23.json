@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-10-22T22:59:42.803936+00:00",
+  "scope": "CTSigningHub XML duplicate business row IDs",
+  "reported_diagnostic": "XML_DUPLICATE_ID",
+  "reproduction": "The previous global uniqueness guard rejected ordinary repeated row id attributes even when only HSoKhaiThue was referenced.",
+  "change": "Validate uniqueness of the exact referenced ID across id/Id/ID/xml:id, require one matching dataBV element, preserve ordinary row attributes, and preflight references before certificate selection.",
+  "original_document_collected": false,
+  "regression_before": {
+    "expected_failing_tests": 2,
+    "cases": [
+      "referenced declaration with repeated row keys",
+      "whole-document signature with repeated row keys"
+    ]
+  },
+  "tests": {
+    "TSShim": 7,
+    "Core": 44,
+    "Bridges": 76,
+    "App": 13,
+    "total": 140,
+    "passed": true
+  },
+  "independent_verification": {
+    "xmlsec1": true,
+    "declarations_with_and_without_default_namespace": true,
+    "business_data_unchanged": true,
+    "tampering_rejected": true
+  },
+  "protected_cases": [
+    "Referenced ID collision anywhere in document",
+    "Multiple matching dataBV elements",
+    "Invalid or duplicate xml:id",
+    "Generated IDs avoid row keys and xml:id",
+    "Referenced duplicates rejected before picker/PIN"
+  ],
+  "packaged_app": {
+    "codesign_strict": true,
+    "bundled_shim_length_repairs": true
+  },
+  "smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "esigner_versions": {
+      "8768": "1.1.0",
+      "8769": "1.1.0"
+    },
+    "esigner_unknown_origin_status": 403,
+    "vnpt_wss": {
+      "4433": "1*smoke",
+      "4434": "1*smoke"
+    },
+    "vnpt_unknown_origin_status": 403,
+    "TLS_verified_with_pinned_local_CA": true,
+    "ctsign_post_case_insensitive": true,
+    "ctsign_signxml_route": true,
+    "ctsign_unknown_origin_status": 403,
+    "ctsign_xml_diagnostics": [
+      "XML_PARSE",
+      "XML_DTD_ENTITY",
+      "XML_DUPLICATE_ID",
+      "XML_EXISTING_SIGNATURE"
+    ],
+    "no_signing_or_external_rest": true
+  },
+  "live_portal": "User retry required; no real PIN, signing or submission performed by agent."
+}

@@ -144,7 +144,7 @@ try:
         (b'<a><b Id="private-test-value"/><c id="private-test-value"/></a>', 'XML_DUPLICATE_ID'),
         (b'<a><Signature/></a>', 'XML_EXISTING_SIGNATURE'),
     ):
-        body = json.dumps({'dataFile': base64.b64encode(document).decode()}).encode()
+        body = json.dumps({'dataFile': base64.b64encode(document).decode(), 'cks': 'a', 'dataBV': ['b']}).encode()
         _, diagnostic = request('/api/hubclient/signxml', 32001, body=body,
                                 origin='https://thuedientu.gdt.gov.vn')
         assert diagnostic['status'] == 500 and f'[{code}]' in diagnostic['message']

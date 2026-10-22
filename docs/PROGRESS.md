@@ -40,9 +40,11 @@ Lịch sử đầy đủ trước dọn được giữ tại
 Các ghi chú “chưa merge”/“Minvoice 501” trong tài liệu cũ là trạng thái lịch sử.
 
 CTSigningHub SignXML hiện trả mã lỗi XML cụ thể thay cho `badXML` chung chung.
-Báo cáo lỗi sau PIN đang chờ người dùng thử lại để xác định đúng nhánh kiểm tra;
-chưa xác nhận nguyên nhân hay việc ký/nộp được trên portal.
+Sau báo cáo `XML_DUPLICATE_ID`, đã sửa quy tắc chặn quá rộng: mã dòng id/Id/ID
+không được tham chiếu có thể lặp, giữ nguyên dữ liệu; ID được tham chiếu vẫn
+phải duy nhất toàn tài liệu. dataBV khớp nhiều phần tử bị chặn trước picker/PIN.
+Mẫu có mã dòng lặp qua xmlsec1 cả có/không namespace; cần user thử tờ khai thật.
 
-Validation cuối: **133 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
+Validation cuối: **140 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
 HTTP đạt; không nhập PIN hoặc gửi nghiệp vụ thật.
-[Evidence](re/evidence/ctsign-xml-diagnostics-2026-10-23.json).
+[Evidence](re/evidence/ctsign-reference-ids-2026-10-23.json).

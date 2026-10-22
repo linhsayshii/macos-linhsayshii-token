@@ -106,13 +106,15 @@ func xmlsec1VerifiesElementReference() async throws {
 @Test func rejectsUnsafeXMLAndDuplicateIDsBeforeSigning() throws {
     let cases: [(String, XMLDSigError)] = [
         ("<!DOCTYPE a [<!ENTITY x SYSTEM 'file:///etc/hosts'>]><a>&x;</a>", .rejected(.declarations)),
-        ("<a><b Id='same'/><c id='same'/></a>", .rejected(.duplicateID)),
-        ("<a><b Id=''/></a>", .rejected(.invalidID)),
         ("<a><Signature/></a>", .rejected(.existingSignature)),
         ("not XML", .badXML),
     ]
     for (xml, error) in cases {
         #expect(throws: error) { try XMLDSigSigner.validateInput(Data(xml.utf8)) }
+    }
+    // Foundation can reject malformed/duplicate xml:id during parsing itself.
+    for xml in ["<a><b xml:id='same'/><c xml:id='same'/></a>", "<a><b xml:id=''/></a>"] {
+        #expect(throws: XMLDSigError.self) { try XMLDSigSigner.validateInput(Data(xml.utf8)) }
     }
 }
 
@@ -122,7 +124,8 @@ func xmlsec1VerifiesElementReference() async throws {
     let privateValue = "PRIVATE_DOCUMENT_ID_MUST_NOT_LEAK"
     let xml = Data("<a><b Id='\(privateValue)'/><c ID='\(privateValue)'/></a>".utf8)
     do {
-        try XMLDSigSigner.validateInput(xml)
+        var options = XMLSignOptions(); options.signElements = ["b"]
+        try XMLDSigSigner.validateInput(xml, options: options)
         Issue.record("Duplicate ID accepted")
     } catch let error as XMLDSigError {
         #expect(error.description.contains("[XML_DUPLICATE_ID]"))
@@ -146,4 +149,83 @@ func xmlsec1VerifiesElementReference() async throws {
     await #expect(throws: XMLDSigError.rejected(.referencePlacement)) {
         _ = try await XMLDSigSigner.signEnveloped(xml: Data("<a/>".utf8), signer: pki.signer, options: options)
     }
+}
+
+/// Row keys are ordinary data, not the ID used by SignedInfo's reference resolver.
+@Test(.enabled(if: Tool.exists("xmlsec1")), arguments: [false, true])
+func taxDeclarationWithRepeatedBusinessIDsVerifiesWithoutChangingData(namespaced: Bool) async throws {
+    let pki = try TestPKI.make()
+    let data = "<HSoKhaiThue id='ID_1'><BangA><Dong id='1'>A</Dong><Dong id='2'>B</Dong></BangA><BangB><Dong id='1'>C</Dong><Dong id=''/></BangB></HSoKhaiThue>"
+    let namespace = namespaced ? " xmlns='http://kekhaithue.gdt.gov.vn/TKhaiThue'" : ""
+    let xml = Data("<HSoThueDTu\(namespace)>\(data)</HSoThueDTu>".utf8)
+    var options = XMLSignOptions()
+    options.kind = .custom(parentXPath: "HSoThueDTu/CKyDTu")
+    options.signElements = ["HSoKhaiThue"]
+    let out = try await XMLDSigSigner.signEnveloped(xml: xml, signer: pki.signer, options: options)
+    let original = try XMLDocument(data: xml, options: [.nodePreserveAll])
+    let signed = try XMLDocument(data: out, options: [.nodePreserveAll])
+    let path = "//*[local-name()='HSoKhaiThue']"
+    #expect(try original.nodes(forXPath: path).first?.canonicalXMLStringPreservingComments(false)
+         == signed.nodes(forXPath: path).first?.canonicalXMLStringPreservingComments(false))
+    let dir = try TempDir()
+    func verify(_ bytes: Data) throws -> Int32 {
+        try bytes.write(to: dir["signed.xml"])
+        let result = try Tool.run("xmlsec1", ["--verify", "--insecure", "--enabled-key-data", "x509",
+            "--id-attr:id", "HSoKhaiThue", "--id-attr:Id", "http://www.w3.org/2000/09/xmldsig#:Object", dir["signed.xml"].path])
+        return result.status
+    }
+    #expect(try verify(out) == 0)
+    #expect(try verify(Data(String(decoding: out, as: UTF8.self).replacingOccurrences(of: ">C<", with: ">TAMPER<").utf8)) != 0)
+}
+
+@Test func wholeDocumentSignatureAllowsRepeatedBusinessIDs() async throws {
+    let pki = try TestPKI.make()
+    var options = XMLSignOptions(); options.kind = .underElement(nil)
+    let xml = Data("<a><row id='1'/><row id='1'/></a>".utf8)
+    let out = try await XMLDSigSigner.signEnveloped(xml: xml, signer: pki.signer, options: options)
+    let doc = try XMLDocument(data: out, options: [.nodePreserveAll])
+    #expect(try doc.nodes(forXPath: "//row[@id='1']").count == 2)
+}
+
+@Test func duplicateReferenceIDCannotReachSignerEvenWhenCollisionIsOutsideTarget() async throws {
+    let signer = CallbackMessageSigner(certificateDER: Data()) { _, _ in
+        Issue.record("Ambiguous reference reached token signer")
+        return Data()
+    }
+    var options = XMLSignOptions(); options.kind = .custom(parentXPath: "HSoThueDTu/CKyDTu")
+    options.signElements = ["HSoKhaiThue"]
+    let xml = Data("<HSoThueDTu><HSoKhaiThue id='ID_1'/><Other Id='ID_1'/></HSoThueDTu>".utf8)
+    await #expect(throws: XMLDSigError.rejected(.duplicateID)) {
+        _ = try await XMLDSigSigner.signEnveloped(xml: xml, signer: signer, options: options)
+    }
+}
+
+@Test func referenceValidationRejectsAmbiguityAndAcceptsUnreferencedRowKeys() throws {
+    var options = XMLSignOptions(); options.signElements = ["Data"]
+    for xml in ["<a><Data id='unique'><Row id='1'/><Row id='1'/><Row id=''/></Data></a>",
+                "<a><Data xml:id='unique'/><Row id='1'/><Row id='1'/></a>"] {
+        try XMLDSigSigner.validateInput(Data(xml.utf8), options: options)
+    }
+    let invalid: [(String, XMLDSigError)] = [
+        ("<a><Data id='same'/><Other Id='same'/></a>", .rejected(.duplicateID)),
+        ("<a><Data id='same'/><Other xml:id='same'/></a>", .rejected(.duplicateID)),
+        ("<a><Data xml:id='same'/><Other ID='same'/></a>", .rejected(.duplicateID)),
+        ("<a><Data id=''/></a>", .rejected(.invalidID)),
+        ("<a><Data id='a' Id='b'/></a>", .rejected(.invalidID)),
+        ("<a><Data id='first'/><Data id='second'/></a>", .rejected(.ambiguousReference)),
+    ]
+    for (xml, error) in invalid {
+        #expect(throws: error) { try XMLDSigSigner.validateInput(Data(xml.utf8), options: options) }
+    }
+}
+
+@Test func generatedReferenceIDSkipsBusinessKeysAndXMLIDs() async throws {
+    let pki = try TestPKI.make()
+    var options = XMLSignOptions(); options.kind = .underElement(nil); options.signElements = ["Data"]
+    let xml = Data("<a><Data/><Row id='ID_1'/><Row id='ID_1'/><Other xml:id='ID_2'/></a>".utf8)
+    let out = try await XMLDSigSigner.signEnveloped(xml: xml, signer: pki.signer, options: options)
+    let doc = try XMLDocument(data: out, options: [])
+    #expect(try doc.nodes(forXPath: "//Data/@id").first?.stringValue == "ID_3")
+    #expect(try doc.nodes(forXPath: "//*[local-name()='Reference'][@URI='#ID_3']").count == 1)
+    #expect(try doc.nodes(forXPath: "//Row[@id='ID_1']").count == 2)
 }

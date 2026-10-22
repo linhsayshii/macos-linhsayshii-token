@@ -31,6 +31,7 @@ public enum XMLDSigError: Error, Equatable, CustomStringConvertible {
         case declarations = "XML_DTD_ENTITY"
         case invalidID = "XML_INVALID_ID"
         case duplicateID = "XML_DUPLICATE_ID"
+        case ambiguousReference = "XML_AMBIGUOUS_REFERENCE"
         case existingSignature = "XML_EXISTING_SIGNATURE"
         case options = "XML_OPTIONS"
         case reservedID = "XML_SIGNATURE_ID_COLLISION"
@@ -48,8 +49,9 @@ public enum XMLDSigError: Error, Equatable, CustomStringConvertible {
             case .tooLarge: message = "Tài liệu XML vượt giới hạn 20 MiB."
             case .encoding: message = "Mã hóa XML chưa được hỗ trợ; cần XML UTF-8."
             case .declarations: message = "XML chứa khai báo DTD hoặc ENTITY không được phép."
-            case .invalidID: message = "XML chứa thuộc tính id/Id/ID rỗng hoặc không hợp lệ."
-            case .duplicateID: message = "XML chứa giá trị id/Id/ID trùng nhau."
+            case .invalidID: message = "ID của phần tử cần ký hoặc xml:id không hợp lệ."
+            case .duplicateID: message = "ID của phần tử cần ký hoặc xml:id xuất hiện nhiều lần; không thể tham chiếu duy nhất."
+            case .ambiguousReference: message = "dataBV khớp nhiều phần tử trong XML; không thể xác định duy nhất phần tử cần ký."
             case .existingSignature: message = "XML đã chứa phần tử Signature; chưa hỗ trợ ký lại tài liệu này."
             case .options: message = "Tham số phần tử hoặc ID chữ ký không hợp lệ."
             case .reservedID: message = "ID chữ ký hoặc SigningTime bị trùng với ID trong XML."
@@ -79,8 +81,13 @@ public enum XMLDSigSigner {
     private static func canon(_ n: XMLNode) -> Data { Data(n.canonicalXMLStringPreservingComments(false).utf8) }
     private static func b64Digest(_ d: Data, _ h: HashAlg) -> String { CMSSigner.digest(d, h).base64EncodedString() }
 
-    /// Reject external entities and duplicate IDs before requesting a token signature.
-    public static func validateInput(_ xml: Data) throws { _ = try document(xml) }
+    /// Unqualified id/Id/ID attributes can be ordinary row keys. Only IDs used
+    /// by signature references must be globally unique; xml:id is always an ID.
+    /// Pass signing options to check reference ambiguity before presenting a PIN.
+    public static func validateInput(_ xml: Data, options: XMLSignOptions? = nil) throws {
+        let doc = try document(xml)
+        if let options { _ = try referenceElements(in: doc, names: options.signElements) }
+    }
     private static func document(_ xml: Data) throws -> XMLDocument {
         guard xml.count <= 20 << 20 else { throw XMLDSigError.rejected(.tooLarge) }
         guard let text = String(data: xml, encoding: .utf8) else { throw XMLDSigError.rejected(.encoding) }
@@ -89,7 +96,7 @@ public enum XMLDSigSigner {
         guard let doc = try? XMLDocument(data: xml, options: [.nodePreserveAll]), doc.rootElement() != nil
         else { throw XMLDSigError.badXML }
         var ids = Set<String>()
-        for node in try doc.nodes(forXPath: "//@Id | //@id | //@ID") {
+        for node in try doc.nodes(forXPath: "//@xml:id") {
             guard let id = node.stringValue, safeID(id) else { throw XMLDSigError.rejected(.invalidID) }
             guard ids.insert(id).inserted else { throw XMLDSigError.rejected(.duplicateID) }
         }
@@ -102,6 +109,29 @@ public enum XMLDSigSigner {
     }
     private static func safeName(_ value: String) -> Bool {
         value.range(of: "^[A-Za-z_][A-Za-z0-9_.:-]*$", options: .regularExpression) != nil
+    }
+
+    private static let idXPath = "//@Id | //@id | //@ID | //@xml:id"
+
+    private static func referenceElements(in doc: XMLDocument, names: [String]) throws -> [(id: String?, element: XMLElement)] {
+        guard names.allSatisfy(safeName), Set(names).count == names.count
+        else { throw XMLDSigError.rejected(.options) }
+        let allIDs = try doc.nodes(forXPath: idXPath).compactMap(\.stringValue)
+        let counts = Dictionary(allIDs.map { ($0, 1) }, uniquingKeysWith: +)
+        return try names.map { name in
+            let matches = try doc.nodes(forXPath: "//*[local-name()='\(name)']").compactMap { $0 as? XMLElement }
+            guard let element = matches.first else { throw XMLDSigError.badPlacement("không có phần tử \(name)") }
+            guard matches.count == 1 else { throw XMLDSigError.rejected(.ambiguousReference) }
+            let ids = (element.attributes ?? []).filter { ["id", "Id", "ID", "xml:id"].contains($0.name ?? "") }
+            guard ids.count <= 1 else { throw XMLDSigError.rejected(.invalidID) }
+            let id = ids.first?.stringValue
+            if let id {
+                guard safeID(id) else { throw XMLDSigError.rejected(.invalidID) }
+                // Include collisions outside the target and across id/Id/ID/xml:id.
+                guard counts[id] == 1 else { throw XMLDSigError.rejected(.duplicateID) }
+            }
+            return (id, element)
+        }
     }
 
     public static func signEnveloped(xml: Data, signer: MessageSigner, options o: XMLSignOptions) async throws -> Data {
@@ -133,14 +163,13 @@ public enum XMLDSigSigner {
 
         // Elements signed by reference; otherwise reference 1 is the whole document, digested before the Signature exists.
         var targets: [(id: String, element: XMLElement)] = []
-        for (i, name) in o.signElements.enumerated() {
-            guard let el = ((try? root.nodes(forXPath: "//*[local-name()='\(name)']")) as? [XMLElement])?.first
-            else { throw XMLDSigError.badPlacement("không có phần tử \(name)") }
-            var id = ["id", "Id", "ID"].lazy.compactMap { el.attribute(forName: $0)?.stringValue }.first
+        for (i, target) in try referenceElements(in: doc, names: o.signElements).enumerated() {
+            let el = target.element
+            var id = target.id
             if id == nil {
                 var index = i + 1
                 var candidate = "ID_\(index)"
-                let existing = Set(try doc.nodes(forXPath: "//@Id | //@id | //@ID").compactMap(\.stringValue))
+                let existing = Set(try doc.nodes(forXPath: idXPath).compactMap(\.stringValue))
                 while existing.contains(candidate) { index += 1; candidate = "ID_\(index)" }
                 id = candidate
                 el.addAttribute(XMLNode.attribute(withName: "id", stringValue: candidate) as! XMLNode)
@@ -161,7 +190,7 @@ public enum XMLDSigSigner {
             <ds:DigestValue></ds:DigestValue></ds:Reference>
             """ }.joined()
         }
-        let existingIDs = Set(try doc.nodes(forXPath: "//@Id | //@id | //@ID").compactMap(\.stringValue))
+        let existingIDs = Set(try doc.nodes(forXPath: idXPath).compactMap(\.stringValue))
         guard !existingIDs.contains("SigningTime"), !existingIDs.contains(sigId), sigId != "SigningTime"
         else { throw XMLDSigError.rejected(.reservedID) }
         guard !targets.contains(where: { target in

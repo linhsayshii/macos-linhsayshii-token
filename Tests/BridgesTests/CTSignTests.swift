@@ -147,6 +147,7 @@ private func xmlBody(_ extra: [String: Any]) throws -> Data {
         (.badCertificate, "XML_CERTIFICATE"), (.rejected(.encoding), "XML_ENCODING"),
         (.rejected(.declarations), "XML_DTD_ENTITY"), (.rejected(.invalidID), "XML_INVALID_ID"),
         (.rejected(.duplicateID), "XML_DUPLICATE_ID"), (.rejected(.existingSignature), "XML_EXISTING_SIGNATURE"),
+        (.rejected(.ambiguousReference), "XML_AMBIGUOUS_REFERENCE"),
         (.rejected(.options), "XML_OPTIONS"), (.rejected(.reservedID), "XML_SIGNATURE_ID_COLLISION"),
         (.rejected(.referencePlacement), "XML_REFERENCE_PLACEMENT"), (.rejected(.tooLarge), "XML_TOO_LARGE"),
     ]
