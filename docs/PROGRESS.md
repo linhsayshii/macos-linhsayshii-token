@@ -5,6 +5,11 @@ eSigner và Minvoice; `master` cũng là tổ tiên. App duy nhất tại checko
 thay thế các bản chạy theo worktree. Chi tiết đối chiếu:
 [BRANCH-CONSOLIDATION.md](BRANCH-CONSOLIDATION.md).
 
+Ngày 23/10/2026 đã dọn nhánh thừa: local và origin chỉ còn `p1-token-core`,
+GitHub default branch/origin HEAD trỏ đúng nhánh này và bản tích hợp đã push.
+Ba worktree cũ giữ nguyên tệp ở detached HEAD; không còn PR đang mở.
+[Evidence](re/evidence/branch-cleanup-2026-10-23.json).
+
 | Bridge | Cổng mặc định | Phạm vi |
 | --- | --- | --- |
 | CTSigningHub | HTTP 32001 | GetCert, SignHash, SignXML; route case/POST tương thích |

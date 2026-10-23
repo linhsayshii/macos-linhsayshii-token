@@ -1,0 +1,96 @@
+{
+  "checked_at": "2026-10-23T12:16:08.472192+07:00",
+  "scope": "Remove all redundant local and remote branches after reachability audit",
+  "canonical_branch": "p1-token-core",
+  "integration_head_before_cleanup": "d86678cdb5d9e17fa67615fcdbefd4df45278c8d",
+  "deleted_local_branches": [
+    "claude/beautiful-mcnulty-f9bfbf",
+    "claude/beautiful-shirley-8acdc0",
+    "claude/p2-bridges-a4728b",
+    "master"
+  ],
+  "deleted_remote_branches": [
+    "claude/beautiful-mcnulty-f9bfbf",
+    "claude/p2-bridges-a4728b"
+  ],
+  "branch_tip_audit": [
+    {
+      "ref": "refs/heads/claude/beautiful-mcnulty-f9bfbf",
+      "tip": "f58a51c173136da3406f0aa943dbd2a33f27ecad",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/heads/claude/beautiful-shirley-8acdc0",
+      "tip": "b47257225e530e496c9a8fd9ab7b29cc2d9da6a6",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/heads/claude/p2-bridges-a4728b",
+      "tip": "bbdb7d2d24d67eccc1aba5055e0b091c34f11468",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/heads/master",
+      "tip": "7f11ad1b9ee00ecd2ecf9085ab12ae00da037e9a",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/heads/p1-token-core",
+      "tip": "d86678cdb5d9e17fa67615fcdbefd4df45278c8d",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/remotes/origin/HEAD",
+      "tip": "bbdb7d2d24d67eccc1aba5055e0b091c34f11468",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/remotes/origin/claude/beautiful-mcnulty-f9bfbf",
+      "tip": "44031f59f3ecdabf1350fcbaeffd3271eae5d9eb",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/remotes/origin/claude/p2-bridges-a4728b",
+      "tip": "bbdb7d2d24d67eccc1aba5055e0b091c34f11468",
+      "commits_not_in_integrated_branch": 0
+    },
+    {
+      "ref": "refs/remotes/origin/p1-token-core",
+      "tip": "cf2348d5b3d10fecfae3b4aacf81a60fbe34a3ac",
+      "commits_not_in_integrated_branch": 0
+    }
+  ],
+  "recovery_bundle": ".local/branch-cleanup/20261023-121403/all-refs.bundle",
+  "bundle_verified": true,
+  "preservation": {
+    "all_original_branch_tips_reachable_from_integrated_HEAD": true,
+    "all_changed_and_untracked_file_hashes_unchanged": true,
+    "worktrees_checked": 4,
+    "old_worktrees_retained_detached": 3,
+    "no_reset_clean_or_worktree_removal": true,
+    "git_connectivity_check_exit_code": 0
+  },
+  "remote": {
+    "name": "origin",
+    "url": "https://github.com/linhsayshii/macos-linhsayshii-token.git",
+    "default_branch": "p1-token-core",
+    "origin_HEAD": "origin/p1-token-core",
+    "remaining_branches": [
+      "p1-token-core"
+    ],
+    "push_mode": "Fast-forward integrated branch; atomic deletion guarded by exact old-tip leases"
+  },
+  "pull_requests": [
+    {
+      "number": 1,
+      "state": "MERGED"
+    },
+    {
+      "number": 2,
+      "state": "CLOSED",
+      "reason": "All commits already included in integrated branch"
+    }
+  ],
+  "open_pull_requests": 0,
+  "uncommitted_research": "Preserved locally; not silently staged or published with branch cleanup"
+}

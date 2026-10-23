@@ -39,7 +39,8 @@ Nguồn chạy và hướng dẫn hiện tại trỏ checkout gốc. PROGRESS/BU
 Ghi chú nghiên cứu đang sửa được snapshot tại `.local/branch-consolidation/`
 trước merge và khôi phục sau đó; không reset hoặc xóa raw capture.
 Worktree cũ được giữ để bảo toàn bằng chứng/công việc nghiên cứu và cache riêng;
-không còn được launcher chính dùng. Không xóa nhánh hoặc push remote trong đợt này.
+không còn được launcher chính dùng. Đợt dọn branch tiếp theo ngày 23/10/2026 đã
+chuyển ba worktree này sang detached HEAD, giữ nguyên tệp và cache.
 
 ## Phạm vi chưa làm xong, không phải nhánh bị sót
 
@@ -55,8 +56,16 @@ không còn được launcher chính dùng. Không xóa nhánh hoặc push remot
   sẵn; không đóng gói installer vendor.
 - Certificate chain/revocation, runtime distribution/notarization và live portal
   regression sau merge còn cần kiểm thử riêng. FastCA cert hiện có đã hết hạn.
-- Git remote chưa được push/đổi default branch. Dùng `p1-token-core` local làm
-  nguồn hiện tại; origin/HEAD lịch sử có thể còn trỏ P2.
+- Git remote đã được cập nhật trong đợt dọn branch ngày 23/10/2026. Chỉ còn
+  `p1-token-core` ở local và origin; đây cũng là default branch trên GitHub và
+  đích của origin/HEAD. Bốn nhánh local/hai nhánh remote cũ đã xóa sau khi xác
+  nhận toàn bộ commit có trong nhánh tích hợp. PR #1 đã merged, PR #2 đã closed
+  vì nội dung đã tích hợp. Không có PR đang mở.
+
+Refs trước khi xóa có bundle phục hồi riêng tại `.local/branch-cleanup/` (ignored).
+Mọi tip cũ vẫn là ancestor của nhánh tích hợp; hash các tệp thay đổi/chưa theo
+dõi trong cả bốn worktree được đối chiếu nguyên vẹn. Git connectivity check đạt.
+[Evidence dọn branch](re/evidence/branch-cleanup-2026-10-23.json).
 
 Validation cuối đợt được ghi ở
 [branch-consolidation-validation-2026-10-23.json](re/evidence/branch-consolidation-validation-2026-10-23.json).
