@@ -10,23 +10,23 @@ struct ConnectionView: View {
                 ForEach(BridgeService.allCases) { service in
                     let rows = model.bridges.filter { $0.id.service == service }
                     VStack(alignment: .leading, spacing: 7) {
-                        Toggle(isOn: Binding(get: { model.serviceEnabled(service) },
-                                             set: { model.setServiceEnabled(service, $0) })) {
+                        HStack(alignment: .center, spacing: 10) {
                             VStack(alignment: .leading, spacing: 4) {
-                                HStack(spacing: 6) {
-                                    Text(service.name).fontWeight(.medium)
-                                    Spacer(minLength: 0)
-                                    let summary = summary(rows)
-                                    StatusBadge(text: summary.0, tone: summary.1)
-                                }
+                                Text(service.name).fontWeight(.medium)
                                 Text("Cổng " + rows.map { String($0.endpoint.port) }.joined(separator: " · "))
                                     .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
                             }.frame(maxWidth: .infinity, alignment: .leading)
+                            let summary = summary(rows)
+                            StatusBadge(text: summary.0, tone: summary.1)
+                                .fixedSize()
+                            Toggle(service.name, isOn: Binding(get: { model.serviceEnabled(service) },
+                                                              set: { model.setServiceEnabled(service, $0) }))
+                                .labelsHidden()
+                                .toggleStyle(.switch).controlSize(.small)
+                                .tint(Theme.success)
+                                .disabled(!model.canChangeServices)
+                                .accessibilityLabel("Dịch vụ \(service.name)")
                         }
-                        .toggleStyle(.switch).controlSize(.small)
-                        .tint(Theme.success)
-                        .disabled(!model.canChangeServices)
-                        .accessibilityLabel("Dịch vụ \(service.name)")
                         ForEach(rows) { row in
                             if case .failed(let message) = row.status {
                                 InlineNotice(text: "Cổng \(row.endpoint.port): \(message)", tone: .danger)
