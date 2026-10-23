@@ -25,6 +25,7 @@ struct MenuBarView: View {
                             Text(page.rawValue).font(.system(size: Theme.Size.sm, weight: .medium))
                                 .frame(maxWidth: .infinity).padding(.vertical, 7)
                                 .background(presentation.page == page ? Theme.surface : .clear, in: RoundedRectangle(cornerRadius: 6))
+                                .contentShape(Rectangle())
                         }.buttonStyle(.plain).accessibilityAddTraits(presentation.page == page ? .isSelected : [])
                     }
                 }.padding(3).background(Theme.secondary, in: RoundedRectangle(cornerRadius: 8))
