@@ -9,7 +9,7 @@ App menu bar tự khởi động cả sáu listener từ lúc mở app:
 | eSigner dự phòng | `ws://127.0.0.1:8769/plugin/sign` | Cùng bridge, listener độc lập với 8768 |
 | VNPT-CA | `wss://localhost:4433/plugin` | Callback DVC, chọn CKS, XML/hash/CMS |
 | VNPT-CA dự phòng | `wss://localhost:4434/plugin` | Listener WSS độc lập |
-| Minvoice | `http://127.0.0.1:16080/signalr` | SignalR classic, TokenInfo, cash đơn |
+| Minvoice | `http://127.0.0.1:16080/signalr` | SignalR classic, TokenInfo, cash theo nhóm 100 |
 
 Menu hiển thị rõ CTSigningHub và hai cổng eSigner cùng trạng thái riêng. Cả
 8768 và 8769 được mở đồng thời; nếu một cổng bị chiếm, cổng còn lại vẫn phục vụ.
@@ -105,3 +105,13 @@ block chuẩn bị ký và metadata kết quả, không giữ nội dung/PIN/coo
 
 Xem [đối chiếu nhánh và giới hạn còn lại](BRANCH-CONSOLIDATION.md). Bản hợp nhất
 cuối đạt 130 tests (7 shim, 37 Core, 75 Bridges, 11 App).
+
+
+## Minvoice ký lô cash
+
+`SignInvoices` nhận 1–1000 invoice IDs duy nhất (giới hạn app), chia tuần tự
+nhóm tối đa 100. Đã qua mock 300/301 và nhiều XML trong ZIP; một XML có thể
+chứa nhiều HDon. Toàn bộ XML của nhóm phải ký/verify đạt trước một upload.
+Menu hiện ACK/chưa rõ/chưa chạy theo số hóa đơn và trạng thái từng nhóm, có
+nút hủy lô. Không tự retry/rollback, không báo success toàn lô khi còn nhóm lỗi,
+hủy hoặc chưa rõ kết quả. [Chi tiết](MINVOICE.md).

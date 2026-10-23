@@ -10,7 +10,7 @@ thay thế các bản chạy theo worktree. Chi tiết đối chiếu:
 | CTSigningHub | HTTP 32001 | GetCert, SignHash, SignXML; route case/POST tương thích |
 | eSigner | WS 8768 và 8769 | XML-khai eTax, chọn tệp/ký/upload và các lệnh XML/bytes đã có |
 | VNPT-CA / DVC | WSS 4433 và 4434 | GetCertInfo, callback DVC, XML/hash, CMS attached/detached |
-| Minvoice | HTTP/SignalR 16080 | TokenInfo, một hóa đơn cash TDiep mỗi lần |
+| Minvoice | HTTP/SignalR 16080 | TokenInfo, cash TDiep theo nhóm 100, mock 300 đạt |
 
 Cả sáu listener được khởi động từ một catalog, hiện trạng thái riêng trong menu.
 Tất cả bind loopback. WSS dùng CA localhost riêng, không dùng khóa của hãng;
@@ -23,7 +23,8 @@ Các phần nền đã có:
   hotplug trong lúc chọn. Huỷ task/đóng kết nối giải phóng prompt.
 - Host-hash + RSA_PKCS DigestInfo. NC-CA có đủ hai bản sửa length APDU; FastCA
   dùng ESPK/OpenSC 0.27.1 native cho profile đã xác minh. CA khác dùng PKCS#11.
-- Minvoice cash có REST/ZIP/profile riêng, verify trước upload, không auto retry.
+- Minvoice cash có REST/ZIP nhiều XML/profile riêng, chia nhóm 100; một phiên
+  duyệt/PIN cho cả lô, verify mọi XML trước upload, báo partial/hủy/chưa rõ, không auto retry.
 - OriginStore dùng chung, Host/Origin guard, CORS/PNA và preflight X-XSRF-TOKEN.
   Origin lạ bị chặn; cấp quyền riêng trong app, không tự chấp nhận.
 - Nhật ký giữ SHA-256 của block chuẩn bị ký, origin, bridge và kết quả; không
@@ -31,7 +32,7 @@ Các phần nền đã có:
 - Kiểm tra thư viện shim thực trong gói app; khóa dependency; một launcher chung.
 
 Giới hạn còn lại được liệt kê trong báo cáo đối chiếu, gồm hóa đơn Minvoice
-khác/batch, PDF/Office/native messaging, signed challenge riêng của hãng,
+ordinary/mixed, PDF/Office/native messaging, signed challenge riêng của hãng,
 notarization/phân phối runtime và live regression trên portal sau khi gộp.
 Không coi ký mật mã thành công là kiểm tra chain/revocation hay phát hành hồ sơ.
 
@@ -46,12 +47,24 @@ phải duy nhất toàn tài liệu. dataBV khớp nhiều phần tử bị ch�
 Mẫu có mã dòng lặp qua xmlsec1 cả có/không namespace. User đã xác nhận ký XML
 chưa ký thành công; file có chữ ký vẫn bị chặn, chưa hỗ trợ ký lại/ký bổ sung.
 
-Validation cuối: **140 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
+Validation cuối: **151 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
 HTTP đạt; không nhập PIN hoặc gửi nghiệp vụ thật.
-[Evidence](re/evidence/ctsign-reference-ids-2026-10-23.json).
+[Evidence](re/evidence/minvoice-bulk-integration-2026-10-23.json).
 
 UI đã sửa mũi tên disclosure và nút ký thử bị nhạt/trắng trên nền sáng khi
 host macOS dùng giao diện tối; tăng tương phản chữ phụ, divider và viền nhập
 PIN. Các popup dùng cùng palette. 13 AppTests đạt, ảnh render trong host
 sáng/tối giống nhau, native picker và smoke sáu cổng đạt.
 [UI evidence](re/evidence/ui-contrast-2026-10-23.json).
+
+
+Ký lô Minvoice đã triển khai đến bản app thử: mock 300 = 3 nhóm 100, hỗ trợ
+aggregate/nhiều XML; giới hạn app 1000 IDs/64 KiB command, archive 16 MiB,
+XML 8 MiB, tổng bung 32 MiB, 100 entries, multipart 40 MiB. Đã kiểm tra timeout
+upload nhóm 2 và hủy trong ký/upload, không retry/rollback hoặc success toàn lô.
+Chưa ký live300. [Hướng dẫn](MINVOICE.md).
+
+OneCA V3 đã được gộp vào App/Helper/shim chung, giữ experimental và exact ATR,
+module hash-pinned, một matching reader/token. App đóng gói đã quảng bá đúng
+chứng thư OneCA qua GetCert (so SHA-256 với evidence nghiên cứu), không ký thử
+lại hoặc nhập PIN. [Evidence app](re/evidence/oneca-packaged-app-2026-10-23.json).

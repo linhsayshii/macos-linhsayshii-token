@@ -28,10 +28,10 @@ public final class MinvoiceURLSession: NSObject, MinvoiceHTTPTransport, URLSessi
         do {
             let (stream, response) = try await session.bytes(for: request)
             guard let http = response as? HTTPURLResponse,
-                  http.url == request.url, response.expectedContentLength <= 2 << 20 else { throw MinvoiceError.transport }
+                  http.url == request.url, response.expectedContentLength <= MinvoiceBatchLimits.archiveBytes else { throw MinvoiceError.transport }
             var bytes = Data()
             for try await byte in stream {
-                guard bytes.count < 2 << 20 else { throw MinvoiceError.transport }
+                guard bytes.count < MinvoiceBatchLimits.archiveBytes else { throw MinvoiceError.transport }
                 bytes.append(byte)
             }
             var headers: [String: String] = [:]

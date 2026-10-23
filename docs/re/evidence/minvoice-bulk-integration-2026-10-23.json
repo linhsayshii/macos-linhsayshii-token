@@ -1,0 +1,102 @@
+{
+  "checked_at": "2026-10-23T04:14:53.911301+00:00",
+  "scope": "Variable-size homogeneous Minvoice cash batches, mock target 300; OneCA app integration",
+  "tests": {
+    "passed": true,
+    "TSShim": 7,
+    "Core": 45,
+    "Bridges": 83,
+    "App": 16,
+    "total": 151
+  },
+  "mock_counts": [
+    1,
+    3,
+    99,
+    100,
+    101,
+    200,
+    201,
+    300,
+    301
+  ],
+  "accepted_behavior": [
+    "One REST login/bootstrap and approval scope for batch",
+    "All invoice serials checked before any upload",
+    "Cash groups <=100 in original order",
+    "Prior group ACK before next download",
+    "Multiple GUID XML entries and aggregate HDon; counts distinct",
+    "All XML signed and verified before each group upload",
+    "One upload attempt per group",
+    "Upload group 2 timeout/cancel: 100 ACK, 100 uncertain, 100 not started",
+    "Signing/verification group 2 failure: no upload 2 or group 3",
+    "Menu cancel closes PIN and releases signing lock",
+    "One PIN prompt per command; reference cleared on terminal paths; helper login/sign/logout per XML",
+    "CRC, path/name/duplicate/size checks; bounded in-memory ZIP"
+  ],
+  "resource_limits": {
+    "invoiceIDs": 1000,
+    "commandBytes": 65536,
+    "groupInvoices": 100,
+    "archiveBytes": 16777216,
+    "documentBytes": 8388608,
+    "expandedBytes": 33554432,
+    "entries": 100,
+    "multipartBytes": 41943040
+  },
+  "benchmark": {
+    "invoices": 300,
+    "elapsedSeconds": 1.2576161670000001,
+    "realNetworkOrToken": false,
+    "multipartBytes": 3097098,
+    "groups": 3,
+    "xmlSignatures": 3,
+    "testProcessPeakResidentBytesDarwin": 85573632
+  },
+  "benchmark_limits": "Standalone software-only test process; 800 ms group delay disabled. Not backend/network/token performance or real app peak memory.",
+  "packaging": {
+    "App_Helper_shim_replaced_together": true,
+    "codesign_strict": true,
+    "bundled_shim_checks": true,
+    "reopened_with_six_loopback_listeners": true
+  },
+  "smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "esigner_versions": {
+      "8768": "1.1.0",
+      "8769": "1.1.0"
+    },
+    "esigner_unknown_origin_status": 403,
+    "vnpt_wss": {
+      "4433": "1*smoke",
+      "4434": "1*smoke"
+    },
+    "vnpt_unknown_origin_status": 403,
+    "TLS_verified_with_pinned_local_CA": true,
+    "ctsign_post_case_insensitive": true,
+    "ctsign_signxml_route": true,
+    "ctsign_unknown_origin_status": 403,
+    "ctsign_xml_diagnostics": [
+      "XML_PARSE",
+      "XML_DTD_ENTITY",
+      "XML_DUPLICATE_ID",
+      "XML_EXISTING_SIGNATURE"
+    ],
+    "no_signing_or_external_rest": true
+  },
+  "oneca_packaged_discovery": {
+    "packaged_ctsign_getcert_reachable": true,
+    "oneca_recorded_certificate_advertised": true,
+    "real_pin_or_signing": false
+  },
+  "live_limits": [
+    "No live300 signing or issuance performed",
+    "Existing live evidence covers Windows cash1/3",
+    "Ordinary and mixed serial batches unsupported",
+    "Upload ACK is not independent tax issuance/chain validation",
+    "Invoice GUID to HDon content mapping supplied by backend, not independently established"
+  ]
+}

@@ -8,8 +8,11 @@ bridge TokenSigner, không phải version của binary hãng.
 
 ## Phạm vi đã triển khai
 
-`SignInvoices` hỗ trợ **một hóa đơn cash mỗi lần**, ZIP có đúng một GUID.xml,
-XML root `TDiep`. `HDon`, `BKe`, batch và các lệnh ký khác trả lỗi chưa hỗ trợ.
+`SignInvoices` hỗ trợ **lô cash cùng mẫu/ký hiệu**, 1–1000 invoice IDs duy nhất,
+chia tuần tự nhóm tối đa 100. Mục tiêu 300 đã qua mock với ba nhóm 100; 301
+thành bốn nhóm. ZIP có thể chứa nhiều GUID.xml, mỗi XML `TDiep` có thể chứa nhiều
+HDon. Số hóa đơn, XML và chữ ký không bị ép bằng nhau. Ordinary HDon/BKe,
+lô trộn và các lệnh ký khác vẫn chưa được hỗ trợ.
 TokenInfo/GetCertificate/GetInfoToken mở cửa sổ chọn CKS của TokenSigner khi
 chưa có lựa chọn của origin đó. Người dùng chọn rõ CKS; thông tin lựa chọn được
 nhớ trong bộ nhớ theo origin để các lần hỏi lặp không bật cửa sổ liên tục.
@@ -21,17 +24,20 @@ Yêu cầu ký vẫn mở lại picker. Chi tiết: [CERTIFICATE-PICKER.md](CERT
    được phân biệt bằng physical token/module/CKA_ID/DER; không dùng vị trí hàng
    hoặc mặc định lấy chứng thư đầu tiên.
 2. Giữ signing lock chung, kiểm tra hiệu lực chứng thư từ DER và hiện approval
-   trước REST login. BrowserInfo chỉ tồn tại trong bộ nhớ; không log/lưu credential.
+   cho toàn lô trước REST login theo chính sách phiên duyệt hiện có. BrowserInfo chỉ tồn tại trong bộ nhớ; không log/lưu credential.
 3. POST `/api/account/login` với `UserNameOrEmailAddress`, `Password`,
    `RememberMe=false`; chỉ chuyển cookie `__tenant` ban đầu. GET bootstrap
    `/api/abp/application-configuration`; giữ cookie xác thực và XSRF trong phiên
    riêng, không dùng cookie/cache/keychain mặc định của URLSession.
-4. GET tenant/time, token registration theo đúng serial, invoice detail. Nhánh
+4. GET tenant/time, token registration theo đúng serial, detail của **mọi invoice**.
+   App yêu cầu tất cả invoiceSerial giống nhau trước upload đầu tiên; đây là
+   guard đồng nhất riêng của app, không sao chép shortcut detail đầu của Windows. Nhánh
    cash được nhận diện theo thân method `IsInvoiceCash` của installed plugin:
    serial ASCII dài ít nhất 7, ký tự ở index 4 là M, không phân biệt hoa/thường.
 5. POST GUID array đến `/api/app/release-invoice/download-xml-invoice-cash`.
-   Đọc ZIP trong bộ nhớ, giới hạn archive 2 MiB/XML 8 MiB; chặn archive nhiều file,
-   ZIP64, mã hoá, path lạ, CRC sai và dữ liệu bung không khớp kích thước. Không
+   Mỗi nhóm có một download. ZIP được đọc trong bộ nhớ: archive 16 MiB, mỗi XML
+   8 MiB, tổng bung 32 MiB, tối đa 100 entries; multipart tối đa 40 MiB. Chặn
+   ZIP64, mã hoá, tên/ID entry trùng, path lạ, CRC sai và sai kích thước. Không
    extract ra đĩa. Dùng GUID của entry cho XML reference và filename upload;
    không giả định backend luôn đặt entry GUID bằng invoice ID đã yêu cầu.
 6. Ký profile riêng: `TDiep/CKSNNT/Signature`, reference `DLieu Id=<entry GUID>`
@@ -39,13 +45,19 @@ Yêu cầu ký vẫn mở lại picker. Chi tiết: [CERTIFICATE-PICKER.md](CERT
    không namespace, text server time giữ dạng giây không zone. KeyInfo chỉ có
    X509SubjectName/X509Certificate. Chặn DTD/entity, duplicate ID, signature cũ
    hoặc cấu trúc khác profile trước khi yêu cầu PIN.
-7. PIN trong cửa sổ app, chỉ qua stdin helper. Hash SignedInfo trên host, bọc
+7. PIN trong cửa sổ app, chỉ qua stdin helper. Chỉ hỏi một lần trong lô; giữ
+   tham chiếu PIN tạm trong RAM của phiên được duyệt, xóa tham chiếu khi xong,
+   lỗi hoặc hủy; không dùng lại ở lô khác. Helper hiện vẫn login/sign/logout
+   từng XML theo lifetime backend hiện có, không tuyên bố một card-login cho cả
+   lô. Hash SignedInfo trên host, bọc
    DigestInfo rồi `.rsaPKCS`; FastCA dùng ESPK/OpenSC native, CA khác dùng PKCS11.
    Helper/app kiểm tra chữ ký; kiểm tra lại digest và RSA của XML đã tuần tự hoá
    với chính chứng thư được duyệt trước upload. Không phụ thuộc xmlsec1 ở runtime.
-8. Một POST multipart `files`, `<entry GUID>.xml`, `text/xml` đến
+8. Sau khi **mọi XML của nhóm** đã ký và verify, một POST multipart `files`, `<entry GUID>.xml`, `text/xml` đến
    `/api/app/release-invoice/00000000-0000-0000-0000-000000000000/upload-xml`.
-   Chỉ HTTP 204/body rỗng tạo callback `code:1, data:{status:true,command:SignInvoices}`.
+   Chỉ khi mọi nhóm nhận HTTP 204/body rỗng mới tạo callback
+   `code:1, data:{status:true,command:SignInvoices,batch:...}`. Giữa các nhóm
+   chờ 800 ms có thể hủy; không chờ nhóm sau song song với upload nhóm trước.
    Không tự retry. Mất kết nối/huỷ trong upload trả trạng thái chưa xác định và
    yêu cầu kiểm tra hóa đơn trước khi gửi lại; không giả định rollback.
 
@@ -88,4 +100,25 @@ bản app mới. Chưa có kết quả Minvoice macOS + FastCA end-to-end. Chứ
 hiện tại đã hết hạn 30/07/2026 nên bridge từ chối trước login; menu/SignHash kiểm
 tra mật mã riêng vẫn có thể dùng cho chẩn đoán. Không coi HTTP upload thành công
 là kiểm chứng độc lập trạng thái phát hành, chain hay revocation. Chưa phân phối/
-notarize, chưa mở hỗ trợ mọi mẫu FastCA hoặc hóa đơn/batch chưa có fixture thật.
+notarize, chưa mở hỗ trợ mọi mẫu FastCA hoặc ordinary/mixed chưa có fixture thật.
+
+
+## Tiến độ, hủy và giới hạn kiểm chứng
+
+Menu “Lô Minvoice” tách ACK upload, chưa rõ, chưa chạy và số XML/chữ ký.
+Nút “Hủy lô Minvoice” hủy tác vụ mạng/chờ PIN và ngăn nhóm tiếp theo. Nếu upload
+đã bắt đầu mà không nhận đúng ACK (kể cả bị hủy), nhóm đó là uploadUncertain.
+Ví dụ timeout nhóm 2 của 300: 100 ACK / 100 chưa rõ / 100 chưa chạy. Lỗi ký/
+verify nhóm 2 không upload nhóm đó. Mọi lỗi đều dừng, không tự gửi lại hoặc
+rollback nhóm trước. ACK upload không đồng nghĩa cơ quan thuế đã phát hành.
+
+151 tests đạt trong bản tích hợp, có mock 1/3/99/100/101/200/201/300/301,
+ZIP nhiều XML, aggregate HDon, CRC/path/ID/size lỗi, auth một phiên, thứ tự
+nhóm, lỗi/huỷ nhóm 2 và menu hủy/PIN một phiên. Benchmark offline riêng 300
+với khoảng 3 MB multipart: xem evidence; không suy ra năng lực backend/token.
+Capture Windows thật mới có cash 1/3. Bản macOS mới **chưa ký live300**;
+không cần người dùng phát hành 300 hóa đơn để thay cho kiểm thử offline.
+Mapping invoice GUID → HDon trong XML vẫn do backend cung cấp; app chưa có
+bằng chứng để kiểm tra mapping nội dung đó độc lập, không ép entry GUID bằng
+requested GUID. [Kế hoạch](plans/minvoice-bulk-300-integration.md),
+[evidence triển khai](re/evidence/minvoice-bulk-integration-2026-10-23.json).

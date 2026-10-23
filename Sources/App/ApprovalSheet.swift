@@ -21,7 +21,7 @@ struct ApprovalSheet: View {
             .background(Theme.surface)
             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.borderStrong, lineWidth: 1))
 
-            Text("\(prompt.operation) · \(prompt.docCount) tài liệu").font(.system(size: Theme.Size.sm))
+            Text("\(prompt.operation) · \(prompt.docCount) \(prompt.countUnit)").font(.system(size: Theme.Size.sm))
 
             VStack(spacing: 8) {
                 Button { model.submitApproval(.session) } label: {

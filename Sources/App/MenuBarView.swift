@@ -1,5 +1,6 @@
 import SwiftUI
 import Core
+import Bridges
 
 struct MenuBarView: View {
     @ObservedObject var model: AppModel
@@ -48,6 +49,25 @@ struct MenuBarView: View {
             } else if let r = model.lastSignResult {
                 Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
             }
+            if model.minvoiceBatchActive {
+                Button("Hủy lô Minvoice") { model.cancelMinvoiceBatch() }
+                    .buttonStyle(.plain).font(.system(size: Theme.Size.sm)).foregroundStyle(Theme.danger)
+            }
+            if let batch = model.minvoiceBatch {
+                DisclosureGroup("Lô Minvoice · \(batch.acknowledged)/\(batch.totalInvoices)") {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Số hóa đơn theo nhóm upload; số XML/chữ ký có thể khác.")
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 6) {
+                                ForEach(Array(batch.groups.enumerated()), id: \.offset) { index, group in
+                                    Text("Nhóm \(index + 1): \(group.invoices) hóa đơn · \(group.signedDocuments)/\(group.documents) XML · \(batchState(group.state))")
+                                }
+                            }.frame(maxWidth: .infinity, alignment: .leading)
+                        }.frame(height: min(150, CGFloat(batch.groups.count * 36)))
+                    }
+                    .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                }.font(.system(size: Theme.Size.sm))
+            }
             if !model.recentAudit.isEmpty {
                 DisclosureGroup("Lịch sử ký gần đây") {
                     VStack(alignment: .leading, spacing: 4) {
@@ -70,6 +90,19 @@ struct MenuBarView: View {
         .foregroundStyle(Theme.foreground)
         .disclosureGroupStyle(ThemeDisclosureStyle())
         .tokenSignerAppearance()
+    }
+
+    private func batchState(_ state: MinvoiceBatchProgress.State) -> String {
+        switch state {
+        case .pending: return "chưa chạy"
+        case .downloading: return "đang tải XML"
+        case .signing: return "đang ký/kiểm tra"
+        case .uploading: return "đang upload"
+        case .acknowledged: return "đã xác nhận upload"
+        case .failed: return "lỗi, chưa upload"
+        case .cancelled: return "đã hủy, chưa upload"
+        case .uploadUncertain: return "upload chưa rõ kết quả"
+        }
     }
 
     private func statusColor(_ status: AppModel.BridgeStatus) -> Color {

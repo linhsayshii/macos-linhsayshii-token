@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 import Testing
 import Security
 import X509
@@ -149,11 +150,13 @@ private func object(_ text: String) throws -> [String: Any] { try JSONSerializat
     }
 }
 
-@Test func minvoiceRejectsBatchAndCredentialEgressBeforeApproval() async throws {
+@Test func minvoiceRejectsInvalidBatchAndCredentialEgressBeforeApproval() async throws {
     let events = Events(), identity = try TestIdentity()
     let http = FixtureHTTP(events: events, archive: Data())
     let bridge = MinvoiceBridge(backend: FixtureBackend(identity: identity, events: events), http: http)
-    for request in [try command(ids: [invoiceID, UUID()]), try command(api: "https://evil.invalid/api/app/")] {
+    for request in [try command(ids: []), try command(ids: [invoiceID, invoiceID]),
+                    try command(ids: (0...MinvoiceBatchLimits.maxInvoices).map { _ in UUID() }),
+                    try command(ids: [UUID(uuidString: "00000000-0000-0000-0000-000000000000")!]), try command(api: "https://evil.invalid/api/app/")] {
         #expect(try object(await bridge.dispatch(request, origin: miOrigin))["code"] as? Int != 1)
     }
     #expect(try object(await bridge.dispatch(command(), origin: "https://evil.invalid"))["code"] as? Int != 1)
@@ -296,4 +299,209 @@ private actor WaitingBackend: MinvoiceSigningBackend {
         if fault.hasPrefix("upload-") { #expect((result["message"] as? String)?.contains("trạng thái upload") == true) }
         else { #expect(await events.values.contains("pin/sign") == false) }
     }
+}
+
+private func bulkZIP(_ entries: [(UUID, Data)]) throws -> Data {
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent("minvoice-bulk-fixture-\(UUID())")
+    try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: false)
+    defer { try? FileManager.default.removeItem(at: dir) }
+    for (id, data) in entries { try data.write(to: dir.appendingPathComponent(id.uuidString.lowercased() + ".xml")) }
+    let process = Process(); process.executableURL = URL(fileURLWithPath: "/usr/bin/zip")
+    process.arguments = ["-q", "-j", dir.appendingPathComponent("fixture.zip").path] + entries.map { dir.appendingPathComponent($0.0.uuidString.lowercased() + ".xml").path }
+    process.standardOutput = FileHandle.nullDevice; process.standardError = FileHandle.nullDevice
+    try process.run(); process.waitUntilExit()
+    try #require(process.terminationStatus == 0)
+    return try Data(contentsOf: dir.appendingPathComponent("fixture.zip"))
+}
+
+private actor BulkBackend: MinvoiceSigningBackend {
+    let identity: TestIdentity
+    var approvals = 0, invoiceCount = 0, signatures = 0
+    var progress: [MinvoiceBatchProgress] = []
+    let badSignature: Int?
+    let cancelSignature: Int?
+    init(identity: TestIdentity, badSignature: Int? = nil, cancelSignature: Int? = nil) { self.identity = identity; self.badSignature = badSignature; self.cancelSignature = cancelSignature }
+    func certificates() async -> [CertInfo] { [identity.cert] }
+    func withApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
+        try await withApproval(origin: origin, serial: serial, invoiceCount: 1, operation: operation)
+    }
+    func withApproval(origin: String, serial: String, invoiceCount: Int, operation: @escaping MinvoiceOperation) async throws {
+        approvals += 1; self.invoiceCount = invoiceCount
+        try await operation(identity.cert) { message in try await self.sign(message) }
+    }
+    func sign(_ message: Data) throws -> Data {
+        signatures += 1
+        if signatures == cancelSignature { throw CancellationError() }
+        return signatures == badSignature ? Data(repeating: 0, count: 256) : try identity.sign(message)
+    }
+    func batchProgress(_ value: MinvoiceBatchProgress) { progress.append(value) }
+}
+
+private actor BulkHTTP: MinvoiceHTTPTransport {
+    var requests: [URLRequest] = [], downloads: [[String]] = []
+    var events: [String] = []
+    var uploads = 0
+    let documentsPerGroup: Int
+    let payloadRepeats: Int
+    let fault: String?
+    init(documentsPerGroup: Int = 1, fault: String? = nil, payloadRepeats: Int = 30) { self.documentsPerGroup = documentsPerGroup; self.fault = fault; self.payloadRepeats = payloadRepeats }
+    func send(_ request: URLRequest) async throws -> MinvoiceHTTPResponse {
+        try Task.checkCancellation()
+        requests.append(request)
+        let path = request.url!.path
+        switch path {
+        case "/api/account/login": return .init(status: 200, headers: ["Set-Cookie": ".AspNetCore.Identity.Application=fixture-auth; Path=/; Secure; HttpOnly"])
+        case "/api/abp/application-configuration": return .init(status: 200, headers: ["Set-Cookie": "XSRF-TOKEN=fixture-xsrf; Path=/; Secure"])
+        case "/api/app/tenant-company/current-tenant": return .init(status: 200, body: Data(#"{"currentDateTime":"2026-10-23T00:24:49"}"#.utf8))
+        case "/api/app/token/by-serial-number": return .init(status: 200, body: Data(#"{"serialNumber":"AABBCC"}"#.utf8))
+        case _ where path.hasSuffix("/detail"):
+            let mixed = fault == "mixed" && requests.filter { $0.url!.path.hasSuffix("/detail") }.count == 2
+            return .init(status: 200, body: Data((mixed ? #"{"invoiceSerial":"1C26MYY"}"# : #"{"invoiceSerial":"1C26MXX"}"#).utf8))
+        case _ where path.hasSuffix("/download-xml-invoice-cash"):
+            let ids = try JSONDecoder().decode([String].self, from: #require(request.httpBody))
+            downloads.append(ids); events.append("download\(downloads.count)")
+            if fault == "download2" && downloads.count == 2 { throw MinvoiceError.transport }
+            var entries: [(UUID, Data)] = []
+            for document in 0..<documentsPerGroup {
+                let id = UUID() // Entry ID is deliberately unrelated to invoice IDs.
+                let rows = ids.enumerated().filter { $0.offset % documentsPerGroup == document }
+                    .map { "<HDon><DLHDon><TTChung><SHDon>\($0.offset)</SHDon></TTChung><NDHDon><Text>\(String(repeating: "Hàng hóa thử ", count: payloadRepeats))</Text></NDHDon></DLHDon></HDon>" }.joined()
+                let xml = "<TDiep><DLieu Id='\(id.uuidString.lowercased())'>\(rows)</DLieu><CKSNNT/></TDiep>"
+                entries.append((id, Data(xml.utf8)))
+            }
+            return .init(status: 200, body: try bulkZIP(entries))
+        case _ where path.hasSuffix("/upload-xml"):
+            uploads += 1; events.append("upload\(uploads)")
+            if fault == "timeout2" && uploads == 2 { throw MinvoiceError.transport }
+            if fault == "cancel-upload2" && uploads == 2 { throw CancellationError() }
+            if fault == "cancel-after1" && uploads == 1 { withUnsafeCurrentTask { $0?.cancel() } }
+            return .init(status: 204)
+        default: throw MinvoiceError.invalidInput
+        }
+    }
+}
+
+private func batchObject(_ response: [String: Any]) throws -> [String: Any] {
+    let data = try #require(response["data"] as? [String: Any])
+    return try #require(data["batch"] as? [String: Any])
+}
+
+@Test(arguments: [1, 3, 99, 100, 101, 200, 201, 300, 301])
+func minvoiceCashVariableBatchKeepsOrderAndAuthenticatesOnce(count: Int) async throws {
+    let identity = try TestIdentity(), ids = (0..<count).map { _ in UUID() }
+    let backend = BulkBackend(identity: identity), http = BulkHTTP()
+    let bridge = MinvoiceBridge(backend: backend, http: http, groupDelay: .zero)
+    let start = ContinuousClock.now
+    let response = try object(await bridge.dispatch(command(ids: ids), origin: miOrigin))
+    #expect(response["code"] as? Int == 1)
+    let result = try batchObject(response), chunks = await http.downloads
+    #expect(chunks.flatMap { $0 } == ids.map { $0.uuidString.lowercased() })
+    #expect(chunks.map(\.count) == stride(from: 0, to: count, by: 100).map { min(100, count - $0) })
+    #expect(await http.events == chunks.indices.flatMap { ["download\($0+1)", "upload\($0+1)"] })
+    let approvals = await backend.approvals, invoiceCount = await backend.invoiceCount
+    #expect(approvals == 1 && invoiceCount == count)
+    #expect(await backend.signatures == chunks.count)
+    #expect(result["uploadAcknowledgedInvoices"] as? Int == count)
+    #expect(result["signedDocuments"] as? Int == chunks.count)
+    #expect(await http.requests.filter { $0.url!.path == "/api/account/login" }.count == 1)
+    let progress = try #require(await backend.progress.last)
+    #expect(progress.outcome == .completed && progress.acknowledged == count && progress.uncertain == 0)
+    if count == 300 { print("Mock 300 aggregate invoices: \(start.duration(to: .now)); 3 downloads/uploads and 3 XML signatures") }
+}
+
+@Test func minvoiceBulkMultipleDocumentsAllVerifyBeforeUpload() async throws {
+    let identity = try TestIdentity()
+    for bad in [false, true] {
+        let backend = BulkBackend(identity: identity, badSignature: bad ? 2 : nil), http = BulkHTTP(documentsPerGroup: 2)
+        let bridge = MinvoiceBridge(backend: backend, http: http, groupDelay: .zero)
+        let response = try object(await bridge.dispatch(command(ids: [UUID(), UUID(), UUID()]), origin: miOrigin))
+        #expect(response["code"] as? Int == (bad ? 2 : 1))
+        #expect(await backend.signatures == 2)
+        #expect(await http.uploads == (bad ? 0 : 1))
+        if !bad {
+            let upload = try #require(await http.requests.last?.httpBody)
+            #expect(String(decoding: upload, as: UTF8.self).components(separatedBy: "name=\"files\"").count - 1 == 2)
+        }
+    }
+}
+
+@Test(arguments: ["download2", "signature2", "cancel-sign2", "timeout2", "cancel-upload2", "cancel-after1"])
+func minvoiceBulkFailureKeepsAcknowledgedGroupsAndNeverRetries(fault: String) async throws {
+    let identity = try TestIdentity(), ids = (0..<300).map { _ in UUID() }
+    let backend = BulkBackend(identity: identity, badSignature: fault == "signature2" ? 2 : nil, cancelSignature: fault == "cancel-sign2" ? 2 : nil)
+    let http = BulkHTTP(fault: fault), bridge = MinvoiceBridge(backend: backend, http: http, groupDelay: .zero)
+    let request = try command(ids: ids)
+    let task = Task { await bridge.dispatch(request, origin: miOrigin) }
+    let response = try object(await task.value), result = try batchObject(response)
+    #expect(response["code"] as? Int != 1)
+    #expect(result["uploadAcknowledgedInvoices"] as? Int == 100)
+    let uncertain = fault == "timeout2" || fault == "cancel-upload2"
+    #expect(result["uploadUncertainInvoices"] as? Int == (uncertain ? 100 : 0))
+    #expect(result["notStartedInvoices"] as? Int == (fault == "cancel-after1" ? 200 : 100))
+    #expect(await http.uploads == (uncertain ? 2 : 1))
+    #expect(await http.downloads.count == (fault == "cancel-after1" ? 1 : 2))
+    let text = SignalRHub.json(response)
+    #expect(!text.contains(ids[0].uuidString) && !text.contains("fixture-password") && !text.contains("fixture-auth"))
+    if fault == "cancel-after1" { #expect(result["outcome"] as? String == "cancelled") }
+}
+
+@Test func minvoiceBulkMixedSerialIsRejectedBeforeAnyDownloadOrUpload() async throws {
+    let backend = BulkBackend(identity: try TestIdentity()), http = BulkHTTP(fault: "mixed")
+    let bridge = MinvoiceBridge(backend: backend, http: http, groupDelay: .zero)
+    #expect(try object(await bridge.dispatch(command(ids: [UUID(), UUID()]), origin: miOrigin))["code"] as? Int != 1)
+    let downloads = await http.downloads, uploads = await http.uploads
+    #expect(downloads.isEmpty && uploads == 0)
+}
+
+@Test func minvoiceZIPMultipleEntriesRemainBoundedAndRejectDuplicateNames() throws {
+    let a = UUID(), b = UUID()
+    let zip = try bulkZIP([(a, unsignedCash), (b, unsignedCash)])
+    #expect(try MinvoiceZIP.extractAll(zip).map(\.id) == [a, b])
+    var duplicate = zip
+    let source = Data((b.uuidString.lowercased() + ".xml").utf8), replacement = Data((a.uuidString.lowercased() + ".xml").utf8)
+    while let range = duplicate.range(of: source) { duplicate.replaceSubrange(range, with: replacement) }
+    #expect(throws: MinvoiceError.self) { try MinvoiceZIP.extractAll(duplicate) }
+    var traversal = zip
+    let name = Data((a.uuidString.lowercased() + ".xml").utf8)
+    while let range = traversal.range(of: name) {
+        traversal.replaceSubrange(range, with: Data(("../" + String(repeating: "a", count: 33) + ".xml").utf8))
+    }
+    #expect(throws: MinvoiceError.self) { try MinvoiceZIP.extractAll(traversal) }
+}
+
+@Test func minvoiceZIPChecksCRCAndDeclaredExpansionBeforeAcceptingGroup() throws {
+    var zip = try bulkZIP([(UUID(), unsignedCash)])
+    let end = zip.count - 22
+    let central = Int(zip[end+16]) | Int(zip[end+17]) << 8 | Int(zip[end+18]) << 16 | Int(zip[end+19]) << 24
+    // Keep header CRCs in agreement; decompression still yields a different CRC.
+    zip[central+16] ^= 1; zip[14] ^= 1
+    #expect(throws: MinvoiceError.self) { try MinvoiceZIP.extractAll(zip) }
+    var oversized = try bulkZIP([(UUID(), unsignedCash)])
+    let e = oversized.count - 22
+    let c = Int(oversized[e+16]) | Int(oversized[e+17]) << 8 | Int(oversized[e+18]) << 16 | Int(oversized[e+19]) << 24
+    let size = MinvoiceBatchLimits.documentBytes + 1
+    for i in 0..<4 { oversized[c+24+i] = UInt8(truncatingIfNeeded: size >> (8*i)) }
+    #expect(throws: MinvoiceError.self) { try MinvoiceZIP.extractAll(oversized) }
+    #expect(throws: MinvoiceError.self) { try MinvoiceZIP.extractAll(Data(count: MinvoiceBatchLimits.archiveBytes + 1)) }
+}
+
+@Test func minvoiceMock300LargerInvoicesPerformanceEvidence() async throws {
+    let backend = BulkBackend(identity: try TestIdentity()), http = BulkHTTP(payloadRepeats: 600)
+    let bridge = MinvoiceBridge(backend: backend, http: http, groupDelay: .zero)
+    let request = try command(ids: (0..<300).map { _ in UUID() })
+    let start = ContinuousClock.now
+    let response = try object(await bridge.dispatch(request, origin: miOrigin))
+    let duration = start.duration(to: .now).components
+    #expect(response["code"] as? Int == 1)
+    #expect(try batchObject(response)["uploadAcknowledgedInvoices"] as? Int == 300)
+    #expect(await http.downloads.map(\.count) == [100,100,100])
+    var usage = rusage(); _ = getrusage(RUSAGE_SELF, &usage)
+    let uploads = await http.requests.filter { $0.url!.path.hasSuffix("/upload-xml") }
+    print("MINVOICE_MOCK_BENCH=" + SignalRHub.json([
+        "invoices": 300, "groups": 3, "xmlSignatures": 3,
+        "elapsedSeconds": Double(duration.seconds) + Double(duration.attoseconds) / 1e18,
+        "multipartBytes": uploads.reduce(0) { $0 + ($1.httpBody?.count ?? 0) },
+        "testProcessPeakResidentBytesDarwin": usage.ru_maxrss,
+        "realNetworkOrToken": false,
+    ]))
 }

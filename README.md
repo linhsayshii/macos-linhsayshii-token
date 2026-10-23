@@ -32,7 +32,7 @@ worktree. Gói local nằm ở `.local/test-env/TokenSigner.app`, ký ad-hoc.
 - [FastCA/OpenSC runtime](docs/FASTCA.md)
 - [Minvoice cash](docs/MINVOICE.md)
 
-Minvoice hiện hỗ trợ cash TDiep đơn; PDF/Office, native messaging, mọi token/ATR,
+Minvoice hỗ trợ lô cash TDiep cùng mẫu/ký hiệu (nhóm 100, đã qua mock 300); PDF/Office, native messaging, mọi token/ATR,
 notarization và một số protocol vendor chưa hoàn tất. Kết quả kiểm thử phần mềm
 không thay thế kiểm thử portal/hồ sơ thật do người dùng tự thực hiện.
 

@@ -269,3 +269,60 @@ private func fixture(token: String = "USB-A", expired: Bool = false, flags: [Str
     task.cancel(); _ = try? await task.value
     #expect(app.certificatePrompt == nil && app.pinPrompt == nil)
 }
+
+@Test @MainActor func minvoiceBatchApprovalShowsWholeInvoiceCountBeforePIN() async throws {
+    let target = try fixture(), presenter = Presenter()
+    let app = model([], presenter)
+    app.updateCertificateTargets([target])
+    let backend = MinvoiceBackend(model: app)
+    let task = Task {
+        try await backend.withApproval(origin: "https://hddt.minvoice.com.vn", serial: target.cert.serialHex, invoiceCount: 300) { _, _ in }
+    }
+    try await waitFor { app.certificatePrompt != nil }
+    app.submitCertificate(SigningCertificateChoice.identity(target))
+    try await waitFor { app.approvalPrompt != nil }
+    #expect(app.approvalPrompt?.docCount == 300 && app.approvalPrompt?.countUnit == "hóa đơn" && app.pinPrompt == nil)
+    task.cancel(); _ = try? await task.value
+    #expect(app.certificatePrompt == nil && app.pinPrompt == nil && presenter.titles == ["Chọn chữ ký số", "Yêu cầu ký số"])
+}
+
+@Test @MainActor func minvoicePINIsPromptedOnceAndDoesNotSurviveSessionClearOrCancellation() async throws {
+    let session = MinvoicePINSession()
+    var prompts = 0
+    for _ in 0..<300 {
+        let pin = try await session.pin { prompts += 1; return "fixture-only" }
+        #expect(pin == "fixture-only")
+    }
+    #expect(prompts == 1)
+    session.clear()
+    _ = try await session.pin { prompts += 1; return "fixture-next-session" }
+    #expect(prompts == 2)
+    session.clear()
+    await #expect(throws: CancellationError.self) {
+        _ = try await session.pin { throw CancellationError() }
+    }
+    _ = try await session.pin { prompts += 1; return "fixture-after-cancel" }
+    #expect(prompts == 3)
+    session.clear()
+}
+
+@Test @MainActor func minvoiceMenuCancellationDismissesPINAndReleasesBatchLock() async throws {
+    let target = try fixture(), presenter = Presenter()
+    let app = model([target], presenter), backend = MinvoiceBackend(model: app)
+    let task = Task {
+        try await backend.withApproval(origin: "https://hddt.minvoice.com.vn", serial: target.cert.serialHex, invoiceCount: 300) { _, sign in
+            _ = try await sign(Data("fixture".utf8))
+        }
+    }
+    try await waitFor { app.certificatePrompt != nil }
+    app.submitCertificate(SigningCertificateChoice.identity(target))
+    try await waitFor { app.approvalPrompt != nil }
+    app.submitApproval(.once)
+    try await waitFor { app.pinPrompt != nil && app.minvoiceBatchActive }
+    app.cancelMinvoiceBatch()
+    do { try await task.value; Issue.record("Cancelled batch completed") } catch is CancellationError {} catch { Issue.record("Unexpected error") }
+    #expect(app.pinPrompt == nil && !app.minvoiceBatchActive && app.pinDraft.isEmpty)
+    let next = Task { try await app.selectCertificate(origin: "next", serial: nil) }
+    try await waitFor { app.certificatePrompt != nil }
+    app.submitCertificate(nil); _ = try? await next.value
+}

@@ -1,13 +1,13 @@
 import Foundation
 import Core
 
-/// Classic handlerHub bridge, with a deliberately bounded single-cash path.
+/// Classic handlerHub bridge, with bounded sequential cash batches.
 public struct MinvoiceBridge: Sendable {
     private let backend: any MinvoiceSigningBackend
     private let invoices: MinvoiceInvoices
     public static let version = "2.0.0"
-    public init(backend: any MinvoiceSigningBackend, http: any MinvoiceHTTPTransport = MinvoiceURLSession()) {
-        self.backend = backend; self.invoices = MinvoiceInvoices(backend: backend, http: http)
+    public init(backend: any MinvoiceSigningBackend, http: any MinvoiceHTTPTransport = MinvoiceURLSession(), groupDelay: Duration = .milliseconds(800)) {
+        self.backend = backend; self.invoices = MinvoiceInvoices(backend: backend, http: http, groupDelay: groupDelay)
     }
 
     public var handler: SignalRHub.Handler {
@@ -44,8 +44,11 @@ public struct MinvoiceBridge: Sendable {
             }
         case "SignInvoices":
             do {
-                try await invoices.sign(text, origin: origin)
-                return Self.result(code: 1, message: "Successful", data: ["status": true, "command": "SignInvoices"])
+                let progress = try await invoices.sign(text, origin: origin)
+                return Self.result(code: 1, message: "Successful", data: ["status": true, "command": "SignInvoices", "batch": progress.payload])
+            } catch let failure as MinvoiceBatchFailure {
+                return Self.result(code: failure.code, message: failure.message + " · " + failure.progress.summary,
+                    data: ["status": false, "command": "SignInvoices", "batch": failure.progress.payload])
             } catch {
                 let (code, message) = Self.failure(error)
                 return Self.result(code: code, message: message, data: ["status": false, "command": "SignInvoices"])
@@ -58,7 +61,8 @@ public struct MinvoiceBridge: Sendable {
         switch error {
         case SigningTargetError.unknownCertificate, SigningTargetError.ambiguousCertificate:
             return (404, "Hãy chọn đúng một chứng thư số")
-        case MinvoiceError.unsupported: return (501, "Hiện chỉ hỗ trợ một hóa đơn cash TDiep mỗi lần; HDon/BKe và batch chưa được hỗ trợ")
+        case MinvoiceError.invalidInput: return (2, "Yêu cầu Minvoice không hợp lệ; tối đa 1000 hóa đơn và 64 KiB mỗi lệnh")
+        case MinvoiceError.unsupported: return (501, "Chỉ hỗ trợ hóa đơn cash TDiep cùng mẫu/ký hiệu trong một lô; HDon/BKe hoặc lô trộn chưa được hỗ trợ")
         case MinvoiceError.expiredCertificate: return (2, "Chứng thư chưa có hiệu lực hoặc đã hết hạn; không gửi hóa đơn")
         case MinvoiceError.busy: return (2, "Đang xử lý yêu cầu ký khác")
         case MinvoiceError.invalidXML, MinvoiceError.invalidSignature: return (2, "XML hoặc chữ ký không hợp lệ; chưa upload hóa đơn")

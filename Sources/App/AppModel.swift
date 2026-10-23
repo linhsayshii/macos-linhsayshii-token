@@ -12,7 +12,7 @@ public final class AppModel: ObservableObject {
     /// Prompt state for the dedicated signing window; a sign call
     /// awaits the user's answer via `pinCont`.
     struct PINPrompt: Identifiable { let id = UUID(); let ca, serial: String; let warning: String?; let locked: Bool }
-    struct ApprovalPrompt: Identifiable { let id = UUID(); let origin, subject, ca, notAfter, operation: String; let docCount: Int }
+    struct ApprovalPrompt: Identifiable { let id = UUID(); let origin, subject, ca, notAfter, operation: String; let docCount: Int; var countUnit = "tài liệu" }
     struct CertificatePrompt {
         let origin, operation: String
         let requestedSerial: String?
@@ -67,6 +67,9 @@ public final class AppModel: ObservableObject {
     // Non-nil while a sign is running (login→sign→logout, ~10s on some tokens);
     // the menu shows it so the user isn't left guessing after submitting the PIN.
     @Published private(set) var signingStatus: String?
+    @Published private(set) var minvoiceBatch: MinvoiceBatchProgress?
+    @Published private(set) var minvoiceBatchActive = false
+    private var minvoiceTask: Task<Void, Error>?
     @Published var pinPrompt: PINPrompt?
     @Published var approvalPrompt: ApprovalPrompt?
     // SecureField binds here (toolchain lacks the SwiftUI @State macro). Cleared on submit.
@@ -446,11 +449,11 @@ public final class AppModel: ObservableObject {
         }
     }
 
-    private func requestApproval(target: SignTarget, origin: String, operation: String, docCount: Int) async throws {
+    private func requestApproval(target: SignTarget, origin: String, operation: String, docCount: Int, countUnit: String = "tài liệu") async throws {
         try Task.checkCancellation()
         if await approval.decide(origin: origin, certSerial: target.cert.serialHex) != .allowedSession {
             let prompt = ApprovalPrompt(origin: origin, subject: target.cert.subject, ca: target.module.ca,
-                                        notAfter: target.cert.notAfter, operation: operation, docCount: docCount)
+                                        notAfter: target.cert.notAfter, operation: operation, docCount: docCount, countUnit: countUnit)
             switch await withCheckedContinuation({
                 approvalCont = $0
                 approvalPrompt = prompt
@@ -467,9 +470,9 @@ public final class AppModel: ObservableObject {
         try Task.checkCancellation()
     }
 
-    private func signApproved(target: SignTarget, blockB64: String, context: BridgeContext = BridgeContext(bridge: "menu", origin: "TokenSigner")) async throws -> String {
+    private func signApproved(target: SignTarget, blockB64: String, context: BridgeContext = BridgeContext(bridge: "menu", origin: "TokenSigner"), pin: String? = nil) async throws -> String {
         do {
-            let signature = try await signWithPIN(target: target, blockB64: blockB64)
+            let signature = try await signWithPIN(target: target, blockB64: blockB64, pin: pin)
             await audit.append(origin: context.origin, bridge: context.bridge, certSerial: target.cert.serialHex,
                 operation: "RSA_PKCS", input: Data(base64Encoded: blockB64) ?? Data(), result: "ok")
             recentAudit = await audit.recent(5)
@@ -482,7 +485,7 @@ public final class AppModel: ObservableObject {
         }
     }
 
-    private func signWithPIN(target: SignTarget, blockB64: String) async throws -> String {
+    private func requestTokenPIN(target: SignTarget) async throws -> String {
         try Task.checkCancellation()
         let w = pinWarning(target.flags)
         let prompt = PINPrompt(ca: target.module.ca, serial: target.tokenSerial, warning: w.text, locked: w.locked)
@@ -493,8 +496,15 @@ public final class AppModel: ObservableObject {
                 self?.submitPIN(nil)
             }
         }),
-              !pin.isEmpty else { throw TokenBroker.SignError.card("Đã huỷ nhập PIN") }
+              !pin.isEmpty else { throw CancellationError() }
 
+        return pin
+    }
+
+    private func signWithPIN(target: SignTarget, blockB64: String, pin suppliedPIN: String? = nil) async throws -> String {
+        let pin: String
+        if let suppliedPIN { pin = suppliedPIN }
+        else { pin = try await requestTokenPIN(target: target) }
         try Task.checkCancellation()
         let previousStatus = signingStatus
         signingStatus = "Đang ký…"
@@ -509,20 +519,46 @@ public final class AppModel: ObservableObject {
         return signature
     }
 
-    fileprivate func withMinvoiceApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
+    fileprivate func withMinvoiceApproval(origin: String, serial: String, invoiceCount: Int = 1, operation: @escaping MinvoiceOperation) async throws {
         try await withSigningRequest {
-            let target = try await chooseCertificate(origin: origin, operation: "Ký hóa đơn Minvoice cash",
+            let target = try await chooseCertificate(origin: origin, operation: "Ký \(invoiceCount) hóa đơn Minvoice cash",
                                                       requestedSerial: serial, requireValid: true)
             try MinvoiceCashXML.validateCertificate(target.cert)
-            try await requestApproval(target: target, origin: origin, operation: "Đăng nhập và ký hóa đơn Minvoice cash", docCount: 1)
-            signingStatus = "Đang xử lý hóa đơn Minvoice…"
-            try await operation(target.cert, { message in
-                let block = Data(try DigestInfo.sha256Block(message)).base64EncodedString()
-                let signature = try await self.signApproved(target: target, blockB64: block, context: BridgeContext(bridge: "minvoice", origin: origin))
-                guard let bytes = Data(base64Encoded: signature) else { throw MinvoiceError.invalidSignature }
-                return bytes
-            })
+            try await requestApproval(target: target, origin: origin, operation: "Đăng nhập và ký hóa đơn Minvoice cash", docCount: invoiceCount, countUnit: "hóa đơn")
+            signingStatus = "Đang xử lý lô Minvoice…"
+            let pin = MinvoicePINSession()
+            let job = Task {
+                try await operation(target.cert, { message in
+                    let block = Data(try DigestInfo.sha256Block(message)).base64EncodedString()
+                    let signature = try await self.signMinvoiceBlock(target: target, block: block, origin: origin, session: pin)
+                    guard let bytes = Data(base64Encoded: signature) else { throw MinvoiceError.invalidSignature }
+                    return bytes
+                })
+            }
+            minvoiceTask = job; minvoiceBatchActive = true
+            defer { pin.clear(); minvoiceTask = nil; minvoiceBatchActive = false }
+            try await withTaskCancellationHandler {
+                try await job.value
+            } onCancel: { job.cancel() }
         }
+    }
+
+    private func signMinvoiceBlock(target: SignTarget, block: String, origin: String, session: MinvoicePINSession) async throws -> String {
+        let pin = try await session.pin { try await self.requestTokenPIN(target: target) }
+        return try await signApproved(target: target, blockB64: block, context: BridgeContext(bridge: "minvoice", origin: origin), pin: pin)
+    }
+
+    func cancelMinvoiceBatch() {
+        guard let minvoiceTask, minvoiceBatchActive else { return }
+        minvoiceTask.cancel()
+        if pinCont != nil { submitPIN(nil) }
+        signingStatus = "Đang hủy lô Minvoice; upload đang chạy có thể chưa rõ kết quả…"
+    }
+
+    func updateMinvoiceBatch(_ progress: MinvoiceBatchProgress) {
+        minvoiceBatch = progress
+        if progress.outcome == .running { signingStatus = progress.summary }
+        else { lastSignResult = progress.summary; if !signing { signingStatus = nil } }
     }
 
     func chooseESignerFile() async -> URL? {
@@ -643,6 +679,10 @@ struct MinvoiceBackend: MinvoiceSigningBackend {
     func withApproval(origin: String, serial: String, operation: @escaping MinvoiceOperation) async throws {
         try await model.withMinvoiceApproval(origin: origin, serial: serial, operation: operation)
     }
+    func withApproval(origin: String, serial: String, invoiceCount: Int, operation: @escaping MinvoiceOperation) async throws {
+        try await model.withMinvoiceApproval(origin: origin, serial: serial, invoiceCount: invoiceCount, operation: operation)
+    }
+    func batchProgress(_ progress: MinvoiceBatchProgress) async { await model.updateMinvoiceBatch(progress) }
 }
 
 struct AppSigningService: SigningService {
