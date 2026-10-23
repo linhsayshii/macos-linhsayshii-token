@@ -387,6 +387,73 @@ private actor BulkHTTP: MinvoiceHTTPTransport {
     }
 }
 
+/// Inject one configuration lookup failure after a prior successful operation.
+/// This models the reported sequence; it does not reproduce a physical DNS bug.
+private actor ConfigurationDNSHTTP: MinvoiceHTTPTransport {
+    private let underlying = BulkHTTP()
+    var requests: [URLRequest] = []
+    private var failNextConfiguration = false
+    func failConfigurationOnce() { failNextConfiguration = true }
+    func send(_ request: URLRequest) async throws -> MinvoiceHTTPResponse {
+        requests.append(request)
+        if request.url?.path == "/api/abp/application-configuration", failNextConfiguration {
+            failNextConfiguration = false
+            throw NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotFindHost, userInfo: [
+                NSLocalizedDescriptionKey: "PRIVATE_NEVER_EMIT",
+                NSURLErrorFailingURLErrorKey: request.url!,
+                NSUnderlyingErrorKey: NSError(domain: "kCFErrorDomainCFNetwork", code: NSURLErrorCannotFindHost),
+            ])
+        }
+        return try await underlying.send(request)
+    }
+}
+
+@Test func minvoiceSingleSuccessThenBatchDNSFailureKeepsBootstrapAndReleasesState() async throws {
+    let identity = try TestIdentity(), backend = BulkBackend(identity: identity)
+    let http = ConfigurationDNSHTTP()
+    let bridge = MinvoiceBridge(backend: backend, http: http, groupDelay: .zero)
+
+    let single = try object(await bridge.dispatch(command(), origin: miOrigin))
+    #expect(single["code"] as? Int == 1)
+    let firstRequests = await http.requests
+    try #require(firstRequests.count == 7)
+    #expect(await backend.signatures == 1)
+
+    await http.failConfigurationOnce()
+    let failedText = await bridge.dispatch(try command(ids: [UUID(), UUID(), UUID()]), origin: miOrigin)
+    let failed = try object(failedText), batch = try batchObject(failed)
+    #expect(failed["code"] as? Int == 2)
+    #expect(batch["diagnostic"] as? String == "[MI_HTTP configuration/fetch URL:-1003<-CFNetwork:-1003]")
+    #expect(batch["outcome"] as? String == "failed")
+    #expect(batch["checkedInvoices"] as? Int == 0)
+    #expect(batch["uploadAcknowledgedInvoices"] as? Int == 0)
+    #expect(batch["uploadUncertainInvoices"] as? Int == 0)
+    #expect(batch["notStartedInvoices"] as? Int == 3)
+    #expect(await backend.signatures == 1) // No new PIN/sign operation for failed batch.
+    let batchRequests = Array(await http.requests.dropFirst(firstRequests.count))
+    try #require(batchRequests.count == 2) // No retry, detail, download or upload.
+    for (singleRequest, batchRequest) in zip(firstRequests.prefix(2), batchRequests) {
+        #expect(singleRequest.url == batchRequest.url)
+        #expect(singleRequest.httpMethod == batchRequest.httpMethod)
+        #expect(singleRequest.allHTTPHeaderFields == batchRequest.allHTTPHeaderFields)
+        #expect(singleRequest.httpBody == batchRequest.httpBody)
+        #expect(singleRequest.httpShouldHandleCookies == batchRequest.httpShouldHandleCookies)
+    }
+    for secret in ["PRIVATE_NEVER_EMIT", "fixture-password", "fixture-auth", "https://"] {
+        #expect(!failedText.contains(secret))
+    }
+
+    // A fresh command must acquire the lock and start a fresh progress record.
+    let recovered = try object(await bridge.dispatch(command(), origin: miOrigin))
+    #expect(recovered["code"] as? Int == 1)
+    let result = try batchObject(recovered)
+    #expect(result["diagnostic"] == nil)
+    #expect(result["uploadAcknowledgedInvoices"] as? Int == 1)
+    #expect(result["notStartedInvoices"] as? Int == 0)
+    #expect(await backend.signatures == 2)
+    #expect(await http.requests.count == 16)
+}
+
 private func batchObject(_ response: [String: Any]) throws -> [String: Any] {
     let data = try #require(response["data"] as? [String: Any])
     return try #require(data["batch"] as? [String: Any])

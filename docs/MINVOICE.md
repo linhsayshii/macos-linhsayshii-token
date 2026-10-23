@@ -141,3 +141,31 @@ tải XML không tái hiện trong lần đó; **chưa xác định nguyên nhâ
 suy thành lỗi PIN/token hay khẳng định thay đổi chẩn đoán đã sửa lỗi mạng.
 156 tests và smoke sáu cổng đạt; không tự replay credentials hoặc ký để tìm lỗi.
 [Evidence](re/evidence/minvoice-http-diagnostics-2026-10-23.json).
+
+### Lỗi configuration -1003 khi ký lô
+
+User báo ở chat nghiên cứu: ký lẻ vẫn được, lô 3 lỗi
+`[MI_HTTP configuration/fetch URL:-1003<-CFNetwork:-1003]`, 0/3 ACK và cả 3
+pending. Theo SDK Foundation/CFNetwork trên máy, -1003 là CannotFindHost. Đây là
+lỗi tìm hostname trước khi nhận response configuration, chưa tới detail,
+download XML hoặc ký/upload của lô đó. Không suy thành lỗi token, DNS toàn máy
+hay backend luôn không hoạt động.
+
+Đối chiếu implementation: 1 và 3 IDs đều chạy cùng `MinvoiceInvoices.sign` và
+`MinvoiceLogin.session`. Login và configuration có cùng host HTTPS allowlisted;
+request configuration không chứa InvoiceIdArray. Khác biệt số lượng mới ảnh
+hưởng vòng kiểm tra detail và các group phía sau. Mỗi `send` hiện tạo một
+URLSession ephemeral mới cho cả hai cỡ lô. Đây là đặc điểm cần đo khi điều tra
+networking, chưa có bằng chứng cho thấy nó là nguyên nhân.
+
+Hồi quy offline mới dùng cùng bridge qua chuỗi ký lẻ thành công → inject đúng
+lỗi DNS tại configuration của lô 3 → ký lẻ thành công. So sánh URL, method,
+header, body và cookie handling của hai request bootstrap cho kết quả giống
+nhau; lô lỗi chỉ phát hai request login/configuration, không retry, không ký
+hoặc upload thêm. Lỗi được che dữ liệu nhạy cảm, busy/progress không tồn tại
+sang command tiếp. Đây là **fault injection**, không tái hiện nguyên nhân DNS
+trên app thật và không phải bản sửa lỗi mạng.
+
+Không restart app, đổi DNS/proxy, replay credentials hay ký lại hóa đơn trong
+kiểm tra này. Chẩn đoán tiếp cần dữ liệu network tại thời điểm lỗi trong chính
+tiến trình App; GET thành công ở process khác không chứng minh phiên lỗi đã ổn.
