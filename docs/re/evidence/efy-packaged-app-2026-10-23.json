@@ -1,0 +1,125 @@
+{
+  "checked_at": "2026-10-23T12:02:44.985594+07:00",
+  "scope": "EFY native ESPK backend integrated in the shared macOS app",
+  "implementation_commits": [
+    "397cbc3",
+    "b373b63"
+  ],
+  "profile": {
+    "atr": "3b9f958131fe9f006646530510113971df00005100006a",
+    "driver": "epass2003",
+    "experimental": true,
+    "serial_namespace": "EFY-"
+  },
+  "tests": {
+    "passed": true,
+    "total": 163,
+    "TokenHelper": 6,
+    "TSShim": 7,
+    "Core": 46,
+    "Bridges": 88,
+    "App": 16
+  },
+  "mock_transport": {
+    "production_C_implementation": true,
+    "physical_card_IO": false,
+    "profile_mismatch": true,
+    "reset_and_SM_refresh": true,
+    "one_auth_no_retry": true,
+    "MSE_PSO_framing": true,
+    "failure_cleanup": true
+  },
+  "hardware_readonly": {
+    "token_count": 1,
+    "certificate_count": 1,
+    "certificate_der_sha256": "82d02509715e7273639db37d62c364eaf54cfb15ff9fdf79f10c609ea66515c9",
+    "matches_prior_research": true,
+    "PIN_or_signatures_by_agent": 0
+  },
+  "packaging": {
+    "App_Helper_shim_updated": true,
+    "codesign_strict": true,
+    "bundled_shim_test": true,
+    "runtime_loaded_from_bundle_observed": true,
+    "crypto_loaded_from_bundle_observed": true,
+    "runtime_manifest": {
+      "version": "0.27.1",
+      "libraries": [
+        {
+          "name": "libopensc.13.dylib",
+          "architecture": "arm64",
+          "source_sha256": "4d817582d5e5351b2dc0b5dd2f4dd32f0ab3debc81708687d63235028bde6dfa",
+          "packaged_sha256": "c6aaf86df92cde6bd58651665c4eb1163bf0f767761a44e87235d581972a0f69",
+          "dependencies": [
+            "/usr/lib/libz.1.dylib",
+            "/usr/lib/libSystem.B.dylib",
+            "@loader_path/libcrypto.4.dylib"
+          ]
+        },
+        {
+          "name": "libcrypto.4.dylib",
+          "architecture": "arm64",
+          "source_sha256": "eb4e14b7f6ef10df40a60f7a078920c44e6b24be23f76eb1f657142becfeb4e7",
+          "packaged_sha256": "dd41f76f41d2426163e3323374f50cbff6d0e50ca7d28c464ad92bdf32ff143b",
+          "dependencies": [
+            "/usr/lib/libSystem.B.dylib"
+          ]
+        }
+      ]
+    },
+    "binary_sha256": {
+      "App": "03880e0e16133697997cdb2f4f9eefc88ef2e49bc7becdfdee65ec7c7cf80f39",
+      "TokenHelper": "62fbfd4d1e42940502ec934cccdb3a4472a6e3e8867dd808b57a3e68726ed950",
+      "libTSShim.dylib": "347ba0069836e8ba588ed52394335a0349ac97434d6acc622a6568a9bb746934"
+    }
+  },
+  "app_discovery": {
+    "CTSign_GetCert_exact_DER_match": true,
+    "matching_certificates": 1,
+    "valid_flag": true,
+    "six_listeners_running": true
+  },
+  "bridge_smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "esigner_versions": {
+      "8768": "1.1.0",
+      "8769": "1.1.0"
+    },
+    "esigner_unknown_origin_status": 403,
+    "vnpt_wss": {
+      "4433": "1*smoke",
+      "4434": "1*smoke"
+    },
+    "vnpt_unknown_origin_status": 403,
+    "TLS_verified_with_pinned_local_CA": true,
+    "ctsign_post_case_insensitive": true,
+    "ctsign_signxml_route": true,
+    "ctsign_unknown_origin_status": 403,
+    "ctsign_xml_diagnostics": [
+      "XML_PARSE",
+      "XML_DTD_ENTITY",
+      "XML_DUPLICATE_ID",
+      "XML_EXISTING_SIGNATURE"
+    ],
+    "no_signing_or_external_rest": true
+  },
+  "live_local_sign": {
+    "result": "User confirms Ký và xác minh OK after EFY Ký thử in the updated app",
+    "source": "Direct human reply in main chat",
+    "PIN_entry": "By user in app, never in chat",
+    "signed_data": "Local app test message",
+    "backend_verification": "RSA verification using exact selected certificate before returning signature",
+    "independent_signature_capture": false,
+    "business_document_or_upload": false
+  },
+  "limitations": [
+    "Exact observed EFY profile only",
+    "No EFY business portal test",
+    "No independent capture of the local test signature",
+    "No chain or revocation validation",
+    "Local ad-hoc test bundle, not notarized or publicly distributed"
+  ]
+}

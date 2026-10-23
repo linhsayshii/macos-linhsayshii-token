@@ -49,8 +49,10 @@ không còn được launcher chính dùng. Không xóa nhánh hoặc push remot
   và browser extension chưa triển khai.
 - VNPT: `checkPluginAdvanced` cần signed challenge của hãng; PDF/Office/file APIs
   không hỗ trợ. Một số schema XML/CMS/hash ngoài DVC còn cần capture portal.
-- FastCA chỉ profile ESPK đã xác minh; One-CA/EFY và các ATR khác chưa hỗ trợ đầy
-  đủ. Middleware các CA khác vẫn phải có sẵn; không đóng gói installer vendor.
+- FastCA/EFY chỉ exact profile ESPK đã xác minh; OneCA V3 có backend module
+  hash-pinned. EFY Ký thử trong app đã được user xác nhận; live portal với từng
+  CA và các ATR khác chưa kiểm chứng đầy đủ. Middleware các CA khác vẫn phải có
+  sẵn; không đóng gói installer vendor.
 - Certificate chain/revocation, runtime distribution/notarization và live portal
   regression sau merge còn cần kiểm thử riêng. FastCA cert hiện có đã hết hạn.
 - Git remote chưa được push/đổi default branch. Dùng `p1-token-core` local làm

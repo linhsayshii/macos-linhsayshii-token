@@ -9,6 +9,7 @@ Chỉ dùng checkout gốc `p1-token-core`. Toàn bộ app/helper/bridge build t
 ./scripts/test-env.sh test-minvoice
 ./scripts/package-test-app.sh
 python3 scripts/check-integrated-app.py
+python3 scripts/check-native-espk.py
 ./scripts/run-test-app.sh all --print
 ./scripts/run-test-app.sh all
 ```
@@ -18,8 +19,10 @@ Không chạy đồng thời hai builder trong checkout hoặc hai app đang dù
 `TOKENSIGNER_PORT_OFFSET=100` dịch cả sáu cổng khi chủ động thử dev instance;
 không dùng offset để chạy hai luồng đăng nhập token cùng lúc.
 
-App đóng gói tại `.local/test-env/TokenSigner.app`, ký ad-hoc. FastCA yêu cầu
-runtime OpenSC 0.27.1 bên ngoài bundle; script chỉ kiểm tra, không cài vendor.
+App đóng gói tại `.local/test-env/TokenSigner.app`, ký ad-hoc. FastCA và EFY dùng
+runtime OpenSC 0.27.1 ARM64 trong bundle cùng libcrypto, dependency closure và
+license. Khi đóng gói, script sao chép runtime đã kiểm chứng có sẵn trên máy;
+không tải/cài middleware hãng. Helper phát triển rời có thể dùng runtime ngoài.
 TLS VNPT tạo/tái dùng `~/Library/Application Support/TokenSigner/tls`; khóa mode
 0600, thư mục 0700. Tin cậy Keychain không chạy trong suite hay smoke.
 

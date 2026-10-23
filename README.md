@@ -30,6 +30,7 @@ worktree. Gói local nằm ở `.local/test-env/TokenSigner.app`, ký ad-hoc.
 - [Các bridge](docs/BRIDGES.md)
 - [Đối chiếu tất cả nhánh, phần còn thiếu](docs/BRANCH-CONSOLIDATION.md)
 - [FastCA/OpenSC runtime](docs/FASTCA.md)
+- [EFY-CA native ARM64](docs/EFY-CA.md)
 - [Minvoice cash](docs/MINVOICE.md)
 
 Minvoice hỗ trợ lô cash TDiep cùng mẫu/ký hiệu (nhóm 100, đã qua mock 300); PDF/Office, native messaging, mọi token/ATR,

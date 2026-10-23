@@ -21,8 +21,8 @@ Các phần nền đã có:
 - Popup native tự bật, chọn CKS → duyệt → PIN; không cần mở menu bar trước.
 - Chọn đúng physical token/module/CKA_ID/DER, giữ serial trang yêu cầu, cập nhật
   hotplug trong lúc chọn. Huỷ task/đóng kết nối giải phóng prompt.
-- Host-hash + RSA_PKCS DigestInfo. NC-CA có đủ hai bản sửa length APDU; FastCA
-  dùng ESPK/OpenSC 0.27.1 native cho profile đã xác minh. CA khác dùng PKCS#11.
+- Host-hash + RSA_PKCS DigestInfo. NC-CA có đủ hai bản sửa length APDU; FastCA và
+  EFY-CA dùng ESPK/OpenSC 0.27.1 native cho exact profile. CA khác dùng PKCS#11.
 - Minvoice cash có REST/ZIP nhiều XML/profile riêng, chia nhóm 100; một phiên
   duyệt/PIN cho cả lô, verify mọi XML trước upload, báo partial/hủy/chưa rõ, không auto retry.
 - OriginStore dùng chung, Host/Origin guard, CORS/PNA và preflight X-XSRF-TOKEN.
@@ -47,9 +47,9 @@ phải duy nhất toàn tài liệu. dataBV khớp nhiều phần tử bị ch�
 Mẫu có mã dòng lặp qua xmlsec1 cả có/không namespace. User đã xác nhận ký XML
 chưa ký thành công; file có chữ ký vẫn bị chặn, chưa hỗ trợ ký lại/ký bổ sung.
 
-Validation cuối: **156 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
+Validation cuối: **163 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
 HTTP đạt; không nhập PIN hoặc gửi nghiệp vụ thật.
-[Evidence](re/evidence/minvoice-http-diagnostics-2026-10-23.json).
+[Evidence](re/evidence/efy-packaged-app-2026-10-23.json).
 
 UI đã sửa mũi tên disclosure và nút ký thử bị nhạt/trắng trên nền sáng khi
 host macOS dùng giao diện tối; tăng tương phản chữ phụ, divider và viền nhập
@@ -74,3 +74,10 @@ Minvoice: user đã xác nhận app Mac ký thành công lô **2 hóa đơn** sa
 đoán HTTP. Lỗi kết nối trước đó 0/2 không tái hiện; chưa xác định nguyên nhân
 mạng gốc. `[MI_HTTP …]` phân biệt bước/reason và mã hệ thống an toàn nếu lỗi
 lặp lại; không chứa URL/credential/XML và không thêm retry. Chưa ký live300.
+
+EFY-CA đã tích hợp vào app/helper native ARM64, exact ATR, experimental. Dùng
+chung ESPK parser/transport với FastCA nhưng khác profile và serial namespace;
+kiểm tra metadata/public key trước PIN, verify chữ ký trước trả kết quả. Runtime
+OpenSC/libcrypto ARM64 đã nằm trong bundle thử. Người dùng xác nhận **Ký thử →
+Ký và xác minh OK** trên EFY ngày 23/10. Chưa thử hồ sơ/cổng nghiệp vụ EFY.
+[Hướng dẫn](EFY-CA.md).

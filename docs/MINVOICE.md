@@ -91,7 +91,8 @@ python3 scripts/check-integrated-app.py
 
 Smoke script chỉ mở rồi đóng app của nó, kiểm tra version/SignalR/403 qua loopback;
 không đăng nhập Minvoice, ký hay upload. Gói local ở `.local/test-env/TokenSigner.app`,
-ký ad-hoc cho máy phát triển; OpenSC 0.27.1 là dependency ngoài bundle.
+ký ad-hoc cho máy phát triển; bản tích hợp EFY mới đã kèm OpenSC 0.27.1 ARM64
+và libcrypto trong bundle thử, xem [EFY-CA](EFY-CA.md).
 
 ## Chưa xác nhận
 

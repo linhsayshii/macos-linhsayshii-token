@@ -16,6 +16,7 @@ for TASK_FILE in App TokenHelper libTSShim.dylib; do
     cp "$TASK_BIN/$TASK_FILE" "$TASK_APP/Contents/MacOS/$TASK_FILE"
     codesign --force --sign - "$TASK_APP/Contents/MacOS/$TASK_FILE"
 done
+python3 "$TASK_ROOT/scripts/package-native-espk.py" "$TASK_APP"
 cat > "$TASK_APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
