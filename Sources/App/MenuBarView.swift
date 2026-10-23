@@ -7,165 +7,115 @@ struct MenuBarView: View {
     @ObservedObject var presentation = MenuPresentation()
 
     var body: some View {
-        ScrollView {
-          VStack(alignment: .leading, spacing: 12) {
-            ForEach(model.bridges) { row in
-                HStack(spacing: 8) {
-                    Circle().fill(statusColor(row.status)).frame(width: 8, height: 8)
-                    Text("\(row.endpoint.name) · \(String(row.endpoint.port))").font(.system(size: Theme.Size.sm))
-                    Spacer(minLength: 4)
-                    Text(statusText(row.status)).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+        VStack(spacing: 0) {
+            VStack(spacing: 16) {
+                HStack(spacing: 10) {
+                    Image(systemName: "key.fill").font(.system(size: 18))
+                        .frame(width: 32, height: 32).background(Theme.secondary, in: RoundedRectangle(cornerRadius: 8))
+                    Text("TokenSigner").font(.system(size: Theme.Size.lg, weight: .semibold))
+                    Spacer()
+                    Button { presentation.page = .connections } label: {
+                        let ready = model.bridges.filter { $0.status == .up }.count
+                        StatusBadge(text: "\(ready)/\(model.bridges.count)", tone: ready == model.bridges.count ? .success : .warning)
+                    }.buttonStyle(.plain).help("Trạng thái kết nối dịch vụ")
                 }
-            }
-            DisclosureGroup("Kết nối và quyền") {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(model.trustStatus).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-                    if !model.localhostTrusted {
-                        Text("VNPT dùng SSL localhost. macOS sẽ hỏi quyền khi bạn tin cậy chứng chỉ.")
-                            .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-                        Button("Tin cậy localhost cho VNPT") { model.trustLocalhostCertificate() }
-                            .buttonStyle(.bordered)
+                HStack(spacing: 4) {
+                    ForEach(MenuPresentation.Page.allCases, id: \.self) { page in
+                        Button { presentation.page = page } label: {
+                            Text(page.rawValue).font(.system(size: Theme.Size.sm, weight: .medium))
+                                .frame(maxWidth: .infinity).padding(.vertical, 7)
+                                .background(presentation.page == page ? Theme.surface : .clear, in: RoundedRectangle(cornerRadius: 6))
+                        }.buttonStyle(.plain).accessibilityAddTraits(presentation.page == page ? .isSelected : [])
                     }
-                    ForEach(model.allowedOrigins, id: \.self) { host in
-                        HStack {
-                            Text(host).font(.system(size: Theme.Size.xs))
-                            Spacer()
-                            Button("Gỡ") { model.removeOrigin(host) }
-                                .buttonStyle(.plain).foregroundStyle(Theme.danger)
+                }.padding(3).background(Theme.secondary, in: RoundedRectangle(cornerRadius: 8))
+            }.padding(16)
+            Divider().overlay(Theme.border)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12) {
+                    switch presentation.page {
+                    case .tokens:
+                        SectionHeader(title: "Chữ ký số", detail: "\(model.tokens.count) token")
+                        if model.tokens.isEmpty {
+                            AppCard { VStack(alignment: .leading, spacing: 8) {
+                                Label("Chưa có token kết nối", systemImage: "externaldrive.badge.plus").fontWeight(.medium)
+                                Text("Cắm USB token vào máy. Danh sách sẽ tự cập nhật.").foregroundStyle(Theme.muted)
+                            }}
+                        }
+                        ForEach(model.tokens) { token in
+                            TokenCard(token: token, presentation: presentation, busy: model.isWorking) {
+                                Task { await model.testSign(serial: token.serial) }
+                            }
+                        }
+                    case .connections: ConnectionView(model: model)
+                    case .history: HistoryView(entries: model.recentAudit)
+                    }
+                    if let batch = model.minvoiceBatch { batchDetails(batch) }
+                    if let result = model.signingResult {
+                        DisclosureGroup("Kết quả gần nhất") {
+                            Text(result.message).font(.system(size: Theme.Size.sm)).textSelection(.enabled)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                     }
-                }.padding(.top, 6)
-            }.font(.system(size: Theme.Size.sm))
+                }.padding(16).frame(maxWidth: .infinity, alignment: .leading)
+            }.id(presentation.page).frame(maxWidth: .infinity, maxHeight: .infinity)
             Divider().overlay(Theme.border)
-            tokenSection
-            Button { Task { await model.testSign(serial: "") } } label: {
-                Text("Chọn CKS và ký thử…").frame(maxWidth: .infinity)
-            }
-                .font(.system(size: Theme.Size.sm))
-                .buttonStyle(ThemePrimaryButtonStyle())
-            if let s = model.signingStatus {
-                HStack(spacing: 6) {
+            footer.padding(16)
+        }
+        .frame(width: presentation.size.width, height: presentation.size.height)
+        .font(.system(size: Theme.Size.sm))
+        .background(Theme.background).foregroundStyle(Theme.foreground)
+        .disclosureGroupStyle(ThemeDisclosureStyle()).tokenSignerAppearance()
+    }
+
+    private var footer: some View {
+        VStack(spacing: 10) {
+            if let status = model.signingStatus {
+                HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
-                    Text(s).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-                }
-            } else if let r = model.lastSignResult {
-                Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted).textSelection(.enabled)
+                    Text(status).font(.system(size: Theme.Size.xs)).lineLimit(2).frame(maxWidth: .infinity, alignment: .leading)
+                }.accessibilityLabel(status)
+            } else if let result = model.signingResult {
+                InlineNotice(text: result.title, tone: result.tone)
             }
             if model.minvoiceBatchActive {
                 Button("Hủy lô Minvoice") { model.cancelMinvoiceBatch() }
-                    .buttonStyle(.plain).font(.system(size: Theme.Size.sm)).foregroundStyle(Theme.danger)
+                    .buttonStyle(ThemeSecondaryButtonStyle()).foregroundStyle(Theme.danger)
             }
-            if let batch = model.minvoiceBatch {
-                DisclosureGroup("Lô Minvoice · \(batch.acknowledged)/\(batch.totalInvoices)") {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Số hóa đơn theo nhóm upload; số XML/chữ ký có thể khác.")
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 6) {
-                                ForEach(Array(batch.groups.enumerated()), id: \.offset) { index, group in
-                                    Text("Nhóm \(index + 1): \(group.invoices) hóa đơn · \(group.signedDocuments)/\(group.documents) XML · \(batchState(group.state))")
-                                }
-                            }.frame(maxWidth: .infinity, alignment: .leading)
-                        }.frame(height: min(150, CGFloat(batch.groups.count * 36)))
-                    }
-                    .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-                }.font(.system(size: Theme.Size.sm))
+            Button { Task { await model.testSign(serial: "") } } label: {
+                Label("Chọn CKS và ký thử…", systemImage: "signature").frame(maxWidth: .infinity)
+            }.buttonStyle(ThemePrimaryButtonStyle()).disabled(model.isWorking || model.tokens.isEmpty)
+            HStack {
+                Text("Khóa bí mật nằm trong token").font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                Spacer()
+                Button("Thoát") { NSApplication.shared.terminate(nil) }
+                    .buttonStyle(.plain).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                    .disabled(model.isWorking)
             }
-            if !model.recentAudit.isEmpty {
-                DisclosureGroup("Lịch sử ký gần đây") {
-                    VStack(alignment: .leading, spacing: 4) {
-                        ForEach(Array(model.recentAudit.reversed().enumerated()), id: \.offset) { _, entry in
-                            Text("\(entry.bridge) · \(entry.result) · \(entry.time)")
-                                .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-                        }
-                    }
-                }.font(.system(size: Theme.Size.sm))
-            }
-            Divider().overlay(Theme.border)
-            Button("Thoát") { NSApplication.shared.terminate(nil) }
-                .buttonStyle(.plain)
-                .font(.system(size: Theme.Size.sm))
-                .foregroundStyle(Theme.muted)
         }
-        .padding(16)
-          }
-        .frame(width: presentation.size.width, height: presentation.size.height)
-        .background(Theme.background)
-        .foregroundStyle(Theme.foreground)
-        .disclosureGroupStyle(ThemeDisclosureStyle())
-        .tokenSignerAppearance()
+    }
+
+    private func batchDetails(_ batch: MinvoiceBatchProgress) -> some View {
+        DisclosureGroup("Lô Minvoice · \(batch.acknowledged)/\(batch.totalInvoices)") {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(batch.summary).textSelection(.enabled)
+                Text("Số hóa đơn và số XML/chữ ký có thể khác nhau.").foregroundStyle(Theme.muted)
+                ForEach(Array(batch.groups.enumerated()), id: \.offset) { index, group in
+                    Text("Nhóm \(index + 1): \(group.invoices) hóa đơn · \(group.signedDocuments)/\(group.documents) XML · \(batchState(group.state))")
+                }
+            }.font(.system(size: Theme.Size.sm))
+        }
     }
 
     private func batchState(_ state: MinvoiceBatchProgress.State) -> String {
         switch state {
-        case .pending: return "chưa chạy"
-        case .downloading: return "đang tải XML"
-        case .signing: return "đang ký/kiểm tra"
-        case .uploading: return "đang upload"
-        case .acknowledged: return "đã xác nhận upload"
-        case .failed: return "lỗi, chưa upload"
-        case .cancelled: return "đã hủy, chưa upload"
-        case .uploadUncertain: return "upload chưa rõ kết quả"
-        }
-    }
-
-    private func statusColor(_ status: AppModel.BridgeStatus) -> Color {
-        switch status {
-        case .up: return Theme.success
-        case .starting: return Theme.warning
-        case .portInUse, .failed: return Theme.danger
-        }
-    }
-    private func statusText(_ status: AppModel.BridgeStatus) -> String {
-        switch status {
-        case .up: return "Sẵn sàng"
-        case .starting: return "Khởi động…"
-        case .portInUse: return "Cổng bị chiếm"
-        case .failed: return "Lỗi khởi động"
-        }
-    }
-
-    @ViewBuilder private var tokenSection: some View {
-        Text("TOKEN").font(.system(size: Theme.Size.xs, weight: .medium)).foregroundStyle(Theme.muted)
-        if model.tokens.isEmpty {
-            Text("Chưa cắm token").font(.system(size: Theme.Size.sm)).foregroundStyle(Theme.muted)
-        } else {
-            ForEach(model.tokens) { t in
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack {
-                        Text(t.ca).font(.system(size: Theme.Size.sm, weight: .medium))
-                        if !t.supported {
-                            Text("Chưa hỗ trợ")
-                                .font(.system(size: Theme.Size.xs))
-                                .foregroundStyle(Theme.warning)
-                        } else if t.experimental {
-                            Text("Thử nghiệm")
-                                .font(.system(size: Theme.Size.xs))
-                                .foregroundStyle(Theme.warning)
-                        }
-                        Spacer()
-                        if !t.serial.isEmpty {
-                            Text(t.serial).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-                        }
-                    }
-                    if let subj = t.certSubject {
-                        Text(subj).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted).lineLimit(1)
-                    }
-                    if let exp = t.notAfter {
-                        Text("Hết hạn: \(exp)").font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-                    }
-                    if let error = t.readError {
-                        Text(error).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.warning)
-                    }
-                    if t.supported && !t.serial.isEmpty {
-                        Button("Ký thử") { Task { await model.testSign(serial: t.serial) } }
-                            .buttonStyle(.plain)
-                            .font(.system(size: Theme.Size.xs, weight: .medium))
-                            .foregroundStyle(Theme.primary)
-                            .padding(.top, 2)
-                    }
-                }
-                .padding(.vertical, 2)
-            }
+        case .pending: "chưa chạy"
+        case .downloading: "đang tải XML"
+        case .signing: "đang ký/kiểm tra"
+        case .uploading: "đang upload"
+        case .acknowledged: "đã xác nhận upload"
+        case .failed: "lỗi, chưa upload"
+        case .cancelled: "đã hủy, chưa upload"
+        case .uploadUncertain: "upload chưa rõ kết quả"
         }
     }
 }

@@ -36,6 +36,7 @@ public final class AppModel: ObservableObject {
         public var certSubject: String?
         public var notAfter: String?
         public var readError: String? = nil
+        public var certificateName: String? = nil
     }
 
     public enum BridgeStatus: Sendable, Equatable { case starting, up, portInUse, failed(String) }
@@ -64,6 +65,9 @@ public final class AppModel: ObservableObject {
 
     @Published public private(set) var tokens: [TokenRow] = []
     @Published private(set) var lastSignResult: String?
+    @Published private(set) var signingResult: SigningResult?
+    var isWorking: Bool { signing || originPrompt != nil }
+    private var requestWasDenied = false
     // Non-nil while a sign is running (login→sign→logout, ~10s on some tokens);
     // the menu shows it so the user isn't left guessing after submitting the PIN.
     @Published private(set) var signingStatus: String?
@@ -112,7 +116,7 @@ public final class AppModel: ObservableObject {
     }
 
     init(broker: TokenBroker, promptWindow: any SigningPromptPresenting, targets: [SigningTarget] = [],
-         supportDirectory: URL? = nil, portOffset: Int = 0) {
+         supportDirectory: URL? = nil, portOffset: Int = 0, tokenRows: [TokenRow] = [], auditEntries: [AuditEntry] = []) {
         let directory = supportDirectory ?? FileManager.default.temporaryDirectory.appendingPathComponent("TokenSigner-test-\(UUID())")
         self.supportDirectory = directory
         audit = AuditLog(fileURL: directory.appendingPathComponent("audit.jsonl"))
@@ -123,6 +127,8 @@ public final class AppModel: ObservableObject {
         let endpoints = (try? BridgeCatalog.endpoints(offset: portOffset)) ?? (try! BridgeCatalog.endpoints())
         bridges = endpoints.map { BridgeRow(endpoint: $0, status: validConfiguration ? .starting : .failed("Sai TOKENSIGNER_PORT_OFFSET")) }
         self.broker = broker
+        self.tokens = tokenRows
+        self.recentAudit = auditEntries
         self.promptWindow = promptWindow
         updateCertificateTargets(targets)
     }
@@ -319,7 +325,10 @@ public final class AppModel: ObservableObject {
                         })
                         if t.reader == r.reader || scopedTokens.count == 1 {
                             row.serial = t.serial; row.label = t.label
-                            if let c = certs.first { row.certSubject = c.subject; row.notAfter = c.notAfter }
+                            if let c = certs.first {
+                                row.certSubject = c.subject; row.notAfter = c.notAfter
+                                row.certificateName = CertificateText.name(derB64: c.derB64, fallback: c.subject)
+                            }
                         }
                     } else if case let .error(message) = certResponse {
                         row.readError = message
@@ -363,6 +372,7 @@ public final class AppModel: ObservableObject {
         guard !signing, originPrompt == nil else { throw MinvoiceError.busy }
         try Task.checkCancellation()
         signing = true
+        requestWasDenied = false
         let id = UUID()
         activeRequestID = id
         defer { signing = false; activeRequestID = nil; signingStatus = nil }
@@ -558,7 +568,18 @@ public final class AppModel: ObservableObject {
     func updateMinvoiceBatch(_ progress: MinvoiceBatchProgress) {
         minvoiceBatch = progress
         if progress.outcome == .running { signingStatus = progress.summary }
-        else { lastSignResult = progress.summary + (progress.diagnostic.map { " · \($0)" } ?? ""); if !signing { signingStatus = nil } }
+        else {
+            lastSignResult = progress.summary + (progress.diagnostic.map { " · \($0)" } ?? "")
+            let kind: SigningResult.Kind
+            switch progress.outcome {
+            case .completed: kind = .success
+            case .cancelled: kind = .cancelled
+            case .uploadUncertain: kind = .warning
+            default: kind = .failure
+            }
+            signingResult = SigningResult(kind: kind, message: lastSignResult ?? progress.summary)
+            if !signing { signingStatus = nil }
+        }
     }
 
     func chooseESignerFile() async -> URL? {
@@ -589,8 +610,11 @@ public final class AppModel: ObservableObject {
             let sig = try await sign(origin: "TokenSigner (ký thử)", serial: serial,
                                      dataB64: data.base64EncodedString(), operation: "Ký thử", docCount: 1)
             lastSignResult = "Ký và xác minh OK — chữ ký \(Data(base64Encoded: sig)?.count ?? 0) byte"
+            signingResult = SigningResult(kind: .success, message: lastSignResult!)
         } catch {
-            lastSignResult = "Lỗi ký: \(signErrorText(error))"
+            let cancelled = requestWasDenied || error is CancellationError || (error as? MinvoiceError) == .cancelled
+            lastSignResult = cancelled ? "Đã hủy yêu cầu ký" : signErrorText(error)
+            signingResult = SigningResult(kind: cancelled ? .cancelled : .failure, message: lastSignResult!)
         }
     }
 
@@ -618,6 +642,7 @@ public final class AppModel: ObservableObject {
     }
 
     func submitApproval(_ choice: ApprovalChoice) {
+        if case .deny = choice { requestWasDenied = true }
         approvalPrompt = nil
         promptWindow.dismiss()
         let continuation = approvalCont; approvalCont = nil

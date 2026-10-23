@@ -11,5 +11,8 @@ enum MenuLayout {
 }
 
 final class MenuPresentation: ObservableObject {
+    enum Page: String, CaseIterable { case tokens = "Token", connections = "Kết nối", history = "Lịch sử" }
     @Published var size = CGSize(width: 380, height: 560)
+    @Published var page: Page = .tokens
+    @Published var expandedTokens = Set<String>()
 }
