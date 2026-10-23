@@ -1,0 +1,95 @@
+{
+  "scope": "selected production signing files, software key, synthetic inputs only",
+  "swiftpm_build_used": false,
+  "digest_only_shim": true,
+  "sourceSHA256": {
+    "Sources/Core/XMLDSigSigner.swift": "a3b6a413f35cf3e63998fb19279826a2aca8dc3eb7944fbb231b6f083841f50c",
+    "Sources/Core/MessageSigner.swift": "14a7f0758de1910d090161063f56ace3908b612ea9b2cade320ea4673c870cc1",
+    "Sources/Core/DigestInfo.swift": "5fc1028c855a0bd96f11a18d4d78c0b4d52cca81aa6032569a33529b37873322",
+    "scripts/re/esigner-prolog-signing.swift": "783345d33789970807a82b7c3b0d597eb4ebedce159a1d97dfb4a8a4ad120d35"
+  },
+  "fixtures": [
+    {
+      "accepted": true,
+      "base64AndJSONAreNotRawXML": true,
+      "fixture": "utf8",
+      "inputBytes": 193,
+      "inputSHA256": "9a977b3bbbee4b93c56f0c0473fb560c663efef59155420d388bce07648d4a9b",
+      "outputBytes": 3290,
+      "outputParseable": true,
+      "outputSHA256": "8126398648e28dc9c9aeb725812728b688c6fd9304e40bb55d154840dd786f10",
+      "outputUTF8WithoutBOM": true,
+      "xmlsecVerified": true,
+      "tamperRejected": true
+    },
+    {
+      "accepted": true,
+      "base64AndJSONAreNotRawXML": true,
+      "fixture": "utf8-bom",
+      "inputBytes": 196,
+      "inputSHA256": "a961b3525e273e9c6c9e51f87ea6f0c4c71a303a08811a15e3cae7020caac7a7",
+      "outputBytes": 3290,
+      "outputParseable": true,
+      "outputSHA256": "8126398648e28dc9c9aeb725812728b688c6fd9304e40bb55d154840dd786f10",
+      "outputUTF8WithoutBOM": true,
+      "xmlsecVerified": true,
+      "tamperRejected": true
+    },
+    {
+      "accepted": true,
+      "base64AndJSONAreNotRawXML": true,
+      "fixture": "no-declaration",
+      "inputBytes": 153,
+      "inputSHA256": "6ffb2039c232bbc195d1772c72472f08aa06c7cf8e2d61460446f37d9bee3a28",
+      "outputBytes": 3256,
+      "outputParseable": true,
+      "outputSHA256": "c8e2265f3ded6f23855b6c9e38c572f9ead2a5fd2ce735e63b2dac8f95959cee",
+      "outputUTF8WithoutBOM": true,
+      "xmlsecVerified": true,
+      "tamperRejected": true
+    },
+    {
+      "accepted": false,
+      "diagnostic": "[XML_PARSE] Không đọc được tài liệu XML hợp lệ.",
+      "fixture": "double-bom",
+      "inputBytes": 199,
+      "inputSHA256": "9cddbcaea2f2d22d1a03b13bffc243fe41b279842d4b87d24c97a67b4c4872f9"
+    },
+    {
+      "accepted": false,
+      "diagnostic": "[XML_PARSE] Không đọc được tài liệu XML hợp lệ.",
+      "fixture": "base64-text",
+      "inputBytes": 260,
+      "inputSHA256": "9fd222066dc7b1a8e4fb9f76d247c8ef11180ab50f0a7ac7116eb6df367dd99d"
+    },
+    {
+      "accepted": false,
+      "diagnostic": "[XML_PARSE] Không đọc được tài liệu XML hợp lệ.",
+      "fixture": "json-envelope",
+      "inputBytes": 271,
+      "inputSHA256": "6afee76f5159eb4ec8fce90a1be73938e447244e742d98b73b215b53363fd2ec"
+    },
+    {
+      "accepted": false,
+      "diagnostic": "[XML_DTD_ENTITY] XML chứa khai báo DTD hoặc ENTITY không được phép.",
+      "fixture": "html-login",
+      "inputBytes": 51,
+      "inputSHA256": "b2730889a71d753c1deac456bfad309e52c53bf8f517f8da5c1764ef1537f998"
+    },
+    {
+      "accepted": false,
+      "diagnostic": "[XML_PARSE] Không đọc được tài liệu XML hợp lệ.",
+      "fixture": "junk-prolog",
+      "inputBytes": 202,
+      "inputSHA256": "d36010c522bbc2c6521df2d6f3968b714ba68aca0f1755a4c2cb52dd3ce2163a"
+    },
+    {
+      "accepted": false,
+      "diagnostic": "[XML_ENCODING] Mã hóa XML chưa được hỗ trợ; cần XML UTF-8.",
+      "fixture": "utf16",
+      "inputBytes": 378,
+      "inputSHA256": "6179273b0aa88934fa0b7945da52f58b0df0a947a7b2d9aa81aaeabe8b12e216"
+    }
+  ],
+  "checked_local_date": "2026-10-24"
+}

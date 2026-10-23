@@ -1,0 +1,74 @@
+[
+  {
+    "bytes" : 193,
+    "fixture" : "utf8",
+    "foundationParse" : true,
+    "serializedBOM" : false,
+    "serializedBytes" : 208,
+    "serializedStartsXML" : true,
+    "serializedUTF8" : true,
+    "sha256" : "9a977b3bbbee4b93c56f0c0473fb560c663efef59155420d388bce07648d4a9b",
+    "utf8Decodable" : true
+  },
+  {
+    "bytes" : 196,
+    "fixture" : "utf8-bom",
+    "foundationParse" : true,
+    "serializedBOM" : false,
+    "serializedBytes" : 208,
+    "serializedStartsXML" : true,
+    "serializedUTF8" : true,
+    "sha256" : "a961b3525e273e9c6c9e51f87ea6f0c4c71a303a08811a15e3cae7020caac7a7",
+    "utf8Decodable" : true
+  },
+  {
+    "bytes" : 199,
+    "fixture" : "double-bom",
+    "foundationParse" : false,
+    "sha256" : "9cddbcaea2f2d22d1a03b13bffc243fe41b279842d4b87d24c97a67b4c4872f9",
+    "utf8Decodable" : true
+  },
+  {
+    "bytes" : 260,
+    "fixture" : "base64-text",
+    "foundationParse" : false,
+    "sha256" : "9fd222066dc7b1a8e4fb9f76d247c8ef11180ab50f0a7ac7116eb6df367dd99d",
+    "utf8Decodable" : true
+  },
+  {
+    "bytes" : 271,
+    "fixture" : "json-envelope",
+    "foundationParse" : false,
+    "sha256" : "6afee76f5159eb4ec8fce90a1be73938e447244e742d98b73b215b53363fd2ec",
+    "utf8Decodable" : true
+  },
+  {
+    "bytes" : 51,
+    "fixture" : "html",
+    "foundationParse" : true,
+    "serializedBOM" : false,
+    "serializedBytes" : 50,
+    "serializedStartsXML" : false,
+    "serializedUTF8" : true,
+    "sha256" : "b2730889a71d753c1deac456bfad309e52c53bf8f517f8da5c1764ef1537f998",
+    "utf8Decodable" : true
+  },
+  {
+    "bytes" : 202,
+    "fixture" : "junk-prolog",
+    "foundationParse" : false,
+    "sha256" : "d36010c522bbc2c6521df2d6f3968b714ba68aca0f1755a4c2cb52dd3ce2163a",
+    "utf8Decodable" : true
+  },
+  {
+    "bytes" : 378,
+    "fixture" : "utf16",
+    "foundationParse" : true,
+    "serializedBOM" : false,
+    "serializedBytes" : 408,
+    "serializedStartsXML" : false,
+    "serializedUTF8" : false,
+    "sha256" : "6179273b0aa88934fa0b7945da52f58b0df0a947a7b2d9aa81aaeabe8b12e216",
+    "utf8Decodable" : false
+  }
+]

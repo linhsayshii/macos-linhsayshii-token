@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-23T18:13:59.614478+00:00",
+  "scope": "targeted Swift tests, software key and fake service only",
+  "swiftpm_build_used": true,
+  "app_packaged_or_restarted": false,
+  "hardware_signing_or_portal_upload": false,
+  "core_prolog_tests": 3,
+  "bridge_esigner_tests": 11,
+  "total": 14,
+  "passed": true,
+  "sourceSHA256": {
+    "Tests/CoreTests/XMLPrologTests.swift": "6cabc99917119ab0317d35834c1b8fd9668008bcc1b5a25d865dc172a283d957"
+  },
+  "confirmed_live_root_cause": false
+}
