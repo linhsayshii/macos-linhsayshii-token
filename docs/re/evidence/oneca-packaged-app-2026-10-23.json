@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-10-23T04:14:53.911301+00:00",
+  "scope": "OneCA source handoff reviewed and included in packaged App/Helper/shim",
+  "full_test_total": 151,
+  "core_tests": 45,
+  "shim_tests": 7,
+  "module_hash_verified": true,
+  "packaged_helper_contains_reencoding_policy": true,
+  "discovery": {
+    "packaged_ctsign_getcert_reachable": true,
+    "oneca_recorded_certificate_advertised": true,
+    "real_pin_or_signing": false
+  },
+  "no_new_login_or_signature": true,
+  "limits": [
+    "Experimental OneCAV3 exact ATR and pinned Longmai module",
+    "One matching OneCA token/reader only",
+    "No new live portal or multi-token/hotplug signing validation"
+  ],
+  "sources": [
+    "oneca-arm64-integration.json",
+    "oneca-arm64-signing-validation.json"
+  ],
+  "packaging": {
+    "App_Helper_shim_replaced_together": true,
+    "codesign_strict": true,
+    "bundled_shim_checks": true,
+    "reopened_with_six_loopback_listeners": true
+  }
+}

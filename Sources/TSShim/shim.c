@@ -1,6 +1,9 @@
 #include "tsshim.h"
 #include <string.h>
 
+static int ts_reencoding_enabled = 1;
+void ts_set_reencoding_enabled(int enabled) { ts_reencoding_enabled = enabled != 0; }
+
 size_t ts_reencode(const uint8_t *apdu, size_t len, uint8_t *out, size_t outcap) {
     if (len < 7) return 0;
     if ((apdu[0] & 0x0C) != 0x0C) return 0;   /* SM class bit */
@@ -50,7 +53,7 @@ static LONG ts_transmit(SCARDHANDLE h, const SCARD_IO_REQUEST *send,
                         const uint8_t *in, uint32_t il,
                         SCARD_IO_REQUEST *recv, uint8_t *out, uint32_t *ol) {
     uint8_t buf[4096];
-    size_t n = ts_reencode(in, il, buf, sizeof buf);
+    size_t n = ts_reencoding_enabled ? ts_reencode(in, il, buf, sizeof buf) : 0;
     if (n > 0) {
         LONG rv = SCardTransmit(h, send, buf, (uint32_t)n, recv, out, ol);
         ts_logsw("reencode", (uint32_t)n, buf, rv, out, ol ? *ol : 0);

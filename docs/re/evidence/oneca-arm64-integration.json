@@ -1,0 +1,110 @@
+{
+  "id": "oneca-arm64-integration-20261023",
+  "moduleSourceURL": "https://prodigisign.com/repository/mac-driver.zip",
+  "sourceListing": "https://prodigisign.com/utilities/",
+  "sourcePackage": "mToken_CryptoID_Arm64.pkg",
+  "packageSignature": "Developer ID Installer Beijing Century Longmai Technology Co.,Ltd (4M7RX53G2N); pkgutil reports trusted/notarized; signed 2026-07-24",
+  "execution": "native arm64",
+  "helperExit": 0,
+  "tokenCount": 1,
+  "readerBound": "Longmai mToken OneCAV3",
+  "certificateCount": 1,
+  "certificateBytes": 1304,
+  "certificateSHA256": "0f12f988661785369e2a166db5775fb0cb7bbb71a89bd9fbe5d8dbf0c836dae3",
+  "certificateIDBytes": 20,
+  "notBefore": "2023-12-14 06:29:34",
+  "notAfter": "2027-03-03 06:57:23",
+  "noLoginOrSignInThisProbe": true,
+  "shim": "statically linked TSShim policy disabled for oneca backend; DYLD_INSERT_LIBRARIES not set",
+  "testResult": "45 CoreTests/TSShimTests passed; helper build passed",
+  "files": [
+    {
+      "path": ".local/oneca-windows/mac-reference/prodigisign-arm64/mToken_CryptoID_Arm64.pkg/Payload/usr/local/lib/libcryptoida_pkcs11_f2.dylib",
+      "bytes": 1943056,
+      "sha256": "b4e1b8d804ebf444b3c1acc7222a27dfb5d42cea7f6c51d3e067bdcbf2bbef0c"
+    },
+    {
+      "path": ".build/out/Products/Debug/TokenHelper",
+      "bytes": 10959728,
+      "sha256": "125665030a9e2a1d4e52d898c301640c293f2551bced23db7de6c01035923642"
+    },
+    {
+      "path": ".local/oneca-windows/mac-reference/prodigisign-mac-driver.zip",
+      "bytes": 124556805,
+      "sha256": "d83a7b975b60209f3964fc6ce8a4e0b889c84f01a95f536f50105de6c93489d7"
+    },
+    {
+      "path": ".local/oneca-windows/mac-readonly-arm64",
+      "bytes": 34448,
+      "sha256": "fc42c28668e296f6a2d99ffc11ac0d74ca317f46f09867c1ef2c38382ca6e48e"
+    },
+    {
+      "path": "Sources/Core/OneCAProfile.swift",
+      "bytes": 1372,
+      "sha256": "cb5de3bf96d0e7a8d8a12dd7ece000aed0b1705bd57be6e917df48463082d0f5"
+    },
+    {
+      "path": "Sources/Core/ModuleRegistry.swift",
+      "bytes": 2498,
+      "sha256": "bf844b699fe0f17e2ab5fa855aa8c4b3aea006d12b28ab7ad8f11500851d6a3d"
+    },
+    {
+      "path": "Sources/Core/TokenBroker.swift",
+      "bytes": 4726,
+      "sha256": "bb31e174a7aad4ac01cd2cc3d994b38f8ad4d6fc970cd1ddbf9d18c083c88bdf"
+    },
+    {
+      "path": "Sources/TokenHelper/OneCA.swift",
+      "bytes": 2437,
+      "sha256": "4649c06d9835600ceed3c8b21294bb8cc0fcaaff06fe3b67c7b04be8d9af4f8e"
+    },
+    {
+      "path": "Sources/TokenHelper/PKCS11.swift",
+      "bytes": 14323,
+      "sha256": "43aebbe0afffda76ad90b253a7a98c1c9bba07b65d4d2727b3cd6a128cba190e"
+    },
+    {
+      "path": "Sources/TokenHelper/main.swift",
+      "bytes": 2021,
+      "sha256": "6ca67b19691c6b6b3cc771d19260c2ad040a67a6f93d8907ba0a767c65429361"
+    },
+    {
+      "path": "Sources/TSShim/shim.c",
+      "bytes": 3147,
+      "sha256": "6c42d9f6a03569060f0ac75cb688a24836f7540d2919376c723669fbae257d3f"
+    },
+    {
+      "path": "Sources/TSShim/include/tsshim.h",
+      "bytes": 504,
+      "sha256": "d641bedbac45614dea153ce1565f4f43f405ad89dd688fa66305e8b65df82752"
+    },
+    {
+      "path": "Tests/CoreTests/ModuleRegistryTests.swift",
+      "bytes": 3234,
+      "sha256": "ceaed8cbcbac0f610b70be8424fb2bd9c26103047129d0969989d0ee811961c4"
+    }
+  ],
+  "unverifiedModuleRejection": {
+    "exit": 0,
+    "response": {
+      "error": {
+        "_0": "OneCA: module Longmai ch\u01b0a \u0111\u01b0\u1ee3c ki\u1ec3m ch\u1ee9ng (SHA-256 kh\u00e1c)"
+      }
+    }
+  },
+  "activeAppPreserved": {
+    "pid": 32846,
+    "path": ".local/test-env/TokenSigner.app/Contents/MacOS/App",
+    "repackaged": false,
+    "restarted": false
+  },
+  "appBuild": {
+    "status": "failed-during-concurrent-Minvoice-work",
+    "errors": [
+      "Sources/Bridges/MinvoiceBatch.swift:79: MinvoiceSigningBackend has no member batchProgress",
+      "Sources/Bridges/MinvoiceBatch.swift:88: MinvoiceSigningBackend has no member batchProgress"
+    ],
+    "logSHA256": "834a932a6003bad5e08b6fca07aed3bbfdff47f8aaa4eeeab289fda32f9e611d",
+    "noChangesMadeToOtherThreadFiles": true
+  }
+}

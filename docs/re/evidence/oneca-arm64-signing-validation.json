@@ -1,0 +1,21 @@
+{
+  "architecture": "arm64",
+  "certificateSHA256": "0f12f988661785369e2a166db5775fb0cb7bbb71a89bd9fbe5d8dbf0c836dae3",
+  "loginAttempts": 1,
+  "messageSHA256": "a56936fb5946a3402c27ec52c83ae3fc682b94379dc8aaa57fc734c33c9b70b3",
+  "signatureBytes": 256,
+  "status": "verified",
+  "id": "oneca-arm64-signing-20261023",
+  "verification": {
+    "macOSSecurity": "SecKeyVerifySignature rsaSignatureMessagePKCS1v15SHA256 passed",
+    "OpenSSL": {
+      "exit": 0,
+      "stdout": "Verified OK"
+    }
+  },
+  "consent": "User entered PIN in local NSSecureTextField and selected K\u00fd m\u1ed9t l\u1ea7n; no PIN in tool/log/argv. One login attempt.",
+  "operation": "one random local challenge; no documents/invoices",
+  "moduleSHA256": "b4e1b8d804ebf444b3c1acc7222a27dfb5d42cea7f6c51d3e067bdcbf2bbef0c",
+  "signatureSHA256": "bc9016d528b6fa79946cea4228684d7bf22bb4f86c68e65233f91f1fed584025",
+  "helperSHA256": "125665030a9e2a1d4e52d898c301640c293f2551bced23db7de6c01035923642"
+}

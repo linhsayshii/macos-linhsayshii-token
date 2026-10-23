@@ -2,6 +2,7 @@
 // HelperResponse per line on stdout. Credentials stay on the stdin pipe.
 import Foundation
 import Core
+import TSShim
 
 func emit(_ r: HelperResponse) {
     let d = (try? JSONEncoder().encode(r)) ?? Data("{\"error\":\"encode failed\"}".utf8)
@@ -14,7 +15,12 @@ let backend: any TokenBackend
 if let i = args.firstIndex(of: "--backend"), i + 1 < args.count, args[i + 1] == "fastca" {
     backend = FastCA()
 } else if let i = args.firstIndex(of: "--module"), i + 1 < args.count {
-    backend = PKCS11(modulePath: args[i + 1])
+    if let b = args.firstIndex(of: "--backend"), b + 1 < args.count, args[b + 1] == "oneca" {
+        ts_set_reencoding_enabled(0)
+        backend = OneCA(modulePath: args[i + 1])
+    } else {
+        backend = PKCS11(modulePath: args[i + 1])
+    }
 } else {
     FileHandle.standardError.write(Data("expected --module <path> or --backend fastca\n".utf8))
     exit(2)

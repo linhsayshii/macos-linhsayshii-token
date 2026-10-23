@@ -25,6 +25,25 @@ import Testing
     #expect(ModuleRegistry.lookup(atr: [0x3b, 0x9f]) == nil)
 }
 
+@Test func onecaUsesExactLongmaiProfileAndFailsClosedForAmbiguousReaders() throws {
+    let module = try #require(ModuleRegistry.lookup(atr: OneCAProfile.atr))
+    #expect(module.backend == .oneca)
+    #expect(module.arch == .universal)
+    #expect(module.isExperimental)
+    #expect(module.tokenScope == .reader)
+    var other = OneCAProfile.atr
+    other[22] ^= 1
+    #expect(ModuleRegistry.lookup(atr: other) == nil)
+    let token = TokenInfo(slot: 0, reader: "CryptoIDA PKCS11 Module 2.0 0", serial: "ONE-test", label: "OneCA", flags: [])
+    let reader = (reader: "Longmai mToken OneCAV3", atr: OneCAProfile.atr)
+    let bound = OneCAProfile.bind(readers: [reader], tokens: [token])
+    #expect(bound.first?.reader == reader.reader)
+    #expect(module.tokensForReader(reader.reader, from: bound) == bound)
+    #expect(OneCAProfile.bind(readers: [reader, (reader.reader + " 1", other)], tokens: [token]).isEmpty)
+    #expect(OneCAProfile.bind(readers: [reader], tokens: [token, token]).isEmpty)
+    #expect(OneCAProfile.bind(readers: [("Other", reader.atr)], tokens: [token]).isEmpty)
+}
+
 @Test func fastcaUsesNativeBackendWithoutCapturingOtherReaders() throws {
     let atr: [UInt8] = [0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0x00,0x66,0x46,0x53,0x05,
                         0x10,0x52,0x39,0x71,0xdf,0x00,0x00,0x69,0x00,0x00,0x11]

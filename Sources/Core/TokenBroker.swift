@@ -54,6 +54,9 @@ public actor TokenBroker {
         if module.backend == .fastca {
             proc.executableURL = helperURL
             proc.arguments = ["--backend", "fastca"]
+        } else if module.backend == .oneca {
+            proc.executableURL = helperURL
+            proc.arguments = ["--backend", "oneca", "--module", try resolve(module.moduleName)]
         } else if module.arch == .x86_64 {
             let modulePath = try resolve(module.moduleName)
             proc.executableURL = URL(fileURLWithPath: "/usr/bin/arch")
@@ -71,6 +74,9 @@ public actor TokenBroker {
                 env.removeValue(forKey: key)
             }
             env["OPENSC_DEBUG"] = "0"
+        } else if module.backend == .oneca {
+            env.removeValue(forKey: "DYLD_INSERT_LIBRARIES")
+            env.removeValue(forKey: "TSSHIM_LOG")
         } else { env["DYLD_INSERT_LIBRARIES"] = shimURL.path }
         proc.environment = env
 

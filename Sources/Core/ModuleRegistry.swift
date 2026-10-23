@@ -1,6 +1,6 @@
 public enum ModuleArch: Sendable { case universal, x86_64 }
 public enum ModuleTokenScope: Sendable { case module, reader }
-public enum ModuleBackend: Sendable { case pkcs11, fastca }
+public enum ModuleBackend: Sendable { case pkcs11, fastca, oneca }
 
 public struct ModuleInfo: Sendable, Equatable {
     public let ca: String
@@ -38,6 +38,10 @@ public enum ModuleRegistry {
     ]
 
     public static func lookup(atr: [UInt8]) -> ModuleInfo? {
+        if atr == OneCAProfile.atr {
+            return ModuleInfo(ca: "OneCA", moduleName: "libcryptoida_pkcs11_f2.dylib", arch: .universal,
+                              isExperimental: true, tokenScope: .reader, backend: .oneca)
+        }
         guard atr.count > 19 else { return nil }
         if atr[19] == 0x69 && atr != FastCAProfile.atr { return nil }
         return table[atr[19]]

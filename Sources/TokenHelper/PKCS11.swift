@@ -3,6 +3,7 @@
 // function list so the SCardTransmit interpose in libTSShim.dylib applies
 // underneath. P1 scope: listTokens and certs only (no login/sign).
 import Foundation
+import CryptoKit
 import Core
 import CPKCS11
 import X509
@@ -15,13 +16,14 @@ struct PKCS11Error: Error, CustomStringConvertible {
 
 final class PKCS11 {
     private let modulePath: String
+    private let oneCA: Bool
     private var handle: UnsafeMutableRawPointer?
     private var fl: CK_FUNCTION_LIST_PTR?
     private var loadError: Error?
     // Logged-in R/W sessions kept per token serial so sign reuses the login.
     private var sessions: [String: CK_SESSION_HANDLE] = [:]
 
-    init(modulePath: String) { self.modulePath = modulePath }
+    init(modulePath: String, oneCA: Bool = false) { self.modulePath = modulePath; self.oneCA = oneCA }
 
     // MARK: - login / sign
 
@@ -190,10 +192,29 @@ final class PKCS11 {
     }
 
     private func load() throws -> CK_FUNCTION_LIST_PTR {
+        if oneCA {
+            let digest = SHA256.hash(data: try Data(contentsOf: URL(fileURLWithPath: modulePath)))
+                .map { String(format: "%02x", $0) }.joined()
+            guard digest == OneCAProfile.moduleSHA256 else {
+                throw PKCS11Error("OneCA: module Longmai chưa được kiểm chứng (SHA-256 khác)")
+            }
+        }
         guard let h = dlopen(modulePath, RTLD_NOW) else {
             throw PKCS11Error("dlopen failed: \(String(cString: dlerror()))")
         }
         handle = h
+        if oneCA {
+            // The measured vendor M_SetEnumString copies 1024 bytes into this
+            // 256-byte global and corrupts its function table. Configure only
+            // this hash-pinned module's exported data before C_Initialize.
+            guard let criteria = dlsym(h, "g_p11_device_criteria") else {
+                throw PKCS11Error("OneCA: thiếu cấu hình reader Longmai")
+            }
+            let value = OneCAProfile.readerFilter + ",not used,vid_055c&pid_0223"
+            value.withCString { source in
+                _ = memcpy(criteria, source, value.utf8.count + 1)
+            }
+        }
         guard let sym = dlsym(h, "C_GetFunctionList") else {
             throw PKCS11Error("C_GetFunctionList not found in \(modulePath)")
         }
