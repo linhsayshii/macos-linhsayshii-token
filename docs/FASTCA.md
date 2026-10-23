@@ -11,7 +11,8 @@ Máy này đã có OpenSC 0.27.1. Backend nạp động `libopensc.13.dylib` t�
 `/opt/homebrew/lib`, `/usr/local/lib` hoặc `/Library/OpenSC/lib`. Do OpenSC có
 struct ABI theo phiên bản, backend yêu cầu đúng 0.27.1 và báo lỗi rõ nếu thiếu
 hoặc khác phiên bản. Header upstream/LGPL được lưu trong `Sources/CFastCA/vendor`;
-không cần tải SDK header để build và không nhúng runtime OpenSC vào app.
+không cần tải SDK header để build. Gói app thử hiện nhúng runtime ở
+`Contents/Frameworks/ESPK` và ưu tiên nạp runtime đó trước các đường dẫn hệ thống.
 
 ```sh
 ./scripts/test-env.sh setup-fastca  # kiểm tra runtime; không cài hay copy module
@@ -43,12 +44,19 @@ máy phát triển; chưa phải gói phân phối/notarization.
 
 Luồng CTSigningHub SignHash cũng đi qua backend này: digest đã dựng sẵn được bọc
 DigestInfo một lần, không hash lại. Thử portal/nghiệp vụ cần kiểm tra riêng; chứng
-thư FastCA hiện tại hết hạn 30/07/2026. Verify RSA không kiểm tra chain/revocation.
+thư mẫu ngày 22/10 hết hạn 30/07/2026; chiếc FastCA khác đọc ngày 23/10 còn hạn
+đến 06/08/2028. Verify RSA không kiểm tra chain/revocation.
 
 ## Phạm vi
 
-Profile hiện hỗ trợ thẻ FastCA ESPK có ATR
-`3b9f958131fe9f006646530510523971df000069000011`, RSA 2048 và PIN ASCII 1–64 byte.
+Profile hiện hỗ trợ hai ATR FastCA ESPK đã đo:
+
+- `3b9f958131fe9f006646530510523971df000069000011` — mẫu đã ký native ngày 22/10.
+- `3b9f958131fe9f006646530510063171df00006900004d` — mẫu ngày 23/10: catalog 1500
+  byte, 9 logical files; chứng thư FastCA/RSA 2048, CKA_ID và public key khớp key
+  metadata. Đọc metadata này không gửi xác thực PIN hoặc ký.
+
+RSA 2048 và PIN ASCII 1–64 byte.
 ATR khác, key khác loại/kích thước và RSA_X_509 bị từ chối rõ ràng. Không suy rộng
 kết quả sang mọi mẫu FastCA. Module registry vẫn ghi “Thử nghiệm”.
 
@@ -63,3 +71,14 @@ Nguồn giao thức và bằng chứng native ban đầu:
   Helper/AppModel và OpenSSL đều verify đạt.
 - [Validation](re/evidence/fastca-app-signing-validation.json) có message/signature,
   hash binary/source và phạm vi đo; không chứa PIN hoặc private key.
+
+## Sửa nhận diện chiếc FastCA thứ hai — 23/10/2026
+
+App báo “Chưa hỗ trợ” vì ATR chiếc đang cắm khác mẫu đầu ở historical bytes và
+checksum, dù cùng customer byte `69`. Bộ lọc exact ATR được giữ lại và bổ sung
+đúng mẫu mới ở registry, ESPK reader filter và C transport; không đổi sang wildcard
+customer byte hoặc giả ATR. Mọi metadata/certificate/key vẫn phải qua preflight.
+
+[Read-only validation](re/evidence/fastca-0631-readonly-validation.json) và source
+probe/check lưu bằng chứng của chiếc mới. Chứng thư DER/raw metadata chỉ giữ local;
+repo chỉ có hash và trạng thái, không có PIN hoặc private key.

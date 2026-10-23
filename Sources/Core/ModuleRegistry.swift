@@ -47,7 +47,7 @@ public enum ModuleRegistry {
                               isExperimental: true, tokenScope: .reader, backend: .oneca)
         }
         guard atr.count > 19 else { return nil }
-        if atr[19] == 0x69 && atr != FastCAProfile.atr { return nil }
+        if atr[19] == 0x69 && !FastCAProfile.matches(atr: atr) { return nil }
         return table[atr[19]]
     }
 }

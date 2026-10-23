@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-23",
+  "GetCertStatus": 200,
+  "certificatesTotal": 5,
+  "newFastCACertificatePresent": true,
+  "certificateSHA256": "852a2044fed4395d93ec62fcb49f6da5ac1408b1304953294ca88726377412e9",
+  "notAfter": "2028-08-06 12:37:00",
+  "authenticationAttempts": 0,
+  "appSHA256": "3c4eb05131a1799e77401c19638674811e44ba2e192fecb79728b416fa541cc4",
+  "helperSHA256": "38f5b7c6cb6b99663bfb5c9f846fa04081d5f54f88ad814f9f1fee818b4cc839",
+  "helperRead": {
+    "reader": "FT ePass2003Auto 01",
+    "label": "FastCA",
+    "serial": "FASTCA-C98A9158A412FC74",
+    "certificates": 1,
+    "certificateSHA256": "852a2044fed4395d93ec62fcb49f6da5ac1408b1304953294ca88726377412e9",
+    "notAfter": "2028-08-06 12:37:00",
+    "authenticationAttempts": 0,
+    "signaturesCreated": 0
+  },
+  "tests": {
+    "totalSwiftTestsPassed": 172,
+    "groups": [
+      7,
+      7,
+      47,
+      89,
+      22
+    ],
+    "nativeMockTransport": "PASS",
+    "scope": "software tests use fixtures; no physical authentication"
+  },
+  "sourcesSHA256": {
+    "Sources/Core/FastCAProfile.swift": "2bf4c8d1725758cb0da5aebe41590a6bb0cbab32eae1954ffcd1f4dafbdad380",
+    "Sources/Core/ModuleRegistry.swift": "77b3ecd4de34ac3af469d90bbd39ffda62d73baf21cb492cf702ff48cbecc278",
+    "Sources/TokenHelper/ESPK.swift": "f5b38f8fb5deafaf919607473d1d8547d35f441bfa2c63f315fdaad19d27ebf5",
+    "Sources/CFastCA/fastca.c": "861e58642213adf5444c3cd35875f35411f83a4d9005121f3c6e22f71011404b"
+  },
+  "authenticationScope": "User PIN authentication only; OpenSC transport secure-messaging initialization is not a PIN attempt."
+}

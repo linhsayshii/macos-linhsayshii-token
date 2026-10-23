@@ -83,3 +83,18 @@ import Testing
     #expect(ModuleRegistry.lookup(atr: otherProfile) == nil)
     #expect(ModuleRegistry.lookup(atr: Array(atr.dropLast())) == nil)
 }
+
+@Test func fastcaSupportsBothMeasuredProfilesAndRejectsNearMatches() throws {
+    for atr in FastCAProfile.supportedATRs {
+        #expect(ModuleRegistry.lookup(atr: atr)?.backend == .fastca)
+        for index in atr.indices {
+            var other = atr; other[index] ^= 1
+            #expect(!FastCAProfile.matches(atr: other))
+            #expect(ModuleRegistry.lookup(atr: other)?.backend != .fastca)
+            // Other issuers still use their existing customer-byte routing.
+            if index != 19 { #expect(ModuleRegistry.lookup(atr: other) == nil) }
+        }
+        #expect(!FastCAProfile.matches(atr: Array(atr.dropLast())))
+    }
+    #expect(!FastCAProfile.matches(atr: EfyProfile.atr))
+}

@@ -109,10 +109,15 @@ int fca_card_open_profile(fca_runtime *r, const char *reader, fca_profile profil
     if (rv < 0) goto fail;
     const uint8_t fastca_atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
                           0x05,0x10,0x52,0x39,0x71,0xdf,0,0,0x69,0,0,0x11};
+    const uint8_t fastca_atr0631[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
+                          0x05,0x10,0x06,0x31,0x71,0xdf,0,0,0x69,0,0,0x4d};
     const uint8_t efy_atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
                           0x05,0x10,0x11,0x39,0x71,0xdf,0,0,0x51,0,0,0x6a};
-    const uint8_t *atr = profile == FCA_PROFILE_EFY ? efy_atr : fastca_atr;
-    if (c->card->atr.len != sizeof(fastca_atr) || memcmp(c->card->atr.value, atr, sizeof(fastca_atr)) ||
+    int matches = c->card->atr.len == sizeof(fastca_atr) &&
+        (profile == FCA_PROFILE_EFY ? !memcmp(c->card->atr.value, efy_atr, sizeof(efy_atr)) :
+         (!memcmp(c->card->atr.value, fastca_atr, sizeof(fastca_atr)) ||
+          !memcmp(c->card->atr.value, fastca_atr0631, sizeof(fastca_atr0631))));
+    if (!matches ||
         !c->card->driver || !c->card->driver->short_name || strcmp(c->card->driver->short_name, "epass2003")) {
         rv = FCA_INVALID;
         goto fail;

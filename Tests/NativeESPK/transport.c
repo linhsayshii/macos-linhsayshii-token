@@ -13,6 +13,8 @@ static const uint8_t efy_atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46
     0x05,0x10,0x11,0x39,0x71,0xdf,0,0,0x51,0,0,0x6a};
 static const uint8_t fastca_atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
     0x05,0x10,0x52,0x39,0x71,0xdf,0,0,0x69,0,0,0x11};
+static const uint8_t fastca_atr0631[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
+    0x05,0x10,0x06,0x31,0x71,0xdf,0,0,0x69,0,0,0x4d};
 
 static sc_reader_t *mock_reader(sc_context_t *ctx, const char *name) { return &reader; }
 static int mock_connect(sc_reader_t *r, sc_card_t **out) { *out = &device; return 0; }
@@ -125,6 +127,17 @@ int main(void) {
         assert(sign(card,&sw)<0); assert(sign(card,&sw)==FCA_INVALID);
         assert(mses==1 && psos==(fail==1 ? 1 : 0));
         fca_card_close(card); assert(resets==2 && disconnects==1);
+    }
+    const uint8_t *fastca_profiles[] = {fastca_atr, fastca_atr0631};
+    for (size_t p=0;p<2;p++) {
+        fixture(fastca_profiles[p]); card=NULL;
+        assert(fca_card_open_profile(&runtime,"fixture",FCA_PROFILE_FASTCA,&card)==0 && card);
+        fca_card_close(card); assert(!auths && !mses && !psos);
+        for (size_t i=0;i<sizeof(fastca_atr);i++) {
+            fixture(fastca_profiles[p]); device.atr.value[i]^=1; card=NULL;
+            assert(fca_card_open_profile(&runtime,"fixture",FCA_PROFILE_FASTCA,&card)==FCA_INVALID && !card);
+            assert(!auths && !mses && !psos && !locks);
+        }
     }
     puts("PASS native ESPK mock transport: exact profiles, preflight reset, one auth, no retries, MSE/PSO framing, cleanup");
     return 0;

@@ -1,0 +1,31 @@
+{
+  "atr": "3b9f958131fe9f006646530510063171df00006900004d",
+  "authenticationAttempts": 0,
+  "catalogBytes": 1500,
+  "date": "2026-10-23",
+  "driver": "epass2003",
+  "identities": [
+    {
+      "certificatePublicKeyMatchesMetadata": true,
+      "certificateSHA256": "852a2044fed4395d93ec62fcb49f6da5ac1408b1304953294ca88726377412e9",
+      "CKA_ID_SHA256": "ca156dbe050335564f6d63f6fc43d01520cc8e2fed6c06232a903bad80006041",
+      "DERBytes": 1414,
+      "keyReference": "A020",
+      "modulusBytes": 256
+    }
+  ],
+  "logicalFiles": 9,
+  "reader": "FT ePass2003Auto 01",
+  "signaturesCreated": 0,
+  "scope": "new physical FastCA card; read-only public metadata validation before enabling exact ATR",
+  "certificateIssuer": "FastCA SHA-256 R1",
+  "notBeforeUTC": "2025-12-22 03:37:00",
+  "notAfterUTC": "2028-08-06 12:37:00",
+  "previousATR": "3b9f958131fe9f006646530510523971df000069000011",
+  "rootCause": "exact ATR absent at ModuleRegistry, ESPK reader filter and C transport guards",
+  "sourceSHA256": {
+    "read-only.c": "99f0df05e0dc653bbab72af9bf2c3688b46210a9d73c8f592ace5f3b0015b989",
+    "validate.swift": "52be00078d5d142445705228464a9c9e0c652a1c5b8db37391e341619292e78a"
+  },
+  "authenticationScope": "User PIN authentication only; OpenSC transport secure-messaging initialization is not a PIN attempt."
+}

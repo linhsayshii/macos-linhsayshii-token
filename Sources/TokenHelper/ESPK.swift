@@ -13,6 +13,9 @@ struct ESPKError: Error, CustomStringConvertible {
 enum NativeESPKProfile {
     case fastca, efy
     var atr: [UInt8] { self == .efy ? EfyProfile.atr : FastCAProfile.atr }
+    func matches(atr: [UInt8]) -> Bool {
+        self == .fastca ? FastCAProfile.matches(atr: atr) : atr == self.atr
+    }
     var label: String { self == .efy ? "EFY-CA" : "FastCA" }
     var serialPrefix: String { self == .efy ? "EFY-" : "FASTCA-" }
     var transport: fca_profile { self == .efy ? FCA_PROFILE_EFY : FCA_PROFILE_FASTCA }
@@ -122,7 +125,7 @@ final class ESPKBackend: TokenBackend {
     }
 
     private func readers() -> [(reader: String, atr: [UInt8])] {
-        scan().filter { $0.atr == profile.atr }
+        scan().filter { profile.matches(atr: $0.atr) }
     }
 
     private func connection(reader: String) throws -> any ESPKCardConnection {

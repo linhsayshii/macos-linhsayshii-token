@@ -101,3 +101,14 @@ vòng đời app và không mở Settings rỗng; user xác nhận icon đã hi�
 và smoke sáu cổng đạt. Chưa xác nhận toàn bộ ma trận menu thật 20 lần/nhiều màn
 hình/Spaces/VoiceOver. [Giao diện](UI.md),
 [evidence](re/evidence/ui-overhaul-2026-10-23.json).
+
+
+FastCA: bổ sung exact ATR `3b9f958131fe9f006646530510063171df00006900004d`
+cho chiếc thẻ thứ hai đang cắm. App trước đó báo “Chưa hỗ trợ” do allowlist
+chỉ có mẫu cũ. Đã xác minh catalog/CKA_ID/public key/chứng thư không PIN, giữ
+metadata preflight và bộ lọc exact ở registry/helper/C transport. Helper/app
+đóng gói đọc đúng chứng thư còn hạn đến 06/08/2028. Native C mock và **172 Swift
+tests đạt**; source/binary hashes khớp evidence. Lượt này chưa xác thực/ký trên
+chiếc mới, chưa kiểm chứng portal/chain/revocation.
+[Chi tiết](re/fastca-0631-profile.md),
+[evidence app](re/evidence/fastca-0631-app-validation.json).

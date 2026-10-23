@@ -76,6 +76,19 @@ private func backend(_ card: Card, profile: NativeESPKProfile = .efy) -> ESPKBac
     ESPKBackend(profile: profile, scan: { [("synthetic reader", profile.atr)] }, connect: { _ in card })
 }
 
+@Test func fastcaSecondATRReachesValidatedMetadataWithoutPIN() throws {
+    let card = try Card()
+    let b = ESPKBackend(profile: .fastca, scan: { [("second FastCA reader", FastCAProfile.atr0631)] },
+                        connect: { _ in card })
+    let token = try #require(b.listTokens().first)
+    #expect(token.label == "FastCA" && token.serial.hasPrefix("FASTCA-"))
+    #expect(try b.certs(serial: token.serial).first?.id == "0007")
+    #expect(card.auths == 0 && card.signs == 0)
+    let efy = ESPKBackend(profile: .efy, scan: { [("second FastCA reader", FastCAProfile.atr0631)] },
+                          connect: { _ in Issue.record("FastCA must not reach EFY transport"); return card })
+    #expect(try efy.listTokens().isEmpty)
+}
+
 @Test func efyReadsDynamicCatalogAndStableCardIdentityWithoutPIN() throws {
     let card = try Card(), b = backend(card)
     let token = try #require(b.listTokens().first)

@@ -56,7 +56,8 @@ khi sao lưu phần việc chưa commit và dependency lock; xem mục cập nh�
   CA và các ATR khác chưa kiểm chứng đầy đủ. Middleware các CA khác vẫn phải có
   sẵn; không đóng gói installer vendor.
 - Certificate chain/revocation, runtime distribution/notarization và live portal
-  regression sau merge còn cần kiểm thử riêng. FastCA cert hiện có đã hết hạn.
+  regression sau merge còn cần kiểm thử riêng. Mẫu FastCA ngày 22/10 đã hết
+  hạn; mẫu thứ hai đọc ngày 23/10 còn hạn đến 06/08/2028.
 - Trong đợt dọn branch đầu ngày 23/10/2026, chỉ còn `p1-token-core` ở local
   và origin; tại thời điểm đó đây là default branch trên GitHub và
   đích của origin/HEAD. Bốn nhánh local/hai nhánh remote cũ đã xóa sau khi xác
