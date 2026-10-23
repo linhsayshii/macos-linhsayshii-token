@@ -21,6 +21,13 @@ Chưa có chính sách kích thước theo màn hình chứa icon. Ảnh cho th�
 cần tái hiện trên màn hình thật với display scaling và vị trí icon thực tế.
 Giới hạn chiều cao sẽ loại bỏ một nguyên nhân khiến hệ thống phải dịch panel.
 
+Ảnh bổ sung lúc 12:06 và phản hồi người dùng ghi nhận **kích thước cũ còn lưu
+sau đóng/mở dropdown**: nền/chrome của panel có thể lớn hơn phần nội dung đang
+vẽ, để dư vùng phía trên. Theo dõi thành lỗi riêng của đợt 1, gồm cả toggle mục
+bên trong lẫn đóng/mở menu từ icon. Chưa kết luận do cache của SwiftUI/AppKit
+trước khi đo content bounds và host frame thực tế; sửa riêng padding/VStack
+không đủ để chứng minh đã hết lỗi.
+
 `SigningPromptWindow.swift` dùng `fittingSize` rồi `center()`; picker rộng 460pt,
 approval/origin 340pt, PIN 320pt. Chưa có khung thích ứng chiều cao chung. Theme
 đã tập trung màu cơ bản nhưng spacing, button phụ, card, header/footer vẫn riêng
@@ -93,6 +100,14 @@ chiều cao còn lại và cuộn. Không thêm cửa sổ dashboard lớn trong
    controller mới tạo model thứ hai hoặc phụ thuộc việc mở menu để start bridge.
    Cần kiểm tra dữ liệu cập nhật ngay khi panel đang mở, vì repo từng có lỗi này
    khi đổi ownership sang AppDelegate.
+7. Khi mở menu, tính lại kích thước hợp lệ từ màn hình hiện tại và áp cho cả
+   hosting view lẫn popover trước khi hiển thị/neo; không dùng lại frame cao nhất
+   từng đo hoặc frame từ màn hình trước. Khi đóng/mở disclosure, chỉ thay nội
+   dung vùng cuộn bên trong vỏ có chiều cao đã chọn, không để host tự lưu một
+   kích thước khác. Theo dõi thay đổi screen/layout qua một controller và nguồn
+   kích thước duy nhất, tránh vòng lặp intrinsic size → resize → intrinsic size.
+   Không chữa bằng cách tạo lại AppModel, xóa trạng thái yêu cầu ký hoặc nới
+   frame trong suốt che lên ứng dụng phía sau.
 
 Không thay vị trí biểu tượng menubar do người dùng/macOS quản lý. Mục tiêu là
 panel neo đúng icon, nằm trên đúng màn hình và không bị cắt.
@@ -132,7 +147,7 @@ NSOpenPanel vẫn là bảng chọn file native, đồng bộ tiêu đề và c�
 
 | Đợt | Việc và file chính | Điều kiện hoàn tất |
 |---|---|---|
-| 1 — Sửa tràn | `MenuBarView.swift`, layout policy mới; một scroll ngoài, chiều cao theo màn hình, footer cố định, bỏ scroll Minvoice lồng | Mở mọi chi tiết với 0/4/10 token không vượt màn hình; nút cuối luôn thấy |
+| 1 — Sửa tràn và giữ size cũ | `MenuBarView.swift`, layout policy mới; một scroll ngoài, chiều cao theo màn hình, footer cố định, đồng bộ host/content khi mở lại, bỏ scroll Minvoice lồng | Mở mọi chi tiết với 0/4/10 token không vượt màn hình; nút cuối luôn thấy; thu gọn/mở lại không dư nền hoặc dùng frame cũ |
 | 2 — Neo ổn định | Fixture geometry; `MenuBarController.swift` mới nếu cần, `TokenSignerApp.swift`; status item/popover và lifecycle | Neo đúng màn hình ở mép trái/phải, không nhảy khi nội dung đổi; một model/sáu listener |
 | 3 — Menu mới | `MenuBarView.swift`, `TokenCard.swift`, `ConnectionView.swift`, `HistoryView.swift`; state trình bày tách khỏi trạng thái ký | Ba trang, card gọn, chi tiết/copy, trạng thái và tiến trình thống nhất |
 | 4 — Popup chung | `Theme.swift`, `Components/`, `PromptContainer.swift`, picker/approval/PIN/origin, `SigningPromptWindow.swift` | Cùng khung/spacing/button/focus, thích ứng màn hình; hủy/hotplug/busy vẫn đúng |
@@ -155,6 +170,7 @@ asset repo. Mỗi fixture có thể mở cả ba trang và mọi phần chi ti�
 | Màn hình | 1280×720, 1440×900, màn lớn; scaling khác nhau; nhiều màn với origin âm; icon gần hai mép; display tháo/cắm |
 | Menubar | Tự ẩn; đổi vị trí icon; chuyển Spaces/full screen; mở/đóng bằng chuột và bàn phím |
 | Layout | Đo toàn bộ outer panel nằm trong vùng khả dụng; header/footer và nút chính không bị clip; mở chi tiết không đổi vỏ panel; nội dung cuối cuộn tới được |
+| Size cũ | Mở tất cả mục → thu gọn → đóng menu → mở lại, lặp 20 lần; lặp sau khi chuyển màn hình/scaling và tháo token; host/content bounds nhất quán, không dư vùng trong suốt/trắng phía trên/dưới, không giữ frame lớn nhất từng có |
 | Signing | Request tự mở picker khi chưa bấm menu; chọn/duyệt/PIN, hủy tại mỗi bước, token rút khi chọn, concurrent/busy, tiến trình/hủy lô Minvoice |
 | Appearance | Sáng/tối, host khác appearance, Increase Contrast/Reduce Motion, focus/hover/disabled; VoiceOver đọc đúng trạng thái |
 
