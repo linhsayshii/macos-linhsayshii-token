@@ -12,8 +12,9 @@ func emit(_ r: HelperResponse) {
 
 let args = CommandLine.arguments
 let backend: any TokenBackend
-if let i = args.firstIndex(of: "--backend"), i + 1 < args.count, args[i + 1] == "fastca" {
-    backend = FastCA()
+if let i = args.firstIndex(of: "--backend"), i + 1 < args.count, ["fastca", "efy"].contains(args[i + 1]) {
+    ts_set_reencoding_enabled(0)
+    backend = ESPKBackend(profile: args[i + 1] == "efy" ? .efy : .fastca)
 } else if let i = args.firstIndex(of: "--module"), i + 1 < args.count {
     if let b = args.firstIndex(of: "--backend"), b + 1 < args.count, args[b + 1] == "oneca" {
         ts_set_reencoding_enabled(0)
@@ -22,7 +23,7 @@ if let i = args.firstIndex(of: "--backend"), i + 1 < args.count, args[i + 1] == 
         backend = PKCS11(modulePath: args[i + 1])
     }
 } else {
-    FileHandle.standardError.write(Data("expected --module <path> or --backend fastca\n".utf8))
+    FileHandle.standardError.write(Data("expected --module <path> or --backend fastca|efy\n".utf8))
     exit(2)
 }
 

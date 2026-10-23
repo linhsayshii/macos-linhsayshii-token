@@ -19,7 +19,7 @@ required = [
     'Sources/Bridges/BridgeCatalog.swift', 'Sources/Bridges/VNPTBridge.swift',
     'Sources/Bridges/LocalCA.swift', 'Sources/Bridges/ESignerBridge.swift',
     'Sources/Bridges/CTSignBridge.swift', 'Sources/Bridges/MinvoiceInvoices.swift',
-    'Sources/TokenHelper/FastCA.swift', 'Sources/App/CertificatePicker.swift',
+    'Sources/TokenHelper/ESPK.swift', 'Sources/App/CertificatePicker.swift',
     'Sources/Core/AuditLog.swift', 'Package.resolved'
 ]
 missing = [name for name in required if not (root / name).is_file()]

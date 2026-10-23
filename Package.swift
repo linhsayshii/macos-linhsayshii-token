@@ -44,6 +44,7 @@ let package = Package(
         ]),
         .executableTarget(name: "App", dependencies: ["Core", "Bridges"]),
         .testTarget(name: "AppTests", dependencies: ["App", "Core", "Bridges"]),
+        .testTarget(name: "TokenHelperTests", dependencies: ["TokenHelper", "Core"]),
         .testTarget(name: "CoreTests", dependencies: ["Core"]),
         .testTarget(name: "BridgesTests", dependencies: ["Bridges", "Core"]),
         .testTarget(name: "TSShimTests", dependencies: ["TSShim"]),

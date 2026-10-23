@@ -125,6 +125,11 @@ int fca_card_open_profile(fca_runtime *r, const char *reader, fca_profile profil
     if (profile == FCA_PROFILE_EFY) {
         rv = r->reset(c->card, 0);
         if (rv < 0) goto fail;
+        // sc_reset resets only the reader, leaving OpenSC's old SM keys in
+        // memory. Re-establish epass2003 SM before any metadata or PIN APDU.
+        if (!c->card->sm_ctx.ops.open) { rv = FCA_INVALID; goto fail; }
+        rv = c->card->sm_ctx.ops.open(c->card);
+        if (rv < 0) goto fail;
     }
     *out = c;
     return 0;

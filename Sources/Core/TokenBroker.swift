@@ -51,9 +51,9 @@ public actor TokenBroker {
     /// in order (one per line read back).
     private func run(_ reqs: [HelperRequest], module: ModuleInfo) throws -> [HelperResponse] {
         let proc = Process()
-        if module.backend == .fastca {
+        if module.backend == .fastca || module.backend == .efy {
             proc.executableURL = helperURL
-            proc.arguments = ["--backend", "fastca"]
+            proc.arguments = ["--backend", module.backend == .efy ? "efy" : "fastca"]
         } else if module.backend == .oneca {
             proc.executableURL = helperURL
             proc.arguments = ["--backend", "oneca", "--module", try resolve(module.moduleName)]
@@ -67,7 +67,7 @@ public actor TokenBroker {
             proc.arguments = ["--module", modulePath]
         }
         var env = ProcessInfo.processInfo.environment
-        if module.backend == .fastca {
+        if module.backend == .fastca || module.backend == .efy {
             // Native OpenSC emits standard APDUs and needs no vendor shim.
             // Never permit inherited APDU/key debug settings in a PIN process.
             for key in ["DYLD_INSERT_LIBRARIES", "OPENSC_DEBUG_FILE", "OPENSC_CONF", "TSSHIM_LOG"] {
