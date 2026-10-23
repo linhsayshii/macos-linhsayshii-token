@@ -1,64 +1,41 @@
 import SwiftUI
 import Core
 
-/// PIN entry for a login/sign. The PIN string goes straight to the helper via
-/// AppModel; it is cleared on submit and never logged or stored. The draft lives
-/// in AppModel (this toolchain lacks the SwiftUI @State macro), not in the view.
 struct PINSheet: View {
     let prompt: AppModel.PINPrompt
     @ObservedObject var model: AppModel
-
+    @FocusState private var focused: Bool
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text("Đăng nhập token").font(.system(size: Theme.Size.lg, weight: .semibold))
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(prompt.ca).font(.system(size: Theme.Size.sm, weight: .medium))
-                Text(prompt.serial).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+        PromptContainer(title: "Nhập PIN token", symbol: "lock", step: "Bước 3 · Ký số") {
+            AppCard {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(prompt.ca).font(.system(size: Theme.Size.base, weight: .semibold))
+                    DetailLine(label: "Serial token", value: prompt.serial)
+                }
             }
-
-            if let w = prompt.warning {
-                Text(w)
-                    .font(.system(size: Theme.Size.xs, weight: .medium))
-                    .foregroundStyle(Theme.danger)
-                    .padding(.horizontal, 10).padding(.vertical, 6)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Theme.dangerBg)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            if let warning = prompt.warning { InlineNotice(text: warning, tone: prompt.locked ? .danger : .warning) }
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Mã PIN").fontWeight(.medium)
+                SecureField("Nhập mã PIN", text: $model.pinDraft)
+                    .textFieldStyle(.plain).font(.system(size: Theme.Size.base))
+                    .padding(.horizontal, 12).frame(height: 42)
+                    .background(Theme.surface, in: RoundedRectangle(cornerRadius: Theme.Radius.control))
+                    .overlay(RoundedRectangle(cornerRadius: Theme.Radius.control).stroke(focused ? Theme.foreground : Theme.borderStrong, lineWidth: focused ? 2 : 1))
+                    .focused($focused).disabled(prompt.locked).onSubmit(submit)
+                    .accessibilityLabel("Mã PIN token")
             }
-
-            SecureField("Nhập mã PIN", text: $model.pinDraft)
-                .textFieldStyle(.plain)
-                .font(.system(size: Theme.Size.base))
-                .padding(.horizontal, 12).frame(height: 40)
-                .background(Theme.surface)
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.borderStrong, lineWidth: 1))
-                .disabled(prompt.locked)
-                .onSubmit(submit)
-
-            Text("Sai PIN sẽ trừ một lần thử.")
-                .font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
-
+            InlineNotice(text: "Sai PIN sẽ trừ một lần thử. App không tự thử lại.")
+        } actions: {
             HStack {
+                Button("Hủy") { model.submitPIN(nil) }.buttonStyle(ThemeSecondaryButtonStyle()).keyboardShortcut(.cancelAction)
                 Spacer()
-                Button("Huỷ") { model.submitPIN(nil) }
-                    .keyboardShortcut(.cancelAction)
-                    .buttonStyle(.plain)
-                    .font(.system(size: Theme.Size.sm))
-                    .foregroundStyle(Theme.muted)
-                Button("Đăng nhập", action: submit)
-                    .font(.system(size: Theme.Size.sm, weight: .medium))
-                    .buttonStyle(ThemePrimaryButtonStyle())
-                    .disabled(prompt.locked || model.pinDraft.isEmpty)
+                Button("Xác nhận và ký", action: submit).buttonStyle(ThemePrimaryButtonStyle())
+                    .keyboardShortcut(.defaultAction).disabled(prompt.locked || model.pinDraft.isEmpty)
             }
-        }
-        .padding(20).frame(width: 320)
-        .background(Theme.background).foregroundStyle(Theme.foreground)
-        .tokenSignerAppearance()
+        }.onAppear { focused = !prompt.locked }
     }
-
     private func submit() {
         guard !model.pinDraft.isEmpty, !prompt.locked else { return }
-        model.submitPIN(model.pinDraft)   // submitPIN clears the draft
+        model.submitPIN(model.pinDraft)
     }
 }
