@@ -10,11 +10,13 @@ protocol SigningPromptPresenting {
 /// Hosts signing prompts even when the menu bar popover has never been opened.
 @MainActor
 final class SigningPromptWindow: NSObject, NSWindowDelegate, SigningPromptPresenting {
+    static let willPresent = Notification.Name("TokenSignerSigningPromptWillPresent")
     private var panel: NSPanel?
     private var onCancel: (() -> Void)?
 
     func present<Content: View>(title: String, content: Content, onCancel: @escaping () -> Void) {
         dismiss()
+        NotificationCenter.default.post(name: Self.willPresent, object: nil)
         self.onCancel = onCancel
         let host = NSHostingView(rootView: content)
         let panel = NSPanel(contentRect: .zero, styleMask: [.titled, .closable],

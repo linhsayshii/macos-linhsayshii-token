@@ -4,9 +4,11 @@ import Bridges
 
 struct MenuBarView: View {
     @ObservedObject var model: AppModel
+    @ObservedObject var presentation = MenuPresentation()
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        ScrollView {
+          VStack(alignment: .leading, spacing: 12) {
             ForEach(model.bridges) { row in
                 HStack(spacing: 8) {
                     Circle().fill(statusColor(row.status)).frame(width: 8, height: 8)
@@ -85,7 +87,8 @@ struct MenuBarView: View {
                 .foregroundStyle(Theme.muted)
         }
         .padding(16)
-        .frame(width: 360)
+          }
+        .frame(width: presentation.size.width, height: presentation.size.height)
         .background(Theme.background)
         .foregroundStyle(Theme.foreground)
         .disclosureGroupStyle(ThemeDisclosureStyle())
