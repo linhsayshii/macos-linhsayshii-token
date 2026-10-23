@@ -206,6 +206,50 @@ eSigner offline gọi `XMLSecVerifier` (`ESignerBridge.swift:104`). Verifier hi�
 optional khi thiếu xmlsec1 và có ID rules riêng eTax. Adapter MISA cần verify
 output theo đúng profile trước trả kết quả, ngoài token signature verify.
 
+### Coverage nhiều CA/model/firmware
+
+Yêu cầu sản phẩm bổ sung ngày 23/10: adapter MISA phải dùng được với mọi
+CA/model được tầng provider của TokenSigner xác nhận hỗ trợ; không khóa vào
+full ATR, serial hay module của token mẫu. Đích bao phủ các dòng token của một
+CA khác với kết luận đã kiểm chứng mọi model. Đây là yêu cầu thiết kế, chưa
+phải coverage runtime đạt được.
+
+Tách hai quyết định: protocol MISA quyết định kiểu chứng thư/thuật toán/output
+mà portal yêu cầu; provider chung quyết định token vật lý nào có thể thực hiện
+thao tác đó. CA/issuer của chứng thư không đồng nhất OEM hay protocol của USB.
+Cùng CA có thể có nhiều OEM, model và firmware; adapter không tự chọn ESPK,
+PKCS#11 hay backend khác bằng tên hãng CA.
+
+Luồng dự kiến: inventory provider chung → compatibility/capability read-only →
+lọc theo yêu cầu thao tác → chooser chung → approval → PIN → ký → verify →
+audit. ATR, USB ID và reader chỉ chọn backend ứng viên. Trước PIN cần xác nhận
+model/protocol compatibility, liên kết cert/key/CKA_ID và public key theo
+backend đó; thiếu bằng chứng thì trả trạng thái chưa đủ hỗ trợ, không thử PIN,
+derive tùy tiện, fallback authentication sang backend khác hay tự retry.
+Serial portal vẫn là ràng buộc lựa chọn của **request hiện tại**, không phải
+allowlist coverage cố định.
+
+`SigningService` hiện có các phép ký nhưng chưa có API công khai mô tả đầy đủ
+capabilities từng identity. Khi tầng provider chung bổ sung hợp đồng đó, adapter
+phải dùng hợp đồng chung thay vì thêm bộ probe/ATR rules riêng trong MISA.
+Capability cần phân biệt raw-message/digest, loại khóa, hash, padding, output
+profile và trạng thái evidence; token làm được RSA PKCS1 không suy ra PSS,
+ECDSA hoặc profile XML đã hỗ trợ. Không hạ thuật toán hoặc bỏ guard để vượt
+giới hạn.
+
+Coverage cần theo **CA + OEM/model/firmware + backend + thao tác** với các mức
+độc lập: nhận diện/đọc metadata; xác thực; ký và verify; portal meInvoice/AMIS.
+Chưa có model nào được xác nhận qua portal MISA trong nghiên cứu này. Nhận thêm
+ATR hoặc đọc thấy chứng thư không tự nâng mức auth/sign/portal.
+
+Fixture adapter sau capture phải có ít nhất hai identity từ provider/model
+khác nhau, cùng CA khác model nếu có dữ liệu, serial mismatch, hotplug và trường
+hợp đọc được nhưng không có capability ký được yêu cầu. Nếu capture/runtime
+thể hiện MISA lọc provider/model/issuer, ghi rõ điều kiện và evidence để tầng
+provider/điều phối xử lý; không hardcode token mẫu hoặc giả danh hãng khác.
+Các sửa routing/transport/provider chung do luồng chính điều phối; nghiên cứu
+MISA hiện chỉ cập nhật thiết kế, không đụng source chung hay build đồng thời.
+
 ## Còn thiếu gì trước triển khai
 
 | Câu hỏi | Trạng thái |

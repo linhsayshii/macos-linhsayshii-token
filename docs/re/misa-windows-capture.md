@@ -88,8 +88,13 @@ Mẫu trả lời:
 ```text
 Portal: meInvoice / AMIS + URL (bỏ query/token)
 MISA KYSO version + executable SHA256 nếu đọc được:
+CA + tên model/OEM/firmware token nếu giao diện có sẵn (không cần serial/PIN):
 WebSocket URL + Origin + status:
 Đọc chứng thư action / kết quả:
 Ký dữ liệu thử action / DocumentType / thuật toán / kết quả:
 JSON đã che dữ liệu hoặc cấu trúc các trường:
 ```
+
+Thông tin model giúp tách compatibility của token/provider khỏi protocol MISA.
+Không cần thử nhiều PIN hoặc ký lặp để dò model. Một token ký thành công chỉ
+xác nhận ca/model đó; không suy ra mọi token cùng hãng đã được hỗ trợ.
