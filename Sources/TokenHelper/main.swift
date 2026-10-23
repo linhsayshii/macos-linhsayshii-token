@@ -12,9 +12,11 @@ func emit(_ r: HelperResponse) {
 
 let args = CommandLine.arguments
 let backend: any TokenBackend
-if let i = args.firstIndex(of: "--backend"), i + 1 < args.count, ["fastca", "efy"].contains(args[i + 1]) {
+if let i = args.firstIndex(of: "--backend"), i + 1 < args.count, ["fastca", "efy", "espk-discovery"].contains(args[i + 1]) {
     ts_set_reencoding_enabled(0)
-    backend = ESPKBackend(profile: args[i + 1] == "efy" ? .efy : .fastca)
+    let profile: NativeESPKProfile = args[i + 1] == "espk-discovery" ? .discovery : (args[i + 1] == "efy" ? .efy : .fastca)
+    let reader = args.firstIndex(of: "--reader").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil }
+    backend = ESPKBackend(profile: profile, scan: { ReaderScanner().readers().filter { reader == nil || $0.reader == reader } })
 } else if let i = args.firstIndex(of: "--module"), i + 1 < args.count {
     if let b = args.firstIndex(of: "--backend"), b + 1 < args.count, args[b + 1] == "oneca" {
         ts_set_reencoding_enabled(0)
@@ -43,5 +45,7 @@ while let line = readLine(strippingNewline: true) {
             emit(.signature(Data(sig).base64EncodedString()))
         case .logout(let serial): backend.logout(serial: serial); emit(.ok)
         }
+    } catch let error as ESPKError {
+        emit(.failure(TokenFailure(code: error.code, message: error.description)))
     } catch { emit(.error("\(error)")) }
 }

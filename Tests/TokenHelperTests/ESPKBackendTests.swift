@@ -76,6 +76,36 @@ private func backend(_ card: Card, profile: NativeESPKProfile = .efy) -> ESPKBac
     ESPKBackend(profile: profile, scan: { [("synthetic reader", profile.atr)] }, connect: { _ in card })
 }
 
+@Test(arguments: [NativeESPKProfile.fastca, .efy, .discovery])
+func familyDiscoveryReadsMetadataButRejectsUnknownPINProtocol(profile: NativeESPKProfile) throws {
+    let card = try Card()
+    var atr = profile.atr; atr[12] = 0x23; atr[13] = 0; atr[14] = 0x25
+    atr[22] = atr[1..<22].reduce(0, ^)
+    let b = ESPKBackend(profile: profile, scan: { [("synthetic firmware variant", atr)] }, connect: { _ in card })
+    let token = try #require(b.listTokens().first)
+    #expect(token.flags.contains(TokenCompatibility.discoveryOnlyFlag))
+    #expect(try b.certs(serial: token.serial).count == 1)
+    do {
+        _ = try b.login(serial: token.serial, pin: "synthetic fixture")
+        Issue.record("Unknown PIN protocol must not authenticate")
+    } catch let error as ESPKError { #expect(error.code == .unsupportedOperation) }
+    #expect(card.auths == 0 && card.signs == 0)
+    #expect(throws: (any Error).self) { try b.sign(serial: token.serial, certId: "0007", mech: .sha256RSA, data: [1]) }
+}
+
+@Test func incompatibleCandidateDoesNotHideKnownReaderDuringOpen() throws {
+    let good = try Card(), bad = try Card()
+    bad.files[0x6f01] = Data([0])
+    let serial = try #require(backend(good, profile: .fastca).listTokens().first?.serial)
+    var variant = FastCAProfile.atr; variant[12] = 0x23; variant[22] = variant[1..<22].reduce(0, ^)
+    let b = ESPKBackend(profile: .fastca, scan: { [("bad candidate", variant),("working reader", FastCAProfile.atr)] },
+        connect: { $0 == "bad candidate" ? bad : good })
+    #expect(try b.certs(serial: serial).count == 1)
+    #expect(try b.login(serial: serial, pin: "synthetic fixture") == .ok)
+    #expect(good.auths == 1 && bad.auths == 0 && bad.signs == 0)
+    b.logout(serial: serial)
+}
+
 @Test func fastcaSecondATRReachesValidatedMetadataWithoutPIN() throws {
     let card = try Card()
     let b = ESPKBackend(profile: .fastca, scan: { [("second FastCA reader", FastCAProfile.atr0631)] },

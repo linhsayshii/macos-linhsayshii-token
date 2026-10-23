@@ -4,9 +4,9 @@
 
 typedef struct fca_runtime fca_runtime;
 typedef struct fca_card fca_card;
-typedef enum { FCA_PROFILE_FASTCA = 0, FCA_PROFILE_EFY = 1 } fca_profile;
+typedef enum { FCA_PROFILE_FASTCA = 0, FCA_PROFILE_EFY = 1, FCA_PROFILE_DISCOVERY = 2 } fca_profile;
 enum { FCA_INVALID = -20001, FCA_RUNTIME = -20002, FCA_STATUS = -20003,
-       FCA_PIN_INCORRECT = -20004, FCA_PIN_LOCKED = -20005 };
+       FCA_PIN_INCORRECT = -20004, FCA_PIN_LOCKED = -20005, FCA_DISCOVERY_ONLY = -20006 };
 
 int fca_runtime_open(const char *path, fca_runtime **out, char *error, size_t capacity);
 void fca_runtime_close(fca_runtime *runtime);

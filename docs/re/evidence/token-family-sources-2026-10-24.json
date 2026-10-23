@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-24",
+  "scope": "Sanitized source facts supporting provider discovery; raw analysis stays local. Static evidence is not live authentication coverage.",
+  "sources": [
+    {
+      "provider": "OpenSC ePass2003 family",
+      "url": "https://github.com/OpenSC/OpenSC/blob/0.27.1/src/libopensc/card-epass2003.c",
+      "source_sha256": "53d423f91cb0d0933362fc9f2eb3e352e2302d352f46cfa646091deccbcf3758",
+      "source_lines": {
+        "table": "61-68",
+        "matchFunction": "1675-1686"
+      },
+      "pattern": "3b9f958131fe9f006646530500000071df000000000000",
+      "mask": "ffffffffffffffffffffffff000000ffffffff00000000",
+      "requires_atr_structure_and_tck": true,
+      "authority": "OpenSC 0.27.1 source",
+      "conclusion": "Public discovery candidate only; issuer/customer and PIN contract are separate."
+    },
+    {
+      "provider": "EFY v1 installed Calais registration",
+      "authority": "Observed installed Registry32/Registry64; not a trace of installer writes",
+      "registry_key": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards\\EFY-CA Token Manager v1.0",
+      "pattern": "3b9f958131fe9f006646530500000071df000051000000",
+      "mask": "ffffffffffffffffffffffff000000ffffffffffffff00",
+      "variable_offsets": [
+        12,
+        13,
+        14,
+        22
+      ],
+      "conclusion": "Firmware variations belong in public preflight; metadata alone is not a PIN descriptor."
+    },
+    {
+      "provider": "OneCA V1 Longmai",
+      "authority": "Official OneCA download and extracted CryptoID.reg",
+      "source_url": "https://www.one-ca.net/download",
+      "archive_sha256": "dfe9b3e42cfd53d02a55f910ee6c6a27a0a2e6d0143ade0c5409a0f86a8248dd",
+      "registry_sha256": "52e4fd72039fa981ab2289899268a8245248efcdfb04c9897c57c9ffa2022b39",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5a000581900060",
+      "mask": "ffffffffffffffffffffffffffffffffffffffffffffff",
+      "conclusion": "Recognize model and missing provider; do not invent a Longmai wildcard or automatically load F3."
+    },
+    {
+      "provider": "OneCA V2 EnterSafe/ESPK",
+      "authority": "Redistributor package; not asserted to be an official download",
+      "source_url": "https://www.kkvat.com.vn/data/news/2512/Setup_v2.exe",
+      "installer_sha256": "a07cc666acc5f8151f98ab2157efe00347b76f0589adac4102a1a538a41defba",
+      "pattern": "3b9f958131fe9f006646530500000071df000081000000",
+      "mask": "ffffffffffffffffffffffff000000ffffffffffffff00",
+      "conclusion": "Candidate for ESPK public discovery, not Longmai F2 or a FastCA/EFY PIN contract."
+    },
+    {
+      "provider": "Longmai F3 discovery restriction",
+      "evidence_id": "ev_495df6485a80ff07e3ff731a5478405145536744a33e7a11b474d9a1693069e8",
+      "procedure": "InitAtrAndVendorReader@0xa368",
+      "observation": "Calls mToken_PutData(0x102) and configures vendor/reader",
+      "conclusion": "Mutating operation, not a public compatibility probe; excluded from generic middleware fallback."
+    }
+  ],
+  "retained_local_reports": {
+    "docs/re/fastca-family-discovery.md": "e1aef2c73604a1f5473b188a40b3e5208491a4f444f2af4cd02676741c3d8dc7",
+    "docs/re/fastca-family-auth.md": "f3fa590db394415a7512056a8ceaa18c490a7c2afd81bf92fc56ab17ea1b05fa",
+    "docs/re/efy-ca-family-coverage.md": "d4df23721d6c9ea70416b4898ba5abd919404d59f5f0885a435df3bced2c8ba2",
+    "docs/re/oneca-family-coverage.md": "cc296f591a478dc4ba9717972b669f7b73ed8165ee5af5c804deca1b5fc2def8"
+  }
+}

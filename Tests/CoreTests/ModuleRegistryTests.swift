@@ -10,8 +10,9 @@ import Testing
 }
 
 @Test func nccaAtrByte19Is0x59() {
-    var atr = [UInt8](repeating: 0, count: 23)
+    var atr = FastCAProfile.atr
     atr[19] = 0x59
+    atr[22] = atr[1..<22].reduce(0, ^)
     #expect(ModuleRegistry.lookup(atr: atr)?.ca == "NC-CA")
 }
 

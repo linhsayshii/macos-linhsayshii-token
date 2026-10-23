@@ -36,5 +36,7 @@
     "Sources/TokenHelper/ESPK.swift": "f5b38f8fb5deafaf919607473d1d8547d35f441bfa2c63f315fdaad19d27ebf5",
     "Sources/CFastCA/fastca.c": "861e58642213adf5444c3cd35875f35411f83a4d9005121f3c6e22f71011404b"
   },
-  "authenticationScope": "User PIN authentication only; OpenSC transport secure-messaging initialization is not a PIN attempt."
+  "authenticationScope": "User PIN authentication only; OpenSC transport secure-messaging initialization is not a PIN attempt.",
+  "userConfirmation": "Đã hiện FastCA",
+  "userConfirmationScope": "App recognition only; no new PIN/signature result claimed"
 }

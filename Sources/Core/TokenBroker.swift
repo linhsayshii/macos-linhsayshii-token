@@ -21,8 +21,8 @@ public actor TokenBroker {
         throw BrokerError.moduleNotFound(name)
     }
 
-    public func request(_ r: HelperRequest, module: ModuleInfo) async throws -> HelperResponse {
-        try run([r], module: module).first ?? .error("no response")
+    public func request(_ r: HelperRequest, module: ModuleInfo, reader: String? = nil) async throws -> HelperResponse {
+        try run([r], module: module, reader: reader).first ?? .error("no response")
     }
 
     /// Login, sign and log out in one helper process. The PKCS#11 login state the
@@ -38,22 +38,27 @@ public actor TokenBroker {
         guard case let .loginResult(lr) = resp.first, lr == .ok else {
             if case let .loginResult(lr) = resp.first { throw SignError.loginFailed(lr) }
             if case let .error(message) = resp.first { throw SignError.card(message) }
+            if case let .failure(failure) = resp.first { throw SignError.card(failure.message) }
             throw SignError.card("helper không trả kết quả đăng nhập")
         }
         switch resp.count > 1 ? resp[1] : .error("no sign response") {
         case .signature(let b64): return b64
         case .error(let m): throw SignError.card(m)
+        case .failure(let failure): throw SignError.card(failure.message)
         default: throw SignError.noSignature
         }
     }
 
     /// Spawn one helper, send each request on its own line, return the responses
     /// in order (one per line read back).
-    private func run(_ reqs: [HelperRequest], module: ModuleInfo) throws -> [HelperResponse] {
+    private func run(_ reqs: [HelperRequest], module: ModuleInfo, reader: String? = nil) throws -> [HelperResponse] {
         let proc = Process()
-        if module.backend == .fastca || module.backend == .efy {
+        let nativeESPK = [.fastca, .efy, .espkDiscovery].contains(module.backend)
+        if nativeESPK {
             proc.executableURL = helperURL
-            proc.arguments = ["--backend", module.backend == .efy ? "efy" : "fastca"]
+            let backend = module.backend == .espkDiscovery ? "espk-discovery" : (module.backend == .efy ? "efy" : "fastca")
+            proc.arguments = ["--backend", backend]
+            if let reader { proc.arguments! += ["--reader", reader] }
         } else if module.backend == .oneca {
             proc.executableURL = helperURL
             proc.arguments = ["--backend", "oneca", "--module", try resolve(module.moduleName)]
@@ -67,7 +72,7 @@ public actor TokenBroker {
             proc.arguments = ["--module", modulePath]
         }
         var env = ProcessInfo.processInfo.environment
-        if module.backend == .fastca || module.backend == .efy {
+        if nativeESPK {
             // Native OpenSC emits standard APDUs and needs no vendor shim.
             // Never permit inherited APDU/key debug settings in a PIN process.
             for key in ["DYLD_INSERT_LIBRARIES", "OPENSC_DEBUG_FILE", "OPENSC_CONF", "TSSHIM_LOG"] {

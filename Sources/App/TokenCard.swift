@@ -16,7 +16,9 @@ struct TokenCard: View {
                 HStack(alignment: .top) {
                     Label(token.ca, systemImage: "externaldrive").font(.system(size: Theme.Size.base, weight: .semibold))
                     Spacer(minLength: 4)
-                    if !token.supported { StatusBadge(text: "Chưa hỗ trợ", tone: .warning) }
+                    if let state = token.state, state != .ready {
+                        StatusBadge(text: status(state), tone: .warning)
+                    } else if !token.supported { StatusBadge(text: "Chưa nhận diện", tone: .warning) }
                     else if token.experimental { StatusBadge(text: "Thử nghiệm", tone: .warning) }
                 }
                 if token.certSubject != nil {
@@ -28,13 +30,16 @@ struct TokenCard: View {
                         .font(.system(size: Theme.Size.xs)).foregroundStyle(expired ? Theme.warning : Theme.muted)
                 }
                 if let error = token.readError { InlineNotice(text: error, tone: .warning) }
+                if token.state == .metadataOnly {
+                    InlineNotice(text: "Đã đọc chứng thư. Giao thức ký của dòng token này đang chờ xác minh.", tone: .neutral)
+                }
                 HStack {
                     Button { expanded.wrappedValue.toggle() } label: {
                         Label(expanded.wrappedValue ? "Thu gọn" : "Chi tiết", systemImage: expanded.wrappedValue ? "chevron.up" : "chevron.down")
                     }.buttonStyle(.plain).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
                         .accessibilityValue(expanded.wrappedValue ? "Đã mở" : "Đã thu gọn")
                     Spacer()
-                    if token.supported && !token.serial.isEmpty {
+                    if token.canSign {
                         Button("Ký thử", action: sign).buttonStyle(ThemeSecondaryButtonStyle()).disabled(busy)
                     }
                 }
@@ -43,8 +48,23 @@ struct TokenCard: View {
                     DetailLine(label: "Serial token", value: token.serial.isEmpty ? "Chưa đọc được" : token.serial)
                     DetailLine(label: "Đầu đọc", value: token.reader)
                     if let subject = token.certSubject { DetailLine(label: "Chủ thể chứng thư", value: subject) }
+                    if let issuer = token.certificateIssuer { DetailLine(label: "CA phát hành", value: issuer) }
+                    if let atr = token.atrHex { DetailLine(label: "ATR thiết bị", value: atr) }
                 }
             }
+        }
+    }
+    private func status(_ state: AppModel.TokenState) -> String {
+        switch state {
+        case .unrecognized: "Chưa nhận diện"
+        case .providerUnavailable: "Thiếu backend"
+        case .probing: "Đang nhận diện"
+        case .ready: "Sẵn sàng"
+        case .metadataOnly: "Chỉ đọc"
+        case .runtimeUnavailable: "Thiếu driver"
+        case .incompatible: "Khác giao thức"
+        case .unsupportedOperation: "Chưa hỗ trợ ký"
+        case .readFailed: "Lỗi đọc token"
         }
     }
 }

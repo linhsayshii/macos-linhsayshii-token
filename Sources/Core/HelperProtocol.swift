@@ -43,4 +43,5 @@ public enum HelperResponse: Codable, Equatable, Sendable {
     case signature(String)
     case ok
     case error(String)
+    case failure(TokenFailure)
 }

@@ -25,9 +25,13 @@ public final class AppModel: ObservableObject {
 
     private typealias SignTarget = SigningTarget
 
+    public enum TokenState: Sendable, Equatable {
+        case unrecognized, providerUnavailable, probing, ready, metadataOnly, runtimeUnavailable, incompatible, unsupportedOperation, readFailed
+    }
+
     public struct TokenRow: Identifiable, Sendable {
         public var id: String { serial.isEmpty ? reader : serial }
-        public let ca: String
+        public var ca: String
         public let supported: Bool
         public var experimental: Bool = false
         public let reader: String
@@ -37,6 +41,10 @@ public final class AppModel: ObservableObject {
         public var notAfter: String?
         public var readError: String? = nil
         public var certificateName: String? = nil
+        public var certificateIssuer: String? = nil
+        public var state: TokenState? = nil
+        public var atrHex: String? = nil
+        public var canSign: Bool { supported && !serial.isEmpty && (state == nil || state == .ready) }
     }
 
     public enum BridgeStatus: Sendable, Equatable { case starting, up, portInUse, failed(String) }
@@ -297,48 +305,116 @@ public final class AppModel: ObservableObject {
         // Per-CA modules need one enumeration. Generic candidates are scoped
         // separately to each PC/SC reader before accepting signing targets.
         var seenModules = Set<String>()
+        var moduleResponses: [String: HelperResponse] = [:]
+        var certificateResponses: [String: HelperResponse] = [:]
         for r in scanner.readers() {
-            guard let module = ModuleRegistry.lookup(atr: r.atr) else {
-                rows.append(TokenRow(ca: "Chưa hỗ trợ", supported: false, reader: r.reader,
-                                     serial: "", label: "", certSubject: nil, notAfter: nil))
+            let preferred = ModuleRegistry.lookup(atr: r.atr)
+            let candidates = ModuleRegistry.candidates(atr: r.atr, includeVendorDiscovery: true)
+            let atrHex = r.atr.map { String(format: "%02x", $0) }.joined()
+            guard let first = candidates.first else {
+                let known = TokenCompatibility.knownUnsupportedModel(atr: r.atr)
+                rows.append(TokenRow(ca: known?.issuer ?? "Token", supported: false, reader: r.reader,
+                    serial: "", label: "", certSubject: nil, notAfter: nil,
+                    readError: known?.reason ?? "Chưa có provider phù hợp với dòng thiết bị này.", state: known == nil ? .unrecognized : .providerUnavailable, atrHex: atrHex))
                 continue
             }
-            var row = TokenRow(ca: module.ca, supported: true, reader: r.reader,
-                               serial: "", label: "", certSubject: nil, notAfter: nil)
-            row.experimental = module.isExperimental
-            if module.tokenScope == .reader || !seenModules.contains(module.moduleName) {
+            var row = TokenRow(ca: preferred?.ca ?? "Token", supported: true, reader: r.reader,
+                serial: "", label: "", certSubject: nil, notAfter: nil, state: .probing, atrHex: atrHex)
+            row.experimental = first.isExperimental
+            var firstFailure: TokenFailure?
+            for module in candidates {
+                let nativeESPK = [.fastca, .efy, .espkDiscovery].contains(module.backend)
+                let scope = nativeESPK ? r.reader : nil
                 let response: HelperResponse
-                do { response = try await broker.request(.listTokens, module: module) }
-                catch { response = .error("\(error)") }
+                do {
+                    if module.tokenScope == .module, let cached = moduleResponses[module.moduleName] { response = cached }
+                    else { response = try await broker.request(.listTokens, module: module, reader: scope) }
+                }
+                catch TokenBroker.BrokerError.moduleNotFound(let name) {
+                    response = .failure(TokenFailure(code: .runtimeUnavailable, message: "Chưa tìm thấy driver \(name)"))
+                } catch { response = .error("\(error)") }
                 guard case let .tokens(list) = response else {
-                    if case let .error(message) = response { row.readError = message }
-                    rows.append(row)
+                    let failure = Self.probeFailure(response)
+                    firstFailure = firstFailure ?? failure
+                    Self.apply(failure, to: &row)
                     continue
                 }
+                if module.tokenScope == .module { moduleResponses[module.moduleName] = response }
+                let advertise = module.tokenScope == .reader || !seenModules.contains(module.moduleName)
                 seenModules.insert(module.moduleName)
                 let scopedTokens = module.tokensForReader(r.reader, from: list)
+                var readCertificates = false
                 for t in scopedTokens {
-                    let certResponse = (try? await broker.request(.listCerts(serial: t.serial), module: module)) ?? .error("Không đọc được chứng thư")
-                    if case let .certs(certs) = certResponse {
-                        allTargets.append(contentsOf: certs.map {
-                            SignTarget(tokenSerial: t.serial, module: module, cert: $0, flags: t.flags)
-                        })
+                    let cacheKey = [module.moduleName, scope ?? "", t.serial].map { "\($0.utf8.count):\($0)" }.joined()
+                    let certResponse: HelperResponse
+                    if let cached = certificateResponses[cacheKey] { certResponse = cached }
+                    else {
+                        certResponse = (try? await broker.request(.listCerts(serial: t.serial), module: module, reader: scope)) ?? .error("Không đọc được chứng thư")
+                        certificateResponses[cacheKey] = certResponse
+                    }
+                    if case let .certs(certs) = certResponse, !certs.isEmpty {
+                        readCertificates = true
+                        if advertise {
+                            allTargets.append(contentsOf: certs.map {
+                                SignTarget(tokenSerial: t.serial, module: module, cert: $0, flags: t.flags)
+                            })
+                        }
                         if t.reader == r.reader || scopedTokens.count == 1 {
+                            row.ca = module.ca; row.experimental = module.isExperimental; row.readError = nil
                             row.serial = t.serial; row.label = t.label
+                            row.state = TokenCompatibility.permitsSigning(flags: t.flags) ? .ready : .metadataOnly
                             if let c = CertificateText.latestExpiry(in: certs) {
                                 row.certSubject = c.subject; row.notAfter = c.notAfter
                                 row.certificateName = CertificateText.name(derB64: c.derB64, fallback: c.subject)
+                                row.certificateIssuer = c.issuer
+                                if module.backend == .espkDiscovery || preferred == nil {
+                                    row.ca = CertificateText.issuerName(derB64: c.derB64, fallback: "ESPK")
+                                }
                             }
                         }
-                    } else if case let .error(message) = certResponse {
-                        row.readError = message
+                    } else {
+                        let failure = Self.probeFailure(certResponse)
+                        firstFailure = firstFailure ?? failure
+                        if row.serial.isEmpty { Self.apply(failure, to: &row) }
                     }
                 }
+                if readCertificates && !row.serial.isEmpty { break }
+                if row.readError == nil {
+                    let failure = TokenFailure(code: .incompatibleMetadata, message: "Provider chưa đọc được chứng thư từ đúng đầu đọc này")
+                    firstFailure = firstFailure ?? failure
+                    Self.apply(failure, to: &row)
+                }
+            }
+            if row.state == .probing {
+                Self.apply(TokenFailure(code: .incompatibleMetadata, message: "Chưa ghép được chứng thư với đúng đầu đọc này"), to: &row)
+            }
+            if row.serial.isEmpty, let failure = firstFailure, failure.code == .runtimeUnavailable, preferred != nil {
+                Self.apply(failure, to: &row)
+            } else if row.serial.isEmpty, preferred == nil, row.state == .runtimeUnavailable {
+                row.state = .providerUnavailable
+                row.readError = "Chưa có middleware đã cài hỗ trợ đúng dòng token/đầu đọc này"
             }
             rows.append(row)
         }
         self.tokens = rows
         updateCertificateTargets(allTargets)
+    }
+
+    private static func probeFailure(_ response: HelperResponse) -> TokenFailure {
+        switch response {
+        case .failure(let failure): failure
+        case .error(let message): TokenFailure(code: .transport, message: message)
+        default: TokenFailure(code: .incompatibleMetadata, message: "Chưa đọc được chứng thư/khóa tương thích")
+        }
+    }
+    private static func apply(_ failure: TokenFailure, to row: inout TokenRow) {
+        row.readError = failure.message
+        switch failure.code {
+        case .runtimeUnavailable: row.state = .runtimeUnavailable
+        case .transport: row.state = .readFailed
+        case .incompatibleMetadata: row.state = .incompatible
+        case .unsupportedOperation: row.state = .unsupportedOperation
+        }
     }
 
     // MARK: - Sign path (raw data)
@@ -392,7 +468,7 @@ public final class AppModel: ObservableObject {
     /// Refresh the open chooser from the latest scan; a removed choice cannot be submitted.
     func updateCertificateTargets(_ targets: [SigningTarget]) {
         certificateTargets = targets
-        cachedCerts = targets.map(\.cert)
+        cachedCerts = targets.filter { TokenCompatibility.permitsSigning(flags: $0.flags) }.map(\.cert)
         if var prompt = certificatePrompt {
             prompt.choices = SigningCertificateChoice.list(targets, requestedSerial: prompt.requestedSerial,
                 tokenSerial: prompt.tokenSerial, requireValid: prompt.requireValid)

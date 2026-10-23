@@ -112,3 +112,17 @@ tests đạt**; source/binary hashes khớp evidence. Lượt này chưa xác th
 chiếc mới, chưa kiểm chứng portal/chain/revocation.
 [Chi tiết](re/fastca-0631-profile.md),
 [evidence app](re/evidence/fastca-0631-app-validation.json).
+
+
+24/10: triển khai nền tảng compatibility theo provider và capability, dùng mask
+OpenSC + kiểm ATR/TCK để nhận family ESPK; reader-scoped public probe và fallback
+qua middleware PKCS#11 đăng ký với reader binding. Tách metadata-only/PIN contract,
+không nâng coverage auth từ một family match. Native Swift/C đều chặn PIN chưa
+xác minh; chooser/portal không quảng bá cert chỉ đọc. UI có trạng thái thiếu
+runtime/backend, metadata lỗi và chỉ đọc. Mục tiêu bao phủ toàn hãng vẫn còn
+phụ thuộc provider/OEM và chứng cứ auth/portal, không coi dài ATR list là hoàn tất.
+[Ma trận và giới hạn](TOKEN-COMPATIBILITY.md).
+
+Bản compatibility đạt 182 Swift tests, native C mock, package và smoke sáu cổng.
+GetCert đang đọc 4 cert cho 4 reader hiện cắm, có FastCA0631; agent không ký mới.
+[Evidence](re/evidence/token-compatibility-2026-10-24.json).

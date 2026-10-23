@@ -26,6 +26,7 @@ python3 scripts/check-integrated-app.py
 worktree. Gói local nằm ở `.local/test-env/TokenSigner.app`, ký ad-hoc.
 
 - [Trạng thái và giới hạn](docs/PROGRESS.md)
+- [Tương thích các dòng token](docs/TOKEN-COMPATIBILITY.md)
 - [Giao diện và kiểm tra layout](docs/UI.md)
 - [Build/test](docs/BUILD.md)
 - [Các bridge](docs/BRIDGES.md)

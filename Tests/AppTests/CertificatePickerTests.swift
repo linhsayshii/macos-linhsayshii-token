@@ -31,6 +31,20 @@ private func fixture(token: String = "USB-A", expired: Bool = false, flags: [Str
             subject: "CN=Công ty thử nghiệm", issuer: "CN=CA thử nghiệm", serialHex: "AABBCC", notBefore: "2026-01-01", notAfter: "2026-12-31"), flags: flags)
 }
 
+@Test @MainActor func discoveryOnlyCertificateCannotReachApprovalPINOrPortalInventory() async throws {
+    let target = try fixture(flags: [TokenCompatibility.discoveryOnlyFlag]), presenter = Presenter()
+    let app = model([target], presenter)
+    #expect(await app.certificates().isEmpty)
+    let task = Task { try await app.selectCertificate(origin: "https://test.example", serial: nil) }
+    try await waitFor { app.certificatePrompt != nil }
+    let choice = try #require(app.certificatePrompt?.choices.first)
+    #expect(!choice.canSelect && choice.unavailableReason?.contains("giao thức ký") == true)
+    app.submitCertificate(choice.id)
+    #expect(app.certificatePrompt != nil && app.approvalPrompt == nil && app.pinPrompt == nil)
+    app.submitCertificate(nil)
+    do { _ = try await task.value; Issue.record("Discovery-only selection must not succeed") } catch is CancellationError {} catch { Issue.record("Unexpected failure") }
+}
+
 @MainActor private func model(_ targets: [SigningTarget], _ presenter: any SigningPromptPresenting) -> AppModel {
     // These tests cancel before PIN submission: no helper or hardware is used.
     AppModel(broker: TokenBroker(helperURL: URL(fileURLWithPath: "/nonexistent/TokenHelper"),

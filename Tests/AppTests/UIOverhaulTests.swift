@@ -109,3 +109,21 @@ import Core
     #expect(CertificateText.date("2026-10-23T05:01:42Z") == CertificateText.date("2026-10-23 05:01:42"))
     #expect(CertificateText.localDate("invalid") == "invalid")
 }
+
+@Test @MainActor func compatibilityStatesRenderWithoutExpandingMenuOrOfferingUnverifiedSigning() throws {
+    let states: [AppModel.TokenState] = [.metadataOnly,.runtimeUnavailable,.providerUnavailable,.incompatible,.readFailed]
+    let rows = states.enumerated().map { index, state in
+        AppModel.TokenRow(ca: "CA thử nghiệm \(index)", supported: state != .providerUnavailable,
+            reader: "Reader tổng hợp", serial: "SYNTHETIC-\(index)", label: "Fixture",
+            certSubject: "CN=PUBLIC METADATA FIXTURE", notAfter: "2028-08-06",
+            readError: state == .metadataOnly ? nil : "Thông tin chẩn đoán tổng hợp dài để kiểm tra chiều cao và khả năng cuộn",
+            certificateName: "Tên tổ chức trong chứng thư tổng hợp", state: state)
+    }
+    #expect(rows.allSatisfy { !$0.canSign })
+    let model = AppModel(broker: TokenBroker(helperURL: URL(fileURLWithPath: "/nonexistent"),
+        shimURL: URL(fileURLWithPath: "/nonexistent"), moduleDirs: []), promptWindow: PreviewPromptPresenter(), tokenRows: rows)
+    let presentation = MenuPresentation(); presentation.size = CGSize(width: 380, height: 350)
+    for dark in [false,true] {
+        try render(MenuBarView(model: model, presentation: presentation), size: presentation.size, dark: dark, name: "compatibility-states")
+    }
+}

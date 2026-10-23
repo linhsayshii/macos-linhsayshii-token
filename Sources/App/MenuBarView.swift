@@ -84,7 +84,7 @@ struct MenuBarView: View {
             }
             Button { Task { await model.testSign(serial: "") } } label: {
                 Label("Chọn CKS và ký thử…", systemImage: "signature").frame(maxWidth: .infinity)
-            }.buttonStyle(ThemePrimaryButtonStyle()).disabled(model.isWorking || !model.tokens.contains { $0.supported && !$0.serial.isEmpty })
+            }.buttonStyle(ThemePrimaryButtonStyle()).disabled(model.isWorking || !model.tokens.contains(where: \.canSign))
             HStack {
                 Text("Khóa bí mật nằm trong token").font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
                 Spacer()

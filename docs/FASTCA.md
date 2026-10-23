@@ -1,7 +1,12 @@
 # FastCA trong TokenSigner
 
+**Mục tiêu mới ngày 23/10:** bao phủ các dòng token cùng hãng bằng nhận diện
+họ thiết bị/provider và preflight, không dừng ở allowlist hai ATR dưới đây.
+Xem [yêu cầu tương thích dùng chung](TOKEN-COMPATIBILITY.md). Các profile và
+kết quả phần cứng dưới đây là phạm vi đã quan sát tại checkpoint hiện tại.
+
 FastCA dùng backend native ESPK/OpenSC trong `TokenHelper --backend fastca`.
-App chọn backend theo toàn bộ ATR profile đã test, đọc catalog để ghép chứng thư
+App chọn candidate theo ATR family đã có nguồn, đọc catalog để ghép chứng thư
 với khóa RSA theo CKA_ID và public key, rồi dùng approval/PIN hiện có. Không dùng
 `libcastle`, không cần Windows hoặc shim vendor cho FastCA. Các CA khác giữ PKCS#11.
 
@@ -28,7 +33,8 @@ máy phát triển; chưa phải gói phân phối/notarization.
 
 ## Đường ký
 
-1. Reader + ATR phải khớp đúng profile FastCA đã xác minh.
+1. Reader + ATR phải khớp họ FastCA/ESPK để đọc; bước PIN cần mapping contract
+   đã xác minh riêng, không tự suy từ family match.
 2. Helper đọc `6F01`, tìm logical `cardid`, `pkcs11/cert*`, `pkcs11/prvk*`.
    FID chứng thư/metadata và key reference được lấy từ catalog/attributes;
    không dùng FID hoặc thumbprint cố định của harness cũ.
@@ -49,7 +55,7 @@ thư mẫu ngày 22/10 hết hạn 30/07/2026; chiếc FastCA khác đọc ngày
 
 ## Phạm vi
 
-Profile hiện hỗ trợ hai ATR FastCA ESPK đã đo:
+PIN contract hiện được bật cho hai ATR FastCA ESPK đã đo:
 
 - `3b9f958131fe9f006646530510523971df000069000011` — mẫu đã ký native ngày 22/10.
 - `3b9f958131fe9f006646530510063171df00006900004d` — mẫu ngày 23/10: catalog 1500
@@ -57,8 +63,10 @@ Profile hiện hỗ trợ hai ATR FastCA ESPK đã đo:
   metadata. Đọc metadata này không gửi xác thực PIN hoặc ký.
 
 RSA 2048 và PIN ASCII 1–64 byte.
-ATR khác, key khác loại/kích thước và RSA_X_509 bị từ chối rõ ràng. Không suy rộng
-kết quả sang mọi mẫu FastCA. Module registry vẫn ghi “Thử nghiệm”.
+Biến thể ATR hợp lệ cùng họ được đọc public metadata thay vì bị loại do thiếu
+full ATR. Nếu chưa map được PIN contract, card chỉ có quyền đọc; key khác loại/
+kích thước và RSA_X_509 vẫn chưa được native backend hỗ trợ. Không suy rộng
+kết quả ký sang mọi mẫu FastCA. Module registry vẫn ghi “Thử nghiệm”.
 
 Nguồn giao thức và bằng chứng native ban đầu:
 [fastca-native-signing.md](re/fastca-native-signing.md).

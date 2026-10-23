@@ -60,3 +60,9 @@ mở/thu chi tiết, đóng/mở lại 20 lần và thử trên các màn hình 
 
 Render và geometry tests không thay thế kiểm tra neo trên màn hình thật. Các
 giới hạn của kiểm chứng native/multi-display được ghi trong evidence từng bản.
+
+
+Trạng thái token phản ánh bước nhận diện/capability: chưa nhận diện, thiếu backend
+cho model đã biết, thiếu driver, lỗi đọc, khác metadata và chỉ đọc. Cert chỉ đọc
+vẫn hiển thị để chẩn đoán nhưng không có nút ký khả dụng, không được quảng bá
+cho portal hoặc chọn qua bước PIN. Chi tiết có CA issuer từ chứng thư và ATR.

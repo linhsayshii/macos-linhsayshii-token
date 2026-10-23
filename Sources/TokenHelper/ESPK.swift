@@ -5,20 +5,32 @@ import CFastCA
 
 struct ESPKError: Error, CustomStringConvertible {
     let description: String
-    init(_ description: String) { self.description = description }
+    let code: TokenFailureCode
+    init(_ description: String, code: TokenFailureCode = .transport) { self.description = description; self.code = code }
 }
 
 /// OpenSC handles CCID/secure messaging. ESPK metadata and commands belong to
 /// this backend; no generic PKCS#11 module or injected shim is used.
-enum NativeESPKProfile {
-    case fastca, efy
+enum NativeESPKProfile: Sendable {
+    case fastca, efy, discovery
     var atr: [UInt8] { self == .efy ? EfyProfile.atr : FastCAProfile.atr }
     func matches(atr: [UInt8]) -> Bool {
-        self == .fastca ? FastCAProfile.matches(atr: atr) : atr == self.atr
+        switch self {
+        case .fastca: FastCAProfile.matches(atr: atr)
+        case .efy: EfyProfile.matches(atr: atr)
+        case .discovery: ESPKFamily.matches(atr: atr)
+        }
     }
-    var label: String { self == .efy ? "EFY-CA" : "FastCA" }
-    var serialPrefix: String { self == .efy ? "EFY-" : "FASTCA-" }
-    var transport: fca_profile { self == .efy ? FCA_PROFILE_EFY : FCA_PROFILE_FASTCA }
+    func hasVerifiedPINProtocol(atr: [UInt8]) -> Bool {
+        switch self {
+        case .fastca: FastCAProfile.hasVerifiedPINProtocol(atr: atr)
+        case .efy: EfyProfile.hasVerifiedPINProtocol(atr: atr)
+        case .discovery: false
+        }
+    }
+    var label: String { switch self { case .fastca: "FastCA"; case .efy: "EFY-CA"; case .discovery: "ESPK" } }
+    var serialPrefix: String { switch self { case .fastca: "FASTCA-"; case .efy: "EFY-"; case .discovery: "ESPK-" } }
+    var transport: fca_profile { switch self { case .fastca: FCA_PROFILE_FASTCA; case .efy: FCA_PROFILE_EFY; case .discovery: FCA_PROFILE_DISCOVERY } }
 }
 
 /// The injectable boundary covers the actual connection lifetime, including
@@ -63,6 +75,7 @@ final class ESPKBackend: TokenBackend {
             case 0: return .ok
             case Int32(FCA_PIN_INCORRECT): return .pinIncorrect(retriesLeft: Int(status & 15))
             case Int32(FCA_PIN_LOCKED): return .pinLocked
+            case Int32(FCA_DISCOVERY_ONLY): throw ESPKError("Dòng token này mới hỗ trợ đọc metadata; chưa gửi PIN", code: .unsupportedOperation)
             default: throw ESPKError(String(format: "\(label) xác thực thất bại (%d, SW=%04X); không tự thử lại", rv, status))
             }
         }
@@ -87,6 +100,7 @@ final class ESPKBackend: TokenBackend {
     private struct Session {
         let connection: any ESPKCardConnection
         let snapshot: Snapshot
+        let authenticationAllowed: Bool
     }
 
     private var runtime: OpaquePointer?
@@ -111,14 +125,14 @@ final class ESPKBackend: TokenBackend {
         let paths = [embedded, "/opt/homebrew/lib/libopensc.13.dylib", "/usr/local/lib/libopensc.13.dylib",
                      "/Library/OpenSC/lib/libopensc.13.dylib"]
         guard let path = paths.first(where: { FileManager.default.fileExists(atPath: $0) }) else {
-            throw ESPKError("\(profile.label) cần OpenSC 0.27.1; chưa tìm thấy libopensc.13.dylib")
+            throw ESPKError("\(profile.label) cần OpenSC 0.27.1; chưa tìm thấy libopensc.13.dylib", code: .runtimeUnavailable)
         }
         var pointer: OpaquePointer?
         var message = [CChar](repeating: 0, count: 512)
         let rv = fca_runtime_open(path, &pointer, &message, message.count)
         guard rv == 0, let pointer else {
             let bytes = message.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }
-            throw ESPKError(String(decoding: bytes, as: UTF8.self))
+            throw ESPKError(String(decoding: bytes, as: UTF8.self), code: .runtimeUnavailable)
         }
         runtime = pointer
         return pointer
@@ -134,12 +148,18 @@ final class ESPKBackend: TokenBackend {
     }
 
     private func snapshot(_ connection: any ESPKCardConnection) throws -> Snapshot {
+        do { return try readSnapshot(connection) }
+        catch let error as ESPKError { throw error }
+        catch { throw ESPKError("\(profile.label) metadata ESPK không tương thích: \(error)", code: .incompatibleMetadata) }
+    }
+
+    private func readSnapshot(_ connection: any ESPKCardConnection) throws -> Snapshot {
         let files = try ESPKCatalog.parse(connection.read(0x6f01))
         guard let cardIDFile = files.first(where: { $0.directory.isEmpty && $0.name == "cardid" }) else {
-            throw ESPKError("\(profile.label) thiếu cardid trong catalog")
+            throw ESPKError("\(profile.label) thiếu cardid trong catalog", code: .incompatibleMetadata)
         }
         let cardID = try connection.read(cardIDFile.id)
-        guard !cardID.isEmpty else { throw ESPKError("\(profile.label) cardid rỗng") }
+        guard !cardID.isEmpty else { throw ESPKError("\(profile.label) cardid rỗng", code: .incompatibleMetadata) }
         // Stable across reader numbering/hotplug; independent of certificate renewal.
         let serial = profile.serialPrefix + SHA256.hash(data: cardID).prefix(8).map { String(format: "%02X", $0) }.joined()
         var certificates: [ESPKAttributes] = [], keys: [ESPKAttributes] = []
@@ -151,27 +171,35 @@ final class ESPKBackend: TokenBackend {
             }
         }
         let identities = try ESPKSigningIdentity.resolve(certificates: certificates, keys: keys)
-        guard !identities.isEmpty, identities.allSatisfy(RSAPKCS1v15.certificateMatches) else {
-            throw ESPKError("\(profile.label) không có chứng thư/khóa RSA tương thích khớp nhau")
+        guard !identities.isEmpty else {
+            throw ESPKError("\(profile.label) chưa có cặp chứng thư/khóa RSA hỗ trợ ký bằng backend này", code: .unsupportedOperation)
+        }
+        guard identities.allSatisfy(RSAPKCS1v15.certificateMatches) else {
+            throw ESPKError("\(profile.label) không có chứng thư/khóa RSA tương thích khớp nhau", code: .incompatibleMetadata)
         }
         return Snapshot(serial: serial, identities: identities)
     }
 
     private func open(serial: String) throws -> Session {
         var match: Session?
+        var lastFailure: Error?
         var accepted = false
         defer { if !accepted { match?.connection.close() } }
         for reader in readers() {
-            let connection = try connection(reader: reader.reader)
+            let connection: any ESPKCardConnection
+            do { connection = try self.connection(reader: reader.reader) }
+            catch { lastFailure = error; continue }
             var keep = false
             defer { if !keep { connection.close() } }
-            let metadata = try snapshot(connection)
+            let metadata: Snapshot
+            do { metadata = try snapshot(connection) }
+            catch { lastFailure = error; continue }
             if metadata.serial == serial {
                 guard match == nil else { throw ESPKError("\(profile.label) có nhiều token trùng cardid; chưa gửi PIN") }
-                match = Session(connection: connection, snapshot: metadata); keep = true
+                match = Session(connection: connection, snapshot: metadata, authenticationAllowed: profile.hasVerifiedPINProtocol(atr: reader.atr)); keep = true
             }
         }
-        guard let match else { throw ESPKError("Không tìm thấy đúng token \(profile.label); hãy kiểm tra USB") }
+        guard let match else { throw lastFailure ?? ESPKError("Không tìm thấy đúng token \(profile.label); hãy kiểm tra USB") }
         accepted = true
         return match
     }
@@ -183,8 +211,9 @@ final class ESPKBackend: TokenBackend {
             defer { connection.close() }
             let metadata = try snapshot(connection)
             guard serials.insert(metadata.serial).inserted else { throw ESPKError("\(profile.label) có nhiều token trùng cardid") }
+            let flags = ["PIN_RETRIES_UNKNOWN"] + (profile.hasVerifiedPINProtocol(atr: reader.atr) ? [] : [TokenCompatibility.discoveryOnlyFlag])
             return TokenInfo(slot: UInt(index), reader: reader.reader, serial: metadata.serial,
-                             label: profile.label, flags: ["PIN_RETRIES_UNKNOWN"])
+                             label: profile.label, flags: flags)
         }
     }
 
@@ -209,6 +238,9 @@ final class ESPKBackend: TokenBackend {
         let session = try open(serial: serial)
         var keep = false
         defer { if !keep { session.connection.close() } }
+        guard session.authenticationAllowed else {
+            throw ESPKError("Đã đọc chứng thư; chưa xác minh giao thức PIN của dòng token này. Chưa gửi PIN", code: .unsupportedOperation)
+        }
         let result = try session.connection.login(bytes)
         if result == .ok {
             sessions[serial] = session

@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-24",
+  "tests": {
+    "swift_passed": 182,
+    "target_groups": [
+      9,
+      7,
+      53,
+      89,
+      24
+    ],
+    "log_sha256": "c96ea0a6173cc30fefb7ed7b9800ea74c2689630afa7ad89ecdff872ed32cab6",
+    "native_c_mock": "passed; family discovery and independent PIN guard",
+    "hardware_authentication_in_tests": false
+  },
+  "package": {
+    "signature_and_runtime_checks": "passed",
+    "App_sha256": "bd94017beedbbd8017d7feb261d979683d3f8952173ed74a8b87e4cd2b5b1bac",
+    "TokenHelper_sha256": "ccc4582e3ba8aec3f73ba240bb64277671e12adf1d234ad2c8b65b8c4b58183f",
+    "previous_working_bundle": ".local/token-compatibility-20261024/previous/TokenSigner.app"
+  },
+  "smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "esigner_versions": {
+      "8768": "1.1.0",
+      "8769": "1.1.0"
+    },
+    "esigner_unknown_origin_status": 403,
+    "vnpt_wss": {
+      "4433": "1*smoke",
+      "4434": "1*smoke"
+    },
+    "vnpt_unknown_origin_status": 403,
+    "TLS_verified_with_pinned_local_CA": true,
+    "ctsign_post_case_insensitive": true,
+    "ctsign_signxml_route": true,
+    "ctsign_unknown_origin_status": 403,
+    "ctsign_xml_diagnostics": [
+      "XML_PARSE",
+      "XML_DTD_ENTITY",
+      "XML_DUPLICATE_ID",
+      "XML_EXISTING_SIGNATURE"
+    ],
+    "no_signing_or_external_rest": true
+  },
+  "read_only_app_check": {
+    "date": "2026-10-24",
+    "six_listeners_ready": true,
+    "getcert_status": 200,
+    "certificate_count": 4,
+    "known_fastca_0631_present": true,
+    "scope": "Read-only GetCert plus normal startup discovery; agent did not enter PIN, authenticate or sign."
+  },
+  "physical_readers_currently_present": 4,
+  "source_sha256_at_handoff": {
+    "Sources/App/AppModel.swift": "90a4382008c39bfa1184cbab120dededfe7ff8225052e1b2a55237c56b87020f",
+    "Sources/App/CertificateText.swift": "3e5f70303f965e9f38c9211304c2cad615faa0de65d3825cb30675961aa00022",
+    "Sources/App/MenuBarView.swift": "be32d02738d45354bd69cd921627d7d29b17d159dfa5800b7688da1082e2ca11",
+    "Sources/App/TokenCard.swift": "107a34c9e55933fbd50799339159f6e68f944b922aec737cb727bc751386765d",
+    "Sources/CFastCA/fastca.c": "24e8a2234c0a020aa0fa1e0cd391ee83cc89c718f4bc59775f337ac987dbf9bf",
+    "Sources/CFastCA/include/cfastca.h": "ed68e0524476d906cbb9ad0e363a47fe5ab93b6afee45658d7cee0865a604001",
+    "Sources/Core/EfyProfile.swift": "c4d5e382754295834d25a02c28d1460501cb38c24eaf9f6895ce9f853f30dd85",
+    "Sources/Core/FastCAProfile.swift": "6be9925c4edf6fc16adeceac5b0902b20ebea148cadc187f458547cc998f1eda",
+    "Sources/Core/HelperProtocol.swift": "cccdea18e1a36168365c3a26e2c706a231edf4aa4ca50bbb91c0cf7b5d57ffc5",
+    "Sources/Core/ModuleRegistry.swift": "2c7f0792ef95275b42a9acb663ed5172599bf4d3737c8681a5166f38c51a4065",
+    "Sources/Core/SigningCertificateChoice.swift": "9c66c0119ccc45bf12206d2ac8dc1a1b864fc8e9c7220df724b5f4560d59ca08",
+    "Sources/Core/TokenATR.swift": "091b608f5590edc1314941b0cd3313059bfc3db7adb4e2631aa4efae41a3c1dc",
+    "Sources/Core/TokenBroker.swift": "971bdc9789eb9567a4b4ee1ac55f827ba367e368115718b06d7f9d186bb42d96",
+    "Sources/Core/TokenCompatibility.swift": "8a2857dfe6f7d4e7ffc48dc32bd2b0968f5cfea2f653cb7add8272aa13b99212",
+    "Sources/TokenHelper/ESPK.swift": "08c5e3ce3a0e222914de838e6f83803e9209f71bbf6ff7fa9ac6874eb8c22567",
+    "Sources/TokenHelper/main.swift": "e0595a3eb9b3b3f9086407f801fa5ab58c0650fe4a7b5880d2b3a2ac4e3f4621",
+    "Tests/AppTests/CertificatePickerTests.swift": "7d0f76368ed042b49f1f56af940c2765cbbe25a9c5f5342d45adc0998d5ea7c5",
+    "Tests/AppTests/UIOverhaulTests.swift": "deabc840ab597f756c2065066e081666deae86d47dcaa5c3b914a55ad5304f94",
+    "Tests/CoreTests/ModuleRegistryTests.swift": "17f98abf3253fee3550be3ae68d6b0fea69b8f0ef2d9466494554d4deae1d02f",
+    "Tests/CoreTests/TokenBrokerTests.swift": "a127028db46785c8f85b582727f7f7e8d716801cf754c221b718ffcd8946ac10",
+    "Tests/CoreTests/TokenCompatibilityTests.swift": "06f802b9db75602e742a05b67585f7d236d6eb4bdf9616bf3d5d139fddf56776",
+    "Tests/NativeESPK/transport.c": "6a5178fbc9355bc4e9a43a763391899cbb127c868e6afb57cb54fa87d0e95afd",
+    "Tests/TokenHelperTests/ESPKBackendTests.swift": "439c3bd24442ab0c9eaf23569e3630e51482d786ee20071099a8c1a5ac732b55"
+  },
+  "limits": [
+    "Unseen family variants are tested with synthetic fixtures, not claimed hardware models.",
+    "No new physical PIN authentication, signing or portal operation by the agent.",
+    "Native authentication mappings remain separate from broad discovery; unknown PIN protocols stay read-only.",
+    "Vendor middleware fallback requires exact physical reader binding; not every vendor module reports a usable reader name.",
+    "Private PKCS11 keys may remain hidden until user login; do not claim their public matching was observed.",
+    "Research reports and raw vendor analysis retained locally; sanitized source ledger published separately."
+  ]
+}

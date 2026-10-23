@@ -54,3 +54,23 @@ private func fakeHelper() throws -> URL {
         #expect(error as? TokenBroker.SignError == .card("OpenSC runtime unavailable"))
     }
 }
+
+@Test func discoveryProbeScopesOnePhysicalReaderAndPreservesTypedRuntimeFailure() async throws {
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: dir) }
+    let helper = dir.appendingPathComponent("probe.sh")
+    let script = """
+    #!/bin/sh
+    [ "$1" = --backend ] && [ "$2" = espk-discovery ] || exit 21
+    [ "$3" = --reader ] && [ "$4" = 'Reader 17 with spaces' ] || exit 22
+    [ -z "${DYLD_INSERT_LIBRARIES:-}" ] && [ "$OPENSC_DEBUG" = 0 ] || exit 23
+    read line
+    printf '%s\\n' '{"failure":{"_0":{"code":"runtimeUnavailable","message":"Fixture runtime missing"}}}'
+    """
+    try script.write(to: helper, atomically: true, encoding: .utf8)
+    try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: helper.path)
+    let broker = TokenBroker(helperURL: helper, shimURL: helper, moduleDirs: [])
+    let response = try await broker.request(.listTokens, module: ModuleRegistry.espkDiscovery, reader: "Reader 17 with spaces")
+    #expect(response == .failure(TokenFailure(code: .runtimeUnavailable, message: "Fixture runtime missing")))
+}

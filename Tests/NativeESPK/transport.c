@@ -139,6 +139,22 @@ int main(void) {
             assert(!auths && !mses && !psos && !locks);
         }
     }
-    puts("PASS native ESPK mock transport: exact profiles, preflight reset, one auth, no retries, MSE/PSO framing, cleanup");
+    for (size_t i=12;i<=14;i++) {
+        for (unsigned value=0;value<256;value++) {
+            fixture(fastca_atr); device.atr.value[i]=(uint8_t)value;
+            device.atr.value[22]=0;
+            for (size_t n=1;n<22;n++) device.atr.value[22]^=device.atr.value[n];
+            assert(fca_card_open_profile(&runtime,"fixture",FCA_PROFILE_FASTCA,&card)==0 && card);
+            if (memcmp(device.atr.value,fastca_atr,23) && memcmp(device.atr.value,fastca_atr0631,23)) {
+                assert(login(card,&sw)==FCA_DISCOVERY_ONLY && !auths && !card->attempted);
+            }
+            fca_card_close(card);
+        }
+    }
+    fixture(fastca_atr);
+    assert(fca_card_open_profile(&runtime,"fixture",FCA_PROFILE_DISCOVERY,&card)==0 && card);
+    assert(login(card,&sw)==FCA_DISCOVERY_ONLY && !auths && !card->attempted);
+    fca_card_close(card);
+    puts("PASS native ESPK mock transport: family discovery, independent PIN guard, reset, no retries, MSE/PSO framing, cleanup");
     return 0;
 }

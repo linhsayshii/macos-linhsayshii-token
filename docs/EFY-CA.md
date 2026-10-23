@@ -7,8 +7,11 @@ dữ liệu cục bộ; chưa kiểm tra cổng nghiệp vụ, chain hoặc revo
 
 ## Phạm vi hỗ trợ
 
-- Profile ESPK có exact ATR `3b9f958131fe9f006646530510113971df00005100006a`.
-  Byte customer `51` riêng lẻ không đủ để bật backend. EFY vẫn có nhãn thử nghiệm.
+- PIN contract đã bật trên mẫu `3b9f958131fe9f006646530510113971df00005100006a`.
+  Discovery hiện dùng ATR family hợp lệ và public metadata preflight để đọc biến
+  thể firmware. Byte customer `51` riêng lẻ không đủ để bật authentication;
+  biến thể chưa map PIN contract ở trạng thái chỉ đọc. EFY vẫn có nhãn thử nghiệm.
+  Xem [compatibility chung](TOKEN-COMPATIBILITY.md).
 - Helper chạy native ARM64, `--backend efy`, không dùng EFY dylib Intel hay Rosetta.
   Broker loại biến injection/debug và không nạp APDU shim cho backend này.
 - OpenSC 0.27.1 phụ trách PC/SC và secure messaging. Sau reset khi mở phiên,

@@ -29,7 +29,7 @@ struct fca_runtime {
 struct fca_card {
     fca_runtime *runtime;
     sc_card_t *card;
-    int locked, attempted, authenticated, signed_once;
+    int locked, attempted, authenticated, signed_once, authentication_allowed;
 };
 
 void fca_wipe(void *bytes, size_t length) {
@@ -96,10 +96,25 @@ int fca_card_open(fca_runtime *r, const char *reader, fca_card **out) {
     return fca_card_open_profile(r, reader, FCA_PROFILE_FASTCA, out);
 }
 
+/* OpenSC 0.27.1 epass2003_atrs: framing/family hint for public reads only. */
+static int espk_family_matches(const uint8_t *atr, size_t length) {
+    const uint8_t pattern[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
+                              0x05,0,0,0,0x71,0xdf,0,0,0,0,0,0};
+    const uint8_t mask[] = {255,255,255,255,255,255,255,255,255,255,255,255,
+                           0,0,0,255,255,255,255,0,0,0,0};
+    if (!atr || length != sizeof(pattern)) return 0;
+    uint8_t checksum = 0;
+    for (size_t i = 0; i < length; i++) {
+        if ((atr[i] & mask[i]) != (pattern[i] & mask[i])) return 0;
+        if (i) checksum ^= atr[i];
+    }
+    return checksum == 0;
+}
+
 int fca_card_open_profile(fca_runtime *r, const char *reader, fca_profile profile, fca_card **out) {
     if (!out) return FCA_INVALID;
     *out = NULL;
-    if (!r || !reader || (profile != FCA_PROFILE_FASTCA && profile != FCA_PROFILE_EFY)) return FCA_INVALID;
+    if (!r || !reader || (profile != FCA_PROFILE_FASTCA && profile != FCA_PROFILE_EFY && profile != FCA_PROFILE_DISCOVERY)) return FCA_INVALID;
     sc_reader_t *device = r->get_reader(r->context, reader);
     if (!device) return SC_ERROR_READER;
     fca_card *c = calloc(1, sizeof(*c));
@@ -113,21 +128,25 @@ int fca_card_open_profile(fca_runtime *r, const char *reader, fca_profile profil
                           0x05,0x10,0x06,0x31,0x71,0xdf,0,0,0x69,0,0,0x4d};
     const uint8_t efy_atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
                           0x05,0x10,0x11,0x39,0x71,0xdf,0,0,0x51,0,0,0x6a};
-    int matches = c->card->atr.len == sizeof(fastca_atr) &&
+    const uint8_t *atr = c->card->atr.value;
+    int measured_profile = c->card->atr.len == sizeof(fastca_atr) &&
         (profile == FCA_PROFILE_EFY ? !memcmp(c->card->atr.value, efy_atr, sizeof(efy_atr)) :
          (!memcmp(c->card->atr.value, fastca_atr, sizeof(fastca_atr)) ||
           !memcmp(c->card->atr.value, fastca_atr0631, sizeof(fastca_atr0631))));
+    int matches = espk_family_matches(atr, c->card->atr.len) &&
+        (profile == FCA_PROFILE_DISCOVERY || atr[19] == (profile == FCA_PROFILE_EFY ? 0x51 : 0x69));
     if (!matches ||
         !c->card->driver || !c->card->driver->short_name || strcmp(c->card->driver->short_name, "epass2003")) {
         rv = FCA_INVALID;
         goto fail;
     }
+    c->authentication_allowed = profile != FCA_PROFILE_DISCOVERY && measured_profile;
     rv = r->lock(c->card);
     if (rv < 0) goto fail;
     c->locked = 1;
     // A prior helper may have crashed while authenticated. Clear that state
     // before metadata/PIN handling on every EFY connection, including reads.
-    if (profile == FCA_PROFILE_EFY) {
+    if (profile == FCA_PROFILE_EFY || profile == FCA_PROFILE_DISCOVERY) {
         rv = r->reset(c->card, 0);
         if (rv < 0) goto fail;
         // sc_reset resets only the reader, leaving OpenSC's old SM keys in
@@ -187,6 +206,7 @@ int fca_read_file(fca_card *c, uint16_t fid, uint8_t *output, size_t capacity, s
 }
 
 int fca_login(fca_card *c, const uint8_t *pin, size_t length, uint16_t *status) {
+    if (c && !c->authentication_allowed) return FCA_DISCOVERY_ONLY;
     if (!c || !pin || !status || !length || length > 64 || c->attempted) return FCA_INVALID;
     *status = 0;
     for (size_t i = 0; i < length; i++) if (pin[i] < 0x20 || pin[i] > 0x7e) return FCA_INVALID;

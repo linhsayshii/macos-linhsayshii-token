@@ -1,6 +1,8 @@
 public enum EfyProfile {
     /// Exact ESPK personalization measured on the EFY card. Customer byte 0x51
-    /// alone does not establish compatibility with this native protocol.
+    /// alone does not establish compatibility with its authentication protocol.
     public static let atr: [UInt8] = [0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
                                      0x05,0x10,0x11,0x39,0x71,0xdf,0,0,0x51,0,0,0x6a]
+    public static func matches(atr: [UInt8]) -> Bool { ESPKFamily.customer(atr: atr) == 0x51 }
+    public static func hasVerifiedPINProtocol(atr candidate: [UInt8]) -> Bool { candidate == atr }
 }

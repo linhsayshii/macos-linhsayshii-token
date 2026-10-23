@@ -27,6 +27,8 @@ public struct SigningCertificateChoice: Identifiable, Sendable {
             unavailableReason = "Thuộc token khác"
         } else if duplicated {
             unavailableReason = "Không phân biệt được token trùng định danh"
+        } else if !TokenCompatibility.permitsSigning(flags: target.flags) {
+            unavailableReason = "Đã đọc chứng thư; chưa xác minh giao thức ký của dòng token này"
         } else if parsed == nil {
             unavailableReason = "Không đọc được chứng thư"
         } else if target.flags.contains("USER_PIN_LOCKED") {
