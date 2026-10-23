@@ -1,0 +1,727 @@
+{
+  "schema": 1,
+  "date": "2026-10-23",
+  "kind": "static-artifact-observation",
+  "runtime_observed": false,
+  "root": {
+    "source_path": "/Users/linhsayshii/Downloads/MISA.KySo_Setup_latest.exe",
+    "source_bytes": 94421832,
+    "source_sha256": "5c7533ec1aa31673727affb8f7d2f1a3e8cd06003bffc5bad17c20188ac2c262",
+    "format": "PE32 x86 + ISSetupStream v3",
+    "overlay_offset": 1918976,
+    "member_count": 10,
+    "end_offset": 94421832,
+    "trailing_bytes": 0,
+    "execution": false,
+    "extraction_limitations": [
+      "zlib verifies successful decoded streams, not vendor authenticity.",
+      "Bundled .NET prerequisite failed; not used to study MISA payload.",
+      "7zz cannot directly open outer InstallShield EXE; MSI Compound and CAB extraction succeeded."
+    ]
+  },
+  "launcher_resource_version": "11.4.3.0",
+  "setup_ini_product_version": "11.4.3.0",
+  "version_limitation": "Installer/package label differs from contained MISA.KYSO assembly version 11.4.4.4; do not conflate or call either globally latest.",
+  "pe_resource_evidence": "ev_6edcfee36cece6d705aaaa46c2b8ef6a6e577fe9685adf4344f6b02112bec30b",
+  "archive_members": [
+    {
+      "name": "0x0409.ini",
+      "header_offset": 1919022,
+      "payload_offset": 1919066,
+      "compressed_bytes": 4607,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "b98189abda0386ae41429273b310dcecfde4c52e77c94c4fb3a2f351599c20cf",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 22480,
+      "sha256": "8b76df0ffc9a226b532b60936765b852b89780c6e475c152f7c320e085e43948"
+    },
+    {
+      "name": "Windows Installer 3.1 (x86).prq",
+      "header_offset": 1923673,
+      "payload_offset": 1923759,
+      "compressed_bytes": 701,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "1bc34ff83365b3cec044ea5c5c82cad660958906753c949ff35b9efc9611ed4a",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 1613,
+      "sha256": "7c452695e76e194d70eeaaf791b5a29354c268918169da3f849d87eebad5f4c3"
+    },
+    {
+      "name": "{57bcd1d4-2de9-49d9-bc0c-3f4263e9970e}.WindowsInstaller-KB893803-v2-x86.exe",
+      "header_offset": 1924460,
+      "payload_offset": 1924634,
+      "compressed_bytes": 2527715,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "4649bef8404871f15f82bf9455950e5ca131dd5e2cb49f8c4f972282cccfd037",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 2585872,
+      "sha256": "69b61b2c00323cea3686315617d0f452e205dae10c47e02cbe1ea96fea38f582"
+    },
+    {
+      "name": "MeInvoice_Microsoft Root Certificate 2011.prq",
+      "header_offset": 4452349,
+      "payload_offset": 4452463,
+      "compressed_bytes": 464,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "39bd824bfd49ba9878baa4e99068ef8a337b3ed1e5003ce131a52442b61edf6c",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 829,
+      "sha256": "3131bec747c1e747ef2ea72aa11b9b7d9a0e75e22dcac120b0fe32f82a46bd86"
+    },
+    {
+      "name": "MicrosoftRootCertificate2011.MicrosoftRootCertificateAuthority2011.cer",
+      "header_offset": 4452927,
+      "payload_offset": 4453091,
+      "compressed_bytes": 1392,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "bd6c5a3eba92551083243bb0a9d955b70476dc62d30373999b8b10fbe15a5d83",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 1521,
+      "sha256": "847df6a78497943f27fc72eb93f9a637320a02b561d0a91b09e87a7807ed7c61"
+    },
+    {
+      "name": "MicrosoftRootCertificate2011.add-cert.bat",
+      "header_offset": 4454483,
+      "payload_offset": 4454589,
+      "compressed_bytes": 77,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "1f13b4b282d23b7dd47275e6d3f3dcc258e809f07708781b72487feaf236b3fc",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 72,
+      "sha256": "ca52b4ee55fb2df150ca8c8768f2cb8ee1be2beb8af56eb879dcab37f15c9eff"
+    },
+    {
+      "name": "MeInvoice_Microsoft .NET Framework 4.6.2 Full.prq",
+      "header_offset": 4454666,
+      "payload_offset": 4454788,
+      "compressed_bytes": 590,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "5e1535072282a27bd9a263daaf81216f0d621664bdbf941d58d9a903430a98ee",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 1456,
+      "sha256": "1103671fb9718235998f9405c9ef87aef1ea4ab57563850628bf32f082162f2f"
+    },
+    {
+      "name": "NetFramework4.6.2.NDP462-KB3151800-x86-x64-AllOS-ENU.exe",
+      "header_offset": 4455378,
+      "payload_offset": 4455514,
+      "compressed_bytes": 61912536,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "d6b1f2307957f3d20e74bf686dba79f42c6178f5a06ab3044bfb15864c6bb206",
+      "status": "decode-failed",
+      "error": "zlib invalid code lengths set",
+      "compressed_failure_block_offset": 35373056,
+      "limitation": "Cause unresolved: decoder/layout assumption versus source corruption; no integrity claim for this member. Partial output not used."
+    },
+    {
+      "name": "MISA Kyso.msi",
+      "header_offset": 66368050,
+      "payload_offset": 66368100,
+      "compressed_bytes": 28052243,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "bed291b8b84d35aa361b1d6ae804113abd58c16692f7f4c94a721e830ec0e5b7",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 30347776,
+      "sha256": "4531d7ffcd7eb6a247296dac7fecac0e6a90f09ae1e86780bce2d8a2e189ed2e"
+    },
+    {
+      "name": "Setup.ini",
+      "header_offset": 94420343,
+      "payload_offset": 94420385,
+      "compressed_bytes": 1447,
+      "flags": 6,
+      "compression": 1,
+      "source_payload_sha256": "9c0a7f35e0c7eb668b0161a331e13f636320c0eaf927e3bcd80b40bb4263dc80",
+      "status": "decoded-zlib-eof-no-trailing-data",
+      "size_bytes": 5518,
+      "sha256": "a87da96506d4a8123dfc6e8599520e117654f01182a0aea59de05d63157ec6f7"
+    }
+  ],
+  "assemblies": [
+    {
+      "file": "misa.kyso.exe",
+      "sha256": "cf78cfb44af472cdc3781c7a8a1ff1ca36615e3a47b3ecfec0c6af2a978ac575",
+      "bytes": 2168320,
+      "mvid": "d631d360-82e5-47e9-9af7-6f795813d828",
+      "assembly": "MISA.KYSO",
+      "assembly_version": "11.4.4.4",
+      "classification": {
+        "status": "managed",
+        "container": "pe",
+        "runtime_family": "dotnet-framework",
+        "implementation": "cil",
+        "managed_architecture": "x86",
+        "evidence": [
+          {
+            "code": "cli-header-observed",
+            "detail": "A file-backed PE CLI header and metadata root were admitted.",
+            "file_offset": 520
+          },
+          {
+            "code": "target-framework-observed",
+            "detail": "An assembly-level TargetFrameworkAttribute names .NET Framework.",
+            "file_offset": 195588
+          },
+          {
+            "code": "managed-architecture-derived",
+            "detail": "Managed architecture x86 is derived from PE machine and CLI flags.",
+            "file_offset": 536
+          }
+        ]
+      },
+      "artifact_evidence": "ev_19570db2a707d7d524a38165906c1c604011aebb45104c4735a4aae7965d8059",
+      "members_evidence": "ev_ffe2a1b2b85b2a20cfbceaec29deca3d7aa4256feb3ff134dcc1e094663ff512",
+      "metadata_coverage": {
+        "state": "complete",
+        "issues": []
+      },
+      "CIL_method_bodies_crosschecked": 453
+    },
+    {
+      "file": "misa.kyso.util.dll",
+      "sha256": "b9b562e1d74e29b0b81f0dfbcf86d3c565c30c82e4bf6ed571d0c0b497c7b774",
+      "bytes": 11620864,
+      "mvid": "76d7383b-3bb7-4b73-a13a-efa8b87a605f",
+      "assembly": "MISA.KYSO.Util",
+      "assembly_version": "3.2.5.0",
+      "classification": {
+        "status": "managed",
+        "container": "pe",
+        "runtime_family": "dotnet-framework",
+        "implementation": "cil",
+        "managed_architecture": "x86",
+        "evidence": [
+          {
+            "code": "cli-header-observed",
+            "detail": "A file-backed PE CLI header and metadata root were admitted.",
+            "file_offset": 520
+          },
+          {
+            "code": "target-framework-observed",
+            "detail": "An assembly-level TargetFrameworkAttribute names .NET Framework.",
+            "file_offset": 508376
+          },
+          {
+            "code": "managed-architecture-derived",
+            "detail": "Managed architecture x86 is derived from PE machine and CLI flags.",
+            "file_offset": 536
+          }
+        ]
+      },
+      "artifact_evidence": "ev_053d7c32770d1ae676ddb1a388b3ba068bbddf0ffe6203e91fc8fa7d7f0f15d4",
+      "members_evidence": "ev_3cf621b574b8cb7d3dba994c5421ec80b20de070da107e03564657877cc05876",
+      "metadata_coverage": {
+        "state": "complete",
+        "issues": []
+      },
+      "CIL_method_bodies_crosschecked": 1462
+    },
+    {
+      "file": "websockets.dll",
+      "sha256": "a57e00ab7c2fc7f58c280c180348193118574074a50f916e26027445a247eec7",
+      "bytes": 53248,
+      "mvid": "41dda52d-58ce-43db-b3a0-e5f26d9dcacd",
+      "assembly": "WebSockets",
+      "assembly_version": "1.0.0.0",
+      "classification": {
+        "status": "managed",
+        "container": "pe",
+        "runtime_family": "dotnet-framework",
+        "implementation": "cil",
+        "managed_architecture": "x86",
+        "evidence": [
+          {
+            "code": "cli-header-observed",
+            "detail": "A file-backed PE CLI header and metadata root were admitted.",
+            "file_offset": 520
+          },
+          {
+            "code": "target-framework-observed",
+            "detail": "An assembly-level TargetFrameworkAttribute names .NET Framework.",
+            "file_offset": 39954
+          },
+          {
+            "code": "managed-architecture-derived",
+            "detail": "Managed architecture x86 is derived from PE machine and CLI flags.",
+            "file_offset": 536
+          }
+        ]
+      },
+      "artifact_evidence": "ev_910ce3566b0f72f70e0f822d0dfe0f6f2334136443887db5ef14a6780f3280a3",
+      "members_evidence": "ev_45cd59ea190e5097ac784f7eb2aa34ed802092582ab44a9538fbaae9cfd60e05",
+      "metadata_coverage": {
+        "state": "complete",
+        "issues": []
+      },
+      "CIL_method_bodies_crosschecked": 144
+    }
+  ],
+  "cabinet": {
+    "bytes": 27271078,
+    "sha256": "226030356bfde339ed191fd7a0642a00e04630cf94b2db0c4971511fabfc04e0",
+    "7zz_integrity_test": "Everything is Ok",
+    "files": 85,
+    "uncompressed_bytes": 102779973,
+    "member_name_limitation": "CAB names are MSI File identifiers, not guaranteed installed long paths; names were not guessed/renamed."
+  },
+  "payload": [
+    {
+      "member": "aspose.cells.dll",
+      "bytes": 14992560,
+      "sha256": "669b5ba39ed1bb0f2bc598bab07480b5098272f5fbddb8e87e69f862520a04e9"
+    },
+    {
+      "member": "aspose.cells.xml",
+      "bytes": 2584870,
+      "sha256": "708950351ca8b06c62aafabef28c1f9ec0838d752e7cea710c2cc96e4305a9dd"
+    },
+    {
+      "member": "aspose.words.dll",
+      "bytes": 30582496,
+      "sha256": "20f43ba50c361900f321419c353458d6875deddb5b16f5217527c4d859e38ff7"
+    },
+    {
+      "member": "aspose.words.xml",
+      "bytes": 2504596,
+      "sha256": "8513326edeeb7a1d47c41378c720e313a4e97440f5b1c3a4d7b0f43772169f9e"
+    },
+    {
+      "member": "bouncycastle.cryptography.dl",
+      "bytes": 4657816,
+      "sha256": "2f6740280b26d235076ea2b244fe6a13136ce6bdad71cb9313b63db4beb33a09"
+    },
+    {
+      "member": "bouncycastle.cryptography.xm",
+      "bytes": 1808051,
+      "sha256": "28f4991eda37682f332e4a503dedeebf17ffeca704d2ecec9aa4bf56dc1508e2"
+    },
+    {
+      "member": "interop.netfwtypelib.dll",
+      "bytes": 12288,
+      "sha256": "a3e49ad97dd4b28accf59f45a2d0474ceed69dd4e62404f4ac7f1bb56739f898"
+    },
+    {
+      "member": "itext.barcodes.dll",
+      "bytes": 155648,
+      "sha256": "237431fa053789e2f0874947200b1781e8038963b92630b83a94c6ae41af0c68"
+    },
+    {
+      "member": "itext.bouncy_castle_connecto",
+      "bytes": 23040,
+      "sha256": "b78a86f444a56dea834f31780659c99b215335a81982c197f04645eb6429e21e"
+    },
+    {
+      "member": "itext.bouncy_castle_connecto1",
+      "bytes": 2342,
+      "sha256": "6a30c58abab23bb4577051fb8d91e0b168801ba1f9c69da1818afaccb06775c7"
+    },
+    {
+      "member": "itext.commons.dll",
+      "bytes": 278016,
+      "sha256": "2137c2a028036feb5447d30f1a03c1efa0fb0c24817b247f7b1fb2e63d76f975"
+    },
+    {
+      "member": "itext.commons.xml",
+      "bytes": 375381,
+      "sha256": "f4f66fa3b8f457151bbc61266ec4ae5e843c7f707cb33d5f2d3a7eecbead4fff"
+    },
+    {
+      "member": "itext.forms.dll",
+      "bytes": 196096,
+      "sha256": "ebad40f5220057c06ffbbca04fdd6e5058312cbd0a4c67699a1c37a833ecb086"
+    },
+    {
+      "member": "itext.forms.xml",
+      "bytes": 478514,
+      "sha256": "023c7057c1802241dd5a4d840d0065015e8a7c66ecfa3d7cb466bc9f68e45340"
+    },
+    {
+      "member": "itext.io.dll",
+      "bytes": 1551360,
+      "sha256": "c629232cc819ac30a4001dbcb1b3295d4b85de429fc9fc4a65b94160350edb5c"
+    },
+    {
+      "member": "itext.io.xml",
+      "bytes": 422727,
+      "sha256": "4b48fdca3e38e6576447edaec84848085f0507c549f48afd88cb0cd64772b531"
+    },
+    {
+      "member": "itext.kernel.dll",
+      "bytes": 1042944,
+      "sha256": "47ccf9588f58b7a7be98f7ebd375fda988b0011e9ead5ba16dd319967158525d"
+    },
+    {
+      "member": "itext.kernel.xml",
+      "bytes": 2436604,
+      "sha256": "89de1143082f850c9687c107ab81feb273262ad94fb077f2212fd9b335d72e79"
+    },
+    {
+      "member": "itext.layout.dll",
+      "bytes": 435200,
+      "sha256": "87386d38d62ec4dd51af8a90c7467837ce14d77dd87b62b32f90a31a5ae8e299"
+    },
+    {
+      "member": "itext.layout.xml",
+      "bytes": 799193,
+      "sha256": "ba37487c8ca1c0c066701b9a42387834d3293a0c400714dedf099a15e85a72e6"
+    },
+    {
+      "member": "itext.pdfa.dll",
+      "bytes": 114176,
+      "sha256": "8b3233fc7f45205ca9faeec06ea222bfce040a2b54a9b1f227b9e63908fad32d"
+    },
+    {
+      "member": "itext.pdfa.xml",
+      "bytes": 59284,
+      "sha256": "80f4ace8e04b89d9a3f57d548322e5d20caca86cac867c0936b8bc50b9a10dd8"
+    },
+    {
+      "member": "itext.pdfua.dll",
+      "bytes": 57344,
+      "sha256": "7ae4f51fdcc2a3db12ddad4393f7971983ad4cb834867c50c59233fcf14f0aa1"
+    },
+    {
+      "member": "itext.sign.dll",
+      "bytes": 264704,
+      "sha256": "2bd2bc0892fd03513c032ccb1b48c266a0587e013a2c1239552ec9c2ba890870"
+    },
+    {
+      "member": "itext.sign.xml",
+      "bytes": 412389,
+      "sha256": "9bfd918bf5c379d551cedafb326e88d90c8b93e77317ff4d55f496882c50ef9c"
+    },
+    {
+      "member": "itext.styledxmlparser.dll",
+      "bytes": 395264,
+      "sha256": "cff24abef81f587cac2f767949e154c84272cbbcf1bd29cbd4ca922dc3735f2a"
+    },
+    {
+      "member": "itext.svg.dll",
+      "bytes": 128000,
+      "sha256": "5f989c376a7ae2c2173b8c02ac856d612c8532c5719eeeecc637d4089a510dad"
+    },
+    {
+      "member": "itextsharp.dll",
+      "bytes": 2592768,
+      "sha256": "2b7d6afcff85f529b968bfecd8a1f35612281b913c9b450469331edd2051c109"
+    },
+    {
+      "member": "itextsharp.xml",
+      "bytes": 2105719,
+      "sha256": "7dd905e84dd001b96f93fdb52ae1892567ce0056028f812ba801f9abf141bc0e"
+    },
+    {
+      "member": "kjs.applife.update.controlle",
+      "bytes": 1196032,
+      "sha256": "141ea59908afcae796dab74bcafba35dd7308ee0d1a753231bb463a1090923ef"
+    },
+    {
+      "member": "kjs.applife.update.controlle1",
+      "bytes": 473880,
+      "sha256": "99d195206b71c54213215367f0b84510ef9a8112b41581170009ae851955f0f2"
+    },
+    {
+      "member": "microsoft.bcl.asyncinterface",
+      "bytes": 26376,
+      "sha256": "1c95b1a776931ca1c4f2911b2ae1cc99eb78f547cd5feeaf5cdbdf10cedad0db"
+    },
+    {
+      "member": "microsoft.bcl.asyncinterface1",
+      "bytes": 31313,
+      "sha256": "2bca72654bac72cd4a20905452584f1f07e2bbfc5ab84e46f5855b621a06ccc4"
+    },
+    {
+      "member": "microsoft.extensions.depende",
+      "bytes": 97544,
+      "sha256": "9a7e5d960b4ca79981fc3321a7099ac79fa2e2eba026ad43728b3f9ced991452"
+    },
+    {
+      "member": "microsoft.extensions.depende1",
+      "bytes": 64288,
+      "sha256": "3dbebc6a7b84e63ed1c92bc821f11e1b4b5a30536012abd9f6e2ec5a4239c8f1"
+    },
+    {
+      "member": "microsoft.extensions.depende2",
+      "bytes": 205953,
+      "sha256": "c92d7d72a871c8db313e08fd2a3ccb5a5255915c11991248c6cb3d28617ce41e"
+    },
+    {
+      "member": "microsoft.extensions.depende3",
+      "bytes": 41971,
+      "sha256": "59cde3eeda5351f3ee4325671426bc8b47fa4a26a984ed609cf9c170a3b10f0d"
+    },
+    {
+      "member": "microsoft.extensions.logging",
+      "bytes": 54552,
+      "sha256": "d3cc7a9f04b7a937b008e49582afbed278e417735b291e179b7bed1c006c870f"
+    },
+    {
+      "member": "microsoft.extensions.logging1",
+      "bytes": 69384,
+      "sha256": "c071f7bb1dac06185232727d8b43412537d856a7ee23b8d128f45d5774b70270"
+    },
+    {
+      "member": "microsoft.extensions.logging2",
+      "bytes": 99749,
+      "sha256": "cd80174ef334503fc2470af1684dea3877c652db4d0f5a0eb5bf2216eb24c0fb"
+    },
+    {
+      "member": "microsoft.extensions.logging3",
+      "bytes": 47645,
+      "sha256": "cb45f34b7d623854d887678144c00707626db86f3dd44708b960004722b6a2e2"
+    },
+    {
+      "member": "microsoft.extensions.options",
+      "bytes": 68888,
+      "sha256": "b432fe6c8b010163c8d3c1c0fdc3f20ed48db9975cb51a3faebee31d01f8d644"
+    },
+    {
+      "member": "microsoft.extensions.options1",
+      "bytes": 146792,
+      "sha256": "9fac05ff1455b2c75010c2c2811bb6465eda5691966decc572816e62f4fdb1ca"
+    },
+    {
+      "member": "microsoft.extensions.primiti",
+      "bytes": 50456,
+      "sha256": "ad6abfa157e0492cbf3180878ac3b5d22406dfa5bc9d333ebafddb69a77c6799"
+    },
+    {
+      "member": "microsoft.extensions.primiti1",
+      "bytes": 95713,
+      "sha256": "75c78ca786dd14a9c49505cd68268987b242294e411c66c580dc332f440e8c6f"
+    },
+    {
+      "member": "microsoft.web.webview2.core.",
+      "bytes": 649832,
+      "sha256": "e6c517412c245c0f0d65fc494d4f7bf883eba3cfd7023c3f66cc1fe774ec0a22"
+    },
+    {
+      "member": "microsoft.web.webview2.core.1",
+      "bytes": 579713,
+      "sha256": "d2e44139c2e8e30fecb99112516964143be130c58960a2c65cabc6a2a7c35ca0"
+    },
+    {
+      "member": "microsoft.web.webview2.winfo",
+      "bytes": 39000,
+      "sha256": "362ede7adc427ff631cd313418d6d331c01eb1f7874a5ca54911130739792145"
+    },
+    {
+      "member": "microsoft.web.webview2.winfo1",
+      "bytes": 41870,
+      "sha256": "96e468637ee3322db9851e38c0a3d7c32f0d11f60566b47ace2c91ec66179ac8"
+    },
+    {
+      "member": "microsoft.web.webview2.wpf.d",
+      "bytes": 82536,
+      "sha256": "832a517556d57d6106b6752b7568088ff2b6df434365d74a923af24d9e69cb1e"
+    },
+    {
+      "member": "microsoft.web.webview2.wpf.x",
+      "bytes": 142442,
+      "sha256": "8932fe759bb7afd1e0de73682a9577d782048a68b252408e127cf767fc348be4"
+    },
+    {
+      "member": "misa.kyso.exe",
+      "bytes": 2168320,
+      "sha256": "cf78cfb44af472cdc3781c7a8a1ff1ca36615e3a47b3ecfec0c6af2a978ac575"
+    },
+    {
+      "member": "misa.kyso.exe.config",
+      "bytes": 6898,
+      "sha256": "51234abfb9e9e35f01486d197b13589ff2fb6491d954a38bb0360e11a560095e"
+    },
+    {
+      "member": "misa.kyso.util.dll",
+      "bytes": 11620864,
+      "sha256": "b9b562e1d74e29b0b81f0dfbcf86d3c565c30c82e4bf6ed571d0c0b497c7b774"
+    },
+    {
+      "member": "misa.kyso.util.dll.config",
+      "bytes": 3135,
+      "sha256": "ca457f770ddd55927debcd51b3a1aae2899c2267767803ff78c239f81f7f361e"
+    },
+    {
+      "member": "newtonsoft.json.dll",
+      "bytes": 701992,
+      "sha256": "b624949df8b0e3a6153fdfb730a7c6f4990b6592ee0d922e1788433d276610f3"
+    },
+    {
+      "member": "newtonsoft.json.xml",
+      "bytes": 710224,
+      "sha256": "2d46b37b086d6848af5f021d2d7a40581ce78aadd8ee39d309aee4771a0eeccf"
+    },
+    {
+      "member": "opc.ua.client.dll",
+      "bytes": 107008,
+      "sha256": "0d6a8fe0a700e8d6fbe7cbf918b0ba2561a9cbb628e4eed863f51f9094c1922d"
+    },
+    {
+      "member": "opc.ua.clientcontrols.dll",
+      "bytes": 540160,
+      "sha256": "8bf2e5f2cad27d614ed86e11f451f22318a8c86017971171f0c03c075e7e7b57"
+    },
+    {
+      "member": "opc.ua.cominterop.dll",
+      "bytes": 432128,
+      "sha256": "15df82c24ad35030661a1c72faf9365d5f0d0adea55e241bc7ebfd500151ff9e"
+    },
+    {
+      "member": "opc.ua.configuration.dll",
+      "bytes": 113664,
+      "sha256": "113e8f32f2b4a82fb4a092000262347796bf9797b355fa03d7424fc8176222c2"
+    },
+    {
+      "member": "opc.ua.core.dll",
+      "bytes": 3714048,
+      "sha256": "d8eec81c1a0ada55248a9d7af3f443db6821b561640e27d968a40831e28ed652"
+    },
+    {
+      "member": "opc.ua.server.dll",
+      "bytes": 299008,
+      "sha256": "516da13c82123046c66083322baa258504397368f38aa07a460f17b052f1d30f"
+    },
+    {
+      "member": "opc.ua.servercontrols.dll",
+      "bytes": 87040,
+      "sha256": "d568c955fa5d5215589ac7a3a7f8f8196e8a3d9cab7d08f8d6234b62c9d34cf9"
+    },
+    {
+      "member": "pkcs11interop.dll",
+      "bytes": 564928,
+      "sha256": "7e85d30a289c9c8fd92b0f2ccb7011bb72276e8c4db71e2ff3ed39fb0a0cdc05"
+    },
+    {
+      "member": "pkcs11interop.xml",
+      "bytes": 2704729,
+      "sha256": "d9f21fadf71df0074ffa26c52485e1bc5e592050d6e7b108c711dfe257e2921a"
+    },
+    {
+      "member": "restsharp.dll",
+      "bytes": 190976,
+      "sha256": "55ca753ccad95b3845ef735252ec35ebd0a3a5e420625393e32032add2331378"
+    },
+    {
+      "member": "restsharp.dll1",
+      "bytes": 190976,
+      "sha256": "55ca753ccad95b3845ef735252ec35ebd0a3a5e420625393e32032add2331378"
+    },
+    {
+      "member": "system.buffers.dll",
+      "bytes": 23856,
+      "sha256": "3af1e07305bed0abe0cf32d9854e0a7f5f470216adee1b87d02350be09d31b35"
+    },
+    {
+      "member": "system.buffers.xml",
+      "bytes": 11058,
+      "sha256": "8e6aa4fdaed88b8d3206373a8e17ba6120dee03b1a2afbd897821d4af3cff14e"
+    },
+    {
+      "member": "system.diagnostics.diagnosti",
+      "bytes": 199944,
+      "sha256": "9c4f0069f18d0ffc71056562318d1caec0b60820188426d7005a39612853993c"
+    },
+    {
+      "member": "system.diagnostics.diagnosti1",
+      "bytes": 174755,
+      "sha256": "fc90972eef73776451ff6210ea340278e0278dcd440bba487d9a9b51dba62352"
+    },
+    {
+      "member": "system.memory.dll",
+      "bytes": 145192,
+      "sha256": "b8fe216aff0f6d162f8eefe7be1712162b7d8199e20ce2e70ffac36c7ce20a4c"
+    },
+    {
+      "member": "system.memory.xml",
+      "bytes": 208053,
+      "sha256": "85e03bc4aba664a212d8a5aac12b5e7fe66d0c153e605d0d5f438efdd1ef52bc"
+    },
+    {
+      "member": "system.numerics.vectors.dll",
+      "bytes": 110344,
+      "sha256": "22c84be385fe8ba6d0e0138952748f28d781fce36078b5a7aed91a6104bcd99b"
+    },
+    {
+      "member": "system.numerics.vectors.xml",
+      "bytes": 191892,
+      "sha256": "9d8a1c51f052d6c1537c091583bf453d4493db82025ce7e3e6c8a8cc6c0edf18"
+    },
+    {
+      "member": "system.runtime.compilerservi",
+      "bytes": 19224,
+      "sha256": "2d6f419d641682d8efc4a40e850d2e85de519d6823b93daf2aeee63206d4e32d"
+    },
+    {
+      "member": "system.runtime.compilerservi1",
+      "bytes": 21820,
+      "sha256": "c1e52a90793f1e326eecf664dcb3a50535f71746a7afb912440316bfecfbc8c6"
+    },
+    {
+      "member": "system.threading.tasks.exten",
+      "bytes": 25984,
+      "sha256": "4f81ffd0dc7204db75afc35ea4291769b07c440592f28894260eea76626a23c6"
+    },
+    {
+      "member": "system.threading.tasks.exten1",
+      "bytes": 10147,
+      "sha256": "975a9555f561b363c3e02fd533f6bf7083aa11bbc7cbf2b46c31df3d3696b97b"
+    },
+    {
+      "member": "system.valuetuple.dll",
+      "bytes": 78992,
+      "sha256": "e4774aead2793f440e0ced6c097048423d118e0b6ed238c6fe5b456acb07817f"
+    },
+    {
+      "member": "system.valuetuple.xml",
+      "bytes": 85027,
+      "sha256": "b5c69cb0668b009900333ba825e11e70a5c0bef1d06f934f9cf60889a027aa73"
+    },
+    {
+      "member": "user32.dll",
+      "bytes": 1461200,
+      "sha256": "072a3a3445083bc336cc67f9d1dc1b87e689d44a722a408bcc33bc3d69fc4cca"
+    },
+    {
+      "member": "websockets.dll",
+      "bytes": 53248,
+      "sha256": "a57e00ab7c2fc7f58c280c180348193118574074a50f916e26027445a247eec7"
+    },
+    {
+      "member": "whatnew.txt",
+      "bytes": 27820,
+      "sha256": "403be9a47f9522bbcda45e4f6b929eff00fb22941ea6815949757f60896414ed"
+    }
+  ],
+  "tools": {
+    "REA": "rea-agents 6.5.0 / PE resources + managed-static parser",
+    "7zz": "26.04 arm64",
+    "dncil": "1.0.2",
+    "dnfile": "0.18.0",
+    "pefile": "2024.8.26",
+    "full_CIL_validation": "All file-backed body IL SHA256 and instruction counts matched REA members evidence: 453 + 1462 + 144."
+  },
+  "local_raw_directory": ".local/re/misa/",
+  "extraction_decoder_sources": [
+    {
+      "url": "https://github.com/Coldblackice/InstallShield-installer-extractor-ISx/blob/098e866fa5341db4424d3831d40943c01b88aefe/ISx.c",
+      "role": "v3 24-byte member layout, UTF8 filename key, M1024 transform description"
+    },
+    {
+      "url": "https://github.com/gpt-cmdr/ras-commander/blob/main/containers/hecras-unsteady/extract_installer.py",
+      "role": "reviewed offline decode routine used on bounded MISA members; root layout adapted to v3"
+    }
+  ],
+  "limitations": [
+    "No installer/assembly executed; no Authenticode chain/authenticity validation claimed.",
+    "Bundled .NET prerequisite failed decoding; cause unresolved, excluded.",
+    "Static dependency presence is not proof a feature executes on a portal."
+  ]
+}

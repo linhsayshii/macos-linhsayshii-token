@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "kind": "static-CIL-observation",
+  "runtime_observed": false,
+  "exe_sha256": "cf78cfb44af472cdc3781c7a8a1ff1ca36615e3a47b3ecfec0c6af2a978ac575",
+  "exe_mvid": "d631d360-82e5-47e9-9af7-6f795813d828",
+  "exe_members_evidence": "ev_ffe2a1b2b85b2a20cfbceaec29deca3d7aa4256feb3ff134dcc1e094663ff512",
+  "websockets_sha256": "a57e00ab7c2fc7f58c280c180348193118574074a50f916e26027445a247eec7",
+  "websockets_mvid": "41dda52d-58ce-43db-b3a0-e5f26d9dcacd",
+  "websockets_members_evidence": "ev_45cd59ea190e5097ac784f7eb2aa34ed802092582ab44a9538fbaae9cfd60e05",
+  "transport": {
+    "startup_method": "MISA.KYSO.frmMain.j 0x06000006",
+    "ports": [
+      11984,
+      11985,
+      12680,
+      12681,
+      12683,
+      11994,
+      11995,
+      12690
+    ],
+    "ports_source": {
+      "FieldRva": {
+        "field": "t.a",
+        "RVA": "0x2050",
+        "file_offset": 592,
+        "byte_length": 32,
+        "hex": "d02e0000d12e000088310000893100008b310000da2e0000db2e000092310000"
+      },
+      "IL_0077-IL_0083": "int[8] initialized from t.a",
+      "IL_0094-IL_0097": "first candidate assigned",
+      "IL_0157-IL_015d": "IPUtil.PortInUse(candidate) -> next candidate if true",
+      "IL_00b7-IL_00ba/IL_01e3-IL_01e7/IL_0139-IL_013c": "increment index, bounds test, read next entry",
+      "IL_00d8-IL_010b": "construct factory/WebServer and Listen(candidate)"
+    },
+    "listener_call": "WebServer.Listen(int) 0x06000006 -> Listen(int, null) 0x06000005",
+    "listener_bind": "WebSockets.WebServer.Listen(int, X509Certificate2): IL_0054-IL_006d uses IPAddress.Loopback/TcpListener.Start",
+    "scheme_inference": "plain WS on this startup route: null server cert stored; SslStream route is conditional on nonnull cert",
+    "route": {
+      "method": "m.CreateInstance 0x06000076",
+      "IL_00e7-IL_00f7": "ConnectionDetails.Path == /plugin",
+      "IL_00b2-IL_00cf": "construct l WebSocketService for plugin",
+      "IL_0179-IL_0196": "HTTP connection uses static HttpService with web root; not evidence of HTTP signing API"
+    },
+    "handshake": {
+      "method": "WebSockets.WebSocketService.PerformHandshake 0x0600002d",
+      "observed": "Sec-WebSocket-Key and Sec-WebSocket-Version parsed; 101 with Sec-WebSocket-Accept, or 426/400 error branches",
+      "origin_limit": "No Origin/CORS gate found in examined startup/factory/handshake paths. No Origin/access-control strings among ldstr user literals in exe/util/WebSockets. This bounded search is not a global absence proof or runtime observation."
+    }
+  },
+  "dispatch": {
+    "method": "l.OnTextFrame 0x06000059",
+    "IL_1381": "DeserializeObject<PluginData>(text) MethodSpec 0x2b000001; generic target resolved via MethodSpec table to SerializeUtil.DeserializeObject",
+    "IL_0b1c-IL_0b2f": "copy jsObject/jsCallBackFn from request to ServiceResult",
+    "IL_0b34-IL_0b3a": "read action for dispatcher",
+    "IL_229b-IL_22a4": "SerializeUtil.SerializeObject(result), then WebSocketBase.Send(string)",
+    "action_comparison_literals": [
+      {
+        "action": "CheckSignXML",
+        "il_offset": 1871
+      },
+      {
+        "action": "GetRawVersion",
+        "il_offset": 1999
+      },
+      {
+        "action": "SignXMLForHRM",
+        "il_offset": 2172
+      },
+      {
+        "action": "SignPDF",
+        "il_offset": 2242
+      },
+      {
+        "action": "SignPDFForIVAN",
+        "il_offset": 2342
+      },
+      {
+        "action": "SignXmlInvoiceUsingInfor",
+        "il_offset": 2569
+      },
+      {
+        "action": "SignXML",
+        "il_offset": 3031
+      },
+      {
+        "action": "WSSignPDF",
+        "il_offset": 3301
+      },
+      {
+        "action": "GetCertificateFromSignedXML",
+        "il_offset": 3638
+      },
+      {
+        "action": "GetSysInfor",
+        "il_offset": 3709
+      },
+      {
+        "action": "GetAllCertificatesV2",
+        "il_offset": 3981
+      },
+      {
+        "action": "SignXMLForIntegrated",
+        "il_offset": 4153
+      },
+      {
+        "action": "SignPDFForMimosaDVC",
+        "il_offset": 4223
+      },
+      {
+        "action": "GetCertInfo",
+        "il_offset": 4330
+      },
+      {
+        "action": "GetVersionNumber",
+        "il_offset": 4611
+      },
+      {
+        "action": "SignXMLForIVAN",
+        "il_offset": 4854
+      },
+      {
+        "action": "GetAllCertificatesForIVAN",
+        "il_offset": 5088
+      },
+      {
+        "action": "GetCertificateInfo",
+        "il_offset": 5188
+      },
+      {
+        "action": "SignOffice",
+        "il_offset": 5258
+      },
+      {
+        "action": "HashFile",
+        "il_offset": 5468
+      },
+      {
+        "action": "SignHash",
+        "il_offset": 5613
+      },
+      {
+        "action": "WSDoLiveUpdate",
+        "il_offset": 5815
+      },
+      {
+        "action": "SignElectricity",
+        "il_offset": 6049
+      },
+      {
+        "action": "GetCertInfoForMimosaDVC",
+        "il_offset": 6223
+      },
+      {
+        "action": "SignReportXML",
+        "il_offset": 6477
+      },
+      {
+        "action": "SignXMLBuyer",
+        "il_offset": 6842
+      },
+      {
+        "action": "MTax.SignDocument",
+        "il_offset": 6934
+      },
+      {
+        "action": "GetAllMisaCertificate",
+        "il_offset": 7434
+      },
+      {
+        "action": "SignPDFForHRM",
+        "il_offset": 7579
+      },
+      {
+        "action": "GetAllCertificates",
+        "il_offset": 7855
+      },
+      {
+        "action": "SignPDFForSalagov",
+        "il_offset": 8028
+      },
+      {
+        "action": "SignInvoiceRegistrationXML",
+        "il_offset": 8700
+      }
+    ],
+    "limitation": "Names/comparison sites and encoded handler calls are static evidence; no claim all actions succeed or are used by meInvoice/AMIS. JSON serialization settings/null rules require focused serializer trace or capture."
+  },
+  "local_full_il": {
+    "misa.kyso.exe": "cd235c03b34644bd09f7aeb76c9ecd9a83c4e8d7405769c8510849b4d7bb354a",
+    "websockets.dll": "5a228192041e2e81806f5f8505b4ec1fd68b5f4a29eb5c789961134742f057ee"
+  },
+  "unresolved": [
+    "Actual meInvoice and AMIS portal host/origin, selected port, command order and request/response fixtures.",
+    "Running Windows process/service identity and installed binary version/hash; only artifact process entry is established.",
+    "Browser handshake permission/Origin enforcement in actual deployment.",
+    "Native messaging/custom launch may coexist; none established as browser signing transport by this investigation.",
+    "Remote signing-on-server HTTP branch is separate from loopback WS and must not be confused with MISA eSign cloud CA API."
+  ]
+}

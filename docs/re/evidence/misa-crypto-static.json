@@ -1,0 +1,270 @@
+{
+  "schema": 1,
+  "scope": "Static crypto/DTO/native-boundary findings; no target execution or signing",
+  "artifact": {
+    "path_local": ".local/re/misa/payload/misa.kyso.util.dll",
+    "sha256": "b9b562e1d74e29b0b81f0dfbcf86d3c565c30c82e4bf6ed571d0c0b497c7b774",
+    "mvid": "76d7383b-3bb7-4b73-a13a-efa8b87a605f",
+    "byte_length": 11620864
+  },
+  "sources": [
+    {
+      "evidence_id": "ev_3cf621b574b8cb7d3dba994c5421ec80b20de070da107e03564657877cc05876",
+      "operation": "inspect_managed_members",
+      "local_json": ".local/re/misa/misa.kyso.util.dll-members-full.json",
+      "json_sha256": "71b0a58458b2ab03cf5f960882803e8e068929247f0450e9e73409ac894f2652"
+    },
+    {
+      "evidence_id": "ev_ea4ec2af6cf067102b7d087d11dbb886f16bdd698eaf41a90c23de4ede08d7f2",
+      "operation": "inspect_managed_native_boundaries",
+      "coverage": "complete; managed declarations only"
+    },
+    {
+      "kind": "offline full CIL decode supplied by root investigation",
+      "local_path": ".local/re/misa/misa.kyso.util.dll.full.il.txt",
+      "sha256": "8085d4427df0f6b1865a2d21c094c6b183e3eaebff665cac9e8b1629bc5209c0",
+      "note": "Full instruction decode provides small opcodes and switch targets absent from REA anchor projection; root checked body byte hashes/instruction counts against REA."
+    }
+  ],
+  "findings": [
+    {
+      "id": "signhash-input-output",
+      "status": "observed-static",
+      "method": "MISA.KYSO.Util.FuncWS.SignHash",
+      "token": "0x06000386",
+      "anchors": {
+        "IL_0102": "HashToSigns count",
+        "IL_019d": "TryGetConfiguredSignHashAlgorithm(out local5), return discarded at IL_01a2",
+        "IL_01a9": "Enumerable.FirstOrDefault on HashToSigns (MethodSpec 0x2b00001e)",
+        "IL_01ae": "DetectHashAlgorithmByLength, stored local6",
+        "IL_0245": "CertificateUtil.GetCertificateFromStore",
+        "IL_0487": "Convert.FromBase64String for current input",
+        "IL_0415": "Convert.ToBase64String for signature; append to output list at IL_041a",
+        "IL_0927": "output list assigned ServiceResult.data",
+        "IL_092f/IL_0934": "DataAfterCallback assigned ServiceResult.data_info",
+        "IL_093b/IL_093c": "status=true",
+        "IL_0943/IL_0948": "success message assigned"
+      },
+      "notes": [
+        "Not an unconditional precomputed-digest operation. DocumentType controls how decoded bytes are signed.",
+        "Algorithm inference uses first input; no use of local5 was observed after configured-algorithm call in this method. Do not equate request HashAlgorithm property with selected hash without tracing dispatcher/global setter."
+      ]
+    },
+    {
+      "id": "signhash-document-type",
+      "status": "observed-static",
+      "method_token": "0x06000386",
+      "branches": [
+        {
+          "DocumentType": 0,
+          "anchors": [
+            "IL_056c-IL_058e",
+            "IL_05ae-IL_05b5"
+          ],
+          "call": "DigitalSignatureHelper.Sign(cert, decodedBytes, false, detectedNullableHash, false)",
+          "RSA_effect": "SignData: hashes decoded bytes before RSA PKCS1 signature"
+        },
+        {
+          "DocumentType": 1,
+          "anchors": [
+            "IL_04de-IL_04e1",
+            "IL_043a-IL_0446"
+          ],
+          "call": "DigitalSignatureHelper.Sign(cert, decodedBytes, true, detectedNullableHash, request.is91Circular)",
+          "RSA_effect": "SignHash: precomputed digest; PKCS1 if final bool false, PSS if true"
+        },
+        {
+          "DocumentType": "other",
+          "anchors": [
+            "IL_05da-IL_0601"
+          ],
+          "result": "status=false; ErrorCode ordinal 13 converted to string; unsupported-hash-input message"
+        }
+      ],
+      "error_anchors": {
+        "IL_0493-IL_04ba": "invalid base64: status=false; ErrorCode ordinal 2 string; invalid-input message",
+        "IL_07b8-IL_07de": "null request/null or empty HashToSigns: same invalid-input error",
+        "IL_0967-IL_0992": "exception: status=false; ErrorCode ordinal 99 string; exception message"
+      }
+    },
+    {
+      "id": "rsa-ec-signing",
+      "status": "observed-static",
+      "method_tokens": [
+        "0x06000476",
+        "0x06000477",
+        "0x06000478"
+      ],
+      "anchors": {
+        "0x06000476:IL_02e1-IL_02e8": "RSA helper receives data, selected hash, third/fifth Sign arguments",
+        "0x06000477:IL_010a-IL_010b/IL_02d7-IL_02df": "false third boolean -> RSA.SignData(data, hash, PKCS1)",
+        "0x06000477:IL_01ef-IL_0218": "true third boolean -> fifth boolean selects RSA.SignHash PSS or PKCS1 (PKCS1 block IL_0184-IL_018c)",
+        "0x06000477:IL_021e-IL_022a": "legacy CSP SHA1 SignHash branch also exists",
+        "0x06000478:IL_0000-IL_0035/IL_00aa-IL_00ac": "ECDsa helper selects SignData vs SignHash by boolean"
+      },
+      "limitations": [
+        "CSP-specific SHA1 branches and provider fallback exist; do not promise PSS on every Windows CSP/token.",
+        "Current TokenSigner shared signing service only exposes RSA PKCS1 and SHA1/SHA256; PSS, ECDsa, SHA384/SHA512 require additional implementation if portal uses them."
+      ]
+    },
+    {
+      "id": "digest-inference",
+      "status": "observed-static",
+      "method_token": "0x0600047e",
+      "anchors": {
+        "IL_0055-IL_005d": "decode base64, length*8",
+        "IL_00f5-IL_00fb/IL_009b": "256 bits -> SHA256",
+        "IL_01a2-IL_01a8/IL_01c7": "160 bits -> SHA1",
+        "IL_022d-IL_0233/IL_0119": "384 bits -> SHA384",
+        "IL_0282-IL_0288/IL_01ef": "512 bits -> SHA512",
+        "IL_02aa/IL_02cf": "unrecognized length or decode exception -> empty Nullable"
+      },
+      "fallback": "DigitalSignatureHelper.Sign token 0x06000476 uses supplied nullable hash when present (IL_0744-IL_0767, IL_01d2); otherwise GetSignHashAlgorithm(cert) at IL_00ce-IL_00cf. That helper token 0x06000479 consults global SignHashAlgorithmName and then certificate signature OID."
+    },
+    {
+      "id": "xml-profile",
+      "status": "observed-static",
+      "method_tokens": [
+        "0x0600046b",
+        "0x0600046f",
+        "0x06000475",
+        "0x06000480",
+        "0x06000481"
+      ],
+      "anchors": {
+        "0x06000475:IL_04e1-IL_04eb": "SignedInfo canonicalization set to exclusive c14n URI http://www.w3.org/2001/10/xml-exc-c14n#",
+        "0x0600046f:IL_00ad-IL_00cc": "Reference #SigningTime added with selected digest URI",
+        "0x0600046f:IL_02f4-IL_030c": "XmlDsigEnvelopedSignatureTransform and digest method added to content reference",
+        "0x0600046f:IL_0180-IL_018c": "optional #reference URI formed from argument",
+        "0x0600046b:IL_0098-IL_00cd": "registers RSA SHA256 and RSA-PSS SignatureDescription classes",
+        "0x06000480/0x06000481": "SHA1/SHA256/SHA384/SHA512 signature/digest URI mappings"
+      },
+      "integration_limit": "TokenSigner XMLDSigSigner currently declares inclusive C14N1.0 at Sources/Core/XMLDSigSigner.swift:70. Do not use its current profile as MISA-equivalent. Exact portal XML path/reference/namespace/SigningTime behavior still requires captured sample."
+    },
+    {
+      "id": "pkcs11-boundary",
+      "status": "observed-static",
+      "method_tokens": [
+        "0x06000011",
+        "0x06000015",
+        "0x06000016",
+        "0x06000017",
+        "0x060000c5",
+        "0x060000cf"
+      ],
+      "anchors": {
+        "0x06000011:IL_009d-IL_00aa": "constructs PKCS11 mechanism numeric 1",
+        "0x06000015:IL_0145-IL_015b": "PSS branch: construct mechanism and call ISession.Sign on digest",
+        "0x06000015:IL_0161-IL_017c": "PKCS1 branch: wrap digest then ISession.Sign",
+        "0x06000017:IL_032c-IL_033d": "BouncyCastle AlgorithmIdentifier(NULL) + DigestInfo DER encoding",
+        "0x06000016:IL_0256-IL_0274": "CreateCkRsaPkcsPssParams; mechanism numeric 13",
+        "0x060000cf:IL_0167-IL_0170": "Pkcs11Interop factory loads external PKCS11 library",
+        "0x06000476:IL_060d/IL_0792": "Windows RSA private key route and PKCS11 fallback"
+      },
+      "notes": [
+        "Native boundary metadata declares user32/kernel32 functions, IL-only and requires32bit=true. These are managed declarations, not proof libraries were loaded.",
+        "Windows certificate store/CSP UI and PKCS11 library selection cannot be carried over as macOS runtime dependencies; adapter should use TokenSigner chooser/backend."
+      ]
+    },
+    {
+      "id": "certificate-path",
+      "status": "observed-static",
+      "method_token": "0x06000384",
+      "anchors": {
+        "IL_00ca-IL_00cf": "GetAllCertificatesFromStores -> FilterValidCertificates",
+        "IL_01d3-IL_01e3": "native certificate selection UI with foreground window",
+        "IL_02a4-IL_02f7": "CertInfo FullName, Subject, CertBase64(raw DER base64), SerialNumber, Issuer set",
+        "IL_0364-IL_0377": "CertVerifier.CheckCertificateRevoked with request flags",
+        "IL_0431/IL_044e": "GetPrivateKey and HasPrivateKey check",
+        "IL_0544-IL_0558": "CertificateUtil.GetSignHashAlgorithmName -> ServiceResult.SettingAlgorithm"
+      },
+      "additional": "GetCertInfoForMimosaDVC token 0x06000385 additionally reads serialNumbers and populates the same CertInfo fields; exact selection/filter behavior is product-specific."
+    },
+    {
+      "id": "dto-metadata",
+      "status": "observed-static",
+      "request_type": "MISA.KYSO.Util.PluginData",
+      "request_properties": [
+        "sessionId",
+        "productName",
+        "action",
+        "taxcode",
+        "sellerInfo",
+        "buyerInfo",
+        "files",
+        "HashToSigns",
+        "HashAlgorithm",
+        "jsObject",
+        "jsCallBackFn",
+        "metaData",
+        "invoiceDatas",
+        "buyerSignatureDate",
+        "isSelectFromCollection",
+        "isValidateTaxCode",
+        "isMinutesInvoice",
+        "expiredPrompt",
+        "serialNumbers",
+        "isSignTT68",
+        "CertToDate",
+        "isSignTT32",
+        "ListSignatureLocation",
+        "listMetaData",
+        "CertName",
+        "CertFromDate",
+        "Certificate",
+        "CurrentSerialNumber",
+        "DocumentType",
+        "SignatureAlgorithmName",
+        "DataAfterCallback",
+        "ignoreCheckRevokeCertStatus",
+        "is91Circular"
+      ],
+      "request_public_field": "TurnKysoMessageOff",
+      "notable_types": {
+        "HashToSigns": "List<string>",
+        "HashAlgorithm": "string",
+        "serialNumbers": "string",
+        "CurrentSerialNumber": "string",
+        "DocumentType": "int",
+        "DataAfterCallback": "string"
+      },
+      "result_type": "MISA.KYSO.Util.ServiceResult",
+      "result_properties": [
+        "status",
+        "jsObject",
+        "jsCallBackFn",
+        "data",
+        "data_info",
+        "message",
+        "code",
+        "certExpireDateInfo",
+        "SettingAlgorithm"
+      ],
+      "cert_type": "MISA.KYSO.Util.CertInfo",
+      "cert_properties": [
+        "FullName",
+        "Subject",
+        "SerialNumber",
+        "CertBase64",
+        "Issuer"
+      ],
+      "defaults": {
+        "0x06000213:IL_0000-IL_0009": "isValidateTaxCode=true; expiredPrompt=true",
+        "0x060002c7:IL_0000-IL_0002": "ServiceResult.status=true"
+      },
+      "limitation": "Property names/types are metadata facts. Actual JSON casing, omission/null rules and request envelope require dispatcher serialization evidence or runtime capture."
+    },
+    {
+      "id": "cms-boundary",
+      "status": "bounded-static-observation",
+      "finding": "Within this util assembly call inventory, CmsSignedData is used by FuncWS.CheckLongTermSignature token 0x0600038e for PDF/CMS inspection. This does not establish a standalone browser CMS-sign command. No standalone SignedCms/CmsSigner/CmsSignedDataGenerator call was found in the inspected util call-edge inventory. PDF signing APIs and XAdES code are present, but their existence is not evidence a given portal invokes them."
+    }
+  ],
+  "limitations": [
+    "All method tokens and IL offsets are build-local and require the artifact SHA256 and MVID above.",
+    "Static CIL proves encoded calls/branches/dataflow, not successful Windows runtime execution, portal compatibility, supported token hardware, chain/revocation result, or completed business submission.",
+    "REA anchors are not a complete disassembly and omit switch destinations; branch conclusions above use full offline CIL supplied by the root investigation.",
+    "No credentials, PIN, key material, live document content, vendor implementation dump, or raw capture included.",
+    "Adapter should remain deferred until transport/envelope/action identity and actual portal request/response fixture are established; XML profile mismatch and DocumentType-dependent hashing semantics prevent a generic guessed adapter."
+  ]
+}
