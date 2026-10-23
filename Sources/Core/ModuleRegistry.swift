@@ -1,6 +1,6 @@
 public enum ModuleArch: Sendable { case universal, x86_64 }
 public enum ModuleTokenScope: Sendable { case module, reader }
-public enum ModuleBackend: Sendable { case pkcs11, fastca, oneca }
+public enum ModuleBackend: Sendable { case pkcs11, fastca, oneca, efy }
 
 public struct ModuleInfo: Sendable, Equatable {
     public let ca: String
@@ -27,7 +27,7 @@ public struct ModuleInfo: Sendable, Equatable {
 
 public enum ModuleRegistry {
     // Keyed by ATR customer byte. FastCA additionally requires the exact tested
-    // ESPK profile before the native backend is selected. EFY is absent.
+    // ESPK profile before the native backend is selected.
     private static let table: [UInt8: ModuleInfo] = [
         0x32: ModuleInfo(ca: "VNPT",  moduleName: "libvnptca_p11_v8.dylib", arch: .universal),
         0x59: ModuleInfo(ca: "NC-CA", moduleName: "ncca_csp11_v1.dylib",    arch: .universal),
@@ -38,6 +38,10 @@ public enum ModuleRegistry {
     ]
 
     public static func lookup(atr: [UInt8]) -> ModuleInfo? {
+        if atr == EfyProfile.atr {
+            return ModuleInfo(ca: "EFY-CA", moduleName: "EFY-ESPK", arch: .universal,
+                              isExperimental: true, tokenScope: .reader, backend: .efy)
+        }
         if atr == OneCAProfile.atr {
             return ModuleInfo(ca: "OneCA", moduleName: "libcryptoida_pkcs11_f2.dylib", arch: .universal,
                               isExperimental: true, tokenScope: .reader, backend: .oneca)

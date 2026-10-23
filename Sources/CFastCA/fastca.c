@@ -50,7 +50,7 @@ int fca_runtime_open(const char *path, fca_runtime **out, char *error, size_t ca
     const char *(*version)(void) = dlsym(r->library, "sc_get_version");
     // The public structures used below are pinned to these upstream headers.
     if (!version || strcmp(version(), "0.27.1") != 0) {
-        snprintf(error, capacity, "FastCA cần OpenSC 0.27.1 (ABI chưa hỗ trợ phiên bản khác)");
+        snprintf(error, capacity, "ESPK cần OpenSC 0.27.1 (ABI chưa hỗ trợ phiên bản khác)");
         goto fail;
     }
 #define LOAD(field, symbol) do { \
@@ -68,7 +68,7 @@ int fca_runtime_open(const char *path, fca_runtime **out, char *error, size_t ca
     setenv("OPENSC_DEBUG", "0", 1);
     unsetenv("OPENSC_DEBUG_FILE");
     sc_context_param_t parameters = {0};
-    parameters.app_name = "TokenSignerFastCA";
+    parameters.app_name = "TokenSignerESPK";
     parameters.flags = SC_CTX_FLAG_DISABLE_POPUPS;
     int rv = r->context_create(&r->context, &parameters);
     if (rv < 0) {
@@ -93,8 +93,13 @@ void fca_runtime_close(fca_runtime *r) {
 }
 
 int fca_card_open(fca_runtime *r, const char *reader, fca_card **out) {
-    if (!r || !reader || !out) return FCA_INVALID;
+    return fca_card_open_profile(r, reader, FCA_PROFILE_FASTCA, out);
+}
+
+int fca_card_open_profile(fca_runtime *r, const char *reader, fca_profile profile, fca_card **out) {
+    if (!out) return FCA_INVALID;
     *out = NULL;
+    if (!r || !reader || (profile != FCA_PROFILE_FASTCA && profile != FCA_PROFILE_EFY)) return FCA_INVALID;
     sc_reader_t *device = r->get_reader(r->context, reader);
     if (!device) return SC_ERROR_READER;
     fca_card *c = calloc(1, sizeof(*c));
@@ -102,16 +107,25 @@ int fca_card_open(fca_runtime *r, const char *reader, fca_card **out) {
     c->runtime = r;
     int rv = r->connect(device, &c->card);
     if (rv < 0) goto fail;
-    const uint8_t atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
+    const uint8_t fastca_atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
                           0x05,0x10,0x52,0x39,0x71,0xdf,0,0,0x69,0,0,0x11};
-    if (c->card->atr.len != sizeof(atr) || memcmp(c->card->atr.value, atr, sizeof(atr)) ||
-        !c->card->driver || strcmp(c->card->driver->short_name, "epass2003")) {
+    const uint8_t efy_atr[] = {0x3b,0x9f,0x95,0x81,0x31,0xfe,0x9f,0,0x66,0x46,0x53,
+                          0x05,0x10,0x11,0x39,0x71,0xdf,0,0,0x51,0,0,0x6a};
+    const uint8_t *atr = profile == FCA_PROFILE_EFY ? efy_atr : fastca_atr;
+    if (c->card->atr.len != sizeof(fastca_atr) || memcmp(c->card->atr.value, atr, sizeof(fastca_atr)) ||
+        !c->card->driver || !c->card->driver->short_name || strcmp(c->card->driver->short_name, "epass2003")) {
         rv = FCA_INVALID;
         goto fail;
     }
     rv = r->lock(c->card);
     if (rv < 0) goto fail;
     c->locked = 1;
+    // A prior helper may have crashed while authenticated. Clear that state
+    // before metadata/PIN handling on every EFY connection, including reads.
+    if (profile == FCA_PROFILE_EFY) {
+        rv = r->reset(c->card, 0);
+        if (rv < 0) goto fail;
+    }
     *out = c;
     return 0;
 fail:
@@ -182,6 +196,7 @@ int fca_login(fca_card *c, const uint8_t *pin, size_t length, uint16_t *status) 
     sc_apdu_t apdu;
     c->runtime->format_apdu(c->card, &apdu, SC_APDU_CASE_3_SHORT, 0x82, 1, 0x81);
     apdu.data = cryptogram; apdu.datalen = apdu.lc = sizeof(cryptogram);
+    apdu.flags |= SC_APDU_FLAGS_NO_RETRY_WL | SC_APDU_FLAGS_NO_GET_RESP;
     c->attempted = 1;
     rv = c->runtime->transmit(c->card, &apdu);
     if (rv < 0) goto done;
@@ -206,6 +221,7 @@ int fca_sign(fca_card *c, uint16_t key, const uint8_t *block, size_t length,
     sc_apdu_t apdu;
     c->runtime->format_apdu(c->card, &apdu, SC_APDU_CASE_3_SHORT, 0x22, 0x41, 0xb8);
     apdu.data = mse; apdu.datalen = apdu.lc = sizeof(mse);
+    apdu.flags |= SC_APDU_FLAGS_NO_RETRY_WL | SC_APDU_FLAGS_NO_GET_RESP;
     int rv = c->runtime->transmit(c->card, &apdu);
     if (rv < 0) return rv;
     *status = (uint16_t)(apdu.sw1 << 8 | apdu.sw2);
@@ -213,6 +229,7 @@ int fca_sign(fca_card *c, uint16_t key, const uint8_t *block, size_t length,
     c->runtime->format_apdu(c->card, &apdu, SC_APDU_CASE_4_EXT, 0x2a, 0x80, 0x86);
     apdu.data = block; apdu.datalen = apdu.lc = length;
     apdu.resp = signature; apdu.resplen = capacity; apdu.le = 256;
+    apdu.flags |= SC_APDU_FLAGS_NO_RETRY_WL | SC_APDU_FLAGS_NO_GET_RESP;
     rv = c->runtime->transmit(c->card, &apdu);
     if (rv < 0) return rv;
     *status = (uint16_t)(apdu.sw1 << 8 | apdu.sw2);

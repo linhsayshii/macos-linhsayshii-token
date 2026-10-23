@@ -25,6 +25,24 @@ import Testing
     #expect(ModuleRegistry.lookup(atr: [0x3b, 0x9f]) == nil)
 }
 
+@Test func efyRequiresExactProfileAndScopesTokensToTheirPhysicalReader() throws {
+    let module = try #require(ModuleRegistry.lookup(atr: EfyProfile.atr))
+    #expect(module.ca == "EFY-CA" && module.moduleName == "EFY-ESPK")
+    #expect(module.backend == .efy && module.arch == .universal)
+    #expect(module.isExperimental && module.tokenScope == .reader)
+    for index in EfyProfile.atr.indices {
+        var other = EfyProfile.atr; other[index] ^= 1
+        #expect(ModuleRegistry.lookup(atr: other)?.backend != .efy)
+    }
+    #expect(ModuleRegistry.lookup(atr: Array(EfyProfile.atr.dropLast())) == nil)
+    let token = TokenInfo(slot: 2, reader: "EFY reader", serial: "EFY-test", label: "EFY-CA", flags: [])
+    let other = TokenInfo(slot: 0, reader: "Other", serial: "OTHER", label: "ESPK", flags: [])
+    #expect(module.tokensForReader(token.reader, from: [other, token]) == [token])
+    #expect(module.tokensForReader("missing", from: [token]).isEmpty)
+    #expect(ModuleRegistry.lookup(atr: FastCAProfile.atr)?.backend == .fastca)
+    #expect(ModuleRegistry.lookup(atr: OneCAProfile.atr)?.backend == .oneca)
+}
+
 @Test func onecaUsesExactLongmaiProfileAndFailsClosedForAmbiguousReaders() throws {
     let module = try #require(ModuleRegistry.lookup(atr: OneCAProfile.atr))
     #expect(module.backend == .oneca)
