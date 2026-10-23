@@ -59,6 +59,9 @@ public actor SignalRHub {
         for task in connections[token]?.operations.values ?? [:].values { task.cancel() }
         connections[token] = nil
     }
+    func abortAll() {
+        for token in Array(connections.keys) { abort(token) }
+    }
     func start(token: String, operation: @escaping @Sendable () async -> Void) {
         guard connections[token] != nil else { return }
         let id = UUID()

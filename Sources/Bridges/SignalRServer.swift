@@ -17,6 +17,7 @@ public final class SignalRServer: @unchecked Sendable {
     private let hub: SignalRHub
     private var group: MultiThreadedEventLoopGroup?
     private var channel: Channel?
+    private var connections = ListenerConnections()
 
     public init(port: Int = 16080, store: OriginStore, hub: SignalRHub) {
         self.port = port; self.store = store; self.hub = hub
@@ -25,12 +26,15 @@ public final class SignalRServer: @unchecked Sendable {
     public func start() async throws -> Int {
         let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         self.group = group
+        let connections = ListenerConnections()
+        self.connections = connections
         let (store, hub) = (self.store, self.hub)
         let bound = PortBox(port)
         let bootstrap = ServerBootstrap(group: group)
             .serverChannelOption(ChannelOptions.backlog, value: 64)
             .serverChannelOption(ChannelOptions.socketOption(.so_reuseaddr), value: 1)
             .childChannelInitializer { ch in
+                connections.add(ch)
                 let upgrader = NIOWebSocketServerUpgrader(
                     maxFrameSize: 1 << 24,
                     shouldUpgrade: { channel, head in
@@ -66,14 +70,20 @@ public final class SignalRServer: @unchecked Sendable {
             bound.value = ch.localAddress?.port ?? port
             return bound.value
         } catch let e as IOError where e.errnoCode == EADDRINUSE {
+            await stop()
             throw StartError.portInUse
         } catch {
+            await stop()
             throw StartError.failed("\(error)")
         }
     }
 
     public func stop() async {
+        let channel = self.channel, group = self.group
+        self.channel = nil; self.group = nil
         try? await channel?.close().get()
+        await connections.closeAll()
+        await hub.abortAll()
         try? await group?.shutdownGracefully()
     }
 

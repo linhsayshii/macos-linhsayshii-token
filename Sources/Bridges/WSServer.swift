@@ -19,6 +19,7 @@ public final class WSServer: @unchecked Sendable {
     private let handler: Handler
     private var group: MultiThreadedEventLoopGroup?
     private var channel: Channel?
+    private var connections = ListenerConnections()
 
     /// `ports` are tried in order (primary, fallback); the first free one wins.
     public init(ports: [Int], pathPrefix: String, store: OriginStore, tls: NIOSSLContext? = nil, handler: @escaping Handler) {
@@ -28,6 +29,8 @@ public final class WSServer: @unchecked Sendable {
     public func start() async throws -> Int {
         let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         self.group = group
+        let connections = ListenerConnections()
+        self.connections = connections
         for port in ports {
             let bound = PortBox(port)   // Host check must use the real port (matters when port is 0)
             let (pathPrefix, store, tls, handler) = (self.pathPrefix, self.store, self.tls, self.handler)
@@ -35,6 +38,7 @@ public final class WSServer: @unchecked Sendable {
                 .serverChannelOption(ChannelOptions.backlog, value: 64)
                 .serverChannelOption(ChannelOptions.socketOption(.so_reuseaddr), value: 1)
                 .childChannelInitializer { ch in
+                    connections.add(ch)
                     let upgrader = NIOWebSocketServerUpgrader(
                         maxFrameSize: 1 << 24,
                         shouldUpgrade: { channel, head in
@@ -74,16 +78,19 @@ public final class WSServer: @unchecked Sendable {
             } catch let e as IOError where e.errnoCode == EADDRINUSE {
                 continue
             } catch {
-                try? await group.shutdownGracefully()
+                await stop()
                 throw StartError.failed("\(error)")
             }
         }
-        try? await group.shutdownGracefully()
+        await stop()
         throw StartError.portInUse
     }
 
     public func stop() async {
+        let channel = self.channel, group = self.group
+        self.channel = nil; self.group = nil
         try? await channel?.close().get()
+        await connections.closeAll()
         try? await group?.shutdownGracefully()
     }
 }

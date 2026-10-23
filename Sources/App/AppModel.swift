@@ -47,7 +47,7 @@ public final class AppModel: ObservableObject {
         public var canSign: Bool { supported && !serial.isEmpty && (state == nil || state == .ready) }
     }
 
-    public enum BridgeStatus: Sendable, Equatable { case starting, up, portInUse, failed(String) }
+    public enum BridgeStatus: Sendable, Equatable { case disabled, stopping, starting, up, portInUse, failed(String) }
 
     struct BridgeRow: Identifiable {
         var id: BridgeKind { endpoint.kind }
@@ -57,6 +57,14 @@ public final class AppModel: ObservableObject {
     static let defaultSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         .appendingPathComponent("TokenSigner", isDirectory: true)
     @Published private(set) var bridges: [BridgeRow] = []
+    @Published private(set) var enabledServices: Set<BridgeService> = []
+    @Published private(set) var changingServices: Set<BridgeService> = []
+    @Published private(set) var serviceSettingsError: String?
+    @Published private(set) var activeBridgeRequests = 0
+    private let servicePreferences: ServicePreferences
+    private let listenerFactory: (@MainActor (BridgeEndpoint) async throws -> BridgeListener)?
+    private var listeners: [BridgeKind: BridgeListener] = [:]
+    private var serviceTasks: [BridgeService: Task<Void, Never>] = [:]
     @Published private(set) var recentAudit: [AuditEntry] = []
     @Published private(set) var localhostTrusted = false
     @Published private(set) var trustStatus = "Đang kiểm tra localhost…"
@@ -74,7 +82,7 @@ public final class AppModel: ObservableObject {
     @Published public private(set) var tokens: [TokenRow] = []
     @Published private(set) var lastSignResult: String?
     @Published private(set) var signingResult: SigningResult?
-    var isWorking: Bool { signing || originPrompt != nil }
+    var isWorking: Bool { signing || originPrompt != nil || !changingServices.isEmpty }
     private var requestWasDenied = false
     // Non-nil while a sign is running (login→sign→logout, ~10s on some tokens);
     // the menu shows it so the user isn't left guessing after submitting the PIN.
@@ -92,10 +100,7 @@ public final class AppModel: ObservableObject {
     private let scanner = ReaderScanner()
     private let broker: TokenBroker
     private let approval = ApprovalCenter()
-    private var server: HTTPServer?
     private var scanTask: Task<Void, Never>?
-    private var esignerServers: [WSServer] = []
-    private var minvoiceServer: SignalRServer?
     private var activeRequestID: UUID?
 
     // Every certificate from the last scan, bound to its physical token and module.
@@ -124,16 +129,23 @@ public final class AppModel: ObservableObject {
     }
 
     init(broker: TokenBroker, promptWindow: any SigningPromptPresenting, targets: [SigningTarget] = [],
-         supportDirectory: URL? = nil, portOffset: Int = 0, tokenRows: [TokenRow] = [], auditEntries: [AuditEntry] = []) {
+         supportDirectory: URL? = nil, portOffset: Int = 0, tokenRows: [TokenRow] = [], auditEntries: [AuditEntry] = [],
+         listenerFactory: (@MainActor (BridgeEndpoint) async throws -> BridgeListener)? = nil) {
         let directory = supportDirectory ?? FileManager.default.temporaryDirectory.appendingPathComponent("TokenSigner-test-\(UUID())")
         self.supportDirectory = directory
+        self.listenerFactory = listenerFactory
+        let preferences = ServicePreferences(fileURL: directory.appendingPathComponent("services.json"))
+        servicePreferences = preferences
+        let enabled = preferences.load()
+        enabledServices = enabled
         audit = AuditLog(fileURL: directory.appendingPathComponent("audit.jsonl"))
         localCA = LocalCA(directory: directory.appendingPathComponent("tls", isDirectory: true))
         originStore = OriginStore(fileURL: directory.appendingPathComponent("origins.json"))
         let validConfiguration = (try? BridgeCatalog.endpoints(offset: portOffset)) != nil
         configurationValid = validConfiguration
         let endpoints = (try? BridgeCatalog.endpoints(offset: portOffset)) ?? (try! BridgeCatalog.endpoints())
-        bridges = endpoints.map { BridgeRow(endpoint: $0, status: validConfiguration ? .starting : .failed("Sai TOKENSIGNER_PORT_OFFSET")) }
+        bridges = endpoints.map { BridgeRow(endpoint: $0, status: !enabled.contains($0.kind.service) ? .disabled :
+            (validConfiguration ? .starting : .failed("Sai TOKENSIGNER_PORT_OFFSET"))) }
         self.broker = broker
         self.tokens = tokenRows
         self.recentAudit = auditEntries
@@ -145,9 +157,8 @@ public final class AppModel: ObservableObject {
 
     public func start() {
         guard !started else { return }   // MenuBarExtra onAppear can fire repeatedly
-        started = true
+        startBridgeServices()
         guard configurationValid else { return }
-        startServers()
         originTask = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.pollOrigins()
@@ -184,69 +195,128 @@ public final class AppModel: ObservableObject {
         bridges[index].status = status
     }
 
-    private func startServers() {
-        let service = AppSigningService(model: self)
-        let esigner = ESignerBridge(service: service, chooser: AppFileChooser(model: self))
-        let vnpt = VNPTBridge(service: service)
-        for row in bridges {
-            let endpoint = row.endpoint
-            switch endpoint.kind {
-            case .ctsign:
-                let server = HTTPServer(bridge: CTSignBridge(backend: Backend(model: self), service: service),
-                                        port: endpoint.port, store: originStore)
-                self.server = server
-                Task {
-                    do { try await server.start(); setBridge(endpoint.kind, .up) }
-                    catch HTTPServer.StartError.portInUse { setBridge(endpoint.kind, .portInUse) }
-                    catch { setBridge(endpoint.kind, .failed("Không mở được dịch vụ")) }
-                }
-            case .minvoice:
-                let bridge = MinvoiceBridge(backend: MinvoiceBackend(model: self))
-                let server = SignalRServer(port: endpoint.port, store: originStore, hub: SignalRHub(handler: bridge.handler))
-                minvoiceServer = server
-                Task {
-                    do { _ = try await server.start(); setBridge(endpoint.kind, .up) }
-                    catch SignalRServer.StartError.portInUse { setBridge(endpoint.kind, .portInUse) }
-                    catch { setBridge(endpoint.kind, .failed("Không mở được dịch vụ")) }
-                }
-            case .esigner, .esignerAlternate:
-                let server = WSServer(ports: [endpoint.port], pathPrefix: endpoint.path, store: originStore) { text, origin in
-                    await esigner.handle(text: text, origin: origin)
-                }
-                esignerServers.append(server)
-                launch(server, endpoint: endpoint)
-            case .vnpt, .vnptDVC:
-                // TLS initialization is shared below; never fall back to plaintext on a WSS port.
-                break
-            }
+    func serviceEnabled(_ service: BridgeService) -> Bool { enabledServices.contains(service) }
+    var canChangeServices: Bool { configurationValid && !isWorking && activeBridgeRequests == 0 }
+    var enabledBridges: [BridgeRow] { bridges.filter { serviceEnabled($0.id.service) } }
+
+    func setServiceEnabled(_ service: BridgeService, _ enabled: Bool) {
+        guard canChangeServices, serviceEnabled(service) != enabled else { return }
+        var next = enabledServices
+        if enabled { next.insert(service) } else { next.remove(service) }
+        do {
+            try servicePreferences.save(next)
+            enabledServices = next
+            serviceSettingsError = nil
+        } catch {
+            serviceSettingsError = "Không lưu được lựa chọn dịch vụ. Vui lòng thử lại."
+            return
         }
-        Task {
-            do {
-                let tls = try await Task.detached { [localCA] in try localCA.sslContext() }.value
-                for row in bridges where row.endpoint.tls {
-                    let endpoint = row.endpoint
-                    let server = WSServer(ports: [endpoint.port], pathPrefix: endpoint.path, store: originStore, tls: tls) { text, origin in
-                        await vnpt.handle(text: text, origin: origin)
-                    }
-                    esignerServers.append(server)
-                    launch(server, endpoint: endpoint)
-                }
-                localhostTrusted = await Task.detached { [localCA] in localCA.isTrusted() }.value
-                trustStatus = localhostTrusted ? "localhost đã được tin cậy" : "VNPT cần tin cậy localhost để trình duyệt kết nối"
-            } catch {
-                for kind in [BridgeKind.vnpt, .vnptDVC] { setBridge(kind, .failed("Không tạo được TLS localhost")) }
-                trustStatus = "Không tạo được chứng chỉ localhost"
-            }
+        if started { transition(service, enabled: enabled) }
+        else {
+            for row in bridges where row.id.service == service { setBridge(row.id, enabled ? .starting : .disabled) }
         }
-        Task { recentAudit = await audit.recent(5); allowedOrigins = await originStore.userPatterns() }
     }
 
-    private func launch(_ server: WSServer, endpoint: BridgeEndpoint) {
+    private func startServers() {
+        for service in BridgeService.allCases where serviceEnabled(service) { transition(service, enabled: true) }
         Task {
-            do { _ = try await server.start(); setBridge(endpoint.kind, .up) }
-            catch WSServer.StartError.portInUse { setBridge(endpoint.kind, .portInUse) }
-            catch { setBridge(endpoint.kind, .failed("Không mở được dịch vụ")) }
+            recentAudit = await audit.recent(5)
+            allowedOrigins = await originStore.userPatterns()
+            localhostTrusted = await Task.detached { [localCA] in localCA.isTrusted() }.value
+            trustStatus = localhostTrusted ? "localhost đã được tin cậy" : "VNPT cần tin cậy localhost để trình duyệt kết nối"
         }
+    }
+
+    /// A group cannot be toggled again until start/stop finishes. No stale startup
+    /// task can reopen a disabled port, and alternate ports always move together.
+    private func transition(_ service: BridgeService, enabled: Bool) {
+        changingServices.insert(service)
+        let endpoints = bridges.filter { $0.id.service == service }.map(\.endpoint)
+        for endpoint in endpoints { setBridge(endpoint.kind, enabled ? .starting : .stopping) }
+        serviceTasks[service] = Task {
+            defer {
+                if service == .esigner && !enabled { esignerBridge = nil }
+                changingServices.remove(service); serviceTasks[service] = nil
+            }
+            for endpoint in endpoints {
+                if !enabled {
+                    if let listener = listeners.removeValue(forKey: endpoint.kind) { await listener.stop() }
+                    setBridge(endpoint.kind, .disabled)
+                    continue
+                }
+                var listener: BridgeListener?
+                do {
+                    let newListener: BridgeListener
+                    if let listenerFactory { newListener = try await listenerFactory(endpoint) }
+                    else { newListener = try await makeListener(endpoint) }
+                    listener = newListener
+                    try await newListener.start()
+                    listeners[endpoint.kind] = newListener
+                    setBridge(endpoint.kind, .up)
+                } catch {
+                    // Bind failures also own an event-loop group; dispose it before retry.
+                    await listener?.stop()
+                    setBridge(endpoint.kind, Self.bridgeFailure(error))
+                }
+            }
+        }
+    }
+
+    private static func bridgeFailure(_ error: Error) -> BridgeStatus {
+        if case HTTPServer.StartError.portInUse = error { return .portInUse }
+        if case WSServer.StartError.portInUse = error { return .portInUse }
+        if case SignalRServer.StartError.portInUse = error { return .portInUse }
+        return .failed("Không mở được dịch vụ")
+    }
+
+    private func makeListener(_ endpoint: BridgeEndpoint) async throws -> BridgeListener {
+        let service = AppSigningService(model: self)
+        switch endpoint.kind {
+        case .ctsign:
+            let server = HTTPServer(bridge: CTSignBridge(backend: Backend(model: self), service: service),
+                                    port: endpoint.port, store: originStore)
+            return BridgeListener(start: { try await server.start() }, stop: { await server.stop() })
+        case .minvoice:
+            let bridge = MinvoiceBridge(backend: MinvoiceBackend(model: self))
+            let server = SignalRServer(port: endpoint.port, store: originStore, hub: SignalRHub(handler: bridge.handler))
+            return BridgeListener(start: { _ = try await server.start() }, stop: { await server.stop() })
+        case .esigner, .esignerAlternate:
+            let bridge = esignerBridge ?? ESignerBridge(service: service, chooser: AppFileChooser(model: self))
+            esignerBridge = bridge // Both ports share chosen-file handles while enabled.
+            let server = WSServer(ports: [endpoint.port], pathPrefix: endpoint.path, store: originStore) { text, origin in
+                await self.handleESigner(bridge, text: text, origin: origin)
+            }
+            return BridgeListener(start: { _ = try await server.start() }, stop: { await server.stop() })
+        case .vnpt, .vnptDVC:
+            // TLS only; a certificate failure must never open a plaintext listener.
+            let tls = try await Task.detached { [localCA] in try localCA.sslContext() }.value
+            let bridge = VNPTBridge(service: service)
+            let server = WSServer(ports: [endpoint.port], pathPrefix: endpoint.path, store: originStore, tls: tls) { text, origin in
+                await bridge.handle(text: text, origin: origin)
+            }
+            return BridgeListener(start: { _ = try await server.start() }, stop: { await server.stop() })
+        }
+    }
+
+    private func handleESigner(_ bridge: ESignerBridge, text: String, origin: String) async -> String {
+        guard serviceEnabled(.esigner), !changingServices.contains(.esigner), !Task.isCancelled else {
+            return #"{"SUCCESS":"FALSE","ERROR":"SERVICE_DISABLED"}"#
+        }
+        activeBridgeRequests += 1
+        defer { activeBridgeRequests -= 1 }
+        return await bridge.handle(text: text, origin: origin)
+    }
+
+    private var esignerBridge: ESignerBridge?
+
+    /// Listener lifecycle is independent of USB scanning and origin prompts.
+    func startBridgeServices() {
+        guard !started else { return }
+        started = true
+        if configurationValid { startServers() }
+    }
+    func waitForServiceChanges() async {
+        for task in Array(serviceTasks.values) { await task.value }
     }
 
     /// Invoked only by the user's button; trust is scoped to SSL/localhost in their login keychain.
@@ -445,7 +515,7 @@ public final class AppModel: ObservableObject {
     }
 
     private func withSigningRequest<T: Sendable>(_ body: @MainActor () async throws -> T) async throws -> T {
-        guard !signing, originPrompt == nil else { throw MinvoiceError.busy }
+        guard !isWorking else { throw MinvoiceError.busy }
         try Task.checkCancellation()
         signing = true
         requestWasDenied = false

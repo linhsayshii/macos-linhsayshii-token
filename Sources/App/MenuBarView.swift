@@ -15,8 +15,10 @@ struct MenuBarView: View {
                     Text("TokenSigner").font(.system(size: Theme.Size.lg, weight: .semibold))
                     Spacer()
                     Button { presentation.page = .connections } label: {
-                        let ready = model.bridges.filter { $0.status == .up }.count
-                        StatusBadge(text: "\(ready)/\(model.bridges.count)", tone: ready == model.bridges.count ? .success : .warning)
+                        let enabled = model.enabledBridges
+                        let ready = enabled.filter { $0.status == .up }.count
+                        StatusBadge(text: enabled.isEmpty ? "Đã tắt" : "\(ready)/\(enabled.count)",
+                                    tone: enabled.isEmpty ? .neutral : (ready == enabled.count ? .success : .warning))
                     }.buttonStyle(.plain).help("Trạng thái kết nối dịch vụ")
                 }
                 HStack(spacing: 4) {

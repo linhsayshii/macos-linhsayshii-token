@@ -14,6 +14,7 @@ public final class HTTPServer: @unchecked Sendable {
     private let store: OriginStore?
     private var group: MultiThreadedEventLoopGroup?
     private var channel: Channel?
+    private var connections = ListenerConnections()
 
     public init(bridge: CTSignBridge, port: Int = 32001, allowlist: OriginAllowlist) {
         self.bridge = bridge
@@ -29,6 +30,8 @@ public final class HTTPServer: @unchecked Sendable {
     public func start() async throws {
         let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         self.group = group
+        let connections = ListenerConnections()
+        self.connections = connections
         let bridge = self.bridge
         let port = self.port
         let allowlist = self.allowlist
@@ -37,21 +40,27 @@ public final class HTTPServer: @unchecked Sendable {
             .serverChannelOption(ChannelOptions.backlog, value: 64)
             .serverChannelOption(ChannelOptions.socketOption(.so_reuseaddr), value: 1)
             .childChannelInitializer { ch in
-                ch.pipeline.configureHTTPServerPipeline().flatMap {
+                connections.add(ch)
+                return ch.pipeline.configureHTTPServerPipeline().flatMap {
                     ch.pipeline.addHandler(RequestHandler(bridge: bridge, port: port, allowlist: allowlist, store: store))
                 }
             }
         do {
             self.channel = try await bootstrap.bind(host: "127.0.0.1", port: port).get()
         } catch let e as IOError where e.errnoCode == EADDRINUSE {
+            await stop()
             throw StartError.portInUse
         } catch {
+            await stop()
             throw StartError.failed("\(error)")
         }
     }
 
     public func stop() async {
+        let channel = self.channel, group = self.group
+        self.channel = nil; self.group = nil
         try? await channel?.close().get()
+        await connections.closeAll()
         try? await group?.shutdownGracefully()
     }
 }

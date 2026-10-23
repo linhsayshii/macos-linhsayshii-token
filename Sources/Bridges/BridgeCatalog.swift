@@ -4,6 +4,31 @@ public enum BridgeKind: String, CaseIterable, Sendable {
     case ctsign, esigner, esignerAlternate, vnpt, vnptDVC, minvoice
 }
 
+/// User-facing switches group alternate ports under the same service.
+public enum BridgeService: String, CaseIterable, Sendable, Codable, Identifiable {
+    case ctsign, esigner, minvoice, vnpt
+    public var id: Self { self }
+    public var name: String {
+        switch self {
+        case .ctsign: "CTSigningHub"
+        case .esigner: "eSigner"
+        case .minvoice: "Minvoice"
+        case .vnpt: "VNPT-CA"
+        }
+    }
+}
+
+public extension BridgeKind {
+    var service: BridgeService {
+        switch self {
+        case .ctsign: .ctsign
+        case .esigner, .esignerAlternate: .esigner
+        case .minvoice: .minvoice
+        case .vnpt, .vnptDVC: .vnpt
+        }
+    }
+}
+
 public struct BridgeEndpoint: Identifiable, Sendable {
     public var id: BridgeKind { kind }
     public let kind: BridgeKind

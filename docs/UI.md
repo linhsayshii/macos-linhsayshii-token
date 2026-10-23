@@ -6,8 +6,17 @@ cùng một vùng cuộn; không tăng chiều cao vỏ menu hay tạo scroll l�
 
 `MenuBarController` sở hữu status item và popover; `MenuPresentation` chỉ giữ
 trạng thái giao diện. Một `AppModel` duy nhất sống cùng app và các view dùng
-`ObservedObject` để cập nhật ngay. Sáu listener khởi động khi app mở, không phụ
-thuộc việc bấm menu. Mở popup ký sẽ thu menu mà không hủy request.
+`ObservedObject` để cập nhật ngay. Tab Kết nối có bốn công tắc CTSigningHub,
+eSigner (8768 + 8769), Minvoice và VNPT-CA (4433 + 4434). Mặc định bật cả bốn;
+lựa chọn được lưu theo nhóm trong Application Support/TokenSigner/services.json.
+Chỉ nhóm đang bật mới khởi động khi app mở, không phụ thuộc việc bấm menu.
+Tắt nhóm đóng listener cùng các kết nối HTTP/WebSocket hiện có, giải phóng cổng
+và bỏ session SignalR/handle tệp eSigner của nhóm. Bật lại tạo listener mới;
+nếu cổng bị chiếm, UI chỉ rõ cổng và vẫn giữ hoạt động của các nhóm khác.
+Badge header tính số cổng sẵn sàng trên số cổng đang được bật; tắt hết hiện “Đã tắt”.
+Công tắc khóa trong lúc ký, duyệt/chọn CKS, xử lý lô Minvoice, request eSigner
+(kể cả verify/upload) hoặc chuyển trạng thái dịch vụ. Không cắt yêu cầu giữa chừng.
+Mở popup ký sẽ thu menu mà không hủy request.
 
 Kích thước menu mong muốn 380×560pt, giới hạn theo `visibleFrame` của màn hình
 chứa status item; mỗi lần mở áp cùng size cho SwiftUI host và popover. AppKit

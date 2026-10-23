@@ -20,7 +20,12 @@ nằm tại `.local/repo-cleanup/20261023-181255/`.
 | VNPT-CA / DVC | WSS 4433 và 4434 | GetCertInfo, callback DVC, XML/hash, CMS attached/detached |
 | Minvoice | HTTP/SignalR 16080 | TokenInfo, cash TDiep theo nhóm 100, mock 300 đạt |
 
-Cả sáu listener được khởi động từ một catalog, hiện trạng thái riêng trong menu.
+Tab Kết nối có bốn công tắc CTSigningHub / eSigner / Minvoice / VNPT-CA.
+eSigner điều khiển cùng hai cổng 8768/8769, VNPT-CA cùng 4433/4434. Lựa chọn
+được lưu trong services.json; chỉ nhóm đang bật khởi động khi mở app. Tắt nhóm
+đóng cả listener và kết nối hiện có, giải phóng cổng; bật lại tạo server mới.
+Trạng thái cổng bị chiếm được báo rõ, không ảnh hưởng nhóm khác. Công tắc khóa
+khi đang có yêu cầu ký/xử lý lô/eSigner verify-upload hoặc đổi trạng thái.
 Tất cả bind loopback. WSS dùng CA localhost riêng, không dùng khóa của hãng;
 Keychain trust chỉ thực hiện khi user bấm nút, giới hạn SSL/localhost.
 
@@ -126,3 +131,10 @@ phụ thuộc provider/OEM và chứng cứ auth/portal, không coi dài ATR lis
 Bản compatibility đạt 182 Swift tests, native C mock, package và smoke sáu cổng.
 GetCert đang đọc 4 cert cho 4 reader hiện cắm, có FastCA0631; agent không ký mới.
 [Evidence](re/evidence/token-compatibility-2026-10-24.json).
+
+24/10: thêm bốn công tắc dịch vụ trong tab Kết nối, lưu qua lần mở app. Badge
+header chỉ tính cổng đang bật. Tắt nhóm đóng socket listener và accepted clients,
+bỏ session SignalR/handle eSigner, không tác động nhóm khác. Đã kiểm tra đóng/mở
+lại cả sáu listener thật ở cổng thử riêng; không chạy scanner, PIN hoặc nghiệp vụ.
+Full suite **190 tests đạt**, thêm một kiểm tra lifecycle thật đạt riêng; render
+menu sáng/tối giữ đủ bốn công tắc trong khung cố định. Chi tiết trong [UI.md](UI.md).

@@ -76,6 +76,13 @@ import Core
         }
     }
     let model = try previewModel(count: 4)
+    model.setServiceEnabled(.esigner, false)
+    model.setServiceEnabled(.vnpt, false)
+    let connectionPresentation = MenuPresentation(); connectionPresentation.page = .connections
+    for dark in [false, true] {
+        try render(MenuBarView(model: model, presentation: connectionPresentation), size: connectionPresentation.size,
+                   dark: dark, name: "service-switches-mixed")
+    }
     let approval = AppModel.ApprovalPrompt(origin: "https://portal-with-a-long-hostname.example.test", subject: "CÔNG TY THỬ NGHIỆM GIAO DIỆN", ca: "EFY-CA", notAfter: "2027-08-06 10:22:16", operation: "Ký hóa đơn Minvoice", docCount: 300)
     let pin = AppModel.PINPrompt(ca: "EFY-CA", serial: "SYNTHETIC-TOKEN", warning: "Chưa biết số lần thử PIN còn lại; chỉ xác thực một lần, không tự thử lại", locked: false)
     for dark in [false, true] {
