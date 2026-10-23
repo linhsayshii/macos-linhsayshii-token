@@ -6,7 +6,7 @@ không phải mã lỗi PIN của `C_Login`. Mã này tự nó chưa xác địn
 cứng; đối chiếu repo phát hiện một thiếu sót cụ thể trong bản app đang phân phối.
 
 Bản sửa `fd3554f` ở nhánh P2 đã sửa và thử trên NC-CA, nhưng chưa nằm trong
-`p1-token-core` hoặc `libTSShim.dylib` của gói app tích hợp. Shim chỉ sửa dạng
+`main` hoặc `libTSShim.dylib` của gói app tích hợp. Shim chỉ sửa dạng
 short Lc + extended Le; còn thiếu extended Lc + short Le trong lệnh PSO ký.
 
 Dạng lệnh đã ghi nhận trong kiểm thử phần cứng P2:

@@ -1,6 +1,6 @@
 # Agent prompt — sửa cơ chế ký của app sang host-hash + RSA_PKCS
 
-Copy nguyên khối dưới đây cho agent khác. Agent làm trong checkout `p1-token-core`
+Copy nguyên khối dưới đây cho agent khác. Agent làm trong checkout `main`
 (hoặc nhánh của nó), build bằng `swift build`.
 
 ---

@@ -1,14 +1,17 @@
 # Trạng thái hiện tại của TokenSigner
 
-Nhánh tích hợp: **`p1-token-core`**. Đã merge lịch sử cả ba nhánh P2,
+Nhánh tích hợp: **`main`**. Đã merge lịch sử cả ba nhánh P2,
 eSigner và Minvoice; `master` cũng là tổ tiên. App duy nhất tại checkout gốc
 thay thế các bản chạy theo worktree. Chi tiết đối chiếu:
 [BRANCH-CONSOLIDATION.md](BRANCH-CONSOLIDATION.md).
 
-Ngày 23/10/2026 đã dọn nhánh thừa: local và origin chỉ còn `p1-token-core`,
-GitHub default branch/origin HEAD trỏ đúng nhánh này và bản tích hợp đã push.
-Ba worktree cũ giữ nguyên tệp ở detached HEAD; không còn PR đang mở.
-[Evidence](re/evidence/branch-cleanup-2026-10-23.json).
+Ngày 23/10/2026 đã đổi nhánh local/remote thành `main`; GitHub default branch
+và `origin/HEAD` cùng trỏ `main`. Chỉ giữ checkout gốc; ba worktree cũ đã gỡ sau
+khi xác nhận commit đều có trong nhánh tích hợp và sao lưu tệp chưa commit cùng
+Package.resolved. Cache build cũ đã dọn. Tệp nghiên cứu chưa commit ở checkout
+gốc vẫn giữ nguyên local, không tự đưa lên remote. Bundle và bản sao phục hồi
+nằm tại `.local/repo-cleanup/20261023-181255/`.
+[Evidence](re/evidence/main-worktree-cleanup-2026-10-23.json).
 
 | Bridge | Cổng mặc định | Phạm vi |
 | --- | --- | --- |

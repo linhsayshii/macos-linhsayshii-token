@@ -1,7 +1,7 @@
 # TokenSigner cho macOS
 
 Một app menu bar dùng USB token để phục vụ các cổng ký phổ biến. Nhánh hiện tại
-là `p1-token-core`; tất cả nhánh tính năng đã được merge vào đây.
+là `main`; tất cả nhánh tính năng đã được merge vào đây.
 
 | Giao thức | Cổng loopback |
 | --- | --- |

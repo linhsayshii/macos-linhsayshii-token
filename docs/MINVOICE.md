@@ -1,6 +1,6 @@
 # Minvoice trong TokenSigner
 
-Checkout tích hợp `p1-token-core` phục vụ CTSigningHub trên `127.0.0.1:32001`
+Checkout tích hợp `main` phục vụ CTSigningHub trên `127.0.0.1:32001`
 và SignalR classic `handlerHub` trên `127.0.0.1:16080` trong cùng app. Minvoice
 có WebSocket và long polling, `processMessage` nhận JSON string và trả callback
 `reponseResult` riêng cho connection; `getVersion` trả version tương thích của

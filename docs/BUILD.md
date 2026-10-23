@@ -1,6 +1,6 @@
 # Build và test app tích hợp
 
-Chạy tại checkout gốc, nhánh `p1-token-core`. Tất cả bridge dùng cùng một app;
+Chạy tại checkout gốc, nhánh `main`. Tất cả bridge dùng cùng một app;
 không build/chạy worktree eSigner hoặc Minvoice riêng để nghiệm thu bản hiện tại.
 `Package.resolved` được version hóa để cố định dependency đã kiểm tra.
 

@@ -1,6 +1,6 @@
 # Đối chiếu và hợp nhất các nhánh — 23/10/2026
 
-Tất cả nhánh làm việc đã là tổ tiên của `p1-token-core`, gồm:
+Tất cả nhánh làm việc đã là tổ tiên của `main` (trước là `p1-token-core`), gồm:
 
 | Nhánh/tip | Cách tiếp nhận |
 | --- | --- |
@@ -40,7 +40,8 @@ Ghi chú nghiên cứu đang sửa được snapshot tại `.local/branch-consol
 trước merge và khôi phục sau đó; không reset hoặc xóa raw capture.
 Worktree cũ được giữ để bảo toàn bằng chứng/công việc nghiên cứu và cache riêng;
 không còn được launcher chính dùng. Đợt dọn branch tiếp theo ngày 23/10/2026 đã
-chuyển ba worktree này sang detached HEAD, giữ nguyên tệp và cache.
+chuyển ba worktree này sang detached HEAD. Đợt dọn tiếp theo đã gỡ cả ba sau
+khi sao lưu phần việc chưa commit và dependency lock; xem mục cập nhật bên dưới.
 
 ## Phạm vi chưa làm xong, không phải nhánh bị sót
 
@@ -56,8 +57,8 @@ chuyển ba worktree này sang detached HEAD, giữ nguyên tệp và cache.
   sẵn; không đóng gói installer vendor.
 - Certificate chain/revocation, runtime distribution/notarization và live portal
   regression sau merge còn cần kiểm thử riêng. FastCA cert hiện có đã hết hạn.
-- Git remote đã được cập nhật trong đợt dọn branch ngày 23/10/2026. Chỉ còn
-  `p1-token-core` ở local và origin; đây cũng là default branch trên GitHub và
+- Trong đợt dọn branch đầu ngày 23/10/2026, chỉ còn `p1-token-core` ở local
+  và origin; tại thời điểm đó đây là default branch trên GitHub và
   đích của origin/HEAD. Bốn nhánh local/hai nhánh remote cũ đã xóa sau khi xác
   nhận toàn bộ commit có trong nhánh tích hợp. PR #1 đã merged, PR #2 đã closed
   vì nội dung đã tích hợp. Không có PR đang mở.
@@ -69,3 +70,19 @@ dõi trong cả bốn worktree được đối chiếu nguyên vẹn. Git connec
 
 Validation cuối đợt được ghi ở
 [branch-consolidation-validation-2026-10-23.json](re/evidence/branch-consolidation-validation-2026-10-23.json).
+
+
+## Cập nhật: main và gỡ worktree cũ
+
+Đã đổi nhánh tích hợp local/remote thành `main`, cập nhật upstream/default
+branch và `origin/HEAD`, đồng bộ các commit mới. Chỉ còn checkout gốc; cả ba
+worktree detached đã được gỡ và prune. Mọi tip cũ là ancestor của `main`.
+
+Trước khi gỡ đã tạo, verify Git bundle và sao lưu theo SHA-256: 8 tệp chưa
+commit ở worktree Minvoice, Package.resolved của cả ba worktree, cùng 71 tệp
+nghiên cứu đang sửa/chưa commit ở checkout gốc. Bản gốc của 71 tệp này vẫn giữ
+nguyên local. Cache build khoảng 5,6 GB không đưa vào backup vì có thể tạo lại.
+
+Khôi phục và manifest chi tiết tại `.local/repo-cleanup/20261023-181255/`;
+[evidence](re/evidence/main-worktree-cleanup-2026-10-23.json). Tài liệu evidence
+đợt dọn trước ở trên được giữ làm lịch sử, không phải trạng thái branch hiện tại.

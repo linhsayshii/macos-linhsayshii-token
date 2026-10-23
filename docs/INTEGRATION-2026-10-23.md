@@ -1,6 +1,6 @@
 # Tích hợp Minvoice và FastCA — 23/10/2026
 
-Hai tuyến đã nằm trong cùng checkout/app `p1-token-core`. FastCA được tiếp quản
+Hai tuyến đã nằm trong cùng checkout/app `main`. FastCA được tiếp quản
 thành commit `4a4da78`, giữ native ESPK/OpenSC 0.27.1 và chọn khóa theo catalog/
 CKA_ID/public key. Minvoice đã nối từ SignalR đến REST, signer cash riêng, token
 backend, verify-before-upload và callback, với phạm vi một hóa đơn cash mỗi lần.

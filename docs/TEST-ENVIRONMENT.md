@@ -1,6 +1,6 @@
 # Môi trường test app tích hợp
 
-Chỉ dùng checkout gốc `p1-token-core`. Toàn bộ app/helper/bridge build từ cùng
+Chỉ dùng checkout gốc `main`. Toàn bộ app/helper/bridge build từ cùng
 `Package.swift` và `Package.resolved`; không còn tuyến test Minvoice worktree riêng.
 
 ```sh

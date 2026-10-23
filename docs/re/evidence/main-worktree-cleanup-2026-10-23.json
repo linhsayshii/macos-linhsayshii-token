@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-23",
+  "new_branch": "main",
+  "previous_branch": "p1-token-core",
+  "pre_cleanup_head": "6bf321467ee1c0fa17d55977662f252d4c68adb0",
+  "recovery_directory": ".local/repo-cleanup/20261023-181255",
+  "bundle_verified": true,
+  "bundle_sha256": "1a84129028c934d2fa0ffe3841b935593ebc88c3e2f2337436bb3baafc6a64fc",
+  "root_research_files_preserved_locally": 71,
+  "root_research_files_published": false,
+  "removed_worktrees": [
+    {
+      "name": "beautiful-mcnulty-f9bfbf",
+      "tip": "f58a51c173136da3406f0aa943dbd2a33f27ecad",
+      "tip_is_ancestor": true,
+      "preserved_files": 1,
+      "cache_bytes_removed": 1661548476
+    },
+    {
+      "name": "beautiful-shirley-8acdc0",
+      "tip": "b47257225e530e496c9a8fd9ab7b29cc2d9da6a6",
+      "tip_is_ancestor": true,
+      "preserved_files": 9,
+      "cache_bytes_removed": 2219255855
+    },
+    {
+      "name": "p2-bridges-a4728b",
+      "tip": "bbdb7d2d24d67eccc1aba5055e0b091c34f11468",
+      "tip_is_ancestor": true,
+      "preserved_files": 1,
+      "cache_bytes_removed": 1708432309
+    }
+  ],
+  "retained_checkout": ".",
+  "validation": {
+    "worktree_count": 1,
+    "local_branches": [
+      "main"
+    ],
+    "remote_branches": [
+      "main"
+    ],
+    "upstream": "origin/main",
+    "default_branch": "main",
+    "remote_head": "refs/heads/main",
+    "git_fsck_full": "passed",
+    "root_research_hashes_and_modes": "unchanged",
+    "removed_worktree_paths": "absent",
+    "old_tips_retained_in_main": true
+  },
+  "recovery_note": "Local manifest records per-file SHA-256 and modes; tracked history is in all-refs.bundle. Build caches omitted; dependency locks preserved. Root research originals retained."
+}
