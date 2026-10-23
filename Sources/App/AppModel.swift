@@ -558,7 +558,7 @@ public final class AppModel: ObservableObject {
     func updateMinvoiceBatch(_ progress: MinvoiceBatchProgress) {
         minvoiceBatch = progress
         if progress.outcome == .running { signingStatus = progress.summary }
-        else { lastSignResult = progress.summary; if !signing { signingStatus = nil } }
+        else { lastSignResult = progress.summary + (progress.diagnostic.map { " · \($0)" } ?? ""); if !signing { signingStatus = nil } }
     }
 
     func chooseESignerFile() async -> URL? {

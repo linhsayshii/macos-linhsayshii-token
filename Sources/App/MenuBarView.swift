@@ -47,7 +47,7 @@ struct MenuBarView: View {
                     Text(s).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
                 }
             } else if let r = model.lastSignResult {
-                Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted)
+                Text(r).font(.system(size: Theme.Size.xs)).foregroundStyle(Theme.muted).textSelection(.enabled)
             }
             if model.minvoiceBatchActive {
                 Button("Hủy lô Minvoice") { model.cancelMinvoiceBatch() }

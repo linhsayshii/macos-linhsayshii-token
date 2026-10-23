@@ -1,0 +1,98 @@
+{
+  "checked_at": "2026-10-23T04:40:35.147135+00:00",
+  "scope": "Safe Minvoice HTTP/preflight diagnostics after user-reported connection error with 0/2 and all groups pending",
+  "source_base": "f995908",
+  "diagnostic_format": "[MI_HTTP <enum-route>/<enum-reason> HTTP:<status> <allowlisted-domain>:<numeric-code><-...]",
+  "privacy": {
+    "url_headers_body_or_credentials_retained": false,
+    "underlying_error_objects_retained": false,
+    "max_system_code_chain": 3,
+    "unknown_domain_label": "other"
+  },
+  "routes": [
+    "login",
+    "configuration",
+    "tenant",
+    "registeredToken",
+    "invoiceDetail",
+    "downloadCash",
+    "downloadStandard",
+    "upload",
+    "other"
+  ],
+  "reasons": [
+    "fetch",
+    "read",
+    "nonHTTP",
+    "urlMismatch",
+    "declaredSize",
+    "streamSize",
+    "status",
+    "json",
+    "cookies",
+    "shape",
+    "ack"
+  ],
+  "tests": {
+    "passed": true,
+    "TSShim": 7,
+    "Core": 45,
+    "Bridges": 88,
+    "App": 16,
+    "total": 156
+  },
+  "coverage": [
+    "Redaction of NSError descriptions, domains, failing URLs and query parameters",
+    "Bounded numeric underlying errors",
+    "Non-HTTP/URL mismatch/response-size guards",
+    "Failures at all five preflight routes retain all-pending state without PIN/download/upload",
+    "No-retry and upload-uncertain batch regression"
+  ],
+  "packaging": {
+    "App_Helper_shim_updated": true,
+    "codesign_strict": true,
+    "bundled_shim_checks": true,
+    "reopened_six_listeners": true
+  },
+  "smoke": {
+    "ctsign_http_status": 200,
+    "minvoice_protocol": "2.1",
+    "minvoice_getVersion": "2.0.0",
+    "unknown_origin_status": 403,
+    "esigner_versions": {
+      "8768": "1.1.0",
+      "8769": "1.1.0"
+    },
+    "esigner_unknown_origin_status": 403,
+    "vnpt_wss": {
+      "4433": "1*smoke",
+      "4434": "1*smoke"
+    },
+    "vnpt_unknown_origin_status": 403,
+    "TLS_verified_with_pinned_local_CA": true,
+    "ctsign_post_case_insensitive": true,
+    "ctsign_signxml_route": true,
+    "ctsign_unknown_origin_status": 403,
+    "ctsign_xml_diagnostics": [
+      "XML_PARSE",
+      "XML_DTD_ENTITY",
+      "XML_DUPLICATE_ID",
+      "XML_EXISTING_SIGNATURE"
+    ],
+    "no_signing_or_external_rest": true
+  },
+  "live_user_confirmation": {
+    "platform": "macOS",
+    "invoice_count": 2,
+    "result": "User reports both invoices signed successfully in one operation after diagnostic app update",
+    "source": "Direct human reply in main chat",
+    "raw_capture_available": false,
+    "CA_used": "not established"
+  },
+  "original_transport_root_cause_confirmed": false,
+  "limitations": [
+    "Success after update does not establish which earlier transport guard or system error failed",
+    "No live300 validation",
+    "No automatic retry or change to upload acknowledgement semantics"
+  ]
+}

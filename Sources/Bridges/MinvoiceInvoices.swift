@@ -69,20 +69,22 @@ public actor MinvoiceInvoices {
                 let session = try await MinvoiceLogin.session(info: envelope.BrowserInfo, http: http)
                 func json(_ request: URLRequest) async throws -> [String: Any] {
                     try Task.checkCancellation()
-                    let response = try await http.send(request)
-                    guard response.status == 200 else { throw MinvoiceError.server(response.status) }
-                    guard let object = try? JSONSerialization.jsonObject(with: response.body) as? [String: Any] else { throw MinvoiceError.invalidInput }
+                    let response = try await http.sendDiagnosed(request)
+                    guard response.status == 200 else { throw MinvoiceHTTPFailure(request: request, reason: .status, status: response.status) }
+                    guard let object = try? JSONSerialization.jsonObject(with: response.body) as? [String: Any] else { throw MinvoiceHTTPFailure(request: request, reason: .json) }
                     return object
                 }
                 let tenant = try await json(MinvoiceRESTRequests.request(session: session, path: "tenant-company/current-tenant", method: "GET"))
-                guard let time = tenant["currentDateTime"] as? String, MinvoiceCashXML.validTime(time) else { throw MinvoiceError.invalidInput }
+                guard let time = tenant["currentDateTime"] as? String, MinvoiceCashXML.validTime(time) else {
+                    throw MinvoiceHTTPFailure(request: MinvoiceRESTRequests.request(session: session, path: "tenant-company/current-tenant", method: "GET"), reason: .shape)
+                }
                 var tokenRequest = MinvoiceRESTRequests.request(session: session, path: "token/by-serial-number", method: "GET")
                 var tokenURL = URLComponents(url: tokenRequest.url!, resolvingAgainstBaseURL: false)!
                 tokenURL.queryItems = [URLQueryItem(name: "serialNumber", value: cert.serialHex)]
                 tokenRequest.url = tokenURL.url
                 let token = try await json(tokenRequest)
                 guard let serial = token["serialNumber"] as? String,
-                      serial.caseInsensitiveCompare(cert.serialHex) == .orderedSame else { throw MinvoiceError.invalidInput }
+                      serial.caseInsensitiveCompare(cert.serialHex) == .orderedSame else { throw MinvoiceHTTPFailure(request: tokenRequest, reason: .shape) }
                 // Validate EVERY requested invoice before the first upload. The
                 // Windows first-detail shortcut does not prove a homogeneous batch.
                 var expectedSerial: String?
@@ -99,8 +101,9 @@ public actor MinvoiceInvoices {
                 for (index, group) in groups.enumerated() {
                     try Task.checkCancellation()
                     await tracker.update(index, state: .downloading)
-                    let archive = try await http.send(MinvoiceRESTRequests.downloadXML(session: session, ids: group, cash: true))
-                    guard archive.status == 200 else { throw MinvoiceError.server(archive.status) }
+                    let download = try MinvoiceRESTRequests.downloadXML(session: session, ids: group, cash: true)
+                    let archive = try await http.sendDiagnosed(download)
+                    guard archive.status == 200 else { throw MinvoiceHTTPFailure(request: download, reason: .status, status: archive.status) }
                     let entries = try MinvoiceZIP.extractAll(archive.body)
                     await tracker.update(index, state: .signing, documents: entries.count)
                     var documents: [MinvoiceRESTRequests.SignedXML] = []
@@ -119,9 +122,10 @@ public actor MinvoiceInvoices {
                     // One attempt. Once upload starts, any missing/invalid ACK is
                     // uncertain; never retry or roll back acknowledged groups.
                     let result: MinvoiceHTTPResponse
-                    do { result = try await http.send(request) }
+                    do { result = try await http.sendDiagnosed(request) }
+                    catch let error as MinvoiceHTTPFailure { throw error }
                     catch { throw MinvoiceError.uploadUncertain }
-                    guard result.status == 204, result.body.isEmpty else { throw MinvoiceError.uploadUncertain }
+                    guard result.status == 204, result.body.isEmpty else { throw MinvoiceHTTPFailure(request: request, reason: .ack, status: result.status) }
                     await tracker.update(index, state: .acknowledged)
                     if index + 1 < groups.count { try await Task.sleep(for: delay) }
                 }

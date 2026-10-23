@@ -47,9 +47,9 @@ phải duy nhất toàn tài liệu. dataBV khớp nhiều phần tử bị ch�
 Mẫu có mã dòng lặp qua xmlsec1 cả có/không namespace. User đã xác nhận ký XML
 chưa ký thành công; file có chữ ký vẫn bị chặn, chưa hỗ trợ ký lại/ký bổ sung.
 
-Validation cuối: **151 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
+Validation cuối: **156 tests đạt**, smoke đủ sáu cổng, TLS VNPT và lỗi XML qua
 HTTP đạt; không nhập PIN hoặc gửi nghiệp vụ thật.
-[Evidence](re/evidence/minvoice-bulk-integration-2026-10-23.json).
+[Evidence](re/evidence/minvoice-http-diagnostics-2026-10-23.json).
 
 UI đã sửa mũi tên disclosure và nút ký thử bị nhạt/trắng trên nền sáng khi
 host macOS dùng giao diện tối; tăng tương phản chữ phụ, divider và viền nhập
@@ -68,3 +68,9 @@ OneCA V3 đã được gộp vào App/Helper/shim chung, giữ experimental và 
 module hash-pinned, một matching reader/token. App đóng gói đã quảng bá đúng
 chứng thư OneCA qua GetCert (so SHA-256 với evidence nghiên cứu), không ký thử
 lại hoặc nhập PIN. [Evidence app](re/evidence/oneca-packaged-app-2026-10-23.json).
+
+
+Minvoice: user đã xác nhận app Mac ký thành công lô **2 hóa đơn** sau bản chẩn
+đoán HTTP. Lỗi kết nối trước đó 0/2 không tái hiện; chưa xác định nguyên nhân
+mạng gốc. `[MI_HTTP …]` phân biệt bước/reason và mã hệ thống an toàn nếu lỗi
+lặp lại; không chứa URL/credential/XML và không thêm retry. Chưa ký live300.

@@ -95,8 +95,8 @@ ký ad-hoc cho máy phát triển; OpenSC 0.27.1 là dependency ngoài bundle.
 
 ## Chưa xác nhận
 
-Cần user tự thử Minvoice trên macOS với token/chứng thư còn hiệu lực sau khi mở
-bản app mới. Chưa có kết quả Minvoice macOS + FastCA end-to-end. Chứng thư FastCA
+User đã xác nhận ký được lô 2 cash trên macOS sau bản chẩn đoán (xem mục cuối).
+Các cỡ lô/mẫu/CA khác vẫn cần xác nhận riêng khi có nghiệp vụ thực tế. Chưa có kết quả Minvoice macOS + FastCA end-to-end. Chứng thư FastCA
 hiện tại đã hết hạn 30/07/2026 nên bridge từ chối trước login; menu/SignHash kiểm
 tra mật mã riêng vẫn có thể dùng cho chẩn đoán. Không coi HTTP upload thành công
 là kiểm chứng độc lập trạng thái phát hành, chain hay revocation. Chưa phân phối/
@@ -122,3 +122,21 @@ Mapping invoice GUID → HDon trong XML vẫn do backend cung cấp; app chưa c
 bằng chứng để kiểm tra mapping nội dung đó độc lập, không ép entry GUID bằng
 requested GUID. [Kế hoạch](plans/minvoice-bulk-300-integration.md),
 [evidence triển khai](re/evidence/minvoice-bulk-integration-2026-10-23.json).
+
+
+## Chẩn đoán kết nối và lần ký Mac đã xác nhận
+
+Bản chẩn đoán trả token như `[MI_HTTP login/fetch URL:-1009]` trong callback và
+kết quả ở menu (chọn/copy được). Route là enum bước, không phải URL thực. Reason
+phân biệt mở kết nối, đọc response, URL không khớp, quá kích thước, HTTP status,
+JSON, cookie bootstrap và shape. Chỉ lưu domain hệ thống trong allowlist/mã số,
+đọc tối đa ba NSError trong chuỗi nguyên nhân; domain lạ thành `other`. Không
+lưu lỗi gốc, localizedDescription, URL, GUID, header, cookie hay body.
+
+Ngày 23/10 user đã xác nhận **bản macOS ký thành công hai hóa đơn trong một
+lần** sau khi mở bản chẩn đoán. Đây là xác nhận trực tiếp của user, chưa thu
+wire capture mới và chưa ghi nhận CA dùng cho lần này. Lỗi kết nối cũ 0/2 trước
+tải XML không tái hiện trong lần đó; **chưa xác định nguyên nhân gốc**, không
+suy thành lỗi PIN/token hay khẳng định thay đổi chẩn đoán đã sửa lỗi mạng.
+156 tests và smoke sáu cổng đạt; không tự replay credentials hoặc ký để tìm lỗi.
+[Evidence](re/evidence/minvoice-http-diagnostics-2026-10-23.json).

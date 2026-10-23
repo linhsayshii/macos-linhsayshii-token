@@ -26,6 +26,7 @@ public struct MinvoiceBatchProgress: Sendable, Equatable {
     public var groups: [Group]
     public var outcome: Outcome = .running
     public var checkedInvoices = 0
+    public internal(set) var diagnostic: String?
     public var totalInvoices: Int { groups.reduce(0) { $0 + $1.invoices } }
     public var acknowledged: Int { groups.filter { $0.state == .acknowledged }.reduce(0) { $0 + $1.invoices } }
     public var uncertain: Int { groups.filter { $0.state == .uploadUncertain }.reduce(0) { $0 + $1.invoices } }
@@ -44,13 +45,15 @@ public struct MinvoiceBatchProgress: Sendable, Equatable {
         return counts + " · kiểm tra \(checkedInvoices)/\(totalInvoices)"
     }
     var payload: [String: Any] {
-        ["requestedInvoices": totalInvoices, "uploadAcknowledgedInvoices": acknowledged,
+        var result: [String: Any] = ["requestedInvoices": totalInvoices, "checkedInvoices": checkedInvoices, "uploadAcknowledgedInvoices": acknowledged,
          "uploadUncertainInvoices": uncertain, "notStartedInvoices": notStarted,
          "documents": documents, "signedDocuments": signedDocuments, "outcome": outcome.rawValue,
          "groups": groups.enumerated().map { index, group in
              ["index": index + 1, "invoiceCount": group.invoices, "documentCount": group.documents,
               "signedDocumentCount": group.signedDocuments, "state": group.state.rawValue] as [String: Any]
          }]
+        if let diagnostic { result["diagnostic"] = diagnostic }
+        return result
     }
 }
 
@@ -88,8 +91,11 @@ actor MinvoiceBatchTracker {
             progress.groups[index].state = uploading ? .uploadUncertain : cancelled ? .cancelled : .failed
             progress.outcome = uploading ? .uploadUncertain : cancelled ? .cancelled : .failed
         } else { progress.outcome = cancelled ? .cancelled : .failed }
+        progress.diagnostic = (error as? MinvoiceHTTPFailure)?.description
         await backend.batchProgress(progress)
-        let failure = MinvoiceBridge.failure(progress.uncertain > 0 ? MinvoiceError.uploadUncertain : cancelled ? MinvoiceError.cancelled : error)
-        return .init(progress: progress, code: failure.0, message: failure.1)
+        let cause: Error = progress.uncertain > 0 ? MinvoiceError.uploadUncertain : cancelled ? MinvoiceError.cancelled : progress.diagnostic != nil ? MinvoiceError.transport : error
+        let failure = MinvoiceBridge.failure(cause)
+        let message = progress.diagnostic != nil && progress.uncertain == 0 ? "Minvoice không hoàn tất yêu cầu ở bước được ghi bên dưới." : failure.1
+        return .init(progress: progress, code: failure.0, message: message + (progress.diagnostic.map { " \($0)" } ?? ""))
     }
 }

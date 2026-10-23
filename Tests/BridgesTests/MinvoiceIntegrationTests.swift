@@ -68,6 +68,12 @@ private actor FixtureHTTP: MinvoiceHTTPTransport {
         requests.append(request)
         let path = request.url!.path
         await events.note(path)
+        let diagnosticStep = ["diag-login": "/api/account/login", "diag-configuration": "/api/abp/application-configuration",
+            "diag-tenant": "/api/app/tenant-company/current-tenant", "diag-token": "/api/app/token/by-serial-number",
+            "diag-detail": "/api/app/invoice/\(invoiceID.uuidString.lowercased())/detail"]
+        if let fault, path == diagnosticStep[fault] {
+            throw NSError(domain: NSURLErrorDomain, code: -1009, userInfo: [NSLocalizedDescriptionKey: "PRIVATE_NEVER_EMIT", NSURLErrorFailingURLErrorKey: request.url!])
+        }
         if fault == "login", path == "/api/account/login" { return .init(status: 401) }
         if fault == "no-xsrf", path == "/api/abp/application-configuration" { return .init(status: 200) }
         if fault == "upload-timeout", path.hasSuffix("/upload-xml") { throw MinvoiceError.transport }
@@ -504,4 +510,20 @@ func minvoiceBulkFailureKeepsAcknowledgedGroupsAndNeverRetries(fault: String) as
         "testProcessPeakResidentBytesDarwin": usage.ru_maxrss,
         "realNetworkOrToken": false,
     ]))
+}
+
+@Test(arguments: [("diag-login", "login"), ("diag-configuration", "configuration"), ("diag-tenant", "tenant"), ("diag-token", "registeredToken"), ("diag-detail", "invoiceDetail")])
+func minvoicePreflightFailurePreservesSafeStageBeforePINAndDownload(testCase: (String, String)) async throws {
+    let events = Events(), identity = try TestIdentity()
+    let http = FixtureHTTP(events: events, archive: Data(), fault: testCase.0)
+    let bridge = MinvoiceBridge(backend: FixtureBackend(identity: identity, events: events), http: http)
+    let text = await bridge.dispatch(try command(ids: [invoiceID, UUID()]), origin: miOrigin)
+    let response = try object(text), batch = try batchObject(response)
+    #expect(response["code"] as? Int == 2)
+    #expect((response["message"] as? String)?.contains("[MI_HTTP \(testCase.1)/fetch URL:-1009]") == true)
+    #expect(batch["diagnostic"] as? String == "[MI_HTTP \(testCase.1)/fetch URL:-1009]")
+    #expect(batch["uploadAcknowledgedInvoices"] as? Int == 0 && batch["notStartedInvoices"] as? Int == 2)
+    #expect(await http.requests.contains { $0.url!.path.contains("download-xml") || $0.url!.path.hasSuffix("/upload-xml") } == false)
+    #expect(await events.values.contains("pin/sign") == false)
+    for privateValue in ["PRIVATE_NEVER_EMIT", "fixture-password", "fixture-auth", invoiceID.uuidString.lowercased()] { #expect(!text.contains(privateValue)) }
 }

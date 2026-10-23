@@ -25,21 +25,23 @@ public final class MinvoiceURLSession: NSObject, MinvoiceHTTPTransport, URLSessi
         config.timeoutIntervalForResource = 90
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
         defer { session.invalidateAndCancel() }
+        var phase = MinvoiceHTTPFailure.Reason.fetch
         do {
             let (stream, response) = try await session.bytes(for: request)
-            guard let http = response as? HTTPURLResponse,
-                  http.url == request.url, response.expectedContentLength <= MinvoiceBatchLimits.archiveBytes else { throw MinvoiceError.transport }
+            let http = try MinvoiceHTTPFailure.checkResponse(response, request: request)
+            phase = .read
             var bytes = Data()
             for try await byte in stream {
-                guard bytes.count < MinvoiceBatchLimits.archiveBytes else { throw MinvoiceError.transport }
+                guard bytes.count < MinvoiceBatchLimits.archiveBytes else { throw MinvoiceHTTPFailure(request: request, reason: .streamSize) }
                 bytes.append(byte)
             }
             var headers: [String: String] = [:]
             for (key, value) in http.allHeaderFields { headers[String(describing: key)] = String(describing: value) }
             return .init(status: http.statusCode, headers: headers, body: bytes)
         } catch is CancellationError { throw MinvoiceError.cancelled }
-        catch let error as MinvoiceError { throw error }
-        catch { throw MinvoiceError.transport } // never surface URLs, response bodies or credentials
+        catch let error as MinvoiceHTTPFailure { throw error }
+        catch let error as URLError where error.code == .cancelled { throw MinvoiceError.cancelled }
+        catch { throw MinvoiceHTTPFailure(request: request, reason: phase, error: error) }
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse,
@@ -86,14 +88,14 @@ struct MinvoiceLogin {
                 request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
                 request.httpBody = try JSONEncoder().encode(Credentials(UserNameOrEmailAddress: info.UserName, Password: info.Pass))
             }
-            let response = try await http.send(request)
-            guard response.status == 200 else { throw MinvoiceError.server(response.status) }
+            let response = try await http.sendDiagnosed(request)
+            guard response.status == 200 else { throw MinvoiceHTTPFailure(request: request, reason: .status, status: response.status) }
             for cookie in HTTPCookie.cookies(withResponseHeaderFields: response.headers, for: request.url!) where cookie.name != "__tenant" {
                 cookies[cookie.name] = cookie.value
             }
         }
         guard let xsrf = cookies["XSRF-TOKEN"], cookies.keys.contains(where: { $0 != "__tenant" && $0 != "XSRF-TOKEN" }) else {
-            throw MinvoiceError.invalidInput
+            throw MinvoiceHTTPFailure(request: URLRequest(url: base.appendingPathComponent("abp/application-configuration")), reason: .cookies)
         }
         return try .init(api: api, userAgent: info.UserAgent, cookie: cookieHeader(), verificationToken: xsrf)
     }
