@@ -1,6 +1,13 @@
 # Kế hoạch đại tu giao diện TokenSigner
 
-Ngày: 23/10/2026. Phạm vi: **kế hoạch**, chưa thay giao diện hay khởi động lại app.
+Ngày lập: 23/10/2026. Nội dung bên dưới giữ lại thiết kế và tiêu chí ban đầu.
+
+**Cập nhật triển khai:** đã thay menu, khung popup và palette sáng/tối theo kế
+hoạch; 168 tests đạt, bundle/smoke sáu cổng đạt. Đã sửa lỗi không hiện icon bằng
+vòng đời AppKit tường minh, người dùng xác nhận “Đã thấy và mở được menu”.
+Kiểm tra 20 lần trên menu thật, nhiều màn hình/scaling/Spaces và VoiceOver vẫn
+cần xác nhận thủ công; chưa coi toàn bộ ma trận nghiệm thu là đã đạt.
+Chi tiết: [UI.md](../UI.md), [evidence](../re/evidence/ui-overhaul-2026-10-23.json).
 
 ## Mục tiêu và vấn đề đã xác định
 

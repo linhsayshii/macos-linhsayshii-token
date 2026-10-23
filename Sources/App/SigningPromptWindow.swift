@@ -40,8 +40,12 @@ final class SigningPromptWindow: NSObject, NSWindowDelegate, SigningPromptPresen
         panel.contentView = host
         panel.setContentSize(initialSize)
         panel.delegate = self
+        if let screen {
+            panel.setFrameOrigin(NSPoint(x: screen.visibleFrame.midX - panel.frame.width / 2,
+                                         y: screen.visibleFrame.midY - panel.frame.height / 2))
+        }
         resize = { [weak panel, weak host] in
-            guard let panel, let host, let target = panel.screen ?? screen ?? NSScreen.main else { return }
+            guard let panel, let host, let target = panel.screen ?? NSScreen.main else { return }
             let visible = target.visibleFrame
             let size = PromptLayout.size(visibleFrame: visible)
             host.rootView = content.environment(\.signingPromptSize, size)

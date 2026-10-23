@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-23",
+  "scope": "UI presentation, menu app lifetime and bounded layout; no signing/PIN/wire policy changes",
+  "validation": {
+    "swift_testing": {
+      "passed": 168,
+      "targets": {
+        "TokenHelperTests": 6,
+        "TSShimTests": 7,
+        "CoreTests": 46,
+        "BridgesTests": 89,
+        "AppTests": 20
+      },
+      "log_local": "/tmp/tokensigner-ui-full-tests.log"
+    },
+    "render_matrix": {
+      "tokens": [
+        0,
+        4,
+        10
+      ],
+      "pages": [
+        "tokens",
+        "connections",
+        "history"
+      ],
+      "heights_pt": [
+        350,
+        560
+      ],
+      "appearances": [
+        "light",
+        "dark"
+      ],
+      "assertions": [
+        "host bounds match chosen size",
+        "fitting size within chosen bounds",
+        "disclosure state changes retain presentation size"
+      ],
+      "fixtures": "synthetic, local .local/ui-overhaul"
+    },
+    "package": "passed ad-hoc signature validation, ARM64 runtime dependency closure and shim checks",
+    "smoke": {
+      "ctsign_http_status": 200,
+      "minvoice_protocol": "2.1",
+      "minvoice_getVersion": "2.0.0",
+      "unknown_origin_status": 403,
+      "esigner_versions": {
+        "8768": "1.1.0",
+        "8769": "1.1.0"
+      },
+      "esigner_unknown_origin_status": 403,
+      "vnpt_wss": {
+        "4433": "1*smoke",
+        "4434": "1*smoke"
+      },
+      "vnpt_unknown_origin_status": 403,
+      "TLS_verified_with_pinned_local_CA": true,
+      "ctsign_post_case_insensitive": true,
+      "ctsign_signxml_route": true,
+      "ctsign_unknown_origin_status": 403,
+      "ctsign_xml_diagnostics": [
+        "XML_PARSE",
+        "XML_DTD_ENTITY",
+        "XML_DUPLICATE_ID",
+        "XML_EXISTING_SIGNATURE"
+      ],
+      "no_signing_or_external_rest": true
+    },
+    "human_menu_check": "User confirmed: Đã thấy và mở được menu after explicit AppKit lifetime and isVisible fix",
+    "native_menu_test_limit": "A synthetic NSStatusBarButton.performClick test on macOS 27 did not reproduce real menu expansion; removed rather than reporting its env-gated no-op as a pass",
+    "manual_pending": [
+      "20 real icon open/close cycles with details expanded/collapsed",
+      "multi-display, scaling, screen edges, display hotplug",
+      "Spaces/fullscreen/auto-hidden menu bar",
+      "VoiceOver and full keyboard navigation"
+    ]
+  },
+  "source_sha256": {
+    "Sources/App/AppModel.swift": "fa71b75201e143e51a7292928cef04bc9bcedeef6be53e1830d62057b1ddf66c",
+    "Sources/App/ApprovalSheet.swift": "68f6fdd7d9551c659f0fe46b8c5c315d5535d4cfa02a6d75e696f8b7749f0b7c",
+    "Sources/App/CertificatePicker.swift": "7f881c6531642411b55931c00ce6c6730cfe95c4f1624e3cc03c84dafa7eed27",
+    "Sources/App/CertificateText.swift": "6d059ade513bc0995e04feeb1109f2f77d7d131697e3e7c3af73a9fe72b7bafd",
+    "Sources/App/Components.swift": "fe972e405068747a9af79285b4dd0097a3db795837d50fcbd8476149b559f78f",
+    "Sources/App/ConnectionView.swift": "093b631b7871d91e702ef14778220f1c79db7ec02a883162cbf468cb69baf7d2",
+    "Sources/App/HistoryView.swift": "1eac6e2d1a7dcb0e759e3a7fe6b901def4ad18ec212a194cadc532cf09e64bb7",
+    "Sources/App/MenuBarController.swift": "041ebfb7d5aa295b41a75f551834f302c85f7d42684ca40e11bafc723ec39523",
+    "Sources/App/MenuBarView.swift": "b5a3d7ce2612f86a70ed42b12d021f755b40f2789884670986f98af747cd0a9c",
+    "Sources/App/MenuLayout.swift": "108b7d4e326377bb16c172e110178da3c2235f407860b76360188354cdb9e9f2",
+    "Sources/App/MinvoicePINSession.swift": "c10122879e748034020ee4796e0658e7e8153fa58138fa8fd292e307448a521f",
+    "Sources/App/OpenPanelChooser.swift": "f8923deaf9c2131af0996a6aa8d205c1f0d24c9ff3f9c5a615a748c0d903189a",
+    "Sources/App/OriginPromptSheet.swift": "b677df95a8f85f225bd0a155dbde8c255a631b79545eeb92805b2b84617b79a3",
+    "Sources/App/PINSheet.swift": "5b178190b2d12063de4181cc2c8e63c03b364486a1675a505f23003b231ae857",
+    "Sources/App/PromptContainer.swift": "251cc581d8498466d58f72d694f325721cd75e8e041e5a97461bbb5a0bb2a65c",
+    "Sources/App/SigningPromptWindow.swift": "93a78464fc97b84fc51e725cc33eb894e6d48c7c059a7ae522a1a2b42cbfefc9",
+    "Sources/App/SigningResult.swift": "307e4c1d3f2c5bf7282abe7ff211d020bff3c6a377d1226fc73bcfe31c96adbf",
+    "Sources/App/Theme.swift": "07245751b3a6cff8ea5059484603652b85381bb83b10110be50854023b9aba22",
+    "Sources/App/TokenCard.swift": "72d218e56350f4643d52a1cc91f3a59f2ba21f79e54cff56cdfb56fa1f1e33e9",
+    "Sources/App/TokenSignerApp.swift": "326ebc43e8ab07a26dd4cf466c1fea9c9642e5d6f0c044d19a60eff80109ac74"
+  },
+  "packaged_app_sha256": "9799ccd7c44ab9d93a724123d0467c82fc44659c49731eff9041bcba8fae7fe5"
+}

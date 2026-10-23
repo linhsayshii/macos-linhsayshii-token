@@ -377,7 +377,8 @@ public final class AppModel: ObservableObject {
         activeRequestID = id
         defer { signing = false; activeRequestID = nil; signingStatus = nil }
         return try await withTaskCancellationHandler {
-            try await body()
+            do { return try await body() }
+            catch { presentSigningFailure(error); throw error }
         } onCancel: {
             Task { @MainActor [weak self] in
                 guard let self, self.activeRequestID == id else { return }
@@ -486,6 +487,8 @@ public final class AppModel: ObservableObject {
             await audit.append(origin: context.origin, bridge: context.bridge, certSerial: target.cert.serialHex,
                 operation: "RSA_PKCS", input: Data(base64Encoded: blockB64) ?? Data(), result: "ok")
             recentAudit = await audit.recent(5)
+            lastSignResult = "Ký và xác minh OK — chữ ký \(Data(base64Encoded: signature)?.count ?? 0) byte"
+            signingResult = SigningResult(kind: .success, message: lastSignResult!)
             return signature
         } catch {
             await audit.append(origin: context.origin, bridge: context.bridge, certSerial: target.cert.serialHex,
@@ -612,10 +615,14 @@ public final class AppModel: ObservableObject {
             lastSignResult = "Ký và xác minh OK — chữ ký \(Data(base64Encoded: sig)?.count ?? 0) byte"
             signingResult = SigningResult(kind: .success, message: lastSignResult!)
         } catch {
-            let cancelled = requestWasDenied || error is CancellationError || (error as? MinvoiceError) == .cancelled
-            lastSignResult = cancelled ? "Đã hủy yêu cầu ký" : signErrorText(error)
-            signingResult = SigningResult(kind: cancelled ? .cancelled : .failure, message: lastSignResult!)
+            presentSigningFailure(error)
         }
+    }
+
+    private func presentSigningFailure(_ error: Error) {
+        let cancelled = requestWasDenied || error is CancellationError || (error as? MinvoiceError) == .cancelled
+        lastSignResult = cancelled ? "Đã hủy yêu cầu ký" : signErrorText(error)
+        signingResult = SigningResult(kind: cancelled ? .cancelled : .failure, message: lastSignResult!)
     }
 
     /// Human-readable Vietnamese for a sign failure. pinIncorrect surfaces the

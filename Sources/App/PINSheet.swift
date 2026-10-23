@@ -6,14 +6,7 @@ struct PINSheet: View {
     @ObservedObject var model: AppModel
     @FocusState private var focused: Bool
     var body: some View {
-        PromptContainer(title: "Nhập PIN token", symbol: "lock", step: "Bước 3 · Ký số") {
-            AppCard {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(prompt.ca).font(.system(size: Theme.Size.base, weight: .semibold))
-                    DetailLine(label: "Serial token", value: prompt.serial)
-                }
-            }
-            if let warning = prompt.warning { InlineNotice(text: warning, tone: prompt.locked ? .danger : .warning) }
+        PromptContainer(title: "Nhập PIN token", symbol: "lock", step: "Bước 3 · Ký số · \(prompt.ca)") {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Mã PIN").fontWeight(.medium)
                 SecureField("Nhập mã PIN", text: $model.pinDraft)
@@ -24,6 +17,8 @@ struct PINSheet: View {
                     .focused($focused).disabled(prompt.locked).onSubmit(submit)
                     .accessibilityLabel("Mã PIN token")
             }
+            if let warning = prompt.warning { InlineNotice(text: warning, tone: prompt.locked ? .danger : .warning) }
+            AppCard { DetailLine(label: "Serial token", value: prompt.serial) }
             InlineNotice(text: "Sai PIN sẽ trừ một lần thử. App không tự thử lại.")
         } actions: {
             HStack {

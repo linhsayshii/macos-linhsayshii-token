@@ -86,3 +86,15 @@ kiểm tra metadata/public key trước PIN, verify chữ ký trước trả k�
 OpenSC/libcrypto ARM64 đã nằm trong bundle thử. Người dùng xác nhận **Ký thử →
 Ký và xác minh OK** trên EFY ngày 23/10. Chưa thử hồ sơ/cổng nghiệp vụ EFY.
 [Hướng dẫn](EFY-CA.md).
+
+
+Đại tu giao diện 23/10: menu ba trang Token / Kết nối / Lịch sử, nội dung cuộn
+trong khung giới hạn theo màn hình; header/footer giữ cố định. Mở chi tiết không
+đổi chiều cao vỏ menu. Chọn CKS, duyệt, PIN và quyền trang dùng chung khung
+thích ứng, palette sáng/tối, nút và thông báo. Hủy hiển thị trung tính; ngày giờ
+hiển thị theo máy, tên chứng thư lấy từ DER. AppKit giữ một model/menu suốt
+vòng đời app và không mở Settings rỗng; user xác nhận icon đã hiện và mở được.
+**168 tests đạt**, render fixture 0/4/10 token và popup 350/560pt sáng/tối, bundle
+và smoke sáu cổng đạt. Chưa xác nhận toàn bộ ma trận menu thật 20 lần/nhiều màn
+hình/Spaces/VoiceOver. [Giao diện](UI.md),
+[evidence](re/evidence/ui-overhaul-2026-10-23.json).

@@ -13,7 +13,7 @@ là `p1-token-core`; tất cả nhánh tính năng đã được merge vào đâ
 Yêu cầu ký tự mở cửa sổ: chọn CKS → duyệt → nhập PIN. PIN chỉ đi qua stdin của
 helper; không tự ký/retry. Có origin guard, kiểm tra chữ ký và nhật ký digest-only.
 VNPT dùng chứng chỉ TLS localhost riêng; nếu máy chưa tin cậy, user chủ động
-bấm nút trong menu “Kết nối và quyền”.
+bấm nút trong trang “Kết nối”.
 
 ```sh
 ./scripts/test-env.sh test-all
@@ -26,6 +26,7 @@ python3 scripts/check-integrated-app.py
 worktree. Gói local nằm ở `.local/test-env/TokenSigner.app`, ký ad-hoc.
 
 - [Trạng thái và giới hạn](docs/PROGRESS.md)
+- [Giao diện và kiểm tra layout](docs/UI.md)
 - [Build/test](docs/BUILD.md)
 - [Các bridge](docs/BRIDGES.md)
 - [Đối chiếu tất cả nhánh, phần còn thiếu](docs/BRANCH-CONSOLIDATION.md)

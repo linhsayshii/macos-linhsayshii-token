@@ -5,8 +5,11 @@ import Combine
 /// displays whose origin is negative. Content changes never resize the shell.
 enum MenuLayout {
     static func size(anchor: CGRect, visibleFrame: CGRect) -> CGSize {
-        CGSize(width: min(380, max(0, visibleFrame.width - 24)),
-               height: min(560, max(0, min(anchor.minY, visibleFrame.maxY) - visibleFrame.minY - 24)))
+        // Scene-backed status items can expose a proxy view at (0,0). AppKit
+        // still owns popover placement; use the screen's available top for size.
+        let top = anchor.minY < visibleFrame.minY ? visibleFrame.maxY : min(anchor.minY, visibleFrame.maxY)
+        return CGSize(width: min(380, max(0, visibleFrame.width - 24)),
+                      height: min(560, max(0, top - visibleFrame.minY - 24)))
     }
 }
 
