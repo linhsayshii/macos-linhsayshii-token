@@ -1,8 +1,19 @@
 import Foundation
 import X509
 import SwiftASN1
+import Core
 
 enum CertificateText {
+    /// Summary only: retain every certificate and explicit selection for signing.
+    static func latestExpiry(in certificates: [CertInfo]) -> CertInfo? {
+        certificates.reduce(nil) { current, candidate in
+            guard let current else { return candidate }
+            let currentExpiry = date(current.notAfter) ?? .distantPast
+            let candidateExpiry = date(candidate.notAfter) ?? .distantPast
+            return candidateExpiry > currentExpiry ? candidate : current
+        }
+    }
+
     static func name(derB64: String, fallback: String) -> String {
         guard let bytes = Data(base64Encoded: derB64), let cert = try? Certificate(derEncoded: Array(bytes)) else { return fallback }
         let attributes = cert.subject.flatMap { Array($0) }

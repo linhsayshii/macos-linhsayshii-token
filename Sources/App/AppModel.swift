@@ -325,7 +325,7 @@ public final class AppModel: ObservableObject {
                         })
                         if t.reader == r.reader || scopedTokens.count == 1 {
                             row.serial = t.serial; row.label = t.label
-                            if let c = certs.first {
+                            if let c = CertificateText.latestExpiry(in: certs) {
                                 row.certSubject = c.subject; row.notAfter = c.notAfter
                                 row.certificateName = CertificateText.name(derB64: c.derB64, fallback: c.subject)
                             }

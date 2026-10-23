@@ -29,7 +29,12 @@ và thông báo dùng chung thành phần. Trạng thái đi kèm chữ/biểu t
 dùng màu. Animation disclosure tôn trọng Reduce Motion.
 
 Tên dễ đọc của chứng thư được lấy từ DER đã parse (CN hoặc O), không tách chuỗi
-DN bằng dấu phẩy. Subject gốc, serial token và serial chứng thư có nhãn riêng.
+DN bằng dấu phẩy. Mỗi token mặc định hiển thị chứng thư có ngày hết hạn xa
+nhất trong chính token đó, so sánh ngày đã parse thay vì thứ tự driver trả về.
+Ngày không đọc được xếp sau ngày hợp lệ; nếu không có ngày hợp lệ thì giữ
+chứng thư đầu tiên để vẫn có thông tin hiển thị. Đây là tóm tắt UI; danh sách
+CKS và lựa chọn tường minh khi ký vẫn giữ nguyên.
+Subject gốc, serial token và serial chứng thư có nhãn riêng.
 Ngày hiển thị theo múi giờ máy; timestamp gốc và digest vẫn có trong chi tiết.
 Không thay identity/CKA_ID, kiểm tra hiệu lực hoặc dữ liệu ký để làm nhãn UI.
 
