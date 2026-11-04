@@ -6,6 +6,8 @@ public enum MinvoiceBatchLimits {
     public static let maxInvoices = 1_000
     public static let commandBytes = 65_536
     public static let cashGroupSize = 100
+    /// Plugin default when tenant-setting-sign is null; smaller is always safe.
+    public static let ordinaryGroupSize = 2
     public static let archiveBytes = 16 << 20
     public static let documentBytes = 8 << 20
     public static let expandedBytes = 32 << 20
@@ -79,6 +81,11 @@ actor MinvoiceBatchTracker {
         }
         if let checked { progress.checkedInvoices = checked }
         if let outcome { progress.outcome = outcome }
+        await backend.batchProgress(progress)
+    }
+    /// Only valid before any group has started.
+    func regroup(_ counts: [Int]) async {
+        progress.groups = counts.map { .init(invoices: $0) }
         await backend.batchProgress(progress)
     }
     func failed(_ error: Error) async -> MinvoiceBatchFailure {

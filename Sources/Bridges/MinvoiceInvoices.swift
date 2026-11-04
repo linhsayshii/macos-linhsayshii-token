@@ -56,11 +56,13 @@ public actor MinvoiceInvoices {
         guard (1...MinvoiceBatchLimits.maxInvoices).contains(ids.count), Set(ids).count == ids.count,
               !ids.contains(UUID(uuidString: "00000000-0000-0000-0000-000000000000")!) else { throw MinvoiceError.invalidInput }
         try envelope.BrowserInfo.validate()
-        let groups = stride(from: 0, to: ids.count, by: MinvoiceBatchLimits.cashGroupSize).map {
-            Array(ids[$0..<min($0 + MinvoiceBatchLimits.cashGroupSize, ids.count)])
+        // Profile is unknown until invoice details are read after approval:
+        // start with cash groups, regroup for ordinary HDon before any download.
+        @Sendable func chunk(_ size: Int) -> [[UUID]] {
+            stride(from: 0, to: ids.count, by: size).map { Array(ids[$0..<min($0 + size, ids.count)]) }
         }
         let http = self.http, delay = groupDelay
-        let tracker = MinvoiceBatchTracker(counts: groups.map(\.count), backend: backend)
+        let tracker = MinvoiceBatchTracker(counts: chunk(MinvoiceBatchLimits.cashGroupSize).map(\.count), backend: backend)
         do {
             try await backend.withApproval(origin: origin, serial: envelope.PlugCommand.SerialNumber ?? "", invoiceCount: ids.count) { cert, sign in
                 try Task.checkCancellation()
@@ -88,30 +90,36 @@ public actor MinvoiceInvoices {
                 // Validate EVERY requested invoice before the first upload. The
                 // Windows first-detail shortcut does not prove a homogeneous batch.
                 var expectedSerial: String?
+                var profile = MinvoiceXMLProfile.cash
                 for (index, id) in ids.enumerated() {
                     let detail = try await json(MinvoiceRESTRequests.invoiceInfo(session: session, id: id))
                     guard let invoiceSerial = detail["invoiceSerial"] as? String,
-                          invoiceSerial.utf8.count >= 7, invoiceSerial.utf8.allSatisfy({ $0 < 128 }),
-                          Array(invoiceSerial.uppercased().utf8)[4] == 77 else { throw MinvoiceError.unsupported }
+                          let kind = MinvoiceXMLProfile.forSeries(invoiceSerial) else { throw MinvoiceError.unsupported }
+                    profile = kind
                     if let expectedSerial {
                         guard invoiceSerial.caseInsensitiveCompare(expectedSerial) == .orderedSame else { throw MinvoiceError.unsupported }
                     } else { expectedSerial = invoiceSerial }
                     await tracker.update(checked: index + 1)
                 }
+                let groups = chunk(profile == .cash ? MinvoiceBatchLimits.cashGroupSize : MinvoiceBatchLimits.ordinaryGroupSize)
+                if profile == .ordinary { await tracker.regroup(groups.map(\.count)) }
                 for (index, group) in groups.enumerated() {
                     try Task.checkCancellation()
                     await tracker.update(index, state: .downloading)
-                    let download = try MinvoiceRESTRequests.downloadXML(session: session, ids: group, cash: true)
+                    let download = try MinvoiceRESTRequests.downloadXML(session: session, ids: group, cash: profile == .cash)
                     let archive = try await http.sendDiagnosed(download)
                     guard archive.status == 200 else { throw MinvoiceHTTPFailure(request: download, reason: .status, status: archive.status) }
                     let entries = try MinvoiceZIP.extractAll(archive.body)
+                    // Installed 1.0.3.0 has no BKe placement; extra/missing entries
+                    // (backend-generated bảng kê) are refused before signing.
+                    guard profile == .cash || Set(entries.map(\.id)) == Set(group) else { throw MinvoiceError.unsupported }
                     await tracker.update(index, state: .signing, documents: entries.count)
                     var documents: [MinvoiceRESTRequests.SignedXML] = []
                     for (documentIndex, entry) in entries.enumerated() {
                         try Task.checkCancellation()
-                        let signed = try await MinvoiceCashXML.sign(xml: entry.xml, id: entry.id, signingTime: time, certificate: cert, signer: sign)
+                        let signed = try await MinvoiceCashXML.sign(xml: entry.xml, id: entry.id, signingTime: time, certificate: cert, profile: profile, signer: sign)
                         try Task.checkCancellation()
-                        try MinvoiceCashXML.verify(xml: signed, id: entry.id, certificate: cert)
+                        try MinvoiceCashXML.verify(xml: signed, id: entry.id, certificate: cert, profile: profile)
                         documents.append(.init(id: entry.id, xml: String(decoding: signed, as: UTF8.self)))
                         await tracker.update(index, signed: documentIndex + 1)
                     }

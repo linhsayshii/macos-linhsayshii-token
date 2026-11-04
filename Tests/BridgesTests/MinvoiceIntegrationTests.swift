@@ -85,7 +85,8 @@ private actor FixtureHTTP: MinvoiceHTTPTransport {
         case "/api/app/token/by-serial-number": return .init(status: 200, body: Data(#"{"serialNumber":"AABBCC","used":true}"#.utf8))
         case "/api/app/invoice/\(invoiceID.uuidString.lowercased())/detail":
             return .init(status: 200, body: Data((ordinary ? #"{"invoiceSerial":"1C26TXX"}"# : #"{"invoiceSerial":"1C26MXX"}"#).utf8))
-        case "/api/app/release-invoice/download-xml-invoice-cash": return .init(status: 200, body: archive)
+        case "/api/app/release-invoice/download-xml-invoice-cash": return .init(status: 200, body: ordinary ? Data() : archive)
+        case "/api/app/release-invoice/download-xml": return .init(status: 200, body: ordinary ? archive : Data())
         case "/api/app/release-invoice/00000000-0000-0000-0000-000000000000/upload-xml": return .init(status: status)
         default: throw MinvoiceError.invalidInput
         }
@@ -138,6 +139,53 @@ private func object(_ text: String) throws -> [String: Any] { try JSONSerializat
     let sequence = await events.values
     #expect(sequence.first == "approval")
     #expect(sequence.firstIndex(of: "pin/sign")! < sequence.count - 1)
+}
+
+private let unsignedOrdinary = Data("<?xml version=\"1.0\" encoding=\"UTF-8\"?><HDon><DLHDon Id=\"12345678-90ab-cdef-1234-567890abcdef\"><TTChung><KHHDon>C26THG</KHHDon></TTChung><Ten>Hóa đơn GTGT thử</Ten></DLHDon><DSCKS><NBan/><NMua/></DSCKS></HDon>".utf8)
+
+@Test func minvoiceOrdinarySeriesProfile() {
+    #expect(MinvoiceXMLProfile.forSeries("1C26MXX") == .cash)
+    #expect(MinvoiceXMLProfile.forSeries("1C26THG") == .ordinary)
+    #expect(MinvoiceXMLProfile.forSeries("1K26DAB") == .ordinary)
+    #expect(MinvoiceXMLProfile.forSeries("C26T") == nil)
+    #expect(MinvoiceXMLProfile.forSeries("1C26Tđ ") == nil)
+}
+
+@Test func minvoiceOrdinaryProfileSignsSellerNodeAndRejectsTampering() async throws {
+    let identity = try TestIdentity()
+    let signed = try await MinvoiceCashXML.sign(xml: unsignedOrdinary, id: invoiceID, signingTime: "2026-10-23T00:24:49", certificate: identity.cert, profile: .ordinary, signer: identity.sign)
+    try MinvoiceCashXML.verify(xml: signed, id: invoiceID, certificate: identity.cert, profile: .ordinary)
+    let doc = try XMLDocument(data: signed)
+    #expect(try doc.nodes(forXPath: "/HDon/DSCKS/NBan/*[local-name()='Signature']").count == 1)
+    #expect(try doc.nodes(forXPath: "/HDon/DSCKS/NMua/*").isEmpty)
+    let tampered = Data(String(decoding: signed, as: UTF8.self).replacingOccurrences(of: "GTGT thử", with: "GTGT sửa").utf8)
+    #expect(throws: MinvoiceError.self) { try MinvoiceCashXML.verify(xml: tampered, id: invoiceID, certificate: identity.cert, profile: .ordinary) }
+    // Cash XML must not pass as ordinary and vice versa; BKe root is refused.
+    await #expect(throws: MinvoiceError.self) { try await MinvoiceCashXML.sign(xml: unsignedCash, id: invoiceID, signingTime: "2026-10-23T00:24:49", certificate: identity.cert, profile: .ordinary, signer: identity.sign) }
+    await #expect(throws: MinvoiceError.self) { try await MinvoiceCashXML.sign(xml: unsignedOrdinary, id: invoiceID, signingTime: "2026-10-23T00:24:49", certificate: identity.cert, signer: identity.sign) }
+    let bke = Data(String(decoding: unsignedOrdinary, as: UTF8.self).replacingOccurrences(of: "HDon>", with: "BKe>").utf8)
+    await #expect(throws: MinvoiceError.self) { try await MinvoiceCashXML.sign(xml: bke, id: invoiceID, signingTime: "2026-10-23T00:24:49", certificate: identity.cert, profile: .ordinary, signer: identity.sign) }
+}
+
+@Test func minvoiceOrdinaryEndToEndOffline() async throws {
+    let identity = try TestIdentity(), events = Events()
+    let http = FixtureHTTP(events: events, archive: try zipFixture(unsignedOrdinary), ordinary: true)
+    let bridge = MinvoiceBridge(backend: FixtureBackend(identity: identity, events: events), http: http)
+    let result = try object(await bridge.dispatch(command(), origin: miOrigin))
+    #expect(result["code"] as? Int == 1)
+    let requests = await http.requests
+    #expect(requests.contains { $0.url!.path == "/api/app/release-invoice/download-xml" })
+    #expect(!requests.contains { $0.url!.path.hasSuffix("download-xml-invoice-cash") })
+    let upload = try #require(requests.last { $0.url!.path.hasSuffix("/upload-xml") })
+    #expect(String(decoding: upload.httpBody!, as: UTF8.self).contains("<NBan><Signature"))
+}
+
+@Test func minvoiceOrdinaryRefusesUnrequestedZIPEntry() async throws {
+    let identity = try TestIdentity(), events = Events()
+    let http = FixtureHTTP(events: events, archive: try zipFixture(unsignedOrdinary, multiple: true), ordinary: true)
+    let bridge = MinvoiceBridge(backend: FixtureBackend(identity: identity, events: events), http: http)
+    #expect(try object(await bridge.dispatch(command(), origin: miOrigin))["code"] as? Int != 1)
+    #expect(await !http.requests.contains { $0.url!.path.hasSuffix("/upload-xml") })
 }
 
 @Test func minvoiceNeverUploadsDeniedBadSignatureOrOrdinary() async throws {

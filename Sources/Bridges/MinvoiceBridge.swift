@@ -62,7 +62,7 @@ public struct MinvoiceBridge: Sendable {
         case SigningTargetError.unknownCertificate, SigningTargetError.ambiguousCertificate:
             return (404, "Hãy chọn đúng một chứng thư số")
         case MinvoiceError.invalidInput: return (2, "Yêu cầu Minvoice không hợp lệ; tối đa 1000 hóa đơn và 64 KiB mỗi lệnh")
-        case MinvoiceError.unsupported: return (501, "Chỉ hỗ trợ hóa đơn cash TDiep cùng mẫu/ký hiệu trong một lô; HDon/BKe hoặc lô trộn chưa được hỗ trợ")
+        case MinvoiceError.unsupported: return (501, "Lô phải cùng mẫu/ký hiệu; XML phải là TDiep (MTT) hoặc HDon có DSCKS/NBan. Bảng kê (BKe) hoặc lô trộn chưa được hỗ trợ")
         case MinvoiceError.expiredCertificate: return (2, "Chứng thư chưa có hiệu lực hoặc đã hết hạn; không gửi hóa đơn")
         case MinvoiceError.busy: return (2, "Đang xử lý yêu cầu ký khác")
         case MinvoiceError.invalidXML, MinvoiceError.invalidSignature: return (2, "XML hoặc chữ ký không hợp lệ; chưa upload hóa đơn")

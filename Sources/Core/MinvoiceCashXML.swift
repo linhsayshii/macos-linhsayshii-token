@@ -10,8 +10,24 @@ public enum MinvoiceError: Error, Equatable, Sendable {
 
 public typealias MinvoiceSign = @Sendable (Data) async throws -> Data
 
-/// Profile confirmed by the installed Windows plugin's single cash transaction.
-/// This deliberately accepts only TDiep/DLieu + an existing, empty CKSNNT.
+/// XML layout per invoice kind. Cash (series letter 5 = M) was confirmed live:
+/// TDiep/DLieu + empty CKSNNT. Ordinary HDon follows installed plugin 1.0.3.0
+/// statically (ExecSignXmlInvoice 0x0600039d: LoadXml, no Id insertion,
+/// signature appended to //HDon/DSCKS/NBan). BKe is not handled by 1.0.3.0
+/// and is rejected here.
+public enum MinvoiceXMLProfile: Sendable, Equatable {
+    case cash, ordinary
+    var root: String { self == .cash ? "/TDiep" : "/HDon" }
+    var parent: String { self == .cash ? "/TDiep/CKSNNT" : "/HDon/DSCKS/NBan" }
+    /// Series like 1C26MXX → cash; any other ASCII series → ordinary HDon.
+    public static func forSeries(_ serial: String) -> MinvoiceXMLProfile? {
+        let bytes = Array(serial.uppercased().utf8)
+        guard bytes.count >= 7, bytes.allSatisfy({ $0 < 128 }) else { return nil }
+        return bytes[4] == 77 ? .cash : .ordinary
+    }
+}
+
+/// Shared XMLDSig profile of the installed Windows plugin (SignXmlData).
 public enum MinvoiceCashXML {
     static let ns = "http://www.w3.org/2000/09/xmldsig#"
     static let c14n = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
@@ -39,11 +55,19 @@ public enum MinvoiceCashXML {
         return element
     }
 
-    static func target(_ doc: XMLDocument, id: UUID) throws -> XMLElement {
-        let root = try one(doc, "/TDiep")
+    static func target(_ doc: XMLDocument, id: UUID, profile: MinvoiceXMLProfile) throws -> XMLElement {
+        let root = try one(doc, profile.root)
         guard root.uri == nil || root.uri == "" else { throw MinvoiceError.unsupported }
-        let target = try one(root, "./DLieu")
         let guid = id.uuidString.lowercased()
+        let target: XMLElement
+        switch profile {
+        case .cash: target = try one(root, "./DLieu")
+        // Plugin GetIdElement resolves //*[@Id=guid]; require it to be a direct
+        // HDon child outside DSCKS so the signature never covers itself.
+        case .ordinary:
+            target = try one(root, "./*[@Id='\(guid)']")
+            guard target.name != "DSCKS" else { throw MinvoiceError.invalidXML }
+        }
         guard target.attribute(forName: "Id")?.stringValue == guid else { throw MinvoiceError.invalidXML }
         // Reject duplicate IDs anywhere, including unsigned metadata, before signing.
         var ids = Set<String>()
@@ -54,11 +78,11 @@ public enum MinvoiceCashXML {
     }
 
     public static func sign(xml: Data, id: UUID, signingTime: String, certificate: CertInfo,
-                            signer: MinvoiceSign) async throws -> Data {
+                            profile: MinvoiceXMLProfile = .cash, signer: MinvoiceSign) async throws -> Data {
         guard validTime(signingTime) else { throw MinvoiceError.invalidInput }
         let doc = try document(xml)
-        let data = try target(doc, id: id)
-        let parent = try one(doc, "/TDiep/CKSNNT")
+        let data = try target(doc, id: id, profile: profile)
+        let parent = try one(doc, profile.parent)
         guard (try doc.nodes(forXPath: "//*[local-name()='Signature']")).isEmpty,
               (try parent.nodes(forXPath: "./*")).isEmpty,
               (try doc.nodes(forXPath: "//*[@Id='signtime' or @id='signtime' or @ID='signtime']")).isEmpty,
@@ -80,16 +104,16 @@ public enum MinvoiceCashXML {
         let signed = try await signer(canonical(info))
         try one(signature, "./*[local-name()='SignatureValue']").stringValue = signed.base64EncodedString()
         let output = doc.xmlData(options: [.nodePreserveAll])
-        try verify(xml: output, id: id, certificate: certificate)
+        try verify(xml: output, id: id, certificate: certificate, profile: profile)
         return output
     }
 
     /// Verify the serialized bytes with the exact certificate approved for this
     /// request; no key supplied by the XML can replace it.
-    public static func verify(xml: Data, id: UUID, certificate: CertInfo) throws {
+    public static func verify(xml: Data, id: UUID, certificate: CertInfo, profile: MinvoiceXMLProfile = .cash) throws {
         let doc = try document(xml)
-        let data = try target(doc, id: id)
-        let signature = try one(doc, "/TDiep/CKSNNT/*[local-name()='Signature']")
+        let data = try target(doc, id: id, profile: profile)
+        let signature = try one(doc, profile.parent + "/*[local-name()='Signature']")
         guard signature.uri == ns, (try doc.nodes(forXPath: "//*[local-name()='Signature']")).count == 1 else { throw MinvoiceError.invalidXML }
         let info = try one(signature, "./*[local-name()='SignedInfo']")
         let object = try one(signature, "./*[local-name()='Object'][@Id='signtime']")
