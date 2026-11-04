@@ -1,5 +1,23 @@
 # Minvoice Windows và web app 2.0 — 22–23/10/2026
 
+## Phạm vi ký nhiều hóa đơn, mục tiêu 300/lần
+
+[Phân tích tổng quát](minvoice-bulk-signing.md) đã mở rộng ngoài sample 3:
+cash chia 100 mỗi nhóm; 300 dự kiến 3 lượt tuần tự theo code đúng build.
+Có model/biên/fault offline, chưa capture thật lô trên 100. App Mac hiện vẫn
+có guard một invoice nên không coi nghiên cứu là tính năng đã tích hợp.
+
+## Bổ sung capture ký lô ngày 23/10
+
+Đã quan sát user ký lô **3 hóa đơn cash cùng mẫu/ký hiệu** thành công: backend
+trả **một XML TDiep chứa ba HDon**, plugin tạo một Signature bao phủ DLieu rồi
+upload một multipart part; server trả 204 và user xác nhận cả ba đổi trạng thái.
+xmlsec verify đạt; sửa riêng dữ liệu của từng HDon đều bị từ chối. Không ép số
+ZIP entries bằng số invoice IDs. Xem [batch report](minvoice-batch-live-capture.md)
+và [evidence](evidence/minvoice-live-cash-batch-success.json). Đây là bổ sung cho
+các đoạn “chưa quan sát batch” trong bản nghiên cứu trước; ordinary/mixed/partial
+failure và callback envelope vẫn chưa được quan sát.
+
 ## Kết luận và phạm vi
 
 **Plugin đang chạy trên Windows là 1.0.3.0, không phải artifact 1.1.1.0 của đợt nghiên cứu trước.** Web app gọi là 2.0 không đồng nghĩa assembly plugin mang version 2.0. Endpoint đang chạy có `handlerHub`/`processMessage` nhưng không có `getVersion`; artifact 1.1.1.0 mới có method này. Web bundle đã phân tích yêu cầu `minimumPluginVersion="1.1.1"` ở một số lệnh; chưa xác minh màn hình/tài khoản hiện tại dùng nhánh kiểm tra nào.

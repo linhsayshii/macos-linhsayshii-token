@@ -1,0 +1,33 @@
+{
+  "evidence_id": "EFY-CA-E09",
+  "date": "2026-10-23",
+  "command": [
+    "prlctl",
+    "exec",
+    "Windows 11 LTSC",
+    "powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-Command",
+    "[pscustomobject]@{OSArchitecture=[System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString();EFYSystem32=(Get-Item C:\\Windows\\System32\\efyca_p11_v1.dll -ErrorAction SilentlyContinue).VersionInfo.FileVersion;EFYSysWow64=(Get-Item C:\\Windows\\SysWOW64\\efyca_p11_v1.dll -ErrorAction SilentlyContinue).VersionInfo.FileVersion;EFYProvider=(Get-ChildItem \"HKLM:\\SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider\" -ErrorAction SilentlyContinue | Where-Object PSChildName -match \"EFY\" | Select-Object -ExpandProperty PSChildName);SmartCardService=(Get-Service SCardSvr).Status.ToString()} | ConvertTo-Json"
+  ],
+  "exit_code": 0,
+  "stdout": "{\n    \"OSArchitecture\":  \"Arm64\",\n    \"EFYSystem32\":  null,\n    \"EFYSysWow64\":  null,\n    \"EFYProvider\":  {\n\n                    },\n    \"SmartCardService\":  \"Running\"\n}\n",
+  "stderr": "",
+  "scope": "read-only OS/service + bounded installed module/provider checks; no EFY process/provider/card API invocation",
+  "native_engine_blocker": "REA Hopper bridge startup timeout, cleanup acknowledgement incomplete; UI read showed OneCA TokenMgr.hop executing its own REA script, so did not manipulate shared Hopper or kill process; native FAT rejected absent arm64; thin open blocked by retained cleanup state",
+  "rea_retained_runtime": "/tmp/rea-bwb6UO",
+  "rosetta_receipt": {
+    "package_id": "com.apple.pkg.RosettaUpdateAuto",
+    "version": "1.0.0.0.1792124079",
+    "observation": "pkgutil receipt exists; no EFY module loading attempted"
+  },
+  "test_bundle_architectures": {
+    "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/TokenSigner.app/Contents/MacOS/TokenHelper": "Mach-O 64-bit executable arm64",
+    "/Users/linhsayshii/macos-linhsayshii-token/.local/test-env/TokenSigner.app/Contents/MacOS/libTSShim.dylib": "Mach-O 64-bit dynamically linked shared library arm64"
+  },
+  "superseded_installation_inference": {
+    "by": "EFY-CA-E13",
+    "reason": "Nullable FileVersion and narrow/quoting-sensitive original query did not establish absence. Follow-up explicitly found the installed DLLs and registry entries."
+  }
+}

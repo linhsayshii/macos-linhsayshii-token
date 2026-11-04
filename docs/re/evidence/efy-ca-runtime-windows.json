@@ -1,0 +1,29 @@
+{
+  "scope": "Own probe only; PCSC state + PKCS11 metadata; no PIN/login/sign; no hardware passthrough changes",
+  "source_sha256": "9d1766b0de83deda34a43f771c5521014e2c3448e3770f3ab8bb95a6d4e68d19",
+  "records": [
+    {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "#< CLIXML\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><Obj S=\"progress\" RefId=\"0\"><TN RefId=\"0\"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N=\"SourceId\">1</I64><PR N=\"Record\"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>",
+      "script": "$ErrorActionPreference='Stop';$w='C:\\Windows\\Temp\\TokenSigner-EFY-Research';$b=[Convert]::FromBase64String([IO.File]::ReadAllText(\"$w\\probe.gz.b64\"));$ms=New-Object IO.MemoryStream(,$b);$gz=New-Object IO.Compression.GzipStream($ms,[IO.Compression.CompressionMode]::Decompress);$sr=New-Object IO.StreamReader($gz);[IO.File]::WriteAllText(\"$w\\probe.cs\",$sr.ReadToEnd());$sr.Dispose()"
+    },
+    {
+      "exit_code": 0,
+      "stdout": "Probe.processBits=32\nPCSC.context=0x00000000\nPCSC.list=0x00000000; chars=20\nPCSC.reader=FT ePass2003Auto 0; status=0x00000000; state=0x00010122; ATR=3B9F958131FE9F006646530534002571DF000032000020\nModule=C:\\Windows\\SysWOW64\\efyca_p11_v1.dll\nC_Initialize=0x00000000\nC_GetInfo.raw80=02144546592043657274696669636174696F6E20417574686F72697479202020202020202020202020202020202020202020202020202020202020202020202020202020202001140000000000000000\nC_GetInfo=0x00000000\nCryptoki=2.20; Manufacturer=EFY Certification Authority; Description=; Library=1.20\nC_GetSlotList.present=0; rv=0x00000000; count=1\nSlot=1; info=0x00000000; description=EFY Certification Authority virtual Slot 1\nC_GetSlotList.present=1; rv=0x00000000; count=0\nC_Finalize=0x00000000\n",
+      "stderr": "",
+      "script": "$ErrorActionPreference='Stop';$w='C:\\Windows\\Temp\\TokenSigner-EFY-Research';& 'C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe' /nologo /platform:x86 /out:\"$w\\EfyReadOnlyProbe-x86.exe\" \"$w\\probe.cs\";if($LASTEXITCODE -ne 0){throw 'Compile failed'};& \"$w\\EfyReadOnlyProbe-x86.exe\" 'C:\\Windows\\SysWOW64\\efyca_p11_v1.dll'",
+      "platform": "x86"
+    },
+    {
+      "exit_code": 0,
+      "stdout": "Probe.processBits=64\nPCSC.context=0x00000000\nPCSC.list=0x00000000; chars=20\nPCSC.reader=FT ePass2003Auto 0; status=0x00000000; state=0x00010122; ATR=3B9F958131FE9F006646530534002571DF000032000020\nModule=C:\\Windows\\System32\\efyca_p11_v1.dll\nC_Initialize=0x00000000\nC_GetInfo.raw80=02144546592043657274696669636174696F6E20417574686F72697479202020202020202020202020202020202020202020202020202020202020202020202020202020202001140000000000000000\nC_GetInfo=0x00000000\nCryptoki=2.20; Manufacturer=EFY Certification Authority; Description=; Library=1.20\nC_GetSlotList.present=0; rv=0x00000000; count=1\nSlot=1; info=0x00000000; description=EFY Certification Authority virtual Slot 1\nC_GetSlotList.present=1; rv=0x00000000; count=0\nC_Finalize=0x00000000\n",
+      "stderr": "",
+      "script": "$ErrorActionPreference='Stop';$w='C:\\Windows\\Temp\\TokenSigner-EFY-Research';& 'C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe' /nologo /platform:x64 /out:\"$w\\EfyReadOnlyProbe-x64.exe\" \"$w\\probe.cs\";if($LASTEXITCODE -ne 0){throw 'Compile failed'};& \"$w\\EfyReadOnlyProbe-x64.exe\" 'C:\\Windows\\System32\\efyca_p11_v1.dll'",
+      "platform": "x64"
+    }
+  ],
+  "evidence_id": "EFY-CA-E15",
+  "source_path": "/Users/linhsayshii/macos-linhsayshii-token/docs/re/evidence/efy-ca-readonly-probe.cs",
+  "windows_work_directory": "C:\\Windows\\Temp\\TokenSigner-EFY-Research"
+}

@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "evidence_id": "oneca-family-fixtures-20261023",
+  "scope": "Offline research proposals for main; not runtime policy or claim of all-model support.",
+  "mask_offsets_are_zero_based": true,
+  "profiles": [
+    {
+      "id": "oneca-v1",
+      "atr_pattern": "3b9f118131fe9f006a6d546f6b656e2d5a000581900060",
+      "atr_mask": "ffffffffffffffffffffffffffffffffffffffffffffff",
+      "wildcard_byte_offsets": [],
+      "provider": "One-CA CSP V1.0",
+      "family": "longmai-cryptoid",
+      "source_evidence": "oneca-family-v1-static.json",
+      "source_path": ".local/oneca-windows/family/v1-extracted/app/reg/CryptoID.reg",
+      "source_sha256": "52e4fd72039fa981ab2289899268a8245248efcdfb04c9897c57c9ffa2022b39",
+      "runtime_mac_verified": false,
+      "authentication_authority": "not established on macOS; discovery only"
+    },
+    {
+      "id": "oneca-v2",
+      "atr_pattern": "3b9f958131fe9f006646530500000071df000081000000",
+      "atr_mask": "ffffffffffffffffffffffff000000ffffffffffffff00",
+      "wildcard_byte_offsets": [
+        12,
+        13,
+        14,
+        22
+      ],
+      "provider": "One-CA CSP V2",
+      "family": "entersafe-espk",
+      "source_evidence": "oneca-family-v2-static.json",
+      "source_path": ".local/oneca-windows/family/v2-extracted/app/reg/ONECA2.0.reg",
+      "source_sha256": "1ebcb6be487602d9c2be3256c32dd9f9433460aa3d27fe9c8ef07263044b2f80",
+      "runtime_mac_verified": false,
+      "authentication_authority": "not established on macOS; discovery only"
+    },
+    {
+      "id": "oneca-v3",
+      "atr_pattern": "3b9f118131fe9f006a6d546f6b656e2d5b000581900061",
+      "atr_mask": "ffffffffffffffffffffffffffffffffffffffffffffff",
+      "wildcard_byte_offsets": [],
+      "provider": "One-CA CSP V3",
+      "family": "longmai-cryptoid",
+      "source_evidence": "oneca-static-inventory.json",
+      "source_path": ".local/oneca-windows/extracted/app/reg/CryptoID.reg",
+      "source_sha256": "750d7dbea12b06acc39db08133f5e4bee9bb1e2c3d6eff7fcc4c47238f354d6b",
+      "runtime_mac_verified": true,
+      "authentication_authority": "measured V3 only; preserve existing pinned module/reader/session guards"
+    }
+  ],
+  "cases": [
+    {
+      "id": "oneca-v1-registered",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5a000581900060",
+      "origin": "observed-registry",
+      "expected": {
+        "status": "registered-candidate",
+        "profiles": [
+          "oneca-v1"
+        ],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Registry evidence alone does not authorize login."
+    },
+    {
+      "id": "v2-registry-template-is-not-live-atr",
+      "atr": "3b9f958131fe9f006646530500000071df000081000000",
+      "origin": "observed-registry-template",
+      "expected": {
+        "status": "invalid-atr",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Published template has XOR 0x82; wildcard TCK is not a valid captured ATR."
+    },
+    {
+      "id": "v2-template-with-valid-tck",
+      "atr": "3b9f958131fe9f006646530500000071df000081000082",
+      "origin": "synthetic",
+      "expected": {
+        "status": "registered-candidate",
+        "profiles": [
+          "oneca-v2"
+        ],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Synthetic valid TCK; no hardware/runtime claim."
+    },
+    {
+      "id": "v2-variant-0",
+      "atr": "3b9f958131fe9f006646530501020371df000081000082",
+      "origin": "synthetic",
+      "expected": {
+        "status": "registered-candidate",
+        "profiles": [
+          "oneca-v2"
+        ],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Only registry-wildcard bytes and recalculated TCK change."
+    },
+    {
+      "id": "v2-variant-1",
+      "atr": "3b9f958131fe9f0066465305ff800071df0000810000fd",
+      "origin": "synthetic",
+      "expected": {
+        "status": "registered-candidate",
+        "profiles": [
+          "oneca-v2"
+        ],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Only registry-wildcard bytes and recalculated TCK change."
+    },
+    {
+      "id": "v2-fixed-customer-byte-change",
+      "atr": "3b9f958131fe9f006646530500000071df000082000081",
+      "origin": "synthetic",
+      "expected": {
+        "status": "unknown-family",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Other ESPK profiles may recognize it; not this OneCA V2 registry profile."
+    },
+    {
+      "id": "oneca-v3-registered",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5b000581900061",
+      "origin": "observed-registry-and-runtime",
+      "expected": {
+        "status": "registered-candidate",
+        "profiles": [
+          "oneca-v3"
+        ],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Registry evidence alone does not authorize login."
+    },
+    {
+      "id": "longmai-unregistered-generation",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5c000581900066",
+      "origin": "synthetic",
+      "expected": {
+        "status": "longmai-family-hint-only",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Valid ATR with mToken historical prefix; no invented Longmai wildcard mask or login authority."
+    },
+    {
+      "id": "v3-invalid-tck",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5b000581900060",
+      "origin": "synthetic",
+      "expected": {
+        "status": "invalid-atr",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Reject before discovery."
+    },
+    {
+      "id": "truncated",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5b00058190",
+      "origin": "synthetic",
+      "expected": {
+        "status": "invalid-atr",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Reject historical/TCK truncation."
+    },
+    {
+      "id": "trailing-byte",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5b00058190006100",
+      "origin": "synthetic",
+      "expected": {
+        "status": "invalid-atr",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Reject trailing data."
+    },
+    {
+      "id": "unrelated-valid-t0",
+      "atr": "3b00",
+      "origin": "synthetic",
+      "expected": {
+        "status": "unknown-family",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Valid ATR is not provider authority."
+    },
+    {
+      "id": "fastca-known-other-issuer",
+      "atr": "3b9f958131fe9f006646530510063171df00006900004d",
+      "origin": "observed-other-thread-fixture",
+      "expected": {
+        "status": "unknown-family",
+        "profiles": [],
+        "atr_alone_allows_pin": false
+      },
+      "note": "Known FastCA capture shares ESPK family but not OneCA V2 customer mask."
+    }
+  ],
+  "preflight_cases": [
+    {
+      "id": "same-issuer-other-oem",
+      "expected": "select transport provider independently of issuer"
+    },
+    {
+      "id": "wrong-module-hash",
+      "expected": "reject before dlopen"
+    },
+    {
+      "id": "two-longmai-readers-one-synthetic-slot",
+      "expected": "ambiguous; no PIN until physical binding is established"
+    },
+    {
+      "id": "issuer-cn-only",
+      "expected": "do not infer CA identity from substring; validate certificate chain against configured anchors"
+    },
+    {
+      "id": "empty-or-mismatched-cka-id",
+      "expected": "no signing target"
+    },
+    {
+      "id": "public-key-cert-mismatch",
+      "expected": "no signing target"
+    },
+    {
+      "id": "private-attrs-hidden-before-login",
+      "expected": "unresolved; do not probe PIN to learn protocol"
+    },
+    {
+      "id": "wrapper-initialize-ok-no-token",
+      "expected": "initialization is not token capability proof"
+    },
+    {
+      "id": "f3-InitAtrAndVendorReader",
+      "expected": "deny from public preflight; mutating configuration path"
+    },
+    {
+      "id": "hotplug-after-consent",
+      "expected": "invalidate binding/session/selection and require fresh user decision"
+    }
+  ]
+}

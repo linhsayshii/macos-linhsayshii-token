@@ -1,0 +1,113 @@
+{
+  "evidence_id": "EFY-CA-E16",
+  "readers": {
+    "context_rv": 0,
+    "readers": [
+      {
+        "name": "Longmai mToken OneCAV3",
+        "rv": 0,
+        "event": 34,
+        "atr_len": 23,
+        "atr": "3b9f118131fe9f006a6d546f6b656e2d5b000581900061"
+      },
+      {
+        "name": "FT ePass2003Auto 02",
+        "rv": 0,
+        "event": 34,
+        "atr_len": 23,
+        "atr": "3b9f958131fe9f006646530510113971df00005100006a"
+      },
+      {
+        "name": "FT ePass2003Auto 01",
+        "rv": 0,
+        "event": 34,
+        "atr_len": 23,
+        "atr": "3b9f958131fe9f006646530510523971df000059000021"
+      }
+    ],
+    "scope": "SCardGetStatusChange(timeout=0); no SCardConnect/SCardTransmit/PIN",
+    "list_rv": 0,
+    "list_data_rv": 0
+  },
+  "dlopen": {
+    "command": [
+      "/usr/bin/arch",
+      "-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-dlopen-only-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib"
+    ],
+    "exit_code": 0,
+    "stdout": "dlopen=ok; C_GetFunctionList=present\n",
+    "stderr": "",
+    "source_sha256": "8caeaabe3ad10769be8fc73e968ccf5ba143037f366baebde6c25088ba115e7c",
+    "target_sha256": "7397756209003a7345e091e2b79e88d49c0149c84de44131c32f73d39a5cec09",
+    "scope": "Isolated own x86_64 loader; dlopen/dlsym/dlclose only, no C_Initialize/card API/PIN/sign call"
+  },
+  "initial_metadata": {
+    "exit_code": 0,
+    "stdout": "C_GetFunctionList=0x0\nC_Initialize=0x0\nC_GetInfo=0x0; Cryptoki=2.20; manufacturer=EFY Certification Authority     ; library=1.20\nSlots.present=0; rv=0x0; count=1\nSlot=1; rv=0x0; description=ES SLOT 1                                                       \nSlots.present=1; rv=0x0; count=0\nC_Finalize=0x0\n",
+    "stderr": "",
+    "command": [
+      "/usr/bin/arch",
+      "-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-macos-readonly-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/private-certs"
+    ],
+    "source_sha256": "a30e9c3f3e1434ed4d2820abed6e05ff80c6787af07ddfaf3aebec0ce15da26f",
+    "scope": "Own x86_64 probe, read-only PKCS11 session; no login/PIN/sign; no shim inserted"
+  },
+  "final_preflight": {
+    "exit_code": 0,
+    "stdout": "C_GetFunctionList=0x0\nC_Initialize=0x0\nC_GetInfo=0x0; Cryptoki=2.20; manufacturer=EFY Certification Authority     ; library=1.20\nSlots.present=0; rv=0x0; count=1\nSlot=1; rv=0x0; description=ES SLOT 1                                                       \nToken.preflight.slot=1; rv=0xe0\nSlots.present=1; rv=0x0; count=0\nC_Finalize=0x0\n",
+    "stderr": "",
+    "scope": "Observer forwards PC/SC unchanged; metadata/cert probe, including token-info preflight on virtual slot; no PIN/login/sign",
+    "command": [
+      "/usr/bin/arch",
+      "-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-macos-readonly-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/private-certs"
+    ],
+    "observer": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-pcsc-observer-x86_64.dylib",
+    "source_sha256": "3aeb79833a9ac9e51cd2e0f72d4cd0390e2b1a319a10d7cde3abcab28e0f3ab3"
+  },
+  "passive_diagnostic": {
+    "exit_code": 0,
+    "stdout": "C_GetFunctionList=0x0\nC_Initialize=0x0\nC_GetInfo=0x0; Cryptoki=2.20; manufacturer=EFY Certification Authority     ; library=1.20\nSlots.present=0; rv=0x0; count=1\nSlot=1; rv=0x0; description=ES SLOT 1                                                       \nToken.preflight.slot=1; rv=0xe0\nSlots.present=1; rv=0x0; count=0\nC_Finalize=0x0\n",
+    "stderr": "",
+    "command": [
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-macos-readonly-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/private-certs"
+    ],
+    "scope": "Direct thin x86_64 probe under automatic Rosetta, to avoid arch launcher stripping DYLD environment; observer forwards unchanged",
+    "source_sha256": "3aeb79833a9ac9e51cd2e0f72d4cd0390e2b1a319a10d7cde3abcab28e0f3ab3",
+    "observer_source_sha256": "76405ced2f39eac30e5ef7eaf13b2ce293ba6f695e3a1a38d627f14946d456ce",
+    "host_version": "27.2",
+    "version_command_output": "2"
+  },
+  "certificate_files_created": [],
+  "limitations": [
+    "Empty observer stderr does not establish absence of PCSC/popen/stat calls; interposer observation coverage was not confirmed.",
+    "No mechanism enumeration or certificate read succeeded because token-present slots were empty.",
+    "ATR labels are associated by the installed EFY ATR/mask rule and matching live ATR; no fake ATR or card data was supplied."
+  ],
+  "lldb_observation": {
+    "error": "timeout30",
+    "stdout": "(lldb) target create \"/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-macos-readonly-x86_64\"\nCurrent executable set to '/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-macos-readonly-x86_64' (x86_64).\n(lldb) settings set -- target.run-args  \"/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib\" \"/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/private-certs\"\n(lldb) command source -s 0 '/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/observe.lldb'\nExecuting commands in '/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/observe.lldb'.\n(lldb) settings set target.disable-aslr false\n(lldb) command script import /Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy_lldb_observe.py\n(lldb) run\n1 location added to breakpoint 1\n1 location added to breakpoint 2\n1 location added to breakpoint 3\n1 location added to breakpoint 4\n1 location added to breakpoint 5\nC_GetFunctionList=0x0\r\nEFY_CALL popen argument='sw_vers -productVersion|cut -d . -f2' caller=0x10d6a8a1e\nEFY_CALL stat argument='/var/run/pcscd' caller=0x10d6aa7b0\nEFY_CALL stat argument='/var/run/pcscd' caller=0x10d6aa7b0\nEFY_CALL stat argument='/var/run/pcscd' caller=0x10d6aa7b0\n",
+    "stderr": "warning: libobjc.A.dylib is being read from process memory. This indicates that LLDB could not read from the host's in-memory shared cache. This will likely reduce debugging performance.\n\n",
+    "scope": "LLDB own read-only probe; function-entry observation; register/string reads only; no result substitution",
+    "command": [
+      "lldb",
+      "-b",
+      "-s",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/observe.lldb",
+      "--",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/efy-macos-readonly-x86_64",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+      "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/installed/private-certs"
+    ]
+  },
+  "lldb_observation_scope": "Partial 30-second run: EFY caller to popen version query, then repeated stat(/var/run/pcscd) observed; no PIN/login/sign; debugger slowed execution."
+}

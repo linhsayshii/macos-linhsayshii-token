@@ -1,0 +1,63 @@
+{
+  "evidence_id": "EFY-CA-E02",
+  "date": "2026-10-23 Asia/Ho_Chi_Minh",
+  "transport": "curl HTTPS certificate verification enabled; fetched literal artifact references only; no script execution",
+  "artifacts": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/Config.ini",
+      "bytes": 146,
+      "sha256": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864",
+      "headers": "HTTP/1.1 403 Forbidden\nServer: nginx\nDate: Fri, 23 Oct 2026 03:03:16 GMT\nContent-Type: text/html\nContent-Length: 146\nConnection: keep-alive\nVary: Accept-Encoding\n\n",
+      "url": "https://efyca.vn/download/tokenV1/macosx/Config.ini"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/ScriptInstall.py",
+      "bytes": 574,
+      "sha256": "5a8cf9effa608a6662deeff7db8a6b3a4b3c3f7957503d0b370ea911e1ed1ba3",
+      "headers": "HTTP/1.1 200 OK\nServer: nginx\nDate: Fri, 23 Oct 2026 02:56:05 GMT\nContent-Type: application/octet-stream\nContent-Length: 574\nLast-Modified: Tue, 06 Dec 2022 09:52:57 GMT\nConnection: keep-alive\nETag: \"638f10f9-23e\"\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\nAccept-Ranges: bytes\n\n",
+      "url": "https://efyca.vn/download/tokenV1/ScriptInstall.py"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/ScriptUpdate.py",
+      "bytes": 1071,
+      "sha256": "d4bdfe77b08a779aa95cec55a08b06ae8a99d7882fce9bcc5435ddd4034af29d",
+      "headers": "HTTP/1.1 200 OK\nServer: nginx\nDate: Fri, 23 Oct 2026 03:03:41 GMT\nContent-Type: application/octet-stream\nContent-Length: 1071\nLast-Modified: Tue, 06 Dec 2022 09:52:57 GMT\nConnection: keep-alive\nETag: \"638f10f9-42f\"\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\nAccept-Ranges: bytes\n\n",
+      "url": "https://efyca.vn/download/tokenV1/macosx/ScriptUpdate.py"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/ScriptUpdateUT.py",
+      "bytes": 1253,
+      "sha256": "8f9ed8616c8a663f5617ff833848c48d4b6e61004286c1cdbd2916d0ce446046",
+      "headers": "HTTP/1.1 200 OK\nServer: nginx\nDate: Fri, 23 Oct 2026 03:03:41 GMT\nContent-Type: application/octet-stream\nContent-Length: 1253\nLast-Modified: Tue, 06 Dec 2022 09:52:57 GMT\nConnection: keep-alive\nETag: \"638f10f9-4e5\"\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\nAccept-Ranges: bytes\n\n",
+      "url": "https://efyca.vn/download/tokenV1/macosx/ScriptUpdateUT.py"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/efyca_p11_v1.pkg",
+      "bytes": 3057742,
+      "sha256": "2cbe321f5b547eeb53010e81a25dbb251c9e09117ddcc4c7ac4826749b533b10",
+      "headers": "HTTP/1.1 200 OK\nServer: nginx\nDate: Fri, 23 Oct 2026 02:56:23 GMT\nContent-Type: application/octet-stream\nContent-Length: 3057742\nLast-Modified: Mon, 01 Apr 2019 04:13:08 GMT\nConnection: keep-alive\nETag: \"5ca18fd4-2ea84e\"\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\nAccept-Ranges: bytes\n\n",
+      "url": "https://efyca.vn/download/tokenV1/macosx/efyca_p11_v1.pkg"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/efyca_p11_v1_installer.exe",
+      "bytes": 3375208,
+      "sha256": "55dff7ecd59d4efed67ac152be6fefc74b2ee17069df6fce3ac28e81afb6f546",
+      "headers": "HTTP/1.1 200 OK\nServer: nginx\nDate: Fri, 23 Oct 2026 02:58:48 GMT\nContent-Type: application/octet-stream\nContent-Length: 3375208\nLast-Modified: Wed, 26 Feb 2025 03:46:29 GMT\nConnection: keep-alive\nETag: \"67be8e95-338068\"\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\nAccept-Ranges: bytes\n\n",
+      "url": "https://efyca.vn/download/tokenV1/efyca_p11_v1_installer.exe"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/efyca_p11_v1_mgr.cfg",
+      "bytes": 16,
+      "sha256": "f1e6a2775c97b31d1f262b257a4923d6752043273ef4d2bc9c9c5588f68c6c4d",
+      "headers": "HTTP/1.1 302 Found\nServer: nginx\nDate: Fri, 23 Oct 2026 03:03:16 GMT\nContent-Type: text/html; charset=UTF-8\nTransfer-Encoding: chunked\nConnection: keep-alive\nSet-Cookie: [anonymous response value omitted; raw header retained in .local]\nExpires: Thu, 19 Nov 1981 08:52:00 GMT\nCache-Control: no-store, no-cache, must-revalidate\nPragma: no-cache\nLocation: /404.html\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\n\nHTTP/1.1 200 OK\nServer: nginx\nDate: Fri, 23 Oct 2026 03:03:16 GMT\nContent-Type: text/html\nContent-Length: 16\nLast-Modified: Mon, 13 May 2024 08:39:44 GMT\nConnection: keep-alive\nETag: \"6641d1d0-10\"\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\nAccept-Ranges: bytes\n\n",
+      "url": "https://efyca.vn/download/tokenV1/macosx/efyca_p11_v1_mgr.cfg"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/downloads/version_macos.ini",
+      "bytes": 26,
+      "sha256": "33e78729b3e26dfcd048b0895268c0dd05774479f489c900abe5ae8ff153f34c",
+      "headers": "HTTP/1.1 200 OK\nServer: nginx\nDate: Fri, 23 Oct 2026 03:03:16 GMT\nContent-Type: application/octet-stream\nContent-Length: 26\nLast-Modified: Tue, 06 Dec 2022 09:52:57 GMT\nConnection: keep-alive\nETag: \"638f10f9-1a\"\nStrict-Transport-Security: max-age=31536000;\nContent-Security-Policy: default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;\nX-Frame-Options: SAMEORIGIN\nReferrer-Policy: strict-origin\nX-Content-Type-Options: nosniff\nPermissions-Policy: geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()\nAccept-Ranges: bytes\n\n",
+      "url": "https://efyca.vn/download/tokenV1/macosx/version_macos.ini"
+    }
+  ]
+}

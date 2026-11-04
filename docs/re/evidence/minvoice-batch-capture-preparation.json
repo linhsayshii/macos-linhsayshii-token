@@ -1,0 +1,48 @@
+{
+  "prepared_utc": "2026-10-23T02:51:26.636473+00:00",
+  "plugin_version": "1.0.3.0",
+  "plugin_sha256": "4e891736c97f593f4306f56ce645f039ac91aa3e54ed01d81cb7b822093331e0",
+  "expected_invoice_count": 3,
+  "user_selection": "3 invoices with same template/series",
+  "mode": "controlled loopback relay; user initiated one batch command",
+  "relay_exe_sha256": "a6c6a7786cc7c1c9d08189278707bac76309889f48c987cd679bf8e333408e0a",
+  "offline_tests": {
+    "node_hook": "passed",
+    "windows_x86_mock_self_test": "passed; three uploads forwarded, fourth blocked; no external requests"
+  },
+  "live_health": {
+    "ready": true,
+    "expected_invoice_count": 3,
+    "expires_utc": "2026-10-23T06:50:33.1493121Z"
+  },
+  "live_signing_observed": false,
+  "files": {
+    "scripts/re/MinvoiceBatchCaptureRelay.cs": {
+      "bytes": 21877,
+      "sha256": "fd346e3c057e5cc4a331c885e59b1365268b0567b9b2d129ebd1cd4a736cfe77"
+    },
+    "scripts/re/minvoice-batch-capture-hook.js": {
+      "bytes": 9288,
+      "sha256": "02ce210e6ee5cf3eec17afc8d7f48152d72822179c68a68d41e2bdf754efb678"
+    },
+    "scripts/re/minvoice-batch-capture-hook.test.mjs": {
+      "bytes": 8538,
+      "sha256": "14f8622aaee432ffa8fbb1bceb5d9ec389b37e448512d69e94377b1a12a6fbe3"
+    }
+  },
+  "setup_failure_followup": {
+    "user_console": "capture NOT armed",
+    "guest_observation": {
+      "relay_running": true,
+      "health_ready": true,
+      "expected_invoice_count": 3,
+      "business_requests": 0
+    },
+    "cause": "Exact tenant-origin guard correctly rejected a different tenant. User supplied current page origin; session hook updated to that exact origin; no wildcard added."
+  },
+  "completion": {
+    "live_signing_observed": true,
+    "result_evidence": "minvoice-live-cash-batch-success.json",
+    "relay_stopped_utc": "2026-10-23T03:03:39.1005931Z"
+  }
+}

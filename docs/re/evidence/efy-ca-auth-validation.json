@@ -1,0 +1,25 @@
+{
+  "evidence_id": "EFY-CA-B03",
+  "date": "2026-10-23",
+  "result": "PASS",
+  "B02_artifact_hash_crosschecks": "PASS for C/Swift sources, ARM64 helpers and OpenSC runtime",
+  "auth_SW": "9000",
+  "auth_attempts": 1,
+  "signatures": 0,
+  "cleanup": "reset/unlock/disconnect rv0",
+  "status_file_mode": "0600",
+  "private_directory_mode": "0700",
+  "local_report_links_checked": 49,
+  "efy_json_files_parsed": 29,
+  "tracked_Sources_Package_diff_empty_at_validation": true,
+  "scope": "Only EFY research sources/evidence/reports and ignored standalone PIN fixture written in this step. No production source change, TokenSigner packaging/restart or signature operation.",
+  "report_hashes": {
+    "docs/re/efy-ca-arm64-native.md": "6dede02b3a5998f3e4d5586c42372e533101b1dadf12ab0750af8fb38157b8be",
+    "docs/re/efy-ca-app-plan.md": "d1d9f4ef8afca80c07bfece7ac69228d53b005cae7a67f99e6fa32736fd62788",
+    "docs/re/efy-ca-windows.md": "cd8447af3fd0787084b632daacb9fefb6cacc405332e3037d9ecb066fb660074"
+  },
+  "verification_limits": [
+    "Auth attempt count is the harness call counter; no APDU observer/debugger was active with secrets.",
+    "Reset success is acknowledged by OpenSC; no additional sign/PIN operation used to prove post-reset login status."
+  ]
+}

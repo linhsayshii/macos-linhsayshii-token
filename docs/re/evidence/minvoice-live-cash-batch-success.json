@@ -1,0 +1,218 @@
+{
+  "kind": "sanitized-live-cash-batch-capture",
+  "observed_local_time": "2026-10-23 09:59 Asia/Saigon",
+  "mode": "controlled loopback relay; one user-initiated SignInvoices command for three distinct GUIDs; no autonomous signing/login/upload",
+  "plugin_version": "1.0.3.0",
+  "plugin_sha256": "4e891736c97f593f4306f56ce645f039ac91aa3e54ed01d81cb7b822093331e0",
+  "expected_invoice_count": 3,
+  "events": [
+    {
+      "sequence": 7,
+      "utc": "2026-10-23T02:59:02.4543365Z",
+      "method": "POST",
+      "route": "/api/account/login",
+      "status": 200,
+      "request_bytes": 76,
+      "response_bytes": 36,
+      "request_shape": null,
+      "x_req_id_value_count": 0,
+      "artifact": null,
+      "artifact_sha256": null
+    },
+    {
+      "sequence": 8,
+      "utc": "2026-10-23T02:59:02.6030415Z",
+      "method": "GET",
+      "route": "/api/abp/application-configuration",
+      "status": 200,
+      "request_bytes": 0,
+      "response_bytes": 116314,
+      "request_shape": null,
+      "x_req_id_value_count": 0,
+      "artifact": null,
+      "artifact_sha256": null
+    },
+    {
+      "sequence": 9,
+      "utc": "2026-10-23T02:59:02.7357631Z",
+      "method": "GET",
+      "route": "/api/app/tenant-company/current-tenant",
+      "status": 200,
+      "request_bytes": 0,
+      "response_bytes": 1722,
+      "request_shape": null,
+      "x_req_id_value_count": 0,
+      "artifact": null,
+      "artifact_sha256": null
+    },
+    {
+      "sequence": 10,
+      "utc": "2026-10-23T02:59:02.7859525Z",
+      "method": "GET",
+      "route": "/api/app/token/by-serial-number?serialNumber=<redacted>",
+      "status": 200,
+      "request_bytes": 0,
+      "response_bytes": 873,
+      "request_shape": null,
+      "x_req_id_value_count": 0,
+      "artifact": null,
+      "artifact_sha256": null
+    },
+    {
+      "sequence": 11,
+      "utc": "2026-10-23T02:59:03.1526045Z",
+      "method": "GET",
+      "route": "/api/app/token/by-serial-number?serialNumber=<redacted>",
+      "status": 200,
+      "request_bytes": 0,
+      "response_bytes": 873,
+      "request_shape": null,
+      "x_req_id_value_count": 0,
+      "artifact": null,
+      "artifact_sha256": null
+    },
+    {
+      "sequence": 12,
+      "utc": "2026-10-23T02:59:11.9032687Z",
+      "method": "GET",
+      "route": "/api/app/invoice/<GUID>/detail",
+      "status": 200,
+      "request_bytes": 0,
+      "response_bytes": 38147,
+      "request_shape": null,
+      "x_req_id_value_count": 0,
+      "artifact": null,
+      "artifact_sha256": null
+    },
+    {
+      "sequence": 13,
+      "utc": "2026-10-23T02:59:12.6750805Z",
+      "method": "POST",
+      "route": "/api/app/release-invoice/download-xml-invoice-cash",
+      "status": 200,
+      "request_bytes": 118,
+      "response_bytes": 2855,
+      "request_shape": {
+        "type": "array",
+        "count": 3,
+        "item": "GUID"
+      },
+      "x_req_id_value_count": 1,
+      "artifact": "0013-download.zip",
+      "artifact_sha256": "a4ad6e91d925ee04b4d2c7319a0aa5308961b16eeb5defb62b727a91a968850f"
+    },
+    {
+      "sequence": 14,
+      "utc": "2026-10-23T02:59:13.4080481Z",
+      "method": "POST",
+      "route": "/api/app/release-invoice/00000000-0000-0000-0000-000000000000/upload-xml",
+      "status": 204,
+      "request_bytes": 19008,
+      "response_bytes": 0,
+      "request_shape": null,
+      "x_req_id_value_count": 0,
+      "artifact": "0014-signed.multipart",
+      "artifact_sha256": "1056de17913d5bed3d9bac931ef624bbdd5ed48f3cf7af3bfd7a18f738a1592b"
+    }
+  ],
+  "raw_artifacts": [
+    {
+      "name": "0013-download.zip",
+      "bytes": 2855,
+      "sha256": "a4ad6e91d925ee04b4d2c7319a0aa5308961b16eeb5defb62b727a91a968850f"
+    },
+    {
+      "name": "0014-signed.multipart",
+      "bytes": 19008,
+      "sha256": "1056de17913d5bed3d9bac931ef624bbdd5ed48f3cf7af3bfd7a18f738a1592b"
+    },
+    {
+      "name": "events.jsonl",
+      "bytes": 21266,
+      "sha256": "25db24112f4555ad17c730584234d768014329779ca6bbd6cc3c3c9657b7448a"
+    }
+  ],
+  "xml": {
+    "expected_invoices": 3,
+    "zip_counts": [
+      1
+    ],
+    "multipart_counts": [
+      1
+    ],
+    "xml_document_count": 1,
+    "contained_invoice_count": 3,
+    "filenames_match_exactly": true,
+    "multipart_field": "files",
+    "part_content_type": "text/xml",
+    "xmlsec_version": "xmlsec1 1.3.12 (openssl)",
+    "verification_scope": "Cryptographic signature and same-document references with each embedded public certificate; no CA-chain/revocation/legal-validity/business-state query.",
+    "profiles": [
+      {
+        "index": 1,
+        "unsigned_bytes": 15149,
+        "signed_bytes": 18807,
+        "unsigned_sha256": "75a97e747c2a52b190ce753adf88556e66c2d610258cf5b1100687514b44e793",
+        "signed_sha256": "fdecccc68295a54b6dcd6ddf91cf8545d5776141b5d739baacb993d67f1970e2",
+        "contained_invoice_count": 3,
+        "declared_quantity_matches_contained_count": true,
+        "root": "TDiep",
+        "signature_path": "/TDiep/CKSNNT/Signature",
+        "signature_count": 1,
+        "canonicalization": "http://www.w3.org/TR/2001/REC-xml-c14n-20010315",
+        "signature_method": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+        "references": [
+          {
+            "role": "archive-entry-guid",
+            "target_path": "/TDiep/DLieu",
+            "digest_method": "http://www.w3.org/2001/04/xmlenc#sha256",
+            "transforms": [
+              "http://www.w3.org/2000/09/xmldsig#enveloped-signature",
+              "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
+            ]
+          },
+          {
+            "role": "signing-time",
+            "target_path": "/TDiep/CKSNNT/Signature/Object",
+            "digest_method": "http://www.w3.org/2001/04/xmlenc#sha256",
+            "transforms": []
+          }
+        ],
+        "keyinfo_children": [
+          "X509Data"
+        ],
+        "x509data_children": [
+          "X509SubjectName",
+          "X509Certificate"
+        ],
+        "time_object_id": "signtime",
+        "signature_property_target": "#signtime",
+        "time_format_seconds_no_zone": true,
+        "original_tree_unchanged_after_removing_signature": true,
+        "xmlsec_valid": true,
+        "negative_control_mutation": "only selected raw text bytes changed; XML not reserialized",
+        "negative_controls_rejected": {
+          "invoice-data-1": true,
+          "invoice-data-2": true,
+          "invoice-data-3": true,
+          "signing-time": true,
+          "signature-value": true
+        }
+      }
+    ]
+  },
+  "user_confirmation": "User reports signing success and all three invoice statuses changed.",
+  "callback_envelope_observed": false,
+  "limitations": [
+    "Only this successful cash batch of three same-series invoices was observed.",
+    "Three requested invoice IDs produce one TDiep document containing three HDon elements; do not require ZIP entry count to equal request count.",
+    "Request GUID values were not retained, so individual requested-ID-to-HDon mapping is not directly established.",
+    "No ordinary batch, mixed series, batch over cash chunk limit, partial success/failure, cancellation or retry/idempotency observation.",
+    "No independent business-state API query, CA-chain or revocation validation."
+  ],
+  "relay_lifecycle": {
+    "stopped_utc": "2026-10-23T03:03:39.1005931Z",
+    "identity_checked": true,
+    "plugin_left_running": true
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "evidence_id": "EFY-CA-A05",
+  "date": "2026-10-23 Asia/Ho_Chi_Minh",
+  "native_arm64_runtime": "pass",
+  "exact_efy_atr": "3b9f958131fe9f006646530510113971df00005100006a",
+  "catalog_entries": 7,
+  "catalog_bytes": 1500,
+  "raw_artifact_manifest": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/private/2460.bin",
+      "bytes": 16,
+      "sha256": "b6a0c7c2e70a35c91c3727dc0823c7b42d47b550541d25b15f8e0262e264f851",
+      "mode": "0o600",
+      "scope": "local ignored raw research data; contents not exported to docs"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/private/2480.bin",
+      "bytes": 477,
+      "sha256": "2a5aa89a62a5388d0fdab1c5e7d190396818c3ddb46d34699d56614ad1f4a7bb",
+      "mode": "0o600",
+      "scope": "local ignored raw research data; contents not exported to docs"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/private/24a0.bin",
+      "bytes": 510,
+      "sha256": "809a9191329120e7ad281d613b6cdad5f99dbe65ded5a44a38bc145641ee44d9",
+      "mode": "0o600",
+      "scope": "local ignored raw research data; contents not exported to docs"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/private/24c0.bin",
+      "bytes": 1941,
+      "sha256": "3f3011c8c436038a3f43af90599001dce65aef4f05d07efbc6d39fcc45f6b307",
+      "mode": "0o600",
+      "scope": "local ignored raw research data; contents not exported to docs"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/private/catalog.bin",
+      "bytes": 1500,
+      "sha256": "4bea902458fe2832c94b0c9c114d681346d643bb3182ad45925babea2f5d68bc",
+      "mode": "0o600",
+      "scope": "local ignored raw research data; contents not exported to docs"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/private/efy-cert.der",
+      "bytes": 1317,
+      "sha256": "82d02509715e7273639db37d62c364eaf54cfb15ff9fdf79f10c609ea66515c9",
+      "mode": "0o600",
+      "scope": "local ignored raw research data; contents not exported to docs"
+    }
+  ],
+  "id_public_private_certificate_equal": true,
+  "public_private_metadata_modulus_exponent_equal": true,
+  "private_metadata_cka_sign": true,
+  "private_key_reference": "A020",
+  "rsa_bits": 2048,
+  "certificate_public_key_matches_metadata": true,
+  "existing_core_parser_check": "pass; no implementation changes",
+  "json_parse": "pass",
+  "report_links": "pass",
+  "certificate_contents_in_docs": false,
+  "user_pin_or_signature_operations": false,
+  "app_packaging_restart_or_source_changes_by_efy_research": false,
+  "source_reference_hashes": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/CFastCA/fastca.c",
+      "sha256": "ee12d3be46f9179e0c8f54c6f8c84008bfa316d7d79ee9802baa058a6e838a78"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/ESPKCatalog.swift",
+      "sha256": "9b0909e6ec1f6a5d8d556c9191b551adf3dae909c837a97c2783af8f2ce06aaa"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/FastCAProfile.swift",
+      "sha256": "adf3f3bd62d4a7aa772b53b9d151b99616cceeb5c76f4760c15d2e44d128ac79"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/RSASignature.swift",
+      "sha256": "65b35485c51d51fd38b0c23be160a724ede8e06219e7c085a89a2663dedf6b58"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/TokenHelper/FastCA.swift",
+      "sha256": "645bc96dddce85b6035e567a09704998278f92cd243c286a8514135ed11be332"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/ModuleRegistry.swift",
+      "sha256": "bf844b699fe0f17e2ab5fa855aa8c4b3aea006d12b28ab7ad8f11500851d6a3d"
+    }
+  ],
+  "remaining_unknowns": [
+    "Exact EFY PIN transformation and permitted authentication profile",
+    "MSE/PSO on EFY and independently verified signature",
+    "App routing/lifecycle integration and distribution"
+  ]
+}

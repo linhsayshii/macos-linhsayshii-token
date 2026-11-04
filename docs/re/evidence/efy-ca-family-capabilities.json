@@ -1,0 +1,131 @@
+{
+  "evidence_id": "EFY-CA-C03",
+  "date": "2026-10-23 Asia/Ho_Chi_Minh",
+  "kind": "source/protocol distinction, inventory and preflight proposal; no new hardware auth/sign",
+  "sources": {
+    "epass2003": {
+      "path": ".local/fastca-native/OpenSC-0.27.1/src/libopensc/card-epass2003.c",
+      "sha256": "53d423f91cb0d0933362fc9f2eb3e352e2302d352f46cfa646091deccbcf3758",
+      "bytes": 92863,
+      "upstream": "https://github.com/OpenSC/OpenSC/blob/0.27.1/src/libopensc/card-epass2003.c",
+      "snippets": [
+        {
+          "start_line": 48,
+          "end_line": 69,
+          "source": "#include \"cardctl.h\"\n\n/*\n * See https://github.com/OpenSC/OpenSC/issues/2572\n * 2012 ATR: note version 01:00:11\n *        3b:9f:95:81:31:fe:9f:00:66:46:53:05:01:00:11:71:df:00:00:03:90:00:80\n * 2022 ATRs: note version 23:00:25\n *   OpenSC-initialized ATR:\n *        3b 9f:95:81:31:fe:9f:00:66:46:53:05:23:00:25:71:df:00:00:03:90:00:96\n *   Feitian-initalized ATR:\n *        3b:9f:95:81:31:fe:9f:00:66:46:53:05:23:00:25:71:df:00:00:00:00:00:05\n */\n\nstatic const struct sc_atr_table epass2003_atrs[] = {\n\t/* This is a FIPS certified card using SCP01 security messaging. */\n\t/* will match all the above */\n\t{\"3B:9F:95:81:31:FE:9F:00:66:46:53:05:00:00:00:71:df:00:00:00:00:00:00\",\n\t \"FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:00:00:00:FF:FF:FF:FF:00:00:00:00\",\n\t \"FTCOS/ePass2003\", SC_CARD_TYPE_ENTERSAFE_FTCOS_EPASS2003, 0, NULL },\n\t{NULL, NULL, NULL, 0, 0, NULL}\n};\n"
+        },
+        {
+          "start_line": 1637,
+          "end_line": 1681,
+          "source": "get_data(struct sc_card *card, unsigned char type, unsigned char *data, size_t datalen)\n{\n\tint r;\n\tstruct sc_apdu apdu;\n\tunsigned char resp[SC_MAX_APDU_BUFFER_SIZE] = {0};\n\tsize_t resplen = SC_MAX_APDU_BUFFER_SIZE;\n\tepass2003_exdata *exdata = NULL;\n\n\tif (!card->drv_data)\n\t\treturn SC_ERROR_INVALID_ARGUMENTS;\n\n\texdata = (epass2003_exdata *)card->drv_data;\n\n\tLOG_FUNC_CALLED(card->ctx);\n\n\tsc_format_apdu(card, &apdu, SC_APDU_CASE_2_SHORT, 0xca, 0x01, type);\n\tapdu.resp = resp;\n\tapdu.le = 0;\n\tapdu.resplen = resplen;\n\tif (0x86 == type) {\n\t\t/* No SM temporarily */\n\t\tunsigned char tmp_sm = exdata->sm;\n\t\texdata->sm = SM_PLAIN;\n\t\tr = sc_transmit_apdu(card, &apdu);\n\t\texdata->sm = tmp_sm;\n\t} else {\n\t\tr = sc_transmit_apdu_t(card, &apdu);\n\t}\n\tLOG_TEST_RET(card->ctx, r, \"APDU get_data failed\");\n\tr = sc_check_sw(card, apdu.sw1, apdu.sw2);\n\tLOG_TEST_RET(card->ctx, r, \"get_data failed\");\n\n\tmemcpy(data, resp, datalen);\n\treturn r;\n}\n\n/* card driver functions */\n\nstatic int epass2003_match_card(struct sc_card *card)\n{\n\tint r;\n\n\tLOG_FUNC_CALLED(card->ctx);\n\tr = _sc_match_atr(card, epass2003_atrs, &card->type);\n\tif (r < 0)"
+        },
+        {
+          "start_line": 1689,
+          "end_line": 1752,
+          "source": "epass2003_init(struct sc_card *card)\n{\n\tunsigned int flags;\n\tunsigned int ext_flags;\n\tunsigned char data[SC_MAX_APDU_BUFFER_SIZE] = {0};\n\tsize_t datalen = SC_MAX_APDU_BUFFER_SIZE;\n\tepass2003_exdata *exdata = NULL;\n\tvoid *old_drv_data = card->drv_data;\n\n\tLOG_FUNC_CALLED(card->ctx);\n\n\tcard->name = \"epass2003\";\n\tcard->cla = 0x00;\n\texdata = (epass2003_exdata *)calloc(1, sizeof(epass2003_exdata));\n\tif (!exdata)\n\t\treturn SC_ERROR_OUT_OF_MEMORY;\n\n\tcard->drv_data = exdata;\n\n\texdata->sm = SM_SCP01;\n\n\t/* decide FIPS/Non-FIPS mode */\n\tif (SC_SUCCESS != get_data(card, 0x86, data, datalen)) {\n\t\tfree(exdata);\n\t\tcard->drv_data = old_drv_data;\n\t\treturn SC_ERROR_INVALID_CARD;\n\t}\n\n\tif (memcmp(&data[32], \"\\x87\\x01\\x01\", 3) == 0 && memcmp(&data[0], \"\\x80\\x01\\x01\", 3) == 0) {\n\t\texdata->bFipsCertification = 0x01;\n\t} else {\n\t\texdata->bFipsCertification = 0x00;\n\t}\n\n\tif (0x01 == data[2])\n\t\texdata->smtype = KEY_TYPE_AES;\n\telse\n\t\texdata->smtype = KEY_TYPE_DES;\n\n\tif (0x84 == data[14]) {\n\t\tif (0x00 == data[16]) {\n\t\t\texdata->sm = SM_PLAIN;\n\t\t}\n\t}\n\n\t/* mutual authentication */\n\tcard->max_recv_size = 0xD8;\n\tcard->max_send_size = 0xE8;\n\n\tcard->sm_ctx.ops.open = epass2003_refresh;\n\tcard->sm_ctx.ops.get_sm_apdu = epass2003_sm_get_wrapped_apdu;\n\tcard->sm_ctx.ops.free_sm_apdu = epass2003_sm_free_wrapped_apdu;\n\n\t/* FIXME (VT): rather then set/unset 'g_sm', better to implement filter for APDUs to be wrapped */\n\tepass2003_refresh(card);\n\n\tcard->sm_ctx.sm_mode = SM_MODE_TRANSMIT;\n\n\tflags = SC_ALGORITHM_ONBOARD_KEY_GEN | SC_ALGORITHM_RSA_RAW | SC_ALGORITHM_RSA_HASH_NONE;\n\n\t_sc_card_add_rsa_alg(card, 512, flags, 0);\n\t_sc_card_add_rsa_alg(card, 768, flags, 0);\n\t_sc_card_add_rsa_alg(card, 1024, flags, 0);\n\t_sc_card_add_rsa_alg(card, 2048, flags, 0);"
+        },
+        {
+          "start_line": 2709,
+          "end_line": 2733,
+          "source": "hash_data(struct sc_card *card, const unsigned char *data, size_t datalen, unsigned char *hash, unsigned int mechanismType)\n{\n\n\tif ((NULL == data) || (NULL == hash))\n\t\treturn SC_ERROR_INVALID_ARGUMENTS;\n\n\tif (mechanismType & SC_ALGORITHM_ECDSA_HASH_SHA1) {\n\t\tunsigned char data_hash[24] = {0};\n\t\tsize_t len = 0;\n\n\t\tsha1_digest(card, data, datalen, data_hash);\n\t\tlen = REVERSE_ORDER4(datalen);\n\t\tmemcpy(&data_hash[20], &len, 4);\n\t\tmemcpy(hash, data_hash, 24);\n\t} else if (mechanismType & SC_ALGORITHM_ECDSA_HASH_SHA256) {\n\t\tunsigned char data_hash[36] = {0};\n\t\tsize_t len = 0;\n\n\t\tsha256_digest(card, data, datalen, data_hash);\n\t\tlen = REVERSE_ORDER4(datalen);\n\t\tmemcpy(&data_hash[32], &len, 4);\n\t\tmemcpy(hash, data_hash, 36);\n\t} else {\n\t\treturn SC_ERROR_NOT_SUPPORTED;\n\t}"
+        },
+        {
+          "start_line": 3124,
+          "end_line": 3153,
+          "source": "external_key_auth(struct sc_card *card, unsigned char kid,\n\t\tunsigned char *data, size_t datalen)\n{\n\tint r;\n\tstruct sc_apdu apdu;\n\tunsigned char random[16] = {0};\n\tunsigned char tmp_data[16] = {0};\n\tunsigned char hash[HASH_LEN] = {0};\n\tunsigned char iv[16] = {0};\n\n\tr = sc_get_challenge(card, random, 8);\n\tLOG_TEST_RET(card->ctx, r, \"get challenge external_key_auth failed\");\n\n\tr = hash_data(card, data, datalen, hash, SC_ALGORITHM_ECDSA_HASH_SHA1);\n\tLOG_TEST_RET(card->ctx, r, \"hash data failed\");\n\n\tr = des3_encrypt_cbc(card, hash, HASH_LEN, iv, random, 8, tmp_data);\n\tLOG_TEST_RET(card->ctx, r, \"encryption failed\");\n\n\tsc_format_apdu(card, &apdu, SC_APDU_CASE_3_SHORT, 0x82, 0x01, 0x80 | kid);\n\tapdu.lc = apdu.datalen = 8;\n\tapdu.data = tmp_data;\n\n\tr = sc_transmit_apdu_t(card, &apdu);\n\tLOG_TEST_RET(card->ctx, r, \"APDU external_key_auth failed\");\n\tr = sc_check_sw(card, apdu.sw1, apdu.sw2);\n\tLOG_TEST_RET(card->ctx, r, \"external_key_auth failed\");\n\n\treturn r;\n}"
+        }
+      ]
+    },
+    "legacy_entersafe": {
+      "path": ".local/fastca-native/OpenSC-0.27.1/src/libopensc/card-entersafe.c",
+      "sha256": "18ac8573d6cb7dc95ae1344499f5a5adf577da3bcb73d4ebd10c928ee1e20712",
+      "bytes": 44595,
+      "upstream": "https://github.com/OpenSC/OpenSC/blob/0.27.1/src/libopensc/card-entersafe.c",
+      "snippets": [
+        {
+          "start_line": 34,
+          "end_line": 80,
+          "source": "\t{\n\t\t\"3b:0f:00:65:46:53:05:19:05:71:df:00:00:00:00:00:00\",\n\t\t\"ff:ff:ff:ff:ff:ff:ff:00:ff:ff:ff:00:00:00:00:00:00\",\n\t\t\"ePass3000\", SC_CARD_TYPE_ENTERSAFE_3K, 0, NULL },\n\t{\n\t\t\"3b:9f:95:81:31:fe:9f:00:65:46:53:05:30:06:71:df:00:00:00:80:6a:82:5e\",\n\t\t\"FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:00:FF:FF:FF:FF:FF:FF:00:00:00:00\",\n\t\t\"FTCOS/PK-01C\", SC_CARD_TYPE_ENTERSAFE_FTCOS_PK_01C, 0, NULL },\n\t{\n\t\t\"3b:fc:18:00:00:81:31:80:45:90:67:46:4a:00:64:18:14:00:00:00:00:02\",\n\t\t\"ff:00:00:00:00:00:00:00:00:ff:ff:ff:ff:00:00:00:00:ff:ff:ff:ff:00\",\n\t\t\"EJAVA/PK-01C\", SC_CARD_TYPE_ENTERSAFE_EJAVA_PK_01C, 0, NULL },\n\t{\n\t\t\"3b:7c:18:00:00:90:67:46:4a:20:28:8c:58:00:00:00:00\",\n\t\t\"ff:00:00:00:00:ff:ff:ff:ff:00:00:00:00:ff:ff:ff:ff\",\n\t\t\"EJAVA/PK-01C-T0\",SC_CARD_TYPE_ENTERSAFE_EJAVA_PK_01C_T0,0,NULL},\n\t{\n\t\t\"3B:FC:18:00:00:81:31:80:45:90:67:46:4A:21:28:8C:58:00:00:00:00:B7\",\n\t\t\"ff:00:00:00:00:00:00:00:00:ff:ff:ff:ff:00:00:00:00:ff:ff:ff:ff:00\",\n\t\t\"EJAVA/H10CR/PK-01C-T1\",SC_CARD_TYPE_ENTERSAFE_EJAVA_H10CR_PK_01C_T1,0,NULL},\n\t{\n\t\t\"3B:FC:18:00:00:81:31:80:45:90:67:46:4A:20:25:c3:30:00:00:00:00\",\n\t\t\"ff:00:00:00:00:00:00:00:00:ff:ff:ff:ff:00:00:00:00:00:00:00:00\",\n\t\t\"EJAVA/D11CR/PK-01C-T1\",SC_CARD_TYPE_ENTERSAFE_EJAVA_D11CR_PK_01C_T1,0,NULL},\n\t{\n\t\t\"3B:FC:18:00:00:81:31:80:45:90:67:46:4A:00:6A:04:24:00:00:00:00:20\",\n\t\t\"ff:00:00:00:00:00:00:00:00:ff:ff:ff:ff:00:00:00:00:ff:ff:ff:ff:00\",\n\t\t\"EJAVA/C21C/PK-01C-T1\",SC_CARD_TYPE_ENTERSAFE_EJAVA_C21C_PK_01C_T1,0,NULL},\n\t{\n\t\t\"3B:FC:18:00:00:81:31:80:45:90:67:46:4A:00:68:08:04:00:00:00:00:0E\",\n\t\t\"ff:00:00:00:00:00:00:00:00:ff:ff:ff:ff:00:00:00:00:ff:ff:ff:ff:00\",\n\t\t\"EJAVA/A22CR/PK-01C-T1\",SC_CARD_TYPE_ENTERSAFE_EJAVA_A22CR_PK_01C_T1,0,NULL},\n\t{\n\t\t\"3B:FC:18:00:00:81:31:80:45:90:67:46:4A:10:27:61:30:00:00:00:00:0C\",\n\t\t\"ff:00:00:00:00:00:00:00:00:ff:ff:ff:ff:00:00:00:00:ff:ff:ff:ff:00\",\n\t\t\"EJAVA/A40CR/PK-01C-T1\",SC_CARD_TYPE_ENTERSAFE_EJAVA_A40CR_PK_01C_T1,0,NULL},\n\t{\n\t\t\"3b:fc:18:00:00:81:31:80:45:90:67:46:4a:00:68:08:06:00:00:00:00:0c\",\n\t\t\"FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:00:FF:FF:FF:FF:FF:FF:00:00:00\",\n\t\t\"FTCOS/PK-01C\", SC_CARD_TYPE_ENTERSAFE_FTCOS_PK_01C, 0, NULL },\n\t{ NULL, NULL, NULL, 0, 0, NULL }\n};\n\nstatic struct sc_card_operations entersafe_ops;\nstatic struct sc_card_operations *iso_ops = NULL;\n\nstatic struct sc_card_driver entersafe_drv = {"
+        },
+        {
+          "start_line": 863,
+          "end_line": 886,
+          "source": "static void entersafe_init_pin_info(struct sc_pin_cmd_pin *pin, unsigned int num)\n{\n\tpin->encoding   = SC_PIN_ENCODING_ASCII;\n\tpin->min_length = 4;\n\tpin->max_length = 16;\n\tpin->pad_length = 16;\n\tpin->offset     = 5 + num * 16;\n\tpin->pad_char   = 0x00;\n}\n\nstatic int entersafe_pin_cmd(sc_card_t *card, struct sc_pin_cmd_data *data,\n\t\t\t\t\t\t\t int *tries_left)\n{\n\tint r;\n\tSC_FUNC_CALLED(card->ctx, SC_LOG_DEBUG_VERBOSE);\n\tentersafe_init_pin_info(&data->pin1, 0);\n\tentersafe_init_pin_info(&data->pin2, 1);\n\tdata->flags |= SC_PIN_CMD_NEED_PADDING;\n\n\tif (data->cmd != SC_PIN_CMD_UNBLOCK) {\n\t\tr = iso_ops->pin_cmd(card, data, tries_left);\n\t\tsc_log(card->ctx, \"Verify rv:%i\", r);\n\t} else {\n\t\t{ /*verify*/"
+        }
+      ]
+    },
+    "atr_parser": {
+      "path": ".local/fastca-native/OpenSC-0.27.1/src/libopensc/sc.c",
+      "sha256": "4b3694875c383b7d62362a010db2d0dd1247ba296ee607c92eff653effda4d0e",
+      "bytes": 25135,
+      "upstream": "https://github.com/OpenSC/OpenSC/blob/0.27.1/src/libopensc/sc.c",
+      "snippets": [
+        {
+          "start_line": 823,
+          "end_line": 899,
+          "source": "int _sc_parse_atr(sc_reader_t *reader)\n{\n\tu8 *p = reader->atr.value;\n\tint atr_len = (int) reader->atr.len;\n\tint n_hist, x;\n\tint tx[4] = {-1, -1, -1, -1};\n\tint i, FI, DI;\n\tconst int Fi_table[] = {\n\t\t372, 372, 558, 744, 1116, 1488, 1860, -1,\n\t\t-1, 512, 768, 1024, 1536, 2048, -1, -1 };\n\tconst int f_table[] = {\n\t\t40, 50, 60, 80, 120, 160, 200, -1,\n\t\t-1, 50, 75, 100, 150, 200, -1, -1 };\n\tconst int Di_table[] = {\n\t\t-1, 1, 2, 4, 8, 16, 32, -1,\n\t\t12, 20, -1, -1, -1, -1, -1, -1 };\n\n\treader->atr_info.hist_bytes_len = 0;\n\treader->atr_info.hist_bytes = NULL;\n\n\tif (atr_len == 0) {\n\t\tsc_log(reader->ctx, \"empty ATR - card not present?\\n\");\n\t\treturn SC_ERROR_INTERNAL;\n\t}\n\n\tif (p[0] != 0x3B && p[0] != 0x3F) {\n\t\tsc_log(reader->ctx, \"invalid sync byte in ATR: 0x%02X\\n\", p[0]);\n\t\treturn SC_ERROR_INTERNAL;\n\t}\n\tn_hist = p[1] & 0x0F;\n\tx = p[1] >> 4;\n\tp += 2;\n\tatr_len -= 2;\n\tfor (i = 0; i < 4 && atr_len > 0; i++) {\n                if (x & (1 << i)) {\n                        tx[i] = *p;\n                        p++;\n                        atr_len--;\n                } else\n                        tx[i] = -1;\n        }\n\tif (tx[0] >= 0) {\n\t\treader->atr_info.FI = FI = tx[0] >> 4;\n\t\treader->atr_info.DI = DI = tx[0] & 0x0F;\n\t\treader->atr_info.Fi = Fi_table[FI];\n\t\treader->atr_info.f = f_table[FI];\n\t\treader->atr_info.Di = Di_table[DI];\n\t} else {\n\t\treader->atr_info.Fi = -1;\n\t\treader->atr_info.f = -1;\n\t\treader->atr_info.Di = -1;\n\t}\n\tif (tx[2] >= 0)\n\t\treader->atr_info.N = tx[3];\n\telse\n\t\treader->atr_info.N = -1;\n\twhile (tx[3] > 0 && tx[3] & 0xF0 && atr_len > 0) {\n\t\tx = tx[3] >> 4;\n\t\tfor (i = 0; i < 4 && atr_len > 0; i++) {\n\t                if (x & (1 << i)) {\n\t                        tx[i] = *p;\n\t                        p++;\n\t                        atr_len--;\n\t                } else\n\t                        tx[i] = -1;\n\t\t}\n\t}\n\tif (atr_len <= 0)\n\t\treturn SC_SUCCESS;\n\tif (n_hist > atr_len)\n\t\tn_hist = atr_len;\n\treader->atr_info.hist_bytes_len = n_hist;\n\treader->atr_info.hist_bytes = p;\n\treturn SC_SUCCESS;\n}\n\nvoid *sc_mem_secure_alloc(size_t len)"
+        }
+      ]
+    }
+  },
+  "observations": [
+    "Pinned epass2003 ATR table masks12..14 and18..22; EFY Calais mask is more specific at18..21.",
+    "OpenSC comments identify version triplets010011 and230025 in generic ePass2003 examples; they are not observed EFY models.",
+    "GET_DATA CA0186 selects FIPS/non-FIPS, AES/DES and optional plain-vs-SCP01 transport using response markers. These are SM capabilities, not issuer/PIN evidence.",
+    "epass2003_init calls refresh without checking its return value; explicit checked refresh + successful public reads is needed before trusting SM readiness.",
+    "Generic driver advertises multiple RSA sizes and EC256; current app ESPK resolver admits only RSA2048/e65537. Advertised algorithms are not card-personalization proof.",
+    "Legacy entersafe is a different driver with a different PIN path via ISO pin_cmd; ePass/Feitian branding is not enough to reuse EFY challenge-auth."
+  ],
+  "capability_probe_proposal": {
+    "before_PIN": true,
+    "GET_DATA_command": "00 CA 01 86 (read-only card information, as used by pinned driver)",
+    "implementation_note": "If exposing diagnostics, retain actual response length and interpret versioned fields; do not cast private drv_data or log its session keys. No GET_DATA was sent in this coverage pass.",
+    "FIPS_rule_in_pinned_source": "data[0:3]==800101 and data[32:35]==870101",
+    "SM_cipher_rule_in_pinned_source": "data[2]==01 -> AES; else -> DES (this is driver behavior, not blanket approval of arbitrary values)",
+    "SM_plain_rule_in_pinned_source": "data[14]==84 and data[16]==00 -> SM_PLAIN",
+    "readiness_gate": "runtime ABI0.27.1; epass2003 driver; checked SM refresh (when required); bounded read-only ESPK catalog and cert/key association; fresh token binding; known auth profile",
+    "do_not_probe": [
+      "user PIN/password defaults",
+      "C_Login/sc_pin_cmd verification",
+      "zero-length external-auth retries query",
+      "MSE/PSO as capability probe",
+      "change PIN/unblock/keygen/erase",
+      "successive PIN algorithms or fallback providers after attempted auth"
+    ]
+  },
+  "vendor_unreferenced_ATR_bytes": {
+    "evidence": "efy-ca-atr-candidates.json",
+    "note": "Other ATR-like bytes in shared DLL code/data remain unreferenced candidates, not verified EFY model support or PIN protocol mapping."
+  },
+  "package_extra_inventory": [
+    {
+      "path": ".local/efy-ca-windows/windows-expanded/thunderEFYCA.exe",
+      "sha256": "98f2baf3b51e14426abf9e1b7ccb650da67f5214f8ef6893797ffa5ee06e288a",
+      "bytes": 183736,
+      "inventory": "\n7-Zip (z) 26.04 (arm64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-05\n 64-bit arm_v:8.5-A locale=C.UTF-8 Threads:10 OPEN_MAX:1048575, ASM\n\nScanning the drive for archives:\n1 file, 183736 bytes (180 KiB)\n\nListing archive: .local/efy-ca-windows/windows-expanded/thunderEFYCA.exe\n\n--\nPath = .local/efy-ca-windows/windows-expanded/thunderEFYCA.exe\nType = Nsis\nPhysical Size = 183736\nMethod = Deflate\nSolid = -\nHeaders Size = 25024\nEmbedded Stub Size = 36864\nSubType = NSIS-Park-1 Unicode\n\n   Date      Time    Attr         Size   Compressed  Name\n------------------- ----- ------------ ------------  ------------------------\n2021-07-05 16:33:12 .....                       836  $TEMP/MIC.crt\n2021-07-05 16:37:28 .....                      1739  $TEMP/VNROOT.crt\n2024-12-30 09:21:04 .....                      1662  $TEMP/EFY_2024.cer\n2021-11-01 13:39:12 .....                     45279  $TEMP/nssThunderbird.dll\n2021-11-01 13:39:12 .....                     48028  $TEMP/nssThunderbird64.dll\n2021-11-01 13:39:12 .....                     21347  $TEMP/regThunderbird.exe\n2021-11-01 13:39:08 .....                     19329  $TEMP/regThunderbird64.exe\n                    .....                      6431  $PLUGINSDIR/System.dll\n------------------- ----- ------------ ------------  ------------------------\n2024-12-30 09:21:04                          144651  8 files\n",
+      "interpretation": "NSIS members are Thunderbird/NSS registration helpers and certificates (not evidence of an additional USB OEM/model)."
+    },
+    {
+      "path": ".local/efy-ca-windows/windows-expanded/thunderEFYCAun.exe",
+      "sha256": "bb3bdf39ae8a9581ca4e7e0e44f68ba2eabc2d1258eda2847b393f84b45f7ccd",
+      "bytes": 179366,
+      "inventory": "\n7-Zip (z) 26.04 (arm64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-05\n 64-bit arm_v:8.5-A locale=C.UTF-8 Threads:10 OPEN_MAX:1048575, ASM\n\nScanning the drive for archives:\n1 file, 179366 bytes (176 KiB)\n\nListing archive: .local/efy-ca-windows/windows-expanded/thunderEFYCAun.exe\n\n--\nPath = .local/efy-ca-windows/windows-expanded/thunderEFYCAun.exe\nType = Nsis\nPhysical Size = 179366\nMethod = Deflate\nSolid = -\nHeaders Size = 24562\nEmbedded Stub Size = 36864\nSubType = NSIS-Park-1 Unicode\n\n   Date      Time    Attr         Size   Compressed  Name\n------------------- ----- ------------ ------------  ------------------------\n2021-11-01 13:39:12 .....                     45279  $TEMP/nssThunderbird.dll\n2021-11-01 13:39:12 .....                     48028  $TEMP/nssThunderbird64.dll\n2021-11-01 13:39:12 .....                     21347  $TEMP/regThunderbird.exe\n2021-11-01 13:39:08 .....                     19329  $TEMP/regThunderbird64.exe\n                    .....                      6431  $PLUGINSDIR/System.dll\n------------------- ----- ------------ ------------  ------------------------\n2021-11-01 13:39:12                          140414  5 files\n",
+      "interpretation": "NSIS members are Thunderbird/NSS registration helpers and certificates (not evidence of an additional USB OEM/model)."
+    }
+  ],
+  "other_OEM_search": {
+    "queries": [
+      "site:efyca.vn \"token\" \"V2\"",
+      "site:efyca.vn \"Token\" \"SafeNet\"",
+      "site:efyca.vn \"Token\" \"Feitian\"",
+      "site:efyca.vn \"Token\" \"Longmai\"",
+      "\"EFY-CA\" \"token V2\" (domains efyca.vn/efy.com.vn)",
+      "\"EFY-CA\" \"Longmai\" (domains efyca.vn/efy.com.vn)",
+      "\"EFY-CA\" \"token\" \"Feitian\" (domains efyca.vn/efy.com.vn)"
+    ],
+    "result": "No authoritative separate EFY V2/Longmai/SafeNet model artifact identified in bounded queries/support library; not proof they do not exist.",
+    "only_resolved_driver_link": "https://efyca.vn/download/tokenV1/efyca_p11_v1_installer.exe"
+  },
+  "production_source_changed": false,
+  "build_or_card_IO": false
+}

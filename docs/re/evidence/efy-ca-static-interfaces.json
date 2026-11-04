@@ -1,0 +1,1419 @@
+{
+  "evidence_id": "EFY-CA-E08",
+  "scope": "Static format, import/export, source snapshots; no provider initialization or card access",
+  "tools": {
+    "file --version": [
+      "file-5.41",
+      "magic file from /usr/share/file/magic"
+    ],
+    "xcrun llvm-objdump --version": [
+      "Apple LLVM version 21.0.0",
+      "  Optimized build.",
+      "",
+      "",
+      "  Registered Targets:"
+    ],
+    "7zz i": [
+      "",
+      "7-Zip (z) 26.04 (arm64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-05",
+      " 64-bit arm_v:8.5-A locale=C.UTF-8 Threads:10 OPEN_MAX:1048575, ASM",
+      "",
+      ""
+    ]
+  },
+  "modules": [
+    {
+      "dump_path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/7d4c5872-efyca_p11_v1.dll.pe.txt",
+      "dll_names": [
+        "KERNEL32.dll",
+        "USER32.dll",
+        "GDI32.dll",
+        "ADVAPI32.dll",
+        "SHELL32.dll",
+        "ole32.dll",
+        "WININET.dll",
+        "CRYPT32.dll",
+        "WTSAPI32.dll",
+        "WinSCard.dll"
+      ],
+      "exports": [
+        {
+          "ordinal": 1,
+          "rva": "0xf38c",
+          "name": "CPAcquireContext"
+        },
+        {
+          "ordinal": 2,
+          "rva": "0xf95e",
+          "name": "CPReleaseContext"
+        },
+        {
+          "ordinal": 3,
+          "rva": "0xfae0",
+          "name": "CPSetProvParam"
+        },
+        {
+          "ordinal": 4,
+          "rva": "0xf460",
+          "name": "CPGetProvParam"
+        },
+        {
+          "ordinal": 5,
+          "rva": "0xfc74",
+          "name": "CPEncrypt"
+        },
+        {
+          "ordinal": 6,
+          "rva": "0xfe11",
+          "name": "CPDecrypt"
+        },
+        {
+          "ordinal": 7,
+          "rva": "0xffa5",
+          "name": "CPCreateHash"
+        },
+        {
+          "ordinal": 8,
+          "rva": "0x10133",
+          "name": "CPHashData"
+        },
+        {
+          "ordinal": 9,
+          "rva": "0xf523",
+          "name": "CPSetHashParam"
+        },
+        {
+          "ordinal": 10,
+          "rva": "0xf5fd",
+          "name": "CPGetHashParam"
+        },
+        {
+          "ordinal": 11,
+          "rva": "0xf6ce",
+          "name": "CPDestroyHash"
+        },
+        {
+          "ordinal": 12,
+          "rva": "0x102c7",
+          "name": "CPSignHash"
+        },
+        {
+          "ordinal": 13,
+          "rva": "0xf7a2",
+          "name": "CPVerifySignature"
+        },
+        {
+          "ordinal": 14,
+          "rva": "0x105e4",
+          "name": "CPGenKey"
+        },
+        {
+          "ordinal": 15,
+          "rva": "0x10f44",
+          "name": "CPDestroyKey"
+        },
+        {
+          "ordinal": 16,
+          "rva": "0x10c31",
+          "name": "CPSetKeyParam"
+        },
+        {
+          "ordinal": 17,
+          "rva": "0x10aa0",
+          "name": "CPGetKeyParam"
+        },
+        {
+          "ordinal": 18,
+          "rva": "0x10909",
+          "name": "CPExportKey"
+        },
+        {
+          "ordinal": 19,
+          "rva": "0x10772",
+          "name": "CPImportKey"
+        },
+        {
+          "ordinal": 20,
+          "rva": "0x110c3",
+          "name": "CPGetUserKey"
+        },
+        {
+          "ordinal": 21,
+          "rva": "0x10dbf",
+          "name": "CPDeriveKey"
+        },
+        {
+          "ordinal": 22,
+          "rva": "0x1045f",
+          "name": "CPGenRandom"
+        },
+        {
+          "ordinal": 23,
+          "rva": "0xf28c",
+          "name": "CPHashSessionKey"
+        },
+        {
+          "ordinal": 24,
+          "rva": "0x11278",
+          "name": "eb_RunNoElevated"
+        },
+        {
+          "ordinal": 25,
+          "rva": "0x11269",
+          "name": "eb_StartScardSvc"
+        },
+        {
+          "ordinal": 26,
+          "rva": "0x7c5b4",
+          "name": "CardAcquireContext"
+        },
+        {
+          "ordinal": 27,
+          "rva": "0x7caaa",
+          "name": "GetKeyStorageInterface"
+        },
+        {
+          "ordinal": 28,
+          "rva": "0x1126e",
+          "name": "eb_RegKspProvider"
+        },
+        {
+          "ordinal": 29,
+          "rva": "0x11273",
+          "name": "eb_UnRegKspProvider"
+        },
+        {
+          "ordinal": 30,
+          "rva": "0x6c755",
+          "name": "C_CancelFunction"
+        },
+        {
+          "ordinal": 31,
+          "rva": "0x6bd7e",
+          "name": "C_CloseAllSessions"
+        },
+        {
+          "ordinal": 32,
+          "rva": "0x6bd50",
+          "name": "C_CloseSession"
+        },
+        {
+          "ordinal": 33,
+          "rva": "0x6be7e",
+          "name": "C_CopyObject"
+        },
+        {
+          "ordinal": 34,
+          "rva": "0x6be45",
+          "name": "C_CreateObject"
+        },
+        {
+          "ordinal": 35,
+          "rva": "0x6c115",
+          "name": "C_Decrypt"
+        },
+        {
+          "ordinal": 36,
+          "rva": "0x6be7e",
+          "name": "C_DecryptDigestUpdate"
+        },
+        {
+          "ordinal": 37,
+          "rva": "0x6c18d",
+          "name": "C_DecryptFinal"
+        },
+        {
+          "ordinal": 38,
+          "rva": "0x6c0df",
+          "name": "C_DecryptInit"
+        },
+        {
+          "ordinal": 39,
+          "rva": "0x6c151",
+          "name": "C_DecryptUpdate"
+        },
+        {
+          "ordinal": 40,
+          "rva": "0x6be7e",
+          "name": "C_DecryptVerifyUpdate"
+        },
+        {
+          "ordinal": 41,
+          "rva": "0x6c674",
+          "name": "C_DeriveKey"
+        },
+        {
+          "ordinal": 42,
+          "rva": "0x6beba",
+          "name": "C_DestroyObject"
+        },
+        {
+          "ordinal": 43,
+          "rva": "0x6c1f5",
+          "name": "C_Digest"
+        },
+        {
+          "ordinal": 44,
+          "rva": "0x6be7e",
+          "name": "C_DigestEncryptUpdate"
+        },
+        {
+          "ordinal": 45,
+          "rva": "0x6c299",
+          "name": "C_DigestFinal"
+        },
+        {
+          "ordinal": 46,
+          "rva": "0x6c1c3",
+          "name": "C_DigestInit"
+        },
+        {
+          "ordinal": 47,
+          "rva": "0x6c267",
+          "name": "C_DigestKey"
+        },
+        {
+          "ordinal": 48,
+          "rva": "0x6c231",
+          "name": "C_DigestUpdate"
+        },
+        {
+          "ordinal": 49,
+          "rva": "0x6c031",
+          "name": "C_Encrypt"
+        },
+        {
+          "ordinal": 50,
+          "rva": "0x6c0a9",
+          "name": "C_EncryptFinal"
+        },
+        {
+          "ordinal": 51,
+          "rva": "0x6bffb",
+          "name": "C_EncryptInit"
+        },
+        {
+          "ordinal": 52,
+          "rva": "0x6c06d",
+          "name": "C_EncryptUpdate"
+        },
+        {
+          "ordinal": 53,
+          "rva": "0x6bad1",
+          "name": "C_Finalize"
+        },
+        {
+          "ordinal": 54,
+          "rva": "0x6bf94",
+          "name": "C_FindObjects"
+        },
+        {
+          "ordinal": 55,
+          "rva": "0x6bfcd",
+          "name": "C_FindObjectsFinal"
+        },
+        {
+          "ordinal": 56,
+          "rva": "0x6bf5e",
+          "name": "C_FindObjectsInit"
+        },
+        {
+          "ordinal": 57,
+          "rva": "0x6c56f",
+          "name": "C_GenerateKey"
+        },
+        {
+          "ordinal": 58,
+          "rva": "0x6c5ab",
+          "name": "C_GenerateKeyPair"
+        },
+        {
+          "ordinal": 59,
+          "rva": "0x6c6e9",
+          "name": "C_GenerateRandom"
+        },
+        {
+          "ordinal": 60,
+          "rva": "0x6beec",
+          "name": "C_GetAttributeValue"
+        },
+        {
+          "ordinal": 61,
+          "rva": "0x6c783",
+          "name": "C_GetFunctionList"
+        },
+        {
+          "ordinal": 62,
+          "rva": "0x6c755",
+          "name": "C_GetFunctionStatus"
+        },
+        {
+          "ordinal": 63,
+          "rva": "0x6baff",
+          "name": "C_GetInfo"
+        },
+        {
+          "ordinal": 64,
+          "rva": "0x6bc33",
+          "name": "C_GetMechanismInfo"
+        },
+        {
+          "ordinal": 65,
+          "rva": "0x6bbfd",
+          "name": "C_GetMechanismList"
+        },
+        {
+          "ordinal": 66,
+          "rva": "0x6c71f",
+          "name": "C_GetObjectSize"
+        },
+        {
+          "ordinal": 67,
+          "rva": "0x6c71f",
+          "name": "C_GetOperationState"
+        },
+        {
+          "ordinal": 68,
+          "rva": "0x6bdac",
+          "name": "C_GetSessionInfo"
+        },
+        {
+          "ordinal": 69,
+          "rva": "0x6bb63",
+          "name": "C_GetSlotInfo"
+        },
+        {
+          "ordinal": 70,
+          "rva": "0x6bb2d",
+          "name": "C_GetSlotList"
+        },
+        {
+          "ordinal": 71,
+          "rva": "0x6bb95",
+          "name": "C_GetTokenInfo"
+        },
+        {
+          "ordinal": 72,
+          "rva": "0x6bca2",
+          "name": "C_InitPIN"
+        },
+        {
+          "ordinal": 73,
+          "rva": "0x6bc69",
+          "name": "C_InitToken"
+        },
+        {
+          "ordinal": 74,
+          "rva": "0x6baa3",
+          "name": "C_Initialize"
+        },
+        {
+          "ordinal": 75,
+          "rva": "0x6bdde",
+          "name": "C_Login"
+        },
+        {
+          "ordinal": 76,
+          "rva": "0x6be17",
+          "name": "C_Logout"
+        },
+        {
+          "ordinal": 77,
+          "rva": "0x6bd14",
+          "name": "C_OpenSession"
+        },
+        {
+          "ordinal": 78,
+          "rva": "0x6c6b3",
+          "name": "C_SeedRandom"
+        },
+        {
+          "ordinal": 79,
+          "rva": "0x6bf25",
+          "name": "C_SetAttributeValue"
+        },
+        {
+          "ordinal": 80,
+          "rva": "0x6be7e",
+          "name": "C_SetOperationState"
+        },
+        {
+          "ordinal": 81,
+          "rva": "0x6bcd8",
+          "name": "C_SetPIN"
+        },
+        {
+          "ordinal": 82,
+          "rva": "0x6c305",
+          "name": "C_Sign"
+        },
+        {
+          "ordinal": 83,
+          "rva": "0x6be7e",
+          "name": "C_SignEncryptUpdate"
+        },
+        {
+          "ordinal": 84,
+          "rva": "0x6c377",
+          "name": "C_SignFinal"
+        },
+        {
+          "ordinal": 85,
+          "rva": "0x6c2cf",
+          "name": "C_SignInit"
+        },
+        {
+          "ordinal": 86,
+          "rva": "0x6c3e3",
+          "name": "C_SignRecover"
+        },
+        {
+          "ordinal": 87,
+          "rva": "0x6c3ad",
+          "name": "C_SignRecoverInit"
+        },
+        {
+          "ordinal": 88,
+          "rva": "0x6c341",
+          "name": "C_SignUpdate"
+        },
+        {
+          "ordinal": 89,
+          "rva": "0x6c62f",
+          "name": "C_UnwrapKey"
+        },
+        {
+          "ordinal": 90,
+          "rva": "0x6c455",
+          "name": "C_Verify"
+        },
+        {
+          "ordinal": 91,
+          "rva": "0x6c4c7",
+          "name": "C_VerifyFinal"
+        },
+        {
+          "ordinal": 92,
+          "rva": "0x6c41f",
+          "name": "C_VerifyInit"
+        },
+        {
+          "ordinal": 93,
+          "rva": "0x6c533",
+          "name": "C_VerifyRecover"
+        },
+        {
+          "ordinal": 94,
+          "rva": "0x6c4fd",
+          "name": "C_VerifyRecoverInit"
+        },
+        {
+          "ordinal": 95,
+          "rva": "0x6c491",
+          "name": "C_VerifyUpdate"
+        },
+        {
+          "ordinal": 96,
+          "rva": "0x6bbc7",
+          "name": "C_WaitForSlotEvent"
+        },
+        {
+          "ordinal": 97,
+          "rva": "0x6c5f0",
+          "name": "C_WrapKey"
+        },
+        {
+          "ordinal": 98,
+          "rva": "0x6b9eb",
+          "name": "E_GetAuxFunctionList"
+        }
+      ]
+    },
+    {
+      "dump_path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/f0363149-efyca_p11_v1_1.dll.pe.txt",
+      "dll_names": [
+        "KERNEL32.dll",
+        "USER32.dll",
+        "GDI32.dll",
+        "ADVAPI32.dll",
+        "SHELL32.dll",
+        "ole32.dll",
+        "WININET.dll",
+        "CRYPT32.dll",
+        "WTSAPI32.dll",
+        "WinSCard.dll"
+      ],
+      "exports": [
+        {
+          "ordinal": 1,
+          "rva": "0x1b554",
+          "name": "CPAcquireContext"
+        },
+        {
+          "ordinal": 2,
+          "rva": "0x1be44",
+          "name": "CPReleaseContext"
+        },
+        {
+          "ordinal": 3,
+          "rva": "0x1c198",
+          "name": "CPSetProvParam"
+        },
+        {
+          "ordinal": 4,
+          "rva": "0x1b658",
+          "name": "CPGetProvParam"
+        },
+        {
+          "ordinal": 5,
+          "rva": "0x1c528",
+          "name": "CPEncrypt"
+        },
+        {
+          "ordinal": 6,
+          "rva": "0x1c8e0",
+          "name": "CPDecrypt"
+        },
+        {
+          "ordinal": 7,
+          "rva": "0x1cc70",
+          "name": "CPCreateHash"
+        },
+        {
+          "ordinal": 8,
+          "rva": "0x1cfe4",
+          "name": "CPHashData"
+        },
+        {
+          "ordinal": 9,
+          "rva": "0x1b754",
+          "name": "CPSetHashParam"
+        },
+        {
+          "ordinal": 10,
+          "rva": "0x1b86c",
+          "name": "CPGetHashParam"
+        },
+        {
+          "ordinal": 11,
+          "rva": "0x1b95c",
+          "name": "CPDestroyHash"
+        },
+        {
+          "ordinal": 12,
+          "rva": "0x1d374",
+          "name": "CPSignHash"
+        },
+        {
+          "ordinal": 13,
+          "rva": "0x1ba80",
+          "name": "CPVerifySignature"
+        },
+        {
+          "ordinal": 14,
+          "rva": "0x1da48",
+          "name": "CPGenKey"
+        },
+        {
+          "ordinal": 15,
+          "rva": "0x1ef10",
+          "name": "CPDestroyKey"
+        },
+        {
+          "ordinal": 16,
+          "rva": "0x1e870",
+          "name": "CPSetKeyParam"
+        },
+        {
+          "ordinal": 17,
+          "rva": "0x1e4f4",
+          "name": "CPGetKeyParam"
+        },
+        {
+          "ordinal": 18,
+          "rva": "0x1e158",
+          "name": "CPExportKey"
+        },
+        {
+          "ordinal": 19,
+          "rva": "0x1ddbc",
+          "name": "CPImportKey"
+        },
+        {
+          "ordinal": 20,
+          "rva": "0x1f260",
+          "name": "CPGetUserKey"
+        },
+        {
+          "ordinal": 21,
+          "rva": "0x1ebe0",
+          "name": "CPDeriveKey"
+        },
+        {
+          "ordinal": 22,
+          "rva": "0x1d6f4",
+          "name": "CPGenRandom"
+        },
+        {
+          "ordinal": 23,
+          "rva": "0x1b3dc",
+          "name": "CPHashSessionKey"
+        },
+        {
+          "ordinal": 24,
+          "rva": "0x1f554",
+          "name": "eb_RunNoElevated"
+        },
+        {
+          "ordinal": 25,
+          "rva": "0x1f53c",
+          "name": "eb_StartScardSvc"
+        },
+        {
+          "ordinal": 26,
+          "rva": "0xdcee4",
+          "name": "CardAcquireContext"
+        },
+        {
+          "ordinal": 27,
+          "rva": "0xdd8fc",
+          "name": "GetKeyStorageInterface"
+        },
+        {
+          "ordinal": 28,
+          "rva": "0x1f544",
+          "name": "eb_RegKspProvider"
+        },
+        {
+          "ordinal": 29,
+          "rva": "0x1f54c",
+          "name": "eb_UnRegKspProvider"
+        },
+        {
+          "ordinal": 30,
+          "rva": "0xb8cd8",
+          "name": "C_CancelFunction"
+        },
+        {
+          "ordinal": 31,
+          "rva": "0xb8644",
+          "name": "C_CloseAllSessions"
+        },
+        {
+          "ordinal": 32,
+          "rva": "0xb8624",
+          "name": "C_CloseSession"
+        },
+        {
+          "ordinal": 33,
+          "rva": "0xb8cac",
+          "name": "C_CopyObject"
+        },
+        {
+          "ordinal": 34,
+          "rva": "0xb86c4",
+          "name": "C_CreateObject"
+        },
+        {
+          "ordinal": 35,
+          "rva": "0xb885c",
+          "name": "C_Decrypt"
+        },
+        {
+          "ordinal": 36,
+          "rva": "0xb8cac",
+          "name": "C_DecryptDigestUpdate"
+        },
+        {
+          "ordinal": 37,
+          "rva": "0xb88b4",
+          "name": "C_DecryptFinal"
+        },
+        {
+          "ordinal": 38,
+          "rva": "0xb883c",
+          "name": "C_DecryptInit"
+        },
+        {
+          "ordinal": 39,
+          "rva": "0xb8888",
+          "name": "C_DecryptUpdate"
+        },
+        {
+          "ordinal": 40,
+          "rva": "0xb8cac",
+          "name": "C_DecryptVerifyUpdate"
+        },
+        {
+          "ordinal": 41,
+          "rva": "0xb8c10",
+          "name": "C_DeriveKey"
+        },
+        {
+          "ordinal": 42,
+          "rva": "0xb86e4",
+          "name": "C_DestroyObject"
+        },
+        {
+          "ordinal": 43,
+          "rva": "0xb88f4",
+          "name": "C_Digest"
+        },
+        {
+          "ordinal": 44,
+          "rva": "0xb8cac",
+          "name": "C_DigestEncryptUpdate"
+        },
+        {
+          "ordinal": 45,
+          "rva": "0xb8940",
+          "name": "C_DigestFinal"
+        },
+        {
+          "ordinal": 46,
+          "rva": "0xb88d4",
+          "name": "C_DigestInit"
+        },
+        {
+          "ordinal": 47,
+          "rva": "0xb8cd8",
+          "name": "C_DigestKey"
+        },
+        {
+          "ordinal": 48,
+          "rva": "0xb8920",
+          "name": "C_DigestUpdate"
+        },
+        {
+          "ordinal": 49,
+          "rva": "0xb87c4",
+          "name": "C_Encrypt"
+        },
+        {
+          "ordinal": 50,
+          "rva": "0xb881c",
+          "name": "C_EncryptFinal"
+        },
+        {
+          "ordinal": 51,
+          "rva": "0xb87a4",
+          "name": "C_EncryptInit"
+        },
+        {
+          "ordinal": 52,
+          "rva": "0xb87f0",
+          "name": "C_EncryptUpdate"
+        },
+        {
+          "ordinal": 53,
+          "rva": "0xb8490",
+          "name": "C_Finalize"
+        },
+        {
+          "ordinal": 54,
+          "rva": "0xb8764",
+          "name": "C_FindObjects"
+        },
+        {
+          "ordinal": 55,
+          "rva": "0xb8784",
+          "name": "C_FindObjectsFinal"
+        },
+        {
+          "ordinal": 56,
+          "rva": "0xb8744",
+          "name": "C_FindObjectsInit"
+        },
+        {
+          "ordinal": 57,
+          "rva": "0xb8b0c",
+          "name": "C_GenerateKey"
+        },
+        {
+          "ordinal": 58,
+          "rva": "0xb8b38",
+          "name": "C_GenerateKeyPair"
+        },
+        {
+          "ordinal": 59,
+          "rva": "0xb8c64",
+          "name": "C_GenerateRandom"
+        },
+        {
+          "ordinal": 60,
+          "rva": "0xb8704",
+          "name": "C_GetAttributeValue"
+        },
+        {
+          "ordinal": 61,
+          "rva": "0xb8cf8",
+          "name": "C_GetFunctionList"
+        },
+        {
+          "ordinal": 62,
+          "rva": "0xb8cd8",
+          "name": "C_GetFunctionStatus"
+        },
+        {
+          "ordinal": 63,
+          "rva": "0xb84b0",
+          "name": "C_GetInfo"
+        },
+        {
+          "ordinal": 64,
+          "rva": "0xb8570",
+          "name": "C_GetMechanismInfo"
+        },
+        {
+          "ordinal": 65,
+          "rva": "0xb8550",
+          "name": "C_GetMechanismList"
+        },
+        {
+          "ordinal": 66,
+          "rva": "0xb8cd8",
+          "name": "C_GetObjectSize"
+        },
+        {
+          "ordinal": 67,
+          "rva": "0xb8cd8",
+          "name": "C_GetOperationState"
+        },
+        {
+          "ordinal": 68,
+          "rva": "0xb8664",
+          "name": "C_GetSessionInfo"
+        },
+        {
+          "ordinal": 69,
+          "rva": "0xb84f0",
+          "name": "C_GetSlotInfo"
+        },
+        {
+          "ordinal": 70,
+          "rva": "0xb84d0",
+          "name": "C_GetSlotList"
+        },
+        {
+          "ordinal": 71,
+          "rva": "0xb8510",
+          "name": "C_GetTokenInfo"
+        },
+        {
+          "ordinal": 72,
+          "rva": "0xb85b0",
+          "name": "C_InitPIN"
+        },
+        {
+          "ordinal": 73,
+          "rva": "0xb8590",
+          "name": "C_InitToken"
+        },
+        {
+          "ordinal": 74,
+          "rva": "0xb8470",
+          "name": "C_Initialize"
+        },
+        {
+          "ordinal": 75,
+          "rva": "0xb8684",
+          "name": "C_Login"
+        },
+        {
+          "ordinal": 76,
+          "rva": "0xb86a4",
+          "name": "C_Logout"
+        },
+        {
+          "ordinal": 77,
+          "rva": "0xb85f8",
+          "name": "C_OpenSession"
+        },
+        {
+          "ordinal": 78,
+          "rva": "0xb8c44",
+          "name": "C_SeedRandom"
+        },
+        {
+          "ordinal": 79,
+          "rva": "0xb8724",
+          "name": "C_SetAttributeValue"
+        },
+        {
+          "ordinal": 80,
+          "rva": "0xb8c84",
+          "name": "C_SetOperationState"
+        },
+        {
+          "ordinal": 81,
+          "rva": "0xb85d0",
+          "name": "C_SetPIN"
+        },
+        {
+          "ordinal": 82,
+          "rva": "0xb8980",
+          "name": "C_Sign"
+        },
+        {
+          "ordinal": 83,
+          "rva": "0xb8cac",
+          "name": "C_SignEncryptUpdate"
+        },
+        {
+          "ordinal": 84,
+          "rva": "0xb89cc",
+          "name": "C_SignFinal"
+        },
+        {
+          "ordinal": 85,
+          "rva": "0xb8960",
+          "name": "C_SignInit"
+        },
+        {
+          "ordinal": 86,
+          "rva": "0xb8a0c",
+          "name": "C_SignRecover"
+        },
+        {
+          "ordinal": 87,
+          "rva": "0xb89ec",
+          "name": "C_SignRecoverInit"
+        },
+        {
+          "ordinal": 88,
+          "rva": "0xb89ac",
+          "name": "C_SignUpdate"
+        },
+        {
+          "ordinal": 89,
+          "rva": "0xb8bc0",
+          "name": "C_UnwrapKey"
+        },
+        {
+          "ordinal": 90,
+          "rva": "0xb8a58",
+          "name": "C_Verify"
+        },
+        {
+          "ordinal": 91,
+          "rva": "0xb8aa0",
+          "name": "C_VerifyFinal"
+        },
+        {
+          "ordinal": 92,
+          "rva": "0xb8a38",
+          "name": "C_VerifyInit"
+        },
+        {
+          "ordinal": 93,
+          "rva": "0xb8ae0",
+          "name": "C_VerifyRecover"
+        },
+        {
+          "ordinal": 94,
+          "rva": "0xb8ac0",
+          "name": "C_VerifyRecoverInit"
+        },
+        {
+          "ordinal": 95,
+          "rva": "0xb8a80",
+          "name": "C_VerifyUpdate"
+        },
+        {
+          "ordinal": 96,
+          "rva": "0xb8530",
+          "name": "C_WaitForSlotEvent"
+        },
+        {
+          "ordinal": 97,
+          "rva": "0xb8b8c",
+          "name": "C_WrapKey"
+        },
+        {
+          "ordinal": 98,
+          "rva": "0xb8368",
+          "name": "E_GetAuxFunctionList"
+        }
+      ]
+    },
+    {
+      "dump_path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/48f5d924-efyca_p11_v1_s_1.dll.pe.txt",
+      "dll_names": [
+        "KERNEL32.dll",
+        "ADVAPI32.dll"
+      ],
+      "exports": [
+        {
+          "ordinal": 1,
+          "rva": "0x14ec",
+          "name": "CPCreateHash"
+        },
+        {
+          "ordinal": 2,
+          "rva": "0x128c",
+          "name": "CPDeriveKey"
+        },
+        {
+          "ordinal": 3,
+          "rva": "0x1330",
+          "name": "CPGenKey"
+        },
+        {
+          "ordinal": 4,
+          "rva": "0x15dc",
+          "name": "CPSetHashParam"
+        },
+        {
+          "ordinal": 5,
+          "rva": "0x1264",
+          "name": "CPSetProvParam"
+        },
+        {
+          "ordinal": 6,
+          "rva": "0x1e60",
+          "name": "CPAcquireContext"
+        },
+        {
+          "ordinal": 7,
+          "rva": "0x1450",
+          "name": "CPDecrypt"
+        },
+        {
+          "ordinal": 8,
+          "rva": "0x1520",
+          "name": "CPDestroyHash"
+        },
+        {
+          "ordinal": 9,
+          "rva": "0x12c0",
+          "name": "CPDestroyKey"
+        },
+        {
+          "ordinal": 10,
+          "rva": "0x1498",
+          "name": "CPEncrypt"
+        },
+        {
+          "ordinal": 11,
+          "rva": "0x12e8",
+          "name": "CPExportKey"
+        },
+        {
+          "ordinal": 12,
+          "rva": "0x1358",
+          "name": "CPGenRandom"
+        },
+        {
+          "ordinal": 13,
+          "rva": "0x1548",
+          "name": "CPGetHashParam"
+        },
+        {
+          "ordinal": 14,
+          "rva": "0x1380",
+          "name": "CPGetKeyParam"
+        },
+        {
+          "ordinal": 15,
+          "rva": "0x1234",
+          "name": "CPGetProvParam"
+        },
+        {
+          "ordinal": 16,
+          "rva": "0x13bc",
+          "name": "CPGetUserKey"
+        },
+        {
+          "ordinal": 17,
+          "rva": "0x1584",
+          "name": "CPHashData"
+        },
+        {
+          "ordinal": 18,
+          "rva": "0x15b4",
+          "name": "CPHashSessionKey"
+        },
+        {
+          "ordinal": 19,
+          "rva": "0x13e4",
+          "name": "CPImportKey"
+        },
+        {
+          "ordinal": 20,
+          "rva": "0x120c",
+          "name": "CPReleaseContext"
+        },
+        {
+          "ordinal": 21,
+          "rva": "0x1420",
+          "name": "CPSetKeyParam"
+        },
+        {
+          "ordinal": 22,
+          "rva": "0x160c",
+          "name": "CPSignHash"
+        },
+        {
+          "ordinal": 23,
+          "rva": "0x1654",
+          "name": "CPVerifySignature"
+        }
+      ]
+    },
+    {
+      "dump_path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/069e0ef6-efyca_p11_v1_s.dll.pe.txt",
+      "dll_names": [
+        "MSVCRT.dll",
+        "ADVAPI32.dll",
+        "KERNEL32.dll"
+      ],
+      "exports": [
+        {
+          "ordinal": 1,
+          "rva": "0x1a5f",
+          "name": "CPCreateHash"
+        },
+        {
+          "ordinal": 2,
+          "rva": "0x1824",
+          "name": "CPDeriveKey"
+        },
+        {
+          "ordinal": 3,
+          "rva": "0x18bb",
+          "name": "CPGenKey"
+        },
+        {
+          "ordinal": 4,
+          "rva": "0x1b58",
+          "name": "CPSetHashParam"
+        },
+        {
+          "ordinal": 5,
+          "rva": "0x17f3",
+          "name": "CPSetProvParam"
+        },
+        {
+          "ordinal": 6,
+          "rva": "0x175c",
+          "name": "CPAcquireContext"
+        },
+        {
+          "ordinal": 7,
+          "rva": "0x19e8",
+          "name": "CPDecrypt"
+        },
+        {
+          "ordinal": 8,
+          "rva": "0x1a93",
+          "name": "CPDestroyHash"
+        },
+        {
+          "ordinal": 9,
+          "rva": "0x1858",
+          "name": "CPDestroyKey"
+        },
+        {
+          "ordinal": 10,
+          "rva": "0x1a22",
+          "name": "CPEncrypt"
+        },
+        {
+          "ordinal": 11,
+          "rva": "0x1881",
+          "name": "CPExportKey"
+        },
+        {
+          "ordinal": 12,
+          "rva": "0x18ec",
+          "name": "CPGenRandom"
+        },
+        {
+          "ordinal": 13,
+          "rva": "0x1abc",
+          "name": "CPGetHashParam"
+        },
+        {
+          "ordinal": 14,
+          "rva": "0x1919",
+          "name": "CPGetKeyParam"
+        },
+        {
+          "ordinal": 15,
+          "rva": "0x17bf",
+          "name": "CPGetProvParam"
+        },
+        {
+          "ordinal": 16,
+          "rva": "0x1950",
+          "name": "CPGetUserKey"
+        },
+        {
+          "ordinal": 17,
+          "rva": "0x1af3",
+          "name": "CPHashData"
+        },
+        {
+          "ordinal": 18,
+          "rva": "0x1b27",
+          "name": "CPHashSessionKey"
+        },
+        {
+          "ordinal": 19,
+          "rva": "0x197d",
+          "name": "CPImportKey"
+        },
+        {
+          "ordinal": 20,
+          "rva": "0x1796",
+          "name": "CPReleaseContext"
+        },
+        {
+          "ordinal": 21,
+          "rva": "0x19b4",
+          "name": "CPSetKeyParam"
+        },
+        {
+          "ordinal": 22,
+          "rva": "0x1b8c",
+          "name": "CPSignHash"
+        },
+        {
+          "ordinal": 23,
+          "rva": "0x1bc6",
+          "name": "CPVerifySignature"
+        }
+      ]
+    },
+    {
+      "dump_path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/0e7a553d-efyca_p11_v1_mgr.exe.pe.txt",
+      "dll_names": [
+        "CRYPT32.dll",
+        "WININET.dll",
+        "VERSION.dll",
+        "CRYPTUI.dll",
+        "KERNEL32.dll",
+        "USER32.dll",
+        "GDI32.dll",
+        "comdlg32.dll",
+        "WINSPOOL.DRV",
+        "ADVAPI32.dll",
+        "SHELL32.dll",
+        "COMCTL32.dll",
+        "SHLWAPI.dll",
+        "oledlg.dll",
+        "ole32.dll",
+        "OLEAUT32.dll",
+        "WINHTTP.dll",
+        "WS2_32.dll"
+      ],
+      "exports": []
+    },
+    {
+      "dump_path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/4a3ccadb-efyca_p11_v1_certd.exe.pe.txt",
+      "dll_names": [
+        "MFC42u.DLL",
+        "MSVCRT.dll",
+        "KERNEL32.dll",
+        "USER32.dll",
+        "GDI32.dll",
+        "ADVAPI32.dll",
+        "SHELL32.dll",
+        "ole32.dll",
+        "CRYPT32.dll",
+        "WININET.dll",
+        "SHLWAPI.dll",
+        "WinSCard.dll"
+      ],
+      "exports": []
+    }
+  ],
+  "macos": {
+    "module": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+    "otool": ".local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib (architecture i386):\nLoad command 0\n      cmd LC_SEGMENT\n  cmdsize 600\n  segname __TEXT\n   vmaddr 0x00000000\n   vmsize 0x0013a000\n  fileoff 0\n filesize 1286144\n  maxprot 0x00000007\n initprot 0x00000005\n   nsects 8\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x00000b4c\n      size 0x000e121c\n    offset 2892\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __symbol_stub\n   segname __TEXT\n      addr 0x000e1d68\n      size 0x000003c0\n    offset 925032\n     align 2^1 (2)\n    reloff 0\n    nreloc 0\n     flags 0x80000508\n reserved1 0 (index into indirect symbol table)\n reserved2 6 (size of stubs)\nSection\n  sectname __stub_helper\n   segname __TEXT\n      addr 0x000e2128\n      size 0x0000077e\n    offset 925992\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000500\n reserved1 0\n reserved2 0\nSection\n  sectname __cstring\n   segname __TEXT\n      addr 0x000e28a8\n      size 0x000093c2\n    offset 927912\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __gcc_except_tab\n   segname __TEXT\n      addr 0x000ebc6c\n      size 0x0000ca93\n    offset 965740\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __const\n   segname __TEXT\n      addr 0x000f8700\n      size 0x00005b1c\n    offset 1017600\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __unwind_info\n   segname __TEXT\n      addr 0x000fe21c\n      size 0x000043bc\n    offset 1040924\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __eh_frame\n   segname __TEXT\n      addr 0x001025d8\n      size 0x00037a20\n    offset 1058264\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n      cmd LC_SEGMENT\n  cmdsize 600\n  segname __DATA\n   vmaddr 0x0013a000\n   vmsize 0x0000e000\n  fileoff 1286144\n filesize 40960\n  maxprot 0x00000007\n initprot 0x00000003\n   nsects 8\n    flags 0x0\nSection\n  sectname __dyld\n   segname __DATA\n      addr 0x0013a000\n      size 0x00000008\n    offset 1286144\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __nl_symbol_ptr\n   segname __DATA\n      addr 0x0013a008\n      size 0x00000398\n    offset 1286152\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000006\n reserved1 160 (index into indirect symbol table)\n reserved2 0\nSection\n  sectname __la_symbol_ptr\n   segname __DATA\n      addr 0x0013a3a0\n      size 0x00000280\n    offset 1287072\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000007\n reserved1 390 (index into indirect symbol table)\n reserved2 0\nSection\n  sectname __mod_init_func\n   segname __DATA\n      addr 0x0013a620\n      size 0x000001cc\n    offset 1287712\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000009\n reserved1 0\n reserved2 0\nSection\n  sectname __data\n   segname __DATA\n      addr 0x0013a800\n      size 0x000018d0\n    offset 1288192\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __const\n   segname __DATA\n      addr 0x0013c0e0\n      size 0x0000721c\n    offset 1294560\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __bss\n   segname __DATA\n      addr 0x00143300\n      size 0x00004a80\n    offset 0\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000001\n reserved1 0\n reserved2 0\nSection\n  sectname __common\n   segname __DATA\n      addr 0x00147d80\n      size 0x00000118\n    offset 0\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000001\n reserved1 0\n reserved2 0\nLoad command 2\n      cmd LC_SEGMENT\n  cmdsize 56\n  segname __LINKEDIT\n   vmaddr 0x00148000\n   vmsize 0x0000e478\n  fileoff 1327104\n filesize 58488\n  maxprot 0x00000007\n initprot 0x00000001\n   nsects 0\n    flags 0x0\nLoad command 3\n          cmd LC_ID_DYLIB\n      cmdsize 44\n         name efyca_p11_v1.dylib (offset 24)\n   time stamp 1 Thu Jan  1 08:00:01 1970\n      current version 0.0.0\ncompatibility version 0.0.0\nLoad command 4\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 1371944\n   nsyms 243\n  stroff 1381372\n strsize 4220\nLoad command 5\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 1\n     iextdefsym 1\n     nextdefsym 69\n      iundefsym 70\n      nundefsym 173\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 1379172\n  nindirectsyms 550\n      extreloff 1374860\n        nextrel 539\n      locreloff 1327104\n        nlocrel 5605\nLoad command 6\n     cmd LC_UUID\n cmdsize 24\n    uuid 0773BECE-118F-334D-93AB-EEAE6E5EB136\nLoad command 7\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 550.43.0\ncompatibility version 150.0.0\nLoad command 8\n          cmd LC_LOAD_DYLIB\n      cmdsize 84\n         name /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 275.0.0\ncompatibility version 1.0.0\nLoad command 9\n          cmd LC_LOAD_DYLIB\n      cmdsize 84\n         name /System/Library/Frameworks/PCSC.framework/Versions/A/PCSC (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 36160.0.0\ncompatibility version 1.0.0\nLoad command 10\n          cmd LC_LOAD_DYLIB\n      cmdsize 52\n         name /usr/lib/libSystem.B.dylib (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 125.2.11\ncompatibility version 1.0.0\nLoad command 11\n          cmd LC_LOAD_DYLIB\n      cmdsize 52\n         name /usr/lib/libstdc++.6.dylib (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 7.9.0\ncompatibility version 7.0.0\nLoad command 12\n          cmd LC_LOAD_DYLIB\n      cmdsize 52\n         name /usr/lib/libgcc_s.1.dylib (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 832.0.0\ncompatibility version 1.0.0\n\tefyca_p11_v1.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 550.43.0)\n\t/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)\n\t/System/Library/Frameworks/PCSC.framework/Versions/A/PCSC (compatibility version 1.0.0, current version 36160.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 125.2.11)\n\t/usr/lib/libstdc++.6.dylib (compatibility version 7.0.0, current version 7.9.0)\n\t/usr/lib/libgcc_s.1.dylib (compatibility version 1.0.0, current version 832.0.0)\n.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib (architecture x86_64):\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 712\n  segname __TEXT\n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000164000\n  fileoff 0\n filesize 1458176\n  maxprot 0x00000007\n initprot 0x00000005\n   nsects 8\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000b14\n      size 0x00000000000ed15a\n    offset 2836\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __stubs\n   segname __TEXT\n      addr 0x00000000000edc6e\n      size 0x00000000000003c0\n    offset 973934\n     align 2^1 (2)\n    reloff 0\n    nreloc 0\n     flags 0x80000408\n reserved1 0 (index into indirect symbol table)\n reserved2 6 (size of stubs)\nSection\n  sectname __stub_helper\n   segname __TEXT\n      addr 0x00000000000ee030\n      size 0x0000000000000780\n    offset 974896\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x80000400\n reserved1 0\n reserved2 0\nSection\n  sectname __cstring\n   segname __TEXT\n      addr 0x00000000000ee7b0\n      size 0x000000000000975e\n    offset 976816\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000002\n reserved1 0\n reserved2 0\nSection\n  sectname __gcc_except_tab\n   segname __TEXT\n      addr 0x00000000000f7f10\n      size 0x000000000000caac\n    offset 1015568\n     align 2^2 (4)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __const\n   segname __TEXT\n      addr 0x00000000001049c0\n      size 0x0000000000006474\n    offset 1067456\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __unwind_info\n   segname __TEXT\n      addr 0x000000000010ae34\n      size 0x0000000000003920\n    offset 1093172\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __eh_frame\n   segname __TEXT\n      addr 0x000000000010e758\n      size 0x0000000000055890\n    offset 1107800\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n      cmd LC_SEGMENT_64\n  cmdsize 712\n  segname __DATA\n   vmaddr 0x0000000000164000\n   vmsize 0x0000000000018000\n  fileoff 1458176\n filesize 69632\n  maxprot 0x00000007\n initprot 0x00000003\n   nsects 8\n    flags 0x0\nSection\n  sectname __dyld\n   segname __DATA\n      addr 0x0000000000164000\n      size 0x0000000000000010\n    offset 1458176\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __got\n   segname __DATA\n      addr 0x0000000000164010\n      size 0x00000000000001f8\n    offset 1458192\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000006\n reserved1 160 (index into indirect symbol table)\n reserved2 0\nSection\n  sectname __la_symbol_ptr\n   segname __DATA\n      addr 0x0000000000164208\n      size 0x0000000000000500\n    offset 1458696\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000007\n reserved1 223 (index into indirect symbol table)\n reserved2 0\nSection\n  sectname __mod_init_func\n   segname __DATA\n      addr 0x0000000000164708\n      size 0x0000000000000398\n    offset 1459976\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000009\n reserved1 0\n reserved2 0\nSection\n  sectname __const\n   segname __DATA\n      addr 0x0000000000164aa0\n      size 0x000000000000d998\n    offset 1460896\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __data\n   segname __DATA\n      addr 0x0000000000172440\n      size 0x0000000000001c50\n    offset 1516608\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nSection\n  sectname __bss\n   segname __DATA\n      addr 0x00000000001740a0\n      size 0x0000000000006f40\n    offset 0\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000001\n reserved1 0\n reserved2 0\nSection\n  sectname __common\n   segname __DATA\n      addr 0x000000000017afe0\n      size 0x0000000000000190\n    offset 0\n     align 2^5 (32)\n    reloff 0\n    nreloc 0\n     flags 0x00000001\n reserved1 0\n reserved2 0\nLoad command 2\n      cmd LC_SEGMENT_64\n  cmdsize 72\n  segname __LINKEDIT\n   vmaddr 0x000000000017c000\n   vmsize 0x000000000000db2c\n  fileoff 1527808\n filesize 56108\n  maxprot 0x00000007\n initprot 0x00000001\n   nsects 0\n    flags 0x0\nLoad command 3\n          cmd LC_ID_DYLIB\n      cmdsize 48\n         name efyca_p11_v1.dylib (offset 24)\n   time stamp 1 Thu Jan  1 08:00:01 1970\n      current version 0.0.0\ncompatibility version 0.0.0\nLoad command 4\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 1570080\n   nsyms 243\n  stroff 1579812\n strsize 4104\nLoad command 5\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 1\n     iextdefsym 1\n     nextdefsym 69\n      iundefsym 70\n      nundefsym 173\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 1578280\n  nindirectsyms 383\n      extreloff 1573968\n        nextrel 539\n      locreloff 1527808\n        nlocrel 5284\nLoad command 6\n     cmd LC_UUID\n cmdsize 24\n    uuid 028D3451-AB14-34D5-8C25-B176B4B8796E\nLoad command 7\n          cmd LC_LOAD_DYLIB\n      cmdsize 104\n         name /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 550.43.0\ncompatibility version 150.0.0\nLoad command 8\n          cmd LC_LOAD_DYLIB\n      cmdsize 88\n         name /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 275.0.0\ncompatibility version 1.0.0\nLoad command 9\n          cmd LC_LOAD_DYLIB\n      cmdsize 88\n         name /System/Library/Frameworks/PCSC.framework/Versions/A/PCSC (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 36160.0.0\ncompatibility version 1.0.0\nLoad command 10\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libSystem.B.dylib (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 125.2.11\ncompatibility version 1.0.0\nLoad command 11\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libstdc++.6.dylib (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 7.9.0\ncompatibility version 7.0.0\nLoad command 12\n          cmd LC_LOAD_DYLIB\n      cmdsize 56\n         name /usr/lib/libgcc_s.1.dylib (offset 24)\n   time stamp 2 Thu Jan  1 08:00:02 1970\n      current version 832.0.0\ncompatibility version 1.0.0\n\tefyca_p11_v1.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 550.43.0)\n\t/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)\n\t/System/Library/Frameworks/PCSC.framework/Versions/A/PCSC (compatibility version 1.0.0, current version 36160.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 125.2.11)\n\t/usr/lib/libstdc++.6.dylib (compatibility version 7.0.0, current version 7.9.0)\n\t/usr/lib/libgcc_s.1.dylib (compatibility version 1.0.0, current version 832.0.0)\n",
+    "symbols": "0000000000001ced T _C_CancelFunction\n0000000000002e81 T _C_CloseAllSessions\n0000000000002ebf T _C_CloseSession\n0000000000002cf0 T _C_CopyObject\n0000000000002d51 T _C_CreateObject\n00000000000028c1 T _C_Decrypt\n0000000000001e2b T _C_DecryptDigestUpdate\n0000000000002812 T _C_DecryptFinal\n0000000000002922 T _C_DecryptInit\n0000000000002860 T _C_DecryptUpdate\n0000000000001d69 T _C_DecryptVerifyUpdate\n0000000000002038 T _C_DeriveKey\n0000000000002caa T _C_DestroyObject\n000000000000276b T _C_Digest\n0000000000001e8c T _C_DigestEncryptUpdate\n0000000000002689 T _C_DigestFinal\n00000000000027cc T _C_DigestInit\n00000000000026d7 T _C_DigestKey\n000000000000271d T _C_DigestUpdate\n0000000000002a1f T _C_Encrypt\n0000000000002970 T _C_EncryptFinal\n0000000000002a80 T _C_EncryptInit\n00000000000029be T _C_EncryptUpdate\n0000000000003265 T _C_Finalize\n0000000000002b0c T _C_FindObjects\n0000000000002ace T _C_FindObjectsFinal\n0000000000002b62 T _C_FindObjectsInit\n0000000000002234 T _C_GenerateKey\n00000000000021ab T _C_GenerateKeyPair\n0000000000001f9c T _C_GenerateRandom\n0000000000002c06 T _C_GetAttributeValue\n00000000000017be T _C_GetFunctionList\n0000000000001d2b T _C_GetFunctionStatus\n0000000000003227 T _C_GetInfo\n0000000000003063 T _C_GetMechanismInfo\n00000000000030b1 T _C_GetMechanismList\n0000000000002c5c T _C_GetObjectSize\n0000000000001f4e T _C_GetOperationState\n0000000000002e3b T _C_GetSessionInfo\n0000000000003193 T _C_GetSlotInfo\n00000000000031d9 T _C_GetSlotList\n000000000000314d T _C_GetTokenInfo\n0000000000002fbf T _C_InitPIN\n000000000000300d T _C_InitToken\n00000000000032a3 T _C_Initialize\n0000000000002de5 T _C_Login\n0000000000002da7 T _C_Logout\n0000000000002efd T _C_OpenSession\n0000000000001fea T _C_SeedRandom\n0000000000002bb0 T _C_SetAttributeValue\n0000000000001eed T _C_SetOperationState\n0000000000002f5e T _C_SetPIN\n00000000000025da T _C_Sign\n0000000000001dca T _C_SignEncryptUpdate\n000000000000253e T _C_SignFinal\n000000000000263b T _C_SignInit\n000000000000248f T _C_SignRecover\n00000000000024f0 T _C_SignRecoverInit\n000000000000258c T _C_SignUpdate\n00000000000020ad T _C_UnwrapKey\n00000000000023e0 T _C_Verify\n0000000000002344 T _C_VerifyFinal\n0000000000002441 T _C_VerifyInit\n0000000000002295 T _C_VerifyRecover\n00000000000022f6 T _C_VerifyRecoverInit\n0000000000002392 T _C_VerifyUpdate\n00000000000030ff T _C_WaitForSlotEvent\n0000000000002136 T _C_WrapKey\n000000000000fa28 T _E_GetAuxFunctionList\n                 U _SCardBeginTransaction\n                 U _SCardConnect\n                 U _SCardDisconnect\n                 U _SCardEndTransaction\n                 U _SCardEstablishContext\n                 U _SCardGetStatusChange\n                 U _SCardIsValidContext\n                 U _SCardReconnect\n                 U _SCardReleaseContext\n                 U _SCardTransmit\n                 U __DefaultRuneLocale\n                 U __Unwind_Resume\n                 U __ZNKSbIwSt11char_traitsIwESaIwEE4copyEPwmm\n                 U __ZNKSbIwSt11char_traitsIwESaIwEE5c_strEv\n                 U __ZNKSbIwSt11char_traitsIwESaIwEE5emptyEv\n                 U __ZNKSbIwSt11char_traitsIwESaIwEE6lengthEv\n                 U __ZNKSbIwSt11char_traitsIwESaIwEE7compareERKS2_\n                 U __ZNKSs4sizeEv\n                 U __ZNKSs5c_strEv\n                 U __ZNKSs5emptyEv\n                 U __ZNKSs6lengthEv\n                 U __ZNKSs6substrEmm\n                 U __ZNKSs7compareEPKc\n                 U __ZNKSs7compareERKSs\n                 U __ZNKSsixEm\n                 U __ZNSaIcEC1ERKS_\n                 U __ZNSaIcEC1Ev\n                 U __ZNSaIcEC2ERKS_\n                 U __ZNSaIcED1Ev\n                 U __ZNSaIcED2Ev\n                 U __ZNSaIwEC1Ev\n                 U __ZNSaIwED1Ev\n                 U __ZNSbIwSt11char_traitsIwESaIwEE6appendEPKw\n                 U __ZNSbIwSt11char_traitsIwESaIwEEC1EPKwRKS1_\n                 U __ZNSbIwSt11char_traitsIwESaIwEEC1ERKS2_\n                 U __ZNSbIwSt11char_traitsIwESaIwEEC1Ev\n                 U __ZNSbIwSt11char_traitsIwESaIwEED1Ev\n                 U __ZNSbIwSt11char_traitsIwESaIwEEaSEPKw\n                 U __ZNSbIwSt11char_traitsIwESaIwEEaSERKS2_\n                 U __ZNSolsEPFRSoS_E\n                 U __ZNSolsEPKv\n                 U __ZNSs6appendEPKc\n                 U __ZNSs6appendERKSs\n                 U __ZNSsC1EPKcRKSaIcE\n                 U __ZNSsC1ERKSs\n                 U __ZNSsC1Ev\n                 U __ZNSsD1Ev\n                 U __ZNSsaSEPKc\n                 U __ZNSsaSERKSs\n                 U __ZNSspLERKSs\n                 U __ZNSspLEc\n                 U __ZNSt15_List_node_base4hookEPS_\n                 U __ZNSt15_List_node_base6unhookEv\n                 U __ZNSt8ios_base4InitC1Ev\n                 U __ZNSt8ios_base4InitD1Ev\n                 U __ZSt17__throw_bad_allocv\n                 U __ZSt18_Rb_tree_decrementPSt18_Rb_tree_node_base\n                 U __ZSt18_Rb_tree_incrementPSt18_Rb_tree_node_base\n                 U __ZSt20__throw_length_errorPKc\n                 U __ZSt28_Rb_tree_rebalance_for_erasePSt18_Rb_tree_node_baseRS_\n                 U __ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_\n                 U __ZSt4cerr\n                 U __ZSt4cout\n                 U __ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_\n                 U __ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc\n                 U __ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_c\n                 U __ZTVN10__cxxabiv117__class_type_infoE\n                 U __ZTVN10__cxxabiv120__si_class_type_infoE\n                 U __ZTVN10__cxxabiv121__vmi_class_type_infoE\n                 U __ZdaPv\n                 U __ZdlPv\n                 U __Znam\n                 U __Znwm\n                 U ___assert_rtn\n                 U ___cxa_atexit\n                 U ___cxa_begin_catch\n                 U ___cxa_end_catch\n                 U ___cxa_guard_abort\n                 U ___cxa_guard_acquire\n                 U ___cxa_guard_release\n                 U ___cxa_pure_virtual\n                 U ___cxa_rethrow\n                 U ___dynamic_cast\n                 U ___error\n                 U ___gxx_personality_v0\n                 U ___maskrune\n                 U ___mb_cur_max\n                 U ___memcpy_chk\n                 U ___memset_chk\n                 U ___snprintf_chk\n                 U ___sprintf_chk\n                 U ___stack_chk_fail\n                 U ___stack_chk_guard\n                 U _alarm\n                 U _atoi\n                 U _atol\n                 U _close\n                 U _difftime\n                 U _fclose\n                 U _ferror\n                 U _fgets\n                 U _fopen\n                 U _fread\n                 U _free\n                 U _fseek\n                 U _ftell\n                 U _fwrite\n                 U _g_rgSCardT0Pci\n                 U _g_rgSCardT1Pci\n                 U _getpid\n                 U _gettimeofday\n                 U _kill\n                 U _localtime\n                 U _lseek\n                 U _malloc\n                 U _mbsrtowcs\n                 U _mbstowcs\n                 U _memchr\n                 U _memcmp\n                 U _memcpy\n                 U _memmove\n                 U _memset\n                 U _open\n                 U _pclose\n                 U _popen\n                 U _printf\n                 U _pthread_cancel\n                 U _pthread_create\n                 U _pthread_mutex_destroy\n                 U _pthread_mutex_init\n                 U _pthread_mutex_lock\n                 U _pthread_mutex_unlock\n                 U _pthread_self\n                 U _rand\n                 U _read\n                 U _select$1050\n                 U _sem_close\n                 U _sem_open\n                 U _sem_post\n                 U _sem_unlink\n                 U _sem_wait\n                 U _semctl\n                 U _semget\n                 U _semop\n                 U _setlocale\n                 U _shmat\n                 U _shmctl\n                 U _shmdt\n                 U _shmget\n                 U _signal\n                 U _sleep\n                 U _sprintf\n                 U _srand\n                 U _sscanf\n                 U _stat\n                 U _strcat\n                 U _strcmp\n                 U _strcpy\n                 U _strftime\n                 U _strlen\n                 U _strncmp\n                 U _strncpy\n                 U _strstr\n                 U _swprintf\n                 U _time\n                 U _usleep\n                 U _vsnprintf\n                 U _vswprintf\n                 U _wcscat\n                 U _wcsftime\n                 U _wcslen\n                 U _wcsrtombs\n                 U _wcstombs\n",
+    "signature": ".local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib: code object is not signed at all\n",
+    "pkg_signature": "Package \"efyca_p11_v1.pkg\":\n   Status: no signature\n"
+  },
+  "ccid": {
+    "CFBundleDevelopmentRegion": "English",
+    "CFBundleExecutable": "libccid.dylib",
+    "CFBundleIdentifier": "org.debian.alioth.pcsclite.smartcardccid",
+    "CFBundleInfoDictionaryVersion": "6.0",
+    "CFBundleName": "CCIDCLASSDRIVER",
+    "CFBundlePackageType": "BNDL",
+    "CFBundleShortVersionString": "1.4.20",
+    "CFBundleSignature": "????",
+    "CFBundleVersion": "0.0.1d1",
+    "ifdCapabilities": "0x00000000",
+    "ifdProtocolSupport": "0x00000001",
+    "ifdVersionNumber": "0x00000001",
+    "ifdLogLevel": "0x0003",
+    "ifdDriverOptions": "0x0000",
+    "ifdManufacturerString": "Ludovic Rousseau (ludovic.rousseau@free.fr)",
+    "ifdProductString": "Generic CCID driver",
+    "ifdVendorID": [
+      "0x096E",
+      "0x096E",
+      "0x096E",
+      "0x096E",
+      "0x096E",
+      "0x096E",
+      "0x096E"
+    ],
+    "ifdProductID": [
+      "0x0807",
+      "0x080A",
+      "0x0703",
+      "0x0853",
+      "0x0855",
+      "0x0856",
+      "0x0859"
+    ],
+    "ifdFriendlyName": [
+      "Feitian ePass2003",
+      "FT  ePass2003Auto",
+      "FT ePass3003Auto",
+      "Feitian ePass FIDO OTP+U2F+CCID",
+      "Feitian ePass FIDO OTP+CCID",
+      "Feitian ePass FIDO U2F+CCID",
+      "Feitian ePass FIDO CCID"
+    ],
+    "Copyright": "This driver is protected by terms of the GNU Lesser General Public License version 2.1, or (at your option) any later version."
+  },
+  "app": {
+    "BuildMachineOSBuild": "17G65",
+    "CFBundleDevelopmentRegion": "en",
+    "CFBundleExecutable": "EFY-CA Token Manager V1",
+    "CFBundleIconFile": "AppIcon",
+    "CFBundleIconName": "AppIcon",
+    "CFBundleIdentifier": "vn.mobileid.efyca",
+    "CFBundleInfoDictionaryVersion": "6.0",
+    "CFBundleName": "EFY-CA Token Manager V1",
+    "CFBundlePackageType": "APPL",
+    "CFBundleShortVersionString": "1.0.190227",
+    "CFBundleSignature": "????",
+    "CFBundleSupportedPlatforms": [
+      "MacOSX"
+    ],
+    "CFBundleVersion": "1",
+    "DTCompiler": "com.apple.compilers.llvm.clang.1_0",
+    "DTPlatformBuild": "10B61",
+    "DTPlatformVersion": "GM",
+    "DTSDKBuild": "18B71",
+    "DTSDKName": "macosx10.14",
+    "DTXcode": "1010",
+    "DTXcodeBuild": "10B61",
+    "LSMinimumSystemVersion": "10.7",
+    "NSAppTransportSecurity": {
+      "NSAllowsArbitraryLoads": true,
+      "NSExceptionDomains": {
+        "New item": ""
+      }
+    },
+    "NSHumanReadableCopyright": "Copyright \u00a9 2018 Minh Thong Card Solutions., Co Ltd. All rights reserved.",
+    "NSMainNibFile": "MainMenu",
+    "NSPrincipalClass": "NSApplication",
+    "UIApplicationExitsOnSuspend": true
+  }
+}

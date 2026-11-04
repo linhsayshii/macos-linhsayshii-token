@@ -1,0 +1,24 @@
+{
+  "source": "OpenSC 0.27.1, src/libopensc/card-epass2003.c",
+  "sourceURL": "https://github.com/OpenSC/OpenSC/blob/0.27.1/src/libopensc/card-epass2003.c",
+  "sourceSHA256": "53d423f91cb0d0933362fc9f2eb3e352e2302d352f46cfa646091deccbcf3758",
+  "sourceLines": {
+    "table": "61-68",
+    "matchFunction": "1675-1686"
+  },
+  "pattern": "3b9f958131fe9f006646530500000071df000000000000",
+  "mask": "ffffffffffffffffffffffff000000ffffffff00000000",
+  "fixtures": [
+    {
+      "atr": "3b9f958131fe9f006646530510523971df000069000011",
+      "upstreamFamilyMatches": true,
+      "tckXOR": 0
+    },
+    {
+      "atr": "3b9f958131fe9f006646530510063171df00006900004d",
+      "upstreamFamilyMatches": true,
+      "tckXOR": 0
+    }
+  ],
+  "scope": "Static upstream driver family matcher + offline comparison; not a new PIN/signing test. Generic OpenSC family matcher is not a FastCA issuer identity or PIN-protocol guarantee."
+}

@@ -1,0 +1,77 @@
+{
+  "evidence_id": "EFY-CA-E07",
+  "note": "Unreferenced byte candidates, not live ATRs or proof of matching mask",
+  "artifacts": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s_1.dll",
+      "matches": []
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1.dll",
+      "matches": [
+        {
+          "needle": "3b9f958131fe9f",
+          "offset": 767924,
+          "context_offset": 767892,
+          "context_hex": "3b f2 18 00 02 c1 0a 31 fe 58 c8 09 75 00 00 00 ff ff ff ff ff ff ff ff ff ff ff ff ff 00 00 00 3b 9f 95 81 31 fe 9f 00 65 46 53 00 00 06 71 df 00 00 00 80 6a 82 5e 00 ff ff ff ff ff ff ff ff ff ff ff 00 00 ff ff ff ff ff ff 00 00 00 00 00 3b 9f 95 81 31 00 9f 00 66 46 53 07 10 01 10 00 00 00 00 81 90 00 bf 00 ff ff ff ff ff 00 ff ff ff ff ff ff 00 00 ff 00 00 00 00 00 00 00 00 00"
+        },
+        {
+          "needle": "3b9f958131fe9f",
+          "offset": 790748,
+          "context_offset": 790716,
+          "context_hex": "43 50 31 31 53 65 73 73 69 6f 6e 4d 61 6e 61 67 65 72 40 40 00 00 00 00 00 00 00 00 17 00 00 00 3b 9f 95 81 31 fe 9f 00 66 46 53 05 00 00 00 71 df 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff ff ff ff ff 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 bc c1 0a 10 00 00 00 00 2e 3f 41 56 3f 24 5f 52 65 66 5f 63"
+        },
+        {
+          "needle": "454e544552534146452d4553504b",
+          "offset": 780976,
+          "context_offset": 780944,
+          "context_hex": "09 0a 0b 00 11 12 13 14 15 16 17 18 19 1a 1b 00 31 50 41 59 2e 53 59 53 2e 44 44 46 30 31 00 00 45 4e 54 45 52 53 41 46 45 2d 45 53 50 4b 00 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 bf c3 29 11 c7 18 c3 40 b6 d2 dd c5 b4 78 5e 81 2a 7e c2 b5 de 5a 80 a8 e4 8c 21 5e 8c 27 81 73 6d e1 e0 ab b9 24 fc 08 0c 0c 54 09 80 37 7b 06"
+        }
+      ]
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_1.dll",
+      "matches": [
+        {
+          "needle": "3b9f958131fe9f",
+          "offset": 1302536,
+          "context_offset": 1302504,
+          "context_hex": "3b f2 18 00 02 c1 0a 31 fe 58 c8 09 75 00 00 00 ff ff ff ff ff ff ff ff ff ff ff ff ff 00 00 00 3b 9f 95 81 31 fe 9f 00 65 46 53 00 00 06 71 df 00 00 00 80 6a 82 5e 00 ff ff ff ff ff ff ff ff ff ff ff 00 00 ff ff ff ff ff ff 00 00 00 00 00 3b 9f 95 81 31 00 9f 00 66 46 53 07 10 01 10 00 00 00 00 81 90 00 bf 00 ff ff ff ff ff 00 ff ff ff ff ff ff 00 00 ff 00 00 00 00 00 00 00 00 00"
+        },
+        {
+          "needle": "3b9f958131fe9f",
+          "offset": 1329076,
+          "context_offset": 1329044,
+          "context_hex": "69 6f 6e 4d 61 6e 61 67 65 72 40 40 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 17 00 00 00 3b 9f 95 81 31 fe 9f 00 66 46 53 05 00 00 00 71 df 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff ff ff ff ff ff ff ff ff ff ff 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 38 33 12 80 01 00 00 00 00 00 00 00 00 00 00 00 2e 3f 41 56"
+        },
+        {
+          "needle": "454e544552534146452d4553504b",
+          "offset": 1318240,
+          "context_offset": 1318208,
+          "context_hex": "11 12 13 14 15 16 17 18 19 1a 1b 00 00 00 00 00 31 50 41 59 2e 53 59 53 2e 44 44 46 30 31 00 00 45 4e 54 45 52 53 41 46 45 2d 45 53 50 4b 00 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 bf c3 29 11 c7 18 c3 40 00 01 00 01 00 00 00 00 b6 d2 dd c5 b4 78 5e 81 2a 7e c2 b5 de 5a 80 a8 e4 8c 21 5e 8c 27 81 73 6d e1 e0 ab b9 24 fc 08"
+        }
+      ]
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s.dll",
+      "matches": []
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+      "matches": [
+        {
+          "needle": "454e544552534146452d4553504b",
+          "offset": 1295260,
+          "context_offset": 1295228,
+          "context_hex": "09 0a 0b 0c 0d 0e 0f 10 bf c3 29 11 c7 18 c3 40 31 50 41 59 2e 53 59 53 2e 44 44 46 30 31 00 00 45 4e 54 45 52 53 41 46 45 2d 45 53 50 4b 00 00 11 12 13 14 15 16 17 18 19 1a 1b 01 02 03 04 05 06 07 08 09 0a 0b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 38 43 30 35 33 34 45 2d 39 41 31 46 2d 34 42 44 46 2d 38 31 43 34 2d 46 37 38 31"
+        },
+        {
+          "needle": "454e544552534146452d4553504b",
+          "offset": 2913040,
+          "context_offset": 2913008,
+          "context_hex": "bf c3 29 11 c7 18 c3 40 00 00 00 00 00 00 00 00 31 50 41 59 2e 53 59 53 2e 44 44 46 30 31 00 00 45 4e 54 45 52 53 41 46 45 2d 45 53 50 4b 00 00 11 12 13 14 15 16 17 18 19 1a 1b 01 02 03 04 05 06 07 08 09 0a 0b 00 00 00 00 00 00 00 00 00 00 30 38 43 30 35 33 34 45 2d 39 41 31 46 2d 34 42 44 46 2d 38 31 43 34 2d 46 37 38 31 34 46 31 34 33 38 38 46 00 00 00 00 5a 0b 00 00 00 01 00 00"
+        }
+      ]
+    }
+  ]
+}

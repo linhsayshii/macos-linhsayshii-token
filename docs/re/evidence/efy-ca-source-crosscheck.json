@@ -1,0 +1,47 @@
+{
+  "evidence_id": "EFY-CA-E11",
+  "commit": "d6002279683930a985fae01f6dfb996c3a9824fb",
+  "sources": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/ModuleRegistry.swift",
+      "sha256": "b35c66f263689475b5f030cf786aefe03bfddb0f6164b27aa4df926cfe4d5aed"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/TokenBroker.swift",
+      "sha256": "f582cf3bbf27d7c2a035ac8e7aa3fee9fc8fa0370e0b30a6c473b4c857f41199"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/TokenHelper/PKCS11.swift",
+      "sha256": "4e96c2874982fe037d2c3254a19339ada78d66e5efbb547052d132eff6d8325d"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/DigestInfo.swift",
+      "sha256": "5fc1028c855a0bd96f11a18d4d78c0b4d52cca81aa6032569a33529b37873322"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/App/AppModel.swift",
+      "sha256": "64b7a92b22e7d937886fa724316ddfe004bbf1e594d400484d5dc146b85f54ee"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/TSShim/shim.c",
+      "sha256": "76e8ef5fe33754c3c99e62217a8d7b90364bc19ad14882a7f5e7c6a9bac7f7a4"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/docs/re/ncca.md",
+      "sha256": "ee0b02244f8595aa39e16346ec57d93d54daba0bde86d6ee6235ba6cf2579fc0"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/docs/re/pin-auth-feitian.md",
+      "sha256": "97ab7685dff849365d817906901b1c474b537b89e3a3de70e71a06ac7901f40f"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/docs/re/fastca-native-signing.md",
+      "sha256": "ae87b82ff122e730ca0ebe90293dad8c4efb0e2be926d30805542065494c3f38"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/docs/re/macsigner-repo.md",
+      "sha256": "a2985ffd19b5cb78378293177b45b264877f2332e25b06523d53ebcc67919d58"
+    }
+  ],
+  "statement": "Source reviewed only. No Sources files changed by EFY investigation."
+}

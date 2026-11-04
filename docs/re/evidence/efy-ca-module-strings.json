@@ -1,0 +1,4120 @@
+{
+  "evidence_id": "EFY-CA-E05",
+  "artifacts": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s_1.dll",
+      "strings": [
+        {
+          "offset": 38382,
+          "encoding": "ascii",
+          "value": "cspshell.dll"
+        },
+        {
+          "offset": 46128,
+          "encoding": "utf-16le",
+          "value": "www.EnterSafe.com"
+        },
+        {
+          "offset": 46204,
+          "encoding": "utf-16le",
+          "value": "CSPShell"
+        },
+        {
+          "offset": 46316,
+          "encoding": "utf-16le",
+          "value": "CSPShell"
+        },
+        {
+          "offset": 46372,
+          "encoding": "utf-16le",
+          "value": "Copyright (C) 2008-2009 www.EnterSafe.com"
+        },
+        {
+          "offset": 46496,
+          "encoding": "utf-16le",
+          "value": "CSPShell.dll"
+        },
+        {
+          "offset": 46556,
+          "encoding": "utf-16le",
+          "value": "EnterSafe CSPShell"
+        }
+      ]
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1.dll",
+      "strings": [
+        {
+          "offset": 47146,
+          "encoding": "ascii",
+          "value": "RSA1t"
+        },
+        {
+          "offset": 526273,
+          "encoding": "ascii",
+          "value": "RSA1t"
+        },
+        {
+          "offset": 532115,
+          "encoding": "ascii",
+          "value": "E RSA1"
+        },
+        {
+          "offset": 551724,
+          "encoding": "ascii",
+          "value": "RSA2u"
+        },
+        {
+          "offset": 552388,
+          "encoding": "ascii",
+          "value": "RSA3t"
+        },
+        {
+          "offset": 635700,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 635732,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 636256,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 636280,
+          "encoding": "ascii",
+          "value": "RSA Signature"
+        },
+        {
+          "offset": 636344,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 636368,
+          "encoding": "ascii",
+          "value": "RSA Key Exchange"
+        },
+        {
+          "offset": 636456,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC2"
+        },
+        {
+          "offset": 636544,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC4"
+        },
+        {
+          "offset": 638456,
+          "encoding": "ascii",
+          "value": "BCryptAddContextFunctionProvider"
+        },
+        {
+          "offset": 638520,
+          "encoding": "ascii",
+          "value": "BCryptRegisterProvider"
+        },
+        {
+          "offset": 638592,
+          "encoding": "ascii",
+          "value": "BCryptUnregisterProvider"
+        },
+        {
+          "offset": 638620,
+          "encoding": "ascii",
+          "value": "BCryptRemoveContextFunctionProvider"
+        },
+        {
+          "offset": 646764,
+          "encoding": "ascii",
+          "value": "SCardReleaseStartedEvent()"
+        },
+        {
+          "offset": 646892,
+          "encoding": "ascii",
+          "value": "SCardAccessStartedEvent"
+        },
+        {
+          "offset": 647640,
+          "encoding": "ascii",
+          "value": "pkcs11"
+        },
+        {
+          "offset": 654492,
+          "encoding": "ascii",
+          "value": "16+Feitian-interPassEnterSafe@20"
+        },
+        {
+          "offset": 657328,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 658607,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 658640,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 660382,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 660432,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 660791,
+          "encoding": "ascii",
+          "value": "wZAngwQsCxv4PR7YwkBnekrAzatRdzTurqwJa3rLICOzRLF+eKCVUFk2lwRXmnZl"
+        },
+        {
+          "offset": 661601,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 661632,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 663117,
+          "encoding": "ascii",
+          "value": "nO0FtQKBgEDDqxchzGIpKfi0sPSdt9TfOZADdI7Tc28U7ktWcVnArtGGyecwatr7"
+        },
+        {
+          "offset": 663303,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 663336,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 664517,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 664552,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 665707,
+          "encoding": "ascii",
+          "value": "3N603t9/4g8evJ5qOEiwfjrsAdcu2r+OtNtkYmyAxLhRkTCbe2iQ7NP/ozkn/hgT"
+        },
+        {
+          "offset": 666227,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 669792,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 669820,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 672568,
+          "encoding": "ascii",
+          "value": "53D7E08529547048121E9C95F3791DD804963948F34FAE7BF44EA82365DC7868FE57E4AE2DE211305A407104BD"
+        },
+        {
+          "offset": 674976,
+          "encoding": "ascii",
+          "value": "32010857077C5431123A46B808906756F543423E8D27877578125778AC76"
+        },
+        {
+          "offset": 675312,
+          "encoding": "ascii",
+          "value": "C8619ED45A62E6212E1160349E2BFA844439FAFC2A3FD1638F9E"
+        },
+        {
+          "offset": 676900,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFDF64DE1151ADBB78F10A7"
+        },
+        {
+          "offset": 677032,
+          "encoding": "ascii",
+          "value": "0667ACEB38AF4E488C407433FFAE4F1C811638DF20"
+        },
+        {
+          "offset": 677424,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE661CE18FF55987308059B186823851EC7DD9CA1161DE93D5174D66E8382E9BB2FE84E47"
+        },
+        {
+          "offset": 678824,
+          "encoding": "ascii",
+          "value": "010000000000000000000000000000000000000000000000000001E2AAD6A612F33307BE5FA47C3C9E052F838164CD37D9A21173"
+        },
+        {
+          "offset": 679048,
+          "encoding": "ascii",
+          "value": "015D4860D088DDB3496B0C6064756260441CDE4AF1771D4DB01FFE5B34E59703DC255A868A1180515603AEAB60794E54BB7996A7"
+        },
+        {
+          "offset": 680392,
+          "encoding": "ascii",
+          "value": "01CCDA380F1C9E318D90F95D07E5426FE87E45C0E8184698E45962364E34116177DD2259"
+        },
+        {
+          "offset": 681360,
+          "encoding": "ascii",
+          "value": "01DB537DECE819B7F70F555A67C427A8CD9BF18AEB9B56E0C11056FAE6A3"
+        },
+        {
+          "offset": 682296,
+          "encoding": "ascii",
+          "value": "03F0EBA16286A2D57EA0991168D4994637E8343E36"
+        },
+        {
+          "offset": 684136,
+          "encoding": "ascii",
+          "value": "483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"
+        },
+        {
+          "offset": 685964,
+          "encoding": "ascii",
+          "value": "E87579C11079F43DD824993C2CEE5ED3"
+        },
+        {
+          "offset": 686412,
+          "encoding": "ascii",
+          "value": "659EF8BA043916EEDE8911702B22"
+        },
+        {
+          "offset": 688552,
+          "encoding": "ascii",
+          "value": "011839296a789a3bc0045c8a5fb42c7d1bd998f54449579b446817afbd17273e662c97ee72995ef42640c550b9013fad0761353c7086a272c24088be94769fd16650"
+        },
+        {
+          "offset": 689584,
+          "encoding": "ascii",
+          "value": "B3312FA7E23EE7E4988E056BE3F82D19181D9C6EFE8141120314088F5013875AC656398D8A2ED19D2A85C8EDD3EC2AEF"
+        },
+        {
+          "offset": 690056,
+          "encoding": "ascii",
+          "value": "B70E0CBD6BB4BF7F321390B94A03C1D356C21122343280D6115C1D21"
+        },
+        {
+          "offset": 694836,
+          "encoding": "ascii",
+          "value": "EFY Certification Authority virtual Slot %d"
+        },
+        {
+          "offset": 694912,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 694936,
+          "encoding": "ascii",
+          "value": "RSA Signature"
+        },
+        {
+          "offset": 695000,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 695024,
+          "encoding": "ascii",
+          "value": "RSA Key Exchange"
+        },
+        {
+          "offset": 695112,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC2"
+        },
+        {
+          "offset": 695200,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC4"
+        },
+        {
+          "offset": 696432,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 696456,
+          "encoding": "ascii",
+          "value": "RSA Signature"
+        },
+        {
+          "offset": 696520,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 696544,
+          "encoding": "ascii",
+          "value": "RSA Key Exchange"
+        },
+        {
+          "offset": 696632,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC2"
+        },
+        {
+          "offset": 696720,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC4"
+        },
+        {
+          "offset": 762894,
+          "encoding": "ascii",
+          "value": "SetSecurityDescriptorSacl"
+        },
+        {
+          "offset": 762922,
+          "encoding": "ascii",
+          "value": "GetSecurityDescriptorSacl"
+        },
+        {
+          "offset": 763214,
+          "encoding": "ascii",
+          "value": "CertFreeCertificateContext"
+        },
+        {
+          "offset": 763270,
+          "encoding": "ascii",
+          "value": "CertCreateCertificateContext"
+        },
+        {
+          "offset": 763382,
+          "encoding": "ascii",
+          "value": "CertSetCertificateContextProperty"
+        },
+        {
+          "offset": 763418,
+          "encoding": "ascii",
+          "value": "CertAddEncodedCertificateToStore"
+        },
+        {
+          "offset": 763470,
+          "encoding": "ascii",
+          "value": "CryptVerifyCertificateSignature"
+        },
+        {
+          "offset": 763600,
+          "encoding": "ascii",
+          "value": "SCardEndTransaction"
+        },
+        {
+          "offset": 763622,
+          "encoding": "ascii",
+          "value": "g_rgSCardT0Pci"
+        },
+        {
+          "offset": 763640,
+          "encoding": "ascii",
+          "value": "g_rgSCardT1Pci"
+        },
+        {
+          "offset": 763658,
+          "encoding": "ascii",
+          "value": "SCardReconnect"
+        },
+        {
+          "offset": 763676,
+          "encoding": "ascii",
+          "value": "SCardConnectW"
+        },
+        {
+          "offset": 763692,
+          "encoding": "ascii",
+          "value": "SCardEstablishContext"
+        },
+        {
+          "offset": 763716,
+          "encoding": "ascii",
+          "value": "SCardReleaseContext"
+        },
+        {
+          "offset": 763738,
+          "encoding": "ascii",
+          "value": "SCardDisconnect"
+        },
+        {
+          "offset": 763756,
+          "encoding": "ascii",
+          "value": "SCardBeginTransaction"
+        },
+        {
+          "offset": 763780,
+          "encoding": "ascii",
+          "value": "SCardTransmit"
+        },
+        {
+          "offset": 763796,
+          "encoding": "ascii",
+          "value": "SCardIsValidContext"
+        },
+        {
+          "offset": 763818,
+          "encoding": "ascii",
+          "value": "SCardListReadersW"
+        },
+        {
+          "offset": 763838,
+          "encoding": "ascii",
+          "value": "SCardGetStatusChangeW"
+        },
+        {
+          "offset": 763862,
+          "encoding": "ascii",
+          "value": "SCardStatusW"
+        },
+        {
+          "offset": 763876,
+          "encoding": "ascii",
+          "value": "WinSCard.dll"
+        },
+        {
+          "offset": 765772,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1.dll"
+        },
+        {
+          "offset": 765838,
+          "encoding": "ascii",
+          "value": "eb_RegKspProvider"
+        },
+        {
+          "offset": 765873,
+          "encoding": "ascii",
+          "value": "eb_StartScardSvc"
+        },
+        {
+          "offset": 765890,
+          "encoding": "ascii",
+          "value": "eb_UnRegKspProvider"
+        },
+        {
+          "offset": 767643,
+          "encoding": "ascii",
+          "value": "eSPK2"
+        },
+        {
+          "offset": 767675,
+          "encoding": "ascii",
+          "value": "eSPK23"
+        },
+        {
+          "offset": 768028,
+          "encoding": "ascii",
+          "value": ".?AVCCspHash@@"
+        },
+        {
+          "offset": 768116,
+          "encoding": "ascii",
+          "value": ".?AVCCspContextManager@@"
+        },
+        {
+          "offset": 768248,
+          "encoding": "ascii",
+          "value": ".?AVCCspContext@@"
+        },
+        {
+          "offset": 768856,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VCCspContextManager@@@tr1@std@@"
+        },
+        {
+          "offset": 768916,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VCKspContextManager@@@tr1@std@@"
+        },
+        {
+          "offset": 773576,
+          "encoding": "ascii",
+          "value": ".?AVRSAPrvHashSignSoft@@"
+        },
+        {
+          "offset": 773612,
+          "encoding": "ascii",
+          "value": ".?AVRSAPrvSoft@@"
+        },
+        {
+          "offset": 773640,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvSoftSign@@"
+        },
+        {
+          "offset": 773676,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PrvSoftSign@@"
+        },
+        {
+          "offset": 773708,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PrvSoftSign@@"
+        },
+        {
+          "offset": 773740,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PrvSoftSign@@"
+        },
+        {
+          "offset": 773776,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PrvSoftSign@@"
+        },
+        {
+          "offset": 773812,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PrvSoftSign@@"
+        },
+        {
+          "offset": 773848,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PrvSoftSign@@"
+        },
+        {
+          "offset": 773884,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PrvSoftSign@@"
+        },
+        {
+          "offset": 773920,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvSoft@@"
+        },
+        {
+          "offset": 773952,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvSoftSign@@"
+        },
+        {
+          "offset": 773988,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvSoftDecrypt@@"
+        },
+        {
+          "offset": 774024,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvSoftDecrypt@@"
+        },
+        {
+          "offset": 774060,
+          "encoding": "ascii",
+          "value": ".?AVRSAPubHashVerifySoft@@"
+        },
+        {
+          "offset": 774096,
+          "encoding": "ascii",
+          "value": ".?AVAlgRSAPubSoft@@"
+        },
+        {
+          "offset": 774124,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubSoftEncrypt@@"
+        },
+        {
+          "offset": 774160,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubSoftEncrypt@@"
+        },
+        {
+          "offset": 774196,
+          "encoding": "ascii",
+          "value": ".?AVRSAOAEPPubSoftEncrypt@@"
+        },
+        {
+          "offset": 774232,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubSoftVerify@@"
+        },
+        {
+          "offset": 774268,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931PubSoftVerify@@"
+        },
+        {
+          "offset": 774304,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931Sha1PubSoftVerify@@"
+        },
+        {
+          "offset": 774344,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PubSoftVerify@@"
+        },
+        {
+          "offset": 774380,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PubSoftVerify@@"
+        },
+        {
+          "offset": 774416,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PubSoftVerify@@"
+        },
+        {
+          "offset": 774452,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 774492,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PubSoftVerify@@"
+        },
+        {
+          "offset": 774532,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 774572,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PubSoftVerify@@"
+        },
+        {
+          "offset": 774612,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 774652,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PubSoftVerify@@"
+        },
+        {
+          "offset": 774692,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 774732,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PubSoftVerify@@"
+        },
+        {
+          "offset": 774772,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 774812,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubSoftVerify@@"
+        },
+        {
+          "offset": 774848,
+          "encoding": "ascii",
+          "value": ".?AVRSAPSSPubSoftVerify@@"
+        },
+        {
+          "offset": 774884,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubSoftVerifyRecover@@"
+        },
+        {
+          "offset": 775168,
+          "encoding": "ascii",
+          "value": ".?AVDeriveKeyDHPKCS@@"
+        },
+        {
+          "offset": 775596,
+          "encoding": "ascii",
+          "value": ".?AVGenerateKeyPairRSASoft@@"
+        },
+        {
+          "offset": 775736,
+          "encoding": "ascii",
+          "value": ".?AVWrapSecKeyWithRSAPubSoft@@"
+        },
+        {
+          "offset": 776568,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VObjKeyPrivateRSA@@@tr1@std@@"
+        },
+        {
+          "offset": 776624,
+          "encoding": "ascii",
+          "value": ".?AVObjKeyPrivateRSA@@"
+        },
+        {
+          "offset": 776860,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VObjKeyPublicRSA@@@tr1@std@@"
+        },
+        {
+          "offset": 776916,
+          "encoding": "ascii",
+          "value": ".?AVObjKeyPublicRSA@@"
+        },
+        {
+          "offset": 779816,
+          "encoding": "ascii",
+          "value": ".?AVRSAPrvHard@@"
+        },
+        {
+          "offset": 779844,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvHardDecrypt@@"
+        },
+        {
+          "offset": 779880,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvHardSign@@"
+        },
+        {
+          "offset": 779916,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931PrvHardSign@@"
+        },
+        {
+          "offset": 779952,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931Sha1PrvHardSign@@"
+        },
+        {
+          "offset": 779992,
+          "encoding": "ascii",
+          "value": ".?AVRSAHashPrvHardSign@@"
+        },
+        {
+          "offset": 780028,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvHardDecrypt@@"
+        },
+        {
+          "offset": 780064,
+          "encoding": "ascii",
+          "value": ".?AVRSAOAEPPrvHardDecrypt@@"
+        },
+        {
+          "offset": 780100,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvHardSign@@"
+        },
+        {
+          "offset": 780136,
+          "encoding": "ascii",
+          "value": ".?AVRSAPSSPrvHardSign@@"
+        },
+        {
+          "offset": 780168,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PrvHardSign@@"
+        },
+        {
+          "offset": 780200,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PrvHardSign@@"
+        },
+        {
+          "offset": 780232,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PrvHardSign@@"
+        },
+        {
+          "offset": 780268,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PSSPrvHardSign@@"
+        },
+        {
+          "offset": 780304,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PrvHardSign@@"
+        },
+        {
+          "offset": 780340,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PSSPrvHardSign@@"
+        },
+        {
+          "offset": 780380,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PrvHardSign@@"
+        },
+        {
+          "offset": 780416,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PSSPrvHardSign@@"
+        },
+        {
+          "offset": 780456,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PrvHardSign@@"
+        },
+        {
+          "offset": 780492,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PSSPrvHardSign@@"
+        },
+        {
+          "offset": 780532,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PrvHardSign@@"
+        },
+        {
+          "offset": 780568,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PSSPrvHardSign@@"
+        },
+        {
+          "offset": 780856,
+          "encoding": "ascii",
+          "value": ".?AVGenerateKeyPairRSAHard@@"
+        },
+        {
+          "offset": 780896,
+          "encoding": "ascii",
+          "value": ".?AVGenerateKeyPairRSAX931Hard@@"
+        },
+        {
+          "offset": 780976,
+          "encoding": "ascii",
+          "value": "ENTERSAFE-ESPK"
+        },
+        {
+          "offset": 782272,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PubHardVerify@@"
+        },
+        {
+          "offset": 782308,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PubHardVerify@@"
+        },
+        {
+          "offset": 782344,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PubHardVerify@@"
+        },
+        {
+          "offset": 782380,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PSSPubHardVerify@@"
+        },
+        {
+          "offset": 782420,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PubHardVerify@@"
+        },
+        {
+          "offset": 782460,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PSSPubHardVerify@@"
+        },
+        {
+          "offset": 782500,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PubHardVerify@@"
+        },
+        {
+          "offset": 782540,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PSSPubHardVerify@@"
+        },
+        {
+          "offset": 782580,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PubHardVerify@@"
+        },
+        {
+          "offset": 782620,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PSSPubHardVerify@@"
+        },
+        {
+          "offset": 782660,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PubHardVerify@@"
+        },
+        {
+          "offset": 782700,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PSSPubHardVerify@@"
+        },
+        {
+          "offset": 782776,
+          "encoding": "ascii",
+          "value": ".?AVWrapSecKeyWithRSAPubHard@@"
+        },
+        {
+          "offset": 783160,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubHardEncrypt@@"
+        },
+        {
+          "offset": 783196,
+          "encoding": "ascii",
+          "value": ".?AVRSAOAEPPubHardEncrypt@@"
+        },
+        {
+          "offset": 783232,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931PubHardVerify@@"
+        },
+        {
+          "offset": 783268,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931Sha1PubHardVerify@@"
+        },
+        {
+          "offset": 783308,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubHardVerify@@"
+        },
+        {
+          "offset": 783344,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubHardVerify@@"
+        },
+        {
+          "offset": 783380,
+          "encoding": "ascii",
+          "value": ".?AVRSAPSSPubHardVerify@@"
+        },
+        {
+          "offset": 783416,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubHardVerifyRecover@@"
+        },
+        {
+          "offset": 783948,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubHardEncrypt@@"
+        },
+        {
+          "offset": 790160,
+          "encoding": "ascii",
+          "value": ".?AVMultiLanguage@epass@@"
+        },
+        {
+          "offset": 791180,
+          "encoding": "ascii",
+          "value": ".?AVCKspContextManager@@"
+        },
+        {
+          "offset": 791304,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VKSP_KEY_PARAMS@@@tr1@std@@"
+        },
+        {
+          "offset": 791412,
+          "encoding": "ascii",
+          "value": ".?AVCKspContext@@"
+        },
+        {
+          "offset": 839929,
+          "encoding": "ascii",
+          "value": "    name=\"EnterSafe CSP PKCS11 Library\""
+        },
+        {
+          "offset": 840231,
+          "encoding": "ascii",
+          "value": "<description>EnterSafe CSP PKCS11 Library</description>"
+        },
+        {
+          "offset": 842609,
+          "encoding": "ascii",
+          "value": "1#1,11171>1C1T1q1v1"
+        },
+        {
+          "offset": 883649,
+          "encoding": "ascii",
+          "value": "\"http://ocsp2.globalsign.com/rootr606"
+        },
+        {
+          "offset": 884488,
+          "encoding": "ascii",
+          "value": "231107171340Z"
+        },
+        {
+          "offset": 885261,
+          "encoding": "ascii",
+          "value": "-http://ocsp.globalsign.com/ca/gstsacasha384g40C"
+        },
+        {
+          "offset": 886118,
+          "encoding": "ascii",
+          "value": "Certum Certification Authority1$0\""
+        },
+        {
+          "offset": 887082,
+          "encoding": "ascii",
+          "value": "http://subca.ocsp-certum.com02"
+        },
+        {
+          "offset": 888180,
+          "encoding": "ascii",
+          "value": "7Mobile-ID Technologies And Services Joint Stock Company1@0>"
+        },
+        {
+          "offset": 888246,
+          "encoding": "ascii",
+          "value": "7Mobile-ID Technologies And Services Joint Stock Company0"
+        },
+        {
+          "offset": 888970,
+          "encoding": "ascii",
+          "value": "\"http://cevcsca2021.ocsp-certum.com07"
+        },
+        {
+          "offset": 638080,
+          "encoding": "utf-16le",
+          "value": "https://efyca.vn/download/tokenV1/efyca_p11_v1_mgr.cfg"
+        },
+        {
+          "offset": 638436,
+          "encoding": "utf-16le",
+          "value": "scardsvr"
+        },
+        {
+          "offset": 646914,
+          "encoding": "utf-16le",
+          "value": "tWinscard.dll"
+        },
+        {
+          "offset": 653588,
+          "encoding": "utf-16le",
+          "value": "ePass2003_pcsc_mutex_"
+        },
+        {
+          "offset": 699520,
+          "encoding": "utf-16le",
+          "value": "SmartCardKeyCertificate"
+        },
+        {
+          "offset": 699632,
+          "encoding": "utf-16le",
+          "value": "RSAPUBLICBLOB"
+        },
+        {
+          "offset": 699660,
+          "encoding": "utf-16le",
+          "value": "RSAFULLPRIVATEBLOB"
+        },
+        {
+          "offset": 784542,
+          "encoding": "utf-16le",
+          "value": "6C3D95F6-8868-4F7B-A390-897A6265C497_FEITIAN"
+        },
+        {
+          "offset": 784662,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token CSP v1.0"
+        },
+        {
+          "offset": 785182,
+          "encoding": "utf-16le",
+          "value": "efyca_p11_v1.dll"
+        },
+        {
+          "offset": 785710,
+          "encoding": "utf-16le",
+          "value": "EFY-CA PKCS#11 Library."
+        },
+        {
+          "offset": 785774,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 786034,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 786164,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token v1.0"
+        },
+        {
+          "offset": 786230,
+          "encoding": "utf-16le",
+          "value": "ePass2003Auto"
+        },
+        {
+          "offset": 786296,
+          "encoding": "utf-16le",
+          "value": "Software\\EFY Certification Authority\\Token Manager v1.0"
+        },
+        {
+          "offset": 786816,
+          "encoding": "utf-16le",
+          "value": "lang\\escsp"
+        },
+        {
+          "offset": 788376,
+          "encoding": "utf-16le",
+          "value": "ePass2003.ini"
+        },
+        {
+          "offset": 788896,
+          "encoding": "utf-16le",
+          "value": "efyca_p11_v1_mgr.exe"
+        },
+        {
+          "offset": 789416,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token v1 Key Storage Provider"
+        },
+        {
+          "offset": 839016,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 839112,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token Manager v1.0"
+        },
+        {
+          "offset": 839256,
+          "encoding": "utf-16le",
+          "value": " efyca_p11_v1.dll"
+        },
+        {
+          "offset": 839328,
+          "encoding": "utf-16le",
+          "value": "Copyright (C) 2018 EFY Certification Authority"
+        },
+        {
+          "offset": 839464,
+          "encoding": "utf-16le",
+          "value": " efyca_p11_v1.dll"
+        },
+        {
+          "offset": 839532,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token Manager v1.0"
+        }
+      ]
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_1.dll",
+      "strings": [
+        {
+          "offset": 85372,
+          "encoding": "ascii",
+          "value": "RSA1t"
+        },
+        {
+          "offset": 823961,
+          "encoding": "ascii",
+          "value": "RSA1t+H"
+        },
+        {
+          "offset": 832712,
+          "encoding": "ascii",
+          "value": "D$(RSA1"
+        },
+        {
+          "offset": 944497,
+          "encoding": "ascii",
+          "value": "RSA1t"
+        },
+        {
+          "offset": 945046,
+          "encoding": "ascii",
+          "value": "|$PRSA1"
+        },
+        {
+          "offset": 956562,
+          "encoding": "ascii",
+          "value": "D$`RSA1A"
+        },
+        {
+          "offset": 997359,
+          "encoding": "ascii",
+          "value": "RSA3t"
+        },
+        {
+          "offset": 1096844,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 1096876,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 1097400,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 1097424,
+          "encoding": "ascii",
+          "value": "RSA Signature"
+        },
+        {
+          "offset": 1097488,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 1097512,
+          "encoding": "ascii",
+          "value": "RSA Key Exchange"
+        },
+        {
+          "offset": 1097600,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC2"
+        },
+        {
+          "offset": 1097688,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC4"
+        },
+        {
+          "offset": 1100160,
+          "encoding": "ascii",
+          "value": "BCryptAddContextFunctionProvider"
+        },
+        {
+          "offset": 1100232,
+          "encoding": "ascii",
+          "value": "BCryptRegisterProvider"
+        },
+        {
+          "offset": 1100304,
+          "encoding": "ascii",
+          "value": "BCryptUnregisterProvider"
+        },
+        {
+          "offset": 1100336,
+          "encoding": "ascii",
+          "value": "BCryptRemoveContextFunctionProvider"
+        },
+        {
+          "offset": 1117744,
+          "encoding": "ascii",
+          "value": "SCardReleaseStartedEvent()"
+        },
+        {
+          "offset": 1117976,
+          "encoding": "ascii",
+          "value": "SCardAccessStartedEvent"
+        },
+        {
+          "offset": 1120512,
+          "encoding": "ascii",
+          "value": "pkcs11"
+        },
+        {
+          "offset": 1133008,
+          "encoding": "ascii",
+          "value": "16+Feitian-interPass"
+        },
+        {
+          "offset": 1133032,
+          "encoding": "ascii",
+          "value": "EnterSafe@20"
+        },
+        {
+          "offset": 1136224,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 1137503,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 1137536,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 1139278,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 1139328,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 1139687,
+          "encoding": "ascii",
+          "value": "wZAngwQsCxv4PR7YwkBnekrAzatRdzTurqwJa3rLICOzRLF+eKCVUFk2lwRXmnZl"
+        },
+        {
+          "offset": 1140497,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 1140528,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 1142013,
+          "encoding": "ascii",
+          "value": "nO0FtQKBgEDDqxchzGIpKfi0sPSdt9TfOZADdI7Tc28U7ktWcVnArtGGyecwatr7"
+        },
+        {
+          "offset": 1142199,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 1142240,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 1143421,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 1143456,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 1144611,
+          "encoding": "ascii",
+          "value": "3N603t9/4g8evJ5qOEiwfjrsAdcu2r+OtNtkYmyAxLhRkTCbe2iQ7NP/ozkn/hgT"
+        },
+        {
+          "offset": 1145131,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 1148720,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 1148752,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 1151680,
+          "encoding": "ascii",
+          "value": "53D7E08529547048121E9C95F3791DD804963948F34FAE7BF44EA82365DC7868FE57E4AE2DE211305A407104BD"
+        },
+        {
+          "offset": 1154144,
+          "encoding": "ascii",
+          "value": "32010857077C5431123A46B808906756F543423E8D27877578125778AC76"
+        },
+        {
+          "offset": 1154480,
+          "encoding": "ascii",
+          "value": "C8619ED45A62E6212E1160349E2BFA844439FAFC2A3FD1638F9E"
+        },
+        {
+          "offset": 1156152,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFDF64DE1151ADBB78F10A7"
+        },
+        {
+          "offset": 1156296,
+          "encoding": "ascii",
+          "value": "0667ACEB38AF4E488C407433FFAE4F1C811638DF20"
+        },
+        {
+          "offset": 1156720,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE661CE18FF55987308059B186823851EC7DD9CA1161DE93D5174D66E8382E9BB2FE84E47"
+        },
+        {
+          "offset": 1158192,
+          "encoding": "ascii",
+          "value": "010000000000000000000000000000000000000000000000000001E2AAD6A612F33307BE5FA47C3C9E052F838164CD37D9A21173"
+        },
+        {
+          "offset": 1158416,
+          "encoding": "ascii",
+          "value": "015D4860D088DDB3496B0C6064756260441CDE4AF1771D4DB01FFE5B34E59703DC255A868A1180515603AEAB60794E54BB7996A7"
+        },
+        {
+          "offset": 1159776,
+          "encoding": "ascii",
+          "value": "01CCDA380F1C9E318D90F95D07E5426FE87E45C0E8184698E45962364E34116177DD2259"
+        },
+        {
+          "offset": 1160752,
+          "encoding": "ascii",
+          "value": "01DB537DECE819B7F70F555A67C427A8CD9BF18AEB9B56E0C11056FAE6A3"
+        },
+        {
+          "offset": 1161744,
+          "encoding": "ascii",
+          "value": "03F0EBA16286A2D57EA0991168D4994637E8343E36"
+        },
+        {
+          "offset": 1163696,
+          "encoding": "ascii",
+          "value": "483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"
+        },
+        {
+          "offset": 1165664,
+          "encoding": "ascii",
+          "value": "E87579C11079F43DD824993C2CEE5ED3"
+        },
+        {
+          "offset": 1166128,
+          "encoding": "ascii",
+          "value": "659EF8BA043916EEDE8911702B22"
+        },
+        {
+          "offset": 1168368,
+          "encoding": "ascii",
+          "value": "011839296a789a3bc0045c8a5fb42c7d1bd998f54449579b446817afbd17273e662c97ee72995ef42640c550b9013fad0761353c7086a272c24088be94769fd16650"
+        },
+        {
+          "offset": 1169472,
+          "encoding": "ascii",
+          "value": "B3312FA7E23EE7E4988E056BE3F82D19181D9C6EFE8141120314088F5013875AC656398D8A2ED19D2A85C8EDD3EC2AEF"
+        },
+        {
+          "offset": 1169976,
+          "encoding": "ascii",
+          "value": "B70E0CBD6BB4BF7F321390B94A03C1D356C21122343280D6115C1D21"
+        },
+        {
+          "offset": 1180936,
+          "encoding": "ascii",
+          "value": "EFY Certification Authority virtual Slot %d"
+        },
+        {
+          "offset": 1181112,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 1181136,
+          "encoding": "ascii",
+          "value": "RSA Signature"
+        },
+        {
+          "offset": 1181200,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 1181224,
+          "encoding": "ascii",
+          "value": "RSA Key Exchange"
+        },
+        {
+          "offset": 1181312,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC2"
+        },
+        {
+          "offset": 1181400,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC4"
+        },
+        {
+          "offset": 1182888,
+          "encoding": "ascii",
+          "value": "RSA_SIGN"
+        },
+        {
+          "offset": 1182912,
+          "encoding": "ascii",
+          "value": "RSA Signature"
+        },
+        {
+          "offset": 1182976,
+          "encoding": "ascii",
+          "value": "RSA_KEYX"
+        },
+        {
+          "offset": 1183000,
+          "encoding": "ascii",
+          "value": "RSA Key Exchange"
+        },
+        {
+          "offset": 1183088,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC2"
+        },
+        {
+          "offset": 1183176,
+          "encoding": "ascii",
+          "value": "RSA Data Security's RC4"
+        },
+        {
+          "offset": 1297062,
+          "encoding": "ascii",
+          "value": "SetSecurityDescriptorSacl"
+        },
+        {
+          "offset": 1297090,
+          "encoding": "ascii",
+          "value": "GetSecurityDescriptorSacl"
+        },
+        {
+          "offset": 1297382,
+          "encoding": "ascii",
+          "value": "CertFreeCertificateContext"
+        },
+        {
+          "offset": 1297438,
+          "encoding": "ascii",
+          "value": "CertCreateCertificateContext"
+        },
+        {
+          "offset": 1297550,
+          "encoding": "ascii",
+          "value": "CertSetCertificateContextProperty"
+        },
+        {
+          "offset": 1297586,
+          "encoding": "ascii",
+          "value": "CertAddEncodedCertificateToStore"
+        },
+        {
+          "offset": 1297638,
+          "encoding": "ascii",
+          "value": "CryptVerifyCertificateSignature"
+        },
+        {
+          "offset": 1297768,
+          "encoding": "ascii",
+          "value": "SCardEndTransaction"
+        },
+        {
+          "offset": 1297790,
+          "encoding": "ascii",
+          "value": "g_rgSCardT0Pci"
+        },
+        {
+          "offset": 1297808,
+          "encoding": "ascii",
+          "value": "g_rgSCardT1Pci"
+        },
+        {
+          "offset": 1297826,
+          "encoding": "ascii",
+          "value": "SCardReconnect"
+        },
+        {
+          "offset": 1297844,
+          "encoding": "ascii",
+          "value": "SCardConnectW"
+        },
+        {
+          "offset": 1297860,
+          "encoding": "ascii",
+          "value": "SCardEstablishContext"
+        },
+        {
+          "offset": 1297884,
+          "encoding": "ascii",
+          "value": "SCardReleaseContext"
+        },
+        {
+          "offset": 1297906,
+          "encoding": "ascii",
+          "value": "SCardDisconnect"
+        },
+        {
+          "offset": 1297924,
+          "encoding": "ascii",
+          "value": "SCardBeginTransaction"
+        },
+        {
+          "offset": 1297948,
+          "encoding": "ascii",
+          "value": "SCardTransmit"
+        },
+        {
+          "offset": 1297964,
+          "encoding": "ascii",
+          "value": "SCardIsValidContext"
+        },
+        {
+          "offset": 1297986,
+          "encoding": "ascii",
+          "value": "SCardListReadersW"
+        },
+        {
+          "offset": 1298006,
+          "encoding": "ascii",
+          "value": "SCardGetStatusChangeW"
+        },
+        {
+          "offset": 1298030,
+          "encoding": "ascii",
+          "value": "SCardStatusW"
+        },
+        {
+          "offset": 1298044,
+          "encoding": "ascii",
+          "value": "WinSCard.dll"
+        },
+        {
+          "offset": 1300060,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1.dll"
+        },
+        {
+          "offset": 1300126,
+          "encoding": "ascii",
+          "value": "eb_RegKspProvider"
+        },
+        {
+          "offset": 1300161,
+          "encoding": "ascii",
+          "value": "eb_StartScardSvc"
+        },
+        {
+          "offset": 1300178,
+          "encoding": "ascii",
+          "value": "eb_UnRegKspProvider"
+        },
+        {
+          "offset": 1302223,
+          "encoding": "ascii",
+          "value": "eSPK2"
+        },
+        {
+          "offset": 1302255,
+          "encoding": "ascii",
+          "value": "eSPK23"
+        },
+        {
+          "offset": 1302648,
+          "encoding": "ascii",
+          "value": ".?AVCCspHash@@"
+        },
+        {
+          "offset": 1302720,
+          "encoding": "ascii",
+          "value": ".?AVCCspContextManager@@"
+        },
+        {
+          "offset": 1302896,
+          "encoding": "ascii",
+          "value": ".?AVCCspContext@@"
+        },
+        {
+          "offset": 1303680,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VCCspContextManager@@@tr1@std@@"
+        },
+        {
+          "offset": 1303760,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VCKspContextManager@@@tr1@std@@"
+        },
+        {
+          "offset": 1309312,
+          "encoding": "ascii",
+          "value": ".?AVRSAPrvHashSignSoft@@"
+        },
+        {
+          "offset": 1309360,
+          "encoding": "ascii",
+          "value": ".?AVRSAPrvSoft@@"
+        },
+        {
+          "offset": 1309400,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvSoftSign@@"
+        },
+        {
+          "offset": 1309448,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PrvSoftSign@@"
+        },
+        {
+          "offset": 1309488,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PrvSoftSign@@"
+        },
+        {
+          "offset": 1309528,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PrvSoftSign@@"
+        },
+        {
+          "offset": 1309576,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PrvSoftSign@@"
+        },
+        {
+          "offset": 1309624,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PrvSoftSign@@"
+        },
+        {
+          "offset": 1309672,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PrvSoftSign@@"
+        },
+        {
+          "offset": 1309720,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PrvSoftSign@@"
+        },
+        {
+          "offset": 1309768,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvSoft@@"
+        },
+        {
+          "offset": 1309808,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvSoftSign@@"
+        },
+        {
+          "offset": 1309856,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvSoftDecrypt@@"
+        },
+        {
+          "offset": 1309904,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvSoftDecrypt@@"
+        },
+        {
+          "offset": 1309952,
+          "encoding": "ascii",
+          "value": ".?AVRSAPubHashVerifySoft@@"
+        },
+        {
+          "offset": 1310000,
+          "encoding": "ascii",
+          "value": ".?AVAlgRSAPubSoft@@"
+        },
+        {
+          "offset": 1310040,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubSoftEncrypt@@"
+        },
+        {
+          "offset": 1310088,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubSoftEncrypt@@"
+        },
+        {
+          "offset": 1310136,
+          "encoding": "ascii",
+          "value": ".?AVRSAOAEPPubSoftEncrypt@@"
+        },
+        {
+          "offset": 1310184,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubSoftVerify@@"
+        },
+        {
+          "offset": 1310232,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931PubSoftVerify@@"
+        },
+        {
+          "offset": 1310280,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931Sha1PubSoftVerify@@"
+        },
+        {
+          "offset": 1310328,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PubSoftVerify@@"
+        },
+        {
+          "offset": 1310376,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PubSoftVerify@@"
+        },
+        {
+          "offset": 1310424,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PubSoftVerify@@"
+        },
+        {
+          "offset": 1310472,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 1310520,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PubSoftVerify@@"
+        },
+        {
+          "offset": 1310568,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 1310616,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PubSoftVerify@@"
+        },
+        {
+          "offset": 1310664,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 1310712,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PubSoftVerify@@"
+        },
+        {
+          "offset": 1310760,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 1310808,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PubSoftVerify@@"
+        },
+        {
+          "offset": 1310856,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PSSPubSoftVerify@@"
+        },
+        {
+          "offset": 1310904,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubSoftVerify@@"
+        },
+        {
+          "offset": 1310952,
+          "encoding": "ascii",
+          "value": ".?AVRSAPSSPubSoftVerify@@"
+        },
+        {
+          "offset": 1311000,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubSoftVerifyRecover@@"
+        },
+        {
+          "offset": 1311392,
+          "encoding": "ascii",
+          "value": ".?AVDeriveKeyDHPKCS@@"
+        },
+        {
+          "offset": 1311944,
+          "encoding": "ascii",
+          "value": ".?AVGenerateKeyPairRSASoft@@"
+        },
+        {
+          "offset": 1312128,
+          "encoding": "ascii",
+          "value": ".?AVWrapSecKeyWithRSAPubSoft@@"
+        },
+        {
+          "offset": 1313168,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VObjKeyPrivateRSA@@@tr1@std@@"
+        },
+        {
+          "offset": 1313232,
+          "encoding": "ascii",
+          "value": ".?AVObjKeyPrivateRSA@@"
+        },
+        {
+          "offset": 1313520,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VObjKeyPublicRSA@@@tr1@std@@"
+        },
+        {
+          "offset": 1313584,
+          "encoding": "ascii",
+          "value": ".?AVObjKeyPublicRSA@@"
+        },
+        {
+          "offset": 1316752,
+          "encoding": "ascii",
+          "value": ".?AVRSAPrvHard@@"
+        },
+        {
+          "offset": 1316792,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvHardDecrypt@@"
+        },
+        {
+          "offset": 1316840,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPrvHardSign@@"
+        },
+        {
+          "offset": 1316888,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931PrvHardSign@@"
+        },
+        {
+          "offset": 1316936,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931Sha1PrvHardSign@@"
+        },
+        {
+          "offset": 1316984,
+          "encoding": "ascii",
+          "value": ".?AVRSAHashPrvHardSign@@"
+        },
+        {
+          "offset": 1317032,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvHardDecrypt@@"
+        },
+        {
+          "offset": 1317080,
+          "encoding": "ascii",
+          "value": ".?AVRSAOAEPPrvHardDecrypt@@"
+        },
+        {
+          "offset": 1317128,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PrvHardSign@@"
+        },
+        {
+          "offset": 1317176,
+          "encoding": "ascii",
+          "value": ".?AVRSAPSSPrvHardSign@@"
+        },
+        {
+          "offset": 1317216,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PrvHardSign@@"
+        },
+        {
+          "offset": 1317256,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PrvHardSign@@"
+        },
+        {
+          "offset": 1317296,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PrvHardSign@@"
+        },
+        {
+          "offset": 1317344,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PSSPrvHardSign@@"
+        },
+        {
+          "offset": 1317392,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PrvHardSign@@"
+        },
+        {
+          "offset": 1317440,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PSSPrvHardSign@@"
+        },
+        {
+          "offset": 1317488,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PrvHardSign@@"
+        },
+        {
+          "offset": 1317536,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PSSPrvHardSign@@"
+        },
+        {
+          "offset": 1317584,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PrvHardSign@@"
+        },
+        {
+          "offset": 1317632,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PSSPrvHardSign@@"
+        },
+        {
+          "offset": 1317680,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PrvHardSign@@"
+        },
+        {
+          "offset": 1317728,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PSSPrvHardSign@@"
+        },
+        {
+          "offset": 1318096,
+          "encoding": "ascii",
+          "value": ".?AVGenerateKeyPairRSAHard@@"
+        },
+        {
+          "offset": 1318144,
+          "encoding": "ascii",
+          "value": ".?AVGenerateKeyPairRSAX931Hard@@"
+        },
+        {
+          "offset": 1318240,
+          "encoding": "ascii",
+          "value": "ENTERSAFE-ESPK"
+        },
+        {
+          "offset": 1319592,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD2PubHardVerify@@"
+        },
+        {
+          "offset": 1319640,
+          "encoding": "ascii",
+          "value": ".?AVRSAMD5PubHardVerify@@"
+        },
+        {
+          "offset": 1319688,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PubHardVerify@@"
+        },
+        {
+          "offset": 1319736,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA1PSSPubHardVerify@@"
+        },
+        {
+          "offset": 1319784,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PubHardVerify@@"
+        },
+        {
+          "offset": 1319832,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA224PSSPubHardVerify@@"
+        },
+        {
+          "offset": 1319880,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PubHardVerify@@"
+        },
+        {
+          "offset": 1319928,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA256PSSPubHardVerify@@"
+        },
+        {
+          "offset": 1319976,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PubHardVerify@@"
+        },
+        {
+          "offset": 1320024,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA384PSSPubHardVerify@@"
+        },
+        {
+          "offset": 1320072,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PubHardVerify@@"
+        },
+        {
+          "offset": 1320120,
+          "encoding": "ascii",
+          "value": ".?AVRSASHA512PSSPubHardVerify@@"
+        },
+        {
+          "offset": 1320216,
+          "encoding": "ascii",
+          "value": ".?AVWrapSecKeyWithRSAPubHard@@"
+        },
+        {
+          "offset": 1320744,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubHardEncrypt@@"
+        },
+        {
+          "offset": 1320792,
+          "encoding": "ascii",
+          "value": ".?AVRSAOAEPPubHardEncrypt@@"
+        },
+        {
+          "offset": 1320840,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931PubHardVerify@@"
+        },
+        {
+          "offset": 1320888,
+          "encoding": "ascii",
+          "value": ".?AVRSAX931Sha1PubHardVerify@@"
+        },
+        {
+          "offset": 1320936,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubHardVerify@@"
+        },
+        {
+          "offset": 1320984,
+          "encoding": "ascii",
+          "value": ".?AVRSAX509PubHardVerify@@"
+        },
+        {
+          "offset": 1321032,
+          "encoding": "ascii",
+          "value": ".?AVRSAPSSPubHardVerify@@"
+        },
+        {
+          "offset": 1321080,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubHardVerifyRecover@@"
+        },
+        {
+          "offset": 1321800,
+          "encoding": "ascii",
+          "value": ".?AVRSAPKCSPubHardEncrypt@@"
+        },
+        {
+          "offset": 1328272,
+          "encoding": "ascii",
+          "value": ".?AVMultiLanguage@epass@@"
+        },
+        {
+          "offset": 1329656,
+          "encoding": "ascii",
+          "value": ".?AVCKspContextManager@@"
+        },
+        {
+          "offset": 1329824,
+          "encoding": "ascii",
+          "value": ".?AV?$_Ref_count@VKSP_KEY_PARAMS@@@tr1@std@@"
+        },
+        {
+          "offset": 1329952,
+          "encoding": "ascii",
+          "value": ".?AVCKspContext@@"
+        },
+        {
+          "offset": 1418489,
+          "encoding": "ascii",
+          "value": "    name=\"EnterSafe CSP PKCS11 Library\""
+        },
+        {
+          "offset": 1418791,
+          "encoding": "ascii",
+          "value": "<description>EnterSafe CSP PKCS11 Library</description>"
+        },
+        {
+          "offset": 1436097,
+          "encoding": "ascii",
+          "value": "\"http://ocsp2.globalsign.com/rootr606"
+        },
+        {
+          "offset": 1436936,
+          "encoding": "ascii",
+          "value": "231107171340Z"
+        },
+        {
+          "offset": 1437709,
+          "encoding": "ascii",
+          "value": "-http://ocsp.globalsign.com/ca/gstsacasha384g40C"
+        },
+        {
+          "offset": 1438566,
+          "encoding": "ascii",
+          "value": "Certum Certification Authority1$0\""
+        },
+        {
+          "offset": 1439530,
+          "encoding": "ascii",
+          "value": "http://subca.ocsp-certum.com02"
+        },
+        {
+          "offset": 1440628,
+          "encoding": "ascii",
+          "value": "7Mobile-ID Technologies And Services Joint Stock Company1@0>"
+        },
+        {
+          "offset": 1440694,
+          "encoding": "ascii",
+          "value": "7Mobile-ID Technologies And Services Joint Stock Company0"
+        },
+        {
+          "offset": 1441418,
+          "encoding": "ascii",
+          "value": "\"http://cevcsca2021.ocsp-certum.com07"
+        },
+        {
+          "offset": 1099600,
+          "encoding": "utf-16le",
+          "value": "https://efyca.vn/download/tokenV1/efyca_p11_v1_mgr.cfg"
+        },
+        {
+          "offset": 1100136,
+          "encoding": "utf-16le",
+          "value": "scardsvr"
+        },
+        {
+          "offset": 1117998,
+          "encoding": "utf-16le",
+          "value": "tWinscard.dll"
+        },
+        {
+          "offset": 1131976,
+          "encoding": "utf-16le",
+          "value": "ePass2003_pcsc_mutex_"
+        },
+        {
+          "offset": 1187696,
+          "encoding": "utf-16le",
+          "value": "SmartCardKeyCertificate"
+        },
+        {
+          "offset": 1187808,
+          "encoding": "utf-16le",
+          "value": "RSAPUBLICBLOB"
+        },
+        {
+          "offset": 1187840,
+          "encoding": "utf-16le",
+          "value": "RSAFULLPRIVATEBLOB"
+        },
+        {
+          "offset": 1322534,
+          "encoding": "utf-16le",
+          "value": "6C3D95F6-8868-4F7B-A390-897A6265C497_FEITIAN"
+        },
+        {
+          "offset": 1322654,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token CSP v1.0"
+        },
+        {
+          "offset": 1323174,
+          "encoding": "utf-16le",
+          "value": "efyca_p11_v1.dll"
+        },
+        {
+          "offset": 1323702,
+          "encoding": "utf-16le",
+          "value": "EFY-CA PKCS#11 Library."
+        },
+        {
+          "offset": 1323766,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 1324026,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 1324156,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token v1.0"
+        },
+        {
+          "offset": 1324222,
+          "encoding": "utf-16le",
+          "value": "ePass2003Auto"
+        },
+        {
+          "offset": 1324288,
+          "encoding": "utf-16le",
+          "value": "Software\\EFY Certification Authority\\Token Manager v1.0"
+        },
+        {
+          "offset": 1324808,
+          "encoding": "utf-16le",
+          "value": "lang\\escsp"
+        },
+        {
+          "offset": 1326368,
+          "encoding": "utf-16le",
+          "value": "ePass2003.ini"
+        },
+        {
+          "offset": 1326888,
+          "encoding": "utf-16le",
+          "value": "efyca_p11_v1_mgr.exe"
+        },
+        {
+          "offset": 1327408,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token v1 Key Storage Provider"
+        },
+        {
+          "offset": 1417576,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 1417672,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token Manager v1.0"
+        },
+        {
+          "offset": 1417816,
+          "encoding": "utf-16le",
+          "value": " efyca_p11_v1.dll"
+        },
+        {
+          "offset": 1417888,
+          "encoding": "utf-16le",
+          "value": "Copyright (C) 2018 EFY Certification Authority"
+        },
+        {
+          "offset": 1418024,
+          "encoding": "utf-16le",
+          "value": " efyca_p11_v1.dll"
+        },
+        {
+          "offset": 1418092,
+          "encoding": "utf-16le",
+          "value": "EFY-CA Token Manager v1.0"
+        }
+      ]
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s.dll",
+      "strings": [
+        {
+          "offset": 6366,
+          "encoding": "ascii",
+          "value": "cspshell.dll"
+        },
+        {
+          "offset": 8560,
+          "encoding": "utf-16le",
+          "value": "www.EnterSafe.com"
+        },
+        {
+          "offset": 8636,
+          "encoding": "utf-16le",
+          "value": "CSPShell"
+        },
+        {
+          "offset": 8748,
+          "encoding": "utf-16le",
+          "value": "CSPShell"
+        },
+        {
+          "offset": 8804,
+          "encoding": "utf-16le",
+          "value": "Copyright (C) 2008-2009 www.EnterSafe.com"
+        },
+        {
+          "offset": 8968,
+          "encoding": "utf-16le",
+          "value": "CSPShell.dll"
+        },
+        {
+          "offset": 9060,
+          "encoding": "utf-16le",
+          "value": "EnterSafe CSPShell"
+        }
+      ]
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+      "strings": [
+        {
+          "offset": 5404,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1.dylib"
+        },
+        {
+          "offset": 933988,
+          "encoding": "ascii",
+          "value": "N/A (Unknown PKCS#11 error code)"
+        },
+        {
+          "offset": 935442,
+          "encoding": "ascii",
+          "value": "18RSAX509PrvSoftSign"
+        },
+        {
+          "offset": 935463,
+          "encoding": "ascii",
+          "value": "21RSAX509PrvSoftDecrypt"
+        },
+        {
+          "offset": 935487,
+          "encoding": "ascii",
+          "value": "20RSASHA512PrvSoftSign"
+        },
+        {
+          "offset": 935510,
+          "encoding": "ascii",
+          "value": "20RSASHA384PrvSoftSign"
+        },
+        {
+          "offset": 935533,
+          "encoding": "ascii",
+          "value": "20RSASHA256PrvSoftSign"
+        },
+        {
+          "offset": 935556,
+          "encoding": "ascii",
+          "value": "20RSASHA224PrvSoftSign"
+        },
+        {
+          "offset": 935579,
+          "encoding": "ascii",
+          "value": "18RSASHA1PrvSoftSign"
+        },
+        {
+          "offset": 935600,
+          "encoding": "ascii",
+          "value": "17RSAMD5PrvSoftSign"
+        },
+        {
+          "offset": 935620,
+          "encoding": "ascii",
+          "value": "17RSAMD2PrvSoftSign"
+        },
+        {
+          "offset": 935640,
+          "encoding": "ascii",
+          "value": "18RSAPrvHashSignSoft"
+        },
+        {
+          "offset": 935661,
+          "encoding": "ascii",
+          "value": "18RSAPKCSPrvSoftSign"
+        },
+        {
+          "offset": 935682,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPrvSoftDecrypt"
+        },
+        {
+          "offset": 935706,
+          "encoding": "ascii",
+          "value": "10RSAPrvSoft"
+        },
+        {
+          "offset": 935719,
+          "encoding": "ascii",
+          "value": "27RSAPKCSPubSoftVerifyRecover"
+        },
+        {
+          "offset": 935749,
+          "encoding": "ascii",
+          "value": "19RSAPSSPubSoftVerify"
+        },
+        {
+          "offset": 935771,
+          "encoding": "ascii",
+          "value": "20RSAX509PubSoftVerify"
+        },
+        {
+          "offset": 935794,
+          "encoding": "ascii",
+          "value": "25RSASHA512PSSPubSoftVerify"
+        },
+        {
+          "offset": 935822,
+          "encoding": "ascii",
+          "value": "22RSASHA512PubSoftVerify"
+        },
+        {
+          "offset": 935847,
+          "encoding": "ascii",
+          "value": "25RSASHA384PSSPubSoftVerify"
+        },
+        {
+          "offset": 935875,
+          "encoding": "ascii",
+          "value": "22RSASHA384PubSoftVerify"
+        },
+        {
+          "offset": 935900,
+          "encoding": "ascii",
+          "value": "25RSASHA256PSSPubSoftVerify"
+        },
+        {
+          "offset": 935928,
+          "encoding": "ascii",
+          "value": "22RSASHA256PubSoftVerify"
+        },
+        {
+          "offset": 935953,
+          "encoding": "ascii",
+          "value": "25RSASHA224PSSPubSoftVerify"
+        },
+        {
+          "offset": 935981,
+          "encoding": "ascii",
+          "value": "22RSASHA224PubSoftVerify"
+        },
+        {
+          "offset": 936006,
+          "encoding": "ascii",
+          "value": "23RSASHA1PSSPubSoftVerify"
+        },
+        {
+          "offset": 936032,
+          "encoding": "ascii",
+          "value": "20RSASHA1PubSoftVerify"
+        },
+        {
+          "offset": 936055,
+          "encoding": "ascii",
+          "value": "19RSAMD5PubSoftVerify"
+        },
+        {
+          "offset": 936077,
+          "encoding": "ascii",
+          "value": "19RSAMD2PubSoftVerify"
+        },
+        {
+          "offset": 936099,
+          "encoding": "ascii",
+          "value": "20RSAPubHashVerifySoft"
+        },
+        {
+          "offset": 936122,
+          "encoding": "ascii",
+          "value": "24RSAX931Sha1PubSoftVerify"
+        },
+        {
+          "offset": 936149,
+          "encoding": "ascii",
+          "value": "20RSAX931PubSoftVerify"
+        },
+        {
+          "offset": 936172,
+          "encoding": "ascii",
+          "value": "20RSAPKCSPubSoftVerify"
+        },
+        {
+          "offset": 936195,
+          "encoding": "ascii",
+          "value": "21RSAOAEPPubSoftEncrypt"
+        },
+        {
+          "offset": 936219,
+          "encoding": "ascii",
+          "value": "21RSAX509PubSoftEncrypt"
+        },
+        {
+          "offset": 936243,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPubSoftEncrypt"
+        },
+        {
+          "offset": 936267,
+          "encoding": "ascii",
+          "value": "13AlgRSAPubSoft"
+        },
+        {
+          "offset": 936377,
+          "encoding": "ascii",
+          "value": "15DeriveKeyDHPKCS"
+        },
+        {
+          "offset": 936604,
+          "encoding": "ascii",
+          "value": "22GenerateKeyPairRSASoft"
+        },
+        {
+          "offset": 936640,
+          "encoding": "ascii",
+          "value": "24WrapRSAPriWithSecKeySoft"
+        },
+        {
+          "offset": 936694,
+          "encoding": "ascii",
+          "value": "24WrapSecKeyWithRSAPubSoft"
+        },
+        {
+          "offset": 937172,
+          "encoding": "ascii",
+          "value": "16ObjKeyPrivateRSA"
+        },
+        {
+          "offset": 937240,
+          "encoding": "ascii",
+          "value": "15ObjKeyPublicRSA"
+        },
+        {
+          "offset": 938059,
+          "encoding": "ascii",
+          "value": "17RSAPSSPrvHardSign"
+        },
+        {
+          "offset": 938079,
+          "encoding": "ascii",
+          "value": "18RSAX509PrvHardSign"
+        },
+        {
+          "offset": 938100,
+          "encoding": "ascii",
+          "value": "21RSAOAEPPrvHardDecrypt"
+        },
+        {
+          "offset": 938124,
+          "encoding": "ascii",
+          "value": "21RSAX509PrvHardDecrypt"
+        },
+        {
+          "offset": 938148,
+          "encoding": "ascii",
+          "value": "23RSASHA512PSSPrvHardSign"
+        },
+        {
+          "offset": 938174,
+          "encoding": "ascii",
+          "value": "20RSASHA512PrvHardSign"
+        },
+        {
+          "offset": 938197,
+          "encoding": "ascii",
+          "value": "23RSASHA384PSSPrvHardSign"
+        },
+        {
+          "offset": 938223,
+          "encoding": "ascii",
+          "value": "20RSASHA384PrvHardSign"
+        },
+        {
+          "offset": 938246,
+          "encoding": "ascii",
+          "value": "23RSASHA256PSSPrvHardSign"
+        },
+        {
+          "offset": 938272,
+          "encoding": "ascii",
+          "value": "20RSASHA256PrvHardSign"
+        },
+        {
+          "offset": 938295,
+          "encoding": "ascii",
+          "value": "23RSASHA224PSSPrvHardSign"
+        },
+        {
+          "offset": 938321,
+          "encoding": "ascii",
+          "value": "20RSASHA224PrvHardSign"
+        },
+        {
+          "offset": 938344,
+          "encoding": "ascii",
+          "value": "21RSASHA1PSSPrvHardSign"
+        },
+        {
+          "offset": 938368,
+          "encoding": "ascii",
+          "value": "18RSASHA1PrvHardSign"
+        },
+        {
+          "offset": 938389,
+          "encoding": "ascii",
+          "value": "17RSAMD5PrvHardSign"
+        },
+        {
+          "offset": 938409,
+          "encoding": "ascii",
+          "value": "17RSAMD2PrvHardSign"
+        },
+        {
+          "offset": 938429,
+          "encoding": "ascii",
+          "value": "18RSAHashPrvHardSign"
+        },
+        {
+          "offset": 938450,
+          "encoding": "ascii",
+          "value": "22RSAX931Sha1PrvHardSign"
+        },
+        {
+          "offset": 938475,
+          "encoding": "ascii",
+          "value": "18RSAX931PrvHardSign"
+        },
+        {
+          "offset": 938496,
+          "encoding": "ascii",
+          "value": "18RSAPKCSPrvHardSign"
+        },
+        {
+          "offset": 938517,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPrvHardDecrypt"
+        },
+        {
+          "offset": 938541,
+          "encoding": "ascii",
+          "value": "10RSAPrvHard"
+        },
+        {
+          "offset": 938686,
+          "encoding": "ascii",
+          "value": "22GenerateKeyPairRSAHard"
+        },
+        {
+          "offset": 938794,
+          "encoding": "ascii",
+          "value": "pkcs11"
+        },
+        {
+          "offset": 938837,
+          "encoding": "ascii",
+          "value": "ePass2003_pcsc_mutex_"
+        },
+        {
+          "offset": 939498,
+          "encoding": "ascii",
+          "value": "Feitian ePass2003"
+        },
+        {
+          "offset": 939516,
+          "encoding": "ascii",
+          "value": "FT  ePass2003Auto"
+        },
+        {
+          "offset": 939534,
+          "encoding": "ascii",
+          "value": "Feitian ePass2003 %.2d"
+        },
+        {
+          "offset": 939557,
+          "encoding": "ascii",
+          "value": "FT  ePass2003Auto %.2d"
+        },
+        {
+          "offset": 939580,
+          "encoding": "ascii",
+          "value": "Feitian ePass2003 %.2d 00"
+        },
+        {
+          "offset": 939606,
+          "encoding": "ascii",
+          "value": "FT  ePass2003Auto %.2d 00"
+        },
+        {
+          "offset": 939720,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 940999,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 941028,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 942770,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 942816,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 943175,
+          "encoding": "ascii",
+          "value": "wZAngwQsCxv4PR7YwkBnekrAzatRdzTurqwJa3rLICOzRLF+eKCVUFk2lwRXmnZl"
+        },
+        {
+          "offset": 943985,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 944016,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 945501,
+          "encoding": "ascii",
+          "value": "nO0FtQKBgEDDqxchzGIpKfi0sPSdt9TfOZADdI7Tc28U7ktWcVnArtGGyecwatr7"
+        },
+        {
+          "offset": 945687,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 945720,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 946901,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 946932,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 948087,
+          "encoding": "ascii",
+          "value": "3N603t9/4g8evJ5qOEiwfjrsAdcu2r+OtNtkYmyAxLhRkTCbe2iQ7NP/ozkn/hgT"
+        },
+        {
+          "offset": 948607,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 948735,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 948763,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 948840,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 948872,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 949210,
+          "encoding": "ascii",
+          "value": "%ssigned using  : RSA+"
+        },
+        {
+          "offset": 949283,
+          "encoding": "ascii",
+          "value": "%sRSA key size  : %d bits"
+        },
+        {
+          "offset": 949434,
+          "encoding": "ascii",
+          "value": "%sRevoked certificates:"
+        },
+        {
+          "offset": 949686,
+          "encoding": "ascii",
+          "value": "659EF8BA043916EEDE8911702B22"
+        },
+        {
+          "offset": 950104,
+          "encoding": "ascii",
+          "value": "E87579C11079F43DD824993C2CEE5ED3"
+        },
+        {
+          "offset": 952232,
+          "encoding": "ascii",
+          "value": "B70E0CBD6BB4BF7F321390B94A03C1D356C21122343280D6115C1D21"
+        },
+        {
+          "offset": 952592,
+          "encoding": "ascii",
+          "value": "483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"
+        },
+        {
+          "offset": 952968,
+          "encoding": "ascii",
+          "value": "B3312FA7E23EE7E4988E056BE3F82D19181D9C6EFE8141120314088F5013875AC656398D8A2ED19D2A85C8EDD3EC2AEF"
+        },
+        {
+          "offset": 953940,
+          "encoding": "ascii",
+          "value": "011839296a789a3bc0045c8a5fb42c7d1bd998f54449579b446817afbd17273e662c97ee72995ef42640c550b9013fad0761353c7086a272c24088be94769fd16650"
+        },
+        {
+          "offset": 957868,
+          "encoding": "ascii",
+          "value": "03F0EBA16286A2D57EA0991168D4994637E8343E36"
+        },
+        {
+          "offset": 958784,
+          "encoding": "ascii",
+          "value": "01DB537DECE819B7F70F555A67C427A8CD9BF18AEB9B56E0C11056FAE6A3"
+        },
+        {
+          "offset": 959732,
+          "encoding": "ascii",
+          "value": "01CCDA380F1C9E318D90F95D07E5426FE87E45C0E8184698E45962364E34116177DD2259"
+        },
+        {
+          "offset": 961000,
+          "encoding": "ascii",
+          "value": "015D4860D088DDB3496B0C6064756260441CDE4AF1771D4DB01FFE5B34E59703DC255A868A1180515603AEAB60794E54BB7996A7"
+        },
+        {
+          "offset": 961216,
+          "encoding": "ascii",
+          "value": "010000000000000000000000000000000000000000000000000001E2AAD6A612F33307BE5FA47C3C9E052F838164CD37D9A21173"
+        },
+        {
+          "offset": 962548,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE661CE18FF55987308059B186823851EC7DD9CA1161DE93D5174D66E8382E9BB2FE84E47"
+        },
+        {
+          "offset": 963044,
+          "encoding": "ascii",
+          "value": "0667ACEB38AF4E488C407433FFAE4F1C811638DF20"
+        },
+        {
+          "offset": 963176,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFDF64DE1151ADBB78F10A7"
+        },
+        {
+          "offset": 964752,
+          "encoding": "ascii",
+          "value": "C8619ED45A62E6212E1160349E2BFA844439FAFC2A3FD1638F9E"
+        },
+        {
+          "offset": 965080,
+          "encoding": "ascii",
+          "value": "32010857077C5431123A46B808906756F543423E8D27877578125778AC76"
+        },
+        {
+          "offset": 967440,
+          "encoding": "ascii",
+          "value": "53D7E08529547048121E9C95F3791DD804963948F34FAE7BF44EA82365DC7868FE57E4AE2DE211305A407104BD"
+        },
+        {
+          "offset": 1022847,
+          "encoding": "ascii",
+          "value": "14RSAX509PrvSoft"
+        },
+        {
+          "offset": 1023568,
+          "encoding": "ascii",
+          "value": "NSt3tr121_Sp_counted_base_implIP16ObjKeyPrivateRSANS_11_Sp_deleterIS1_EELN9__gnu_cxx12_Lock_policyE2EEE"
+        },
+        {
+          "offset": 1023672,
+          "encoding": "ascii",
+          "value": "NSt3tr111_Sp_deleterI16ObjKeyPrivateRSAEE"
+        },
+        {
+          "offset": 1024004,
+          "encoding": "ascii",
+          "value": "NSt3tr121_Sp_counted_base_implIP15ObjKeyPublicRSANS_11_Sp_deleterIS1_EELN9__gnu_cxx12_Lock_policyE2EEE"
+        },
+        {
+          "offset": 1024108,
+          "encoding": "ascii",
+          "value": "NSt3tr111_Sp_deleterI15ObjKeyPublicRSAEE"
+        },
+        {
+          "offset": 1025530,
+          "encoding": "ascii",
+          "value": "26GenerateKeyPairRSAX931Hard"
+        },
+        {
+          "offset": 1033970,
+          "encoding": "ascii",
+          "value": "24WrapSecKeyWithRSAPubHard"
+        },
+        {
+          "offset": 1034231,
+          "encoding": "ascii",
+          "value": "27RSAPKCSPubHardVerifyRecover"
+        },
+        {
+          "offset": 1034261,
+          "encoding": "ascii",
+          "value": "19RSAPSSPubHardVerify"
+        },
+        {
+          "offset": 1034283,
+          "encoding": "ascii",
+          "value": "20RSAX509PubHardVerify"
+        },
+        {
+          "offset": 1034306,
+          "encoding": "ascii",
+          "value": "25RSASHA512PSSPubHardVerify"
+        },
+        {
+          "offset": 1034334,
+          "encoding": "ascii",
+          "value": "22RSASHA512PubHardVerify"
+        },
+        {
+          "offset": 1034359,
+          "encoding": "ascii",
+          "value": "25RSASHA384PSSPubHardVerify"
+        },
+        {
+          "offset": 1034387,
+          "encoding": "ascii",
+          "value": "22RSASHA384PubHardVerify"
+        },
+        {
+          "offset": 1034412,
+          "encoding": "ascii",
+          "value": "25RSASHA256PSSPubHardVerify"
+        },
+        {
+          "offset": 1034440,
+          "encoding": "ascii",
+          "value": "22RSASHA256PubHardVerify"
+        },
+        {
+          "offset": 1034465,
+          "encoding": "ascii",
+          "value": "25RSASHA224PSSPubHardVerify"
+        },
+        {
+          "offset": 1034493,
+          "encoding": "ascii",
+          "value": "22RSASHA224PubHardVerify"
+        },
+        {
+          "offset": 1034518,
+          "encoding": "ascii",
+          "value": "23RSASHA1PSSPubHardVerify"
+        },
+        {
+          "offset": 1034544,
+          "encoding": "ascii",
+          "value": "20RSASHA1PubHardVerify"
+        },
+        {
+          "offset": 1034567,
+          "encoding": "ascii",
+          "value": "19RSAMD5PubHardVerify"
+        },
+        {
+          "offset": 1034589,
+          "encoding": "ascii",
+          "value": "19RSAMD2PubHardVerify"
+        },
+        {
+          "offset": 1034611,
+          "encoding": "ascii",
+          "value": "24RSAX931Sha1PubHardVerify"
+        },
+        {
+          "offset": 1034638,
+          "encoding": "ascii",
+          "value": "20RSAX931PubHardVerify"
+        },
+        {
+          "offset": 1034661,
+          "encoding": "ascii",
+          "value": "20RSAPKCSPubHardVerify"
+        },
+        {
+          "offset": 1034684,
+          "encoding": "ascii",
+          "value": "21RSAOAEPPubHardEncrypt"
+        },
+        {
+          "offset": 1034708,
+          "encoding": "ascii",
+          "value": "21RSAX509PubHardEncrypt"
+        },
+        {
+          "offset": 1034732,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPubHardEncrypt"
+        },
+        {
+          "offset": 1295260,
+          "encoding": "ascii",
+          "value": "ENTERSAFE-ESPK"
+        },
+        {
+          "offset": 1295430,
+          "encoding": "ascii",
+          "value": "6C3D95F6-8868-4F7B-A390-897A6265C497_FEITIAN"
+        },
+        {
+          "offset": 1295490,
+          "encoding": "ascii",
+          "value": "EFY-CA Token CSP v1.0"
+        },
+        {
+          "offset": 1295760,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1.dll"
+        },
+        {
+          "offset": 1296035,
+          "encoding": "ascii",
+          "value": "EFY-CA PKCS#11 Library."
+        },
+        {
+          "offset": 1296067,
+          "encoding": "ascii",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 1296197,
+          "encoding": "ascii",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 1296262,
+          "encoding": "ascii",
+          "value": "EFY-CA Token v1.0"
+        },
+        {
+          "offset": 1296295,
+          "encoding": "ascii",
+          "value": "ePass2003Auto"
+        },
+        {
+          "offset": 1296344,
+          "encoding": "ascii",
+          "value": "Software\\EFY Certification Authority\\Token Manager v1.0"
+        },
+        {
+          "offset": 1296614,
+          "encoding": "ascii",
+          "value": "lang\\escsp"
+        },
+        {
+          "offset": 1297424,
+          "encoding": "ascii",
+          "value": "ePass2003.ini"
+        },
+        {
+          "offset": 1297694,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1_mgr.exe"
+        },
+        {
+          "offset": 1297964,
+          "encoding": "ascii",
+          "value": "EFY-CA Token v1 Key Storage Provider"
+        },
+        {
+          "offset": 1386572,
+          "encoding": "ascii",
+          "value": "_SCardBeginTransaction"
+        },
+        {
+          "offset": 1386595,
+          "encoding": "ascii",
+          "value": "_SCardConnect"
+        },
+        {
+          "offset": 1386609,
+          "encoding": "ascii",
+          "value": "_SCardDisconnect"
+        },
+        {
+          "offset": 1386626,
+          "encoding": "ascii",
+          "value": "_SCardEndTransaction"
+        },
+        {
+          "offset": 1386647,
+          "encoding": "ascii",
+          "value": "_SCardEstablishContext"
+        },
+        {
+          "offset": 1386670,
+          "encoding": "ascii",
+          "value": "_SCardGetStatusChange"
+        },
+        {
+          "offset": 1386692,
+          "encoding": "ascii",
+          "value": "_SCardIsValidContext"
+        },
+        {
+          "offset": 1386713,
+          "encoding": "ascii",
+          "value": "_SCardReconnect"
+        },
+        {
+          "offset": 1386729,
+          "encoding": "ascii",
+          "value": "_SCardReleaseContext"
+        },
+        {
+          "offset": 1386750,
+          "encoding": "ascii",
+          "value": "_SCardTransmit"
+        },
+        {
+          "offset": 1388914,
+          "encoding": "ascii",
+          "value": "_g_rgSCardT0Pci"
+        },
+        {
+          "offset": 1388930,
+          "encoding": "ascii",
+          "value": "_g_rgSCardT1Pci"
+        },
+        {
+          "offset": 1394192,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1.dylib"
+        },
+        {
+          "offset": 2371456,
+          "encoding": "ascii",
+          "value": "N/A (Unknown PKCS#11 error code)"
+        },
+        {
+          "offset": 2372918,
+          "encoding": "ascii",
+          "value": "18RSAX509PrvSoftSign"
+        },
+        {
+          "offset": 2372939,
+          "encoding": "ascii",
+          "value": "21RSAX509PrvSoftDecrypt"
+        },
+        {
+          "offset": 2372963,
+          "encoding": "ascii",
+          "value": "20RSASHA512PrvSoftSign"
+        },
+        {
+          "offset": 2372986,
+          "encoding": "ascii",
+          "value": "20RSASHA384PrvSoftSign"
+        },
+        {
+          "offset": 2373009,
+          "encoding": "ascii",
+          "value": "20RSASHA256PrvSoftSign"
+        },
+        {
+          "offset": 2373032,
+          "encoding": "ascii",
+          "value": "20RSASHA224PrvSoftSign"
+        },
+        {
+          "offset": 2373055,
+          "encoding": "ascii",
+          "value": "18RSASHA1PrvSoftSign"
+        },
+        {
+          "offset": 2373076,
+          "encoding": "ascii",
+          "value": "17RSAMD5PrvSoftSign"
+        },
+        {
+          "offset": 2373096,
+          "encoding": "ascii",
+          "value": "17RSAMD2PrvSoftSign"
+        },
+        {
+          "offset": 2373116,
+          "encoding": "ascii",
+          "value": "18RSAPrvHashSignSoft"
+        },
+        {
+          "offset": 2373137,
+          "encoding": "ascii",
+          "value": "18RSAPKCSPrvSoftSign"
+        },
+        {
+          "offset": 2373158,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPrvSoftDecrypt"
+        },
+        {
+          "offset": 2373182,
+          "encoding": "ascii",
+          "value": "10RSAPrvSoft"
+        },
+        {
+          "offset": 2373195,
+          "encoding": "ascii",
+          "value": "27RSAPKCSPubSoftVerifyRecover"
+        },
+        {
+          "offset": 2373225,
+          "encoding": "ascii",
+          "value": "19RSAPSSPubSoftVerify"
+        },
+        {
+          "offset": 2373247,
+          "encoding": "ascii",
+          "value": "20RSAX509PubSoftVerify"
+        },
+        {
+          "offset": 2373270,
+          "encoding": "ascii",
+          "value": "25RSASHA512PSSPubSoftVerify"
+        },
+        {
+          "offset": 2373298,
+          "encoding": "ascii",
+          "value": "22RSASHA512PubSoftVerify"
+        },
+        {
+          "offset": 2373323,
+          "encoding": "ascii",
+          "value": "25RSASHA384PSSPubSoftVerify"
+        },
+        {
+          "offset": 2373351,
+          "encoding": "ascii",
+          "value": "22RSASHA384PubSoftVerify"
+        },
+        {
+          "offset": 2373376,
+          "encoding": "ascii",
+          "value": "25RSASHA256PSSPubSoftVerify"
+        },
+        {
+          "offset": 2373404,
+          "encoding": "ascii",
+          "value": "22RSASHA256PubSoftVerify"
+        },
+        {
+          "offset": 2373429,
+          "encoding": "ascii",
+          "value": "25RSASHA224PSSPubSoftVerify"
+        },
+        {
+          "offset": 2373457,
+          "encoding": "ascii",
+          "value": "22RSASHA224PubSoftVerify"
+        },
+        {
+          "offset": 2373482,
+          "encoding": "ascii",
+          "value": "23RSASHA1PSSPubSoftVerify"
+        },
+        {
+          "offset": 2373508,
+          "encoding": "ascii",
+          "value": "20RSASHA1PubSoftVerify"
+        },
+        {
+          "offset": 2373531,
+          "encoding": "ascii",
+          "value": "19RSAMD5PubSoftVerify"
+        },
+        {
+          "offset": 2373553,
+          "encoding": "ascii",
+          "value": "19RSAMD2PubSoftVerify"
+        },
+        {
+          "offset": 2373575,
+          "encoding": "ascii",
+          "value": "20RSAPubHashVerifySoft"
+        },
+        {
+          "offset": 2373598,
+          "encoding": "ascii",
+          "value": "24RSAX931Sha1PubSoftVerify"
+        },
+        {
+          "offset": 2373625,
+          "encoding": "ascii",
+          "value": "20RSAX931PubSoftVerify"
+        },
+        {
+          "offset": 2373648,
+          "encoding": "ascii",
+          "value": "20RSAPKCSPubSoftVerify"
+        },
+        {
+          "offset": 2373671,
+          "encoding": "ascii",
+          "value": "21RSAOAEPPubSoftEncrypt"
+        },
+        {
+          "offset": 2373695,
+          "encoding": "ascii",
+          "value": "21RSAX509PubSoftEncrypt"
+        },
+        {
+          "offset": 2373719,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPubSoftEncrypt"
+        },
+        {
+          "offset": 2373743,
+          "encoding": "ascii",
+          "value": "13AlgRSAPubSoft"
+        },
+        {
+          "offset": 2373853,
+          "encoding": "ascii",
+          "value": "15DeriveKeyDHPKCS"
+        },
+        {
+          "offset": 2374080,
+          "encoding": "ascii",
+          "value": "22GenerateKeyPairRSASoft"
+        },
+        {
+          "offset": 2374116,
+          "encoding": "ascii",
+          "value": "24WrapRSAPriWithSecKeySoft"
+        },
+        {
+          "offset": 2374170,
+          "encoding": "ascii",
+          "value": "24WrapSecKeyWithRSAPubSoft"
+        },
+        {
+          "offset": 2374672,
+          "encoding": "ascii",
+          "value": "16ObjKeyPrivateRSA"
+        },
+        {
+          "offset": 2374740,
+          "encoding": "ascii",
+          "value": "15ObjKeyPublicRSA"
+        },
+        {
+          "offset": 2375571,
+          "encoding": "ascii",
+          "value": "17RSAPSSPrvHardSign"
+        },
+        {
+          "offset": 2375591,
+          "encoding": "ascii",
+          "value": "18RSAX509PrvHardSign"
+        },
+        {
+          "offset": 2375612,
+          "encoding": "ascii",
+          "value": "21RSAOAEPPrvHardDecrypt"
+        },
+        {
+          "offset": 2375636,
+          "encoding": "ascii",
+          "value": "21RSAX509PrvHardDecrypt"
+        },
+        {
+          "offset": 2375660,
+          "encoding": "ascii",
+          "value": "23RSASHA512PSSPrvHardSign"
+        },
+        {
+          "offset": 2375686,
+          "encoding": "ascii",
+          "value": "20RSASHA512PrvHardSign"
+        },
+        {
+          "offset": 2375709,
+          "encoding": "ascii",
+          "value": "23RSASHA384PSSPrvHardSign"
+        },
+        {
+          "offset": 2375735,
+          "encoding": "ascii",
+          "value": "20RSASHA384PrvHardSign"
+        },
+        {
+          "offset": 2375758,
+          "encoding": "ascii",
+          "value": "23RSASHA256PSSPrvHardSign"
+        },
+        {
+          "offset": 2375784,
+          "encoding": "ascii",
+          "value": "20RSASHA256PrvHardSign"
+        },
+        {
+          "offset": 2375807,
+          "encoding": "ascii",
+          "value": "23RSASHA224PSSPrvHardSign"
+        },
+        {
+          "offset": 2375833,
+          "encoding": "ascii",
+          "value": "20RSASHA224PrvHardSign"
+        },
+        {
+          "offset": 2375856,
+          "encoding": "ascii",
+          "value": "21RSASHA1PSSPrvHardSign"
+        },
+        {
+          "offset": 2375880,
+          "encoding": "ascii",
+          "value": "18RSASHA1PrvHardSign"
+        },
+        {
+          "offset": 2375901,
+          "encoding": "ascii",
+          "value": "17RSAMD5PrvHardSign"
+        },
+        {
+          "offset": 2375921,
+          "encoding": "ascii",
+          "value": "17RSAMD2PrvHardSign"
+        },
+        {
+          "offset": 2375941,
+          "encoding": "ascii",
+          "value": "18RSAHashPrvHardSign"
+        },
+        {
+          "offset": 2375962,
+          "encoding": "ascii",
+          "value": "22RSAX931Sha1PrvHardSign"
+        },
+        {
+          "offset": 2375987,
+          "encoding": "ascii",
+          "value": "18RSAX931PrvHardSign"
+        },
+        {
+          "offset": 2376008,
+          "encoding": "ascii",
+          "value": "18RSAPKCSPrvHardSign"
+        },
+        {
+          "offset": 2376029,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPrvHardDecrypt"
+        },
+        {
+          "offset": 2376053,
+          "encoding": "ascii",
+          "value": "10RSAPrvHard"
+        },
+        {
+          "offset": 2376198,
+          "encoding": "ascii",
+          "value": "22GenerateKeyPairRSAHard"
+        },
+        {
+          "offset": 2376314,
+          "encoding": "ascii",
+          "value": "pkcs11"
+        },
+        {
+          "offset": 2376361,
+          "encoding": "ascii",
+          "value": "ePass2003_pcsc_mutex_"
+        },
+        {
+          "offset": 2377030,
+          "encoding": "ascii",
+          "value": "Feitian ePass2003"
+        },
+        {
+          "offset": 2377048,
+          "encoding": "ascii",
+          "value": "FT  ePass2003Auto"
+        },
+        {
+          "offset": 2377066,
+          "encoding": "ascii",
+          "value": "Feitian ePass2003 %.2d"
+        },
+        {
+          "offset": 2377089,
+          "encoding": "ascii",
+          "value": "FT  ePass2003Auto %.2d"
+        },
+        {
+          "offset": 2377112,
+          "encoding": "ascii",
+          "value": "Feitian ePass2003 %.2d 00"
+        },
+        {
+          "offset": 2377138,
+          "encoding": "ascii",
+          "value": "FT  ePass2003Auto %.2d 00"
+        },
+        {
+          "offset": 2377256,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 2378535,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 2378568,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2380310,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2380360,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 2380719,
+          "encoding": "ascii",
+          "value": "wZAngwQsCxv4PR7YwkBnekrAzatRdzTurqwJa3rLICOzRLF+eKCVUFk2lwRXmnZl"
+        },
+        {
+          "offset": 2381529,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 2381560,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2383045,
+          "encoding": "ascii",
+          "value": "nO0FtQKBgEDDqxchzGIpKfi0sPSdt9TfOZADdI7Tc28U7ktWcVnArtGGyecwatr7"
+        },
+        {
+          "offset": 2383231,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2383264,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 2384445,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 2384480,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2385635,
+          "encoding": "ascii",
+          "value": "3N603t9/4g8evJ5qOEiwfjrsAdcu2r+OtNtkYmyAxLhRkTCbe2iQ7NP/ozkn/hgT"
+        },
+        {
+          "offset": 2386155,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2386287,
+          "encoding": "ascii",
+          "value": "-----BEGIN CERTIFICATE-----"
+        },
+        {
+          "offset": 2386315,
+          "encoding": "ascii",
+          "value": "-----END CERTIFICATE-----"
+        },
+        {
+          "offset": 2386392,
+          "encoding": "ascii",
+          "value": "-----BEGIN RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2386424,
+          "encoding": "ascii",
+          "value": "-----END RSA PRIVATE KEY-----"
+        },
+        {
+          "offset": 2386770,
+          "encoding": "ascii",
+          "value": "%ssigned using  : RSA+"
+        },
+        {
+          "offset": 2386843,
+          "encoding": "ascii",
+          "value": "%sRSA key size  : %d bits"
+        },
+        {
+          "offset": 2387002,
+          "encoding": "ascii",
+          "value": "%sRevoked certificates:"
+        },
+        {
+          "offset": 2387266,
+          "encoding": "ascii",
+          "value": "659EF8BA043916EEDE8911702B22"
+        },
+        {
+          "offset": 2387696,
+          "encoding": "ascii",
+          "value": "E87579C11079F43DD824993C2CEE5ED3"
+        },
+        {
+          "offset": 2389992,
+          "encoding": "ascii",
+          "value": "B70E0CBD6BB4BF7F321390B94A03C1D356C21122343280D6115C1D21"
+        },
+        {
+          "offset": 2390376,
+          "encoding": "ascii",
+          "value": "483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"
+        },
+        {
+          "offset": 2390768,
+          "encoding": "ascii",
+          "value": "B3312FA7E23EE7E4988E056BE3F82D19181D9C6EFE8141120314088F5013875AC656398D8A2ED19D2A85C8EDD3EC2AEF"
+        },
+        {
+          "offset": 2391776,
+          "encoding": "ascii",
+          "value": "011839296a789a3bc0045c8a5fb42c7d1bd998f54449579b446817afbd17273e662c97ee72995ef42640c550b9013fad0761353c7086a272c24088be94769fd16650"
+        },
+        {
+          "offset": 2395888,
+          "encoding": "ascii",
+          "value": "03F0EBA16286A2D57EA0991168D4994637E8343E36"
+        },
+        {
+          "offset": 2396864,
+          "encoding": "ascii",
+          "value": "01DB537DECE819B7F70F555A67C427A8CD9BF18AEB9B56E0C11056FAE6A3"
+        },
+        {
+          "offset": 2397824,
+          "encoding": "ascii",
+          "value": "01CCDA380F1C9E318D90F95D07E5426FE87E45C0E8184698E45962364E34116177DD2259"
+        },
+        {
+          "offset": 2399152,
+          "encoding": "ascii",
+          "value": "015D4860D088DDB3496B0C6064756260441CDE4AF1771D4DB01FFE5B34E59703DC255A868A1180515603AEAB60794E54BB7996A7"
+        },
+        {
+          "offset": 2399376,
+          "encoding": "ascii",
+          "value": "010000000000000000000000000000000000000000000000000001E2AAD6A612F33307BE5FA47C3C9E052F838164CD37D9A21173"
+        },
+        {
+          "offset": 2400744,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE661CE18FF55987308059B186823851EC7DD9CA1161DE93D5174D66E8382E9BB2FE84E47"
+        },
+        {
+          "offset": 2401272,
+          "encoding": "ascii",
+          "value": "0667ACEB38AF4E488C407433FFAE4F1C811638DF20"
+        },
+        {
+          "offset": 2401416,
+          "encoding": "ascii",
+          "value": "03FFFFFFFFFFFFFFFFFFFDF64DE1151ADBB78F10A7"
+        },
+        {
+          "offset": 2403080,
+          "encoding": "ascii",
+          "value": "C8619ED45A62E6212E1160349E2BFA844439FAFC2A3FD1638F9E"
+        },
+        {
+          "offset": 2403408,
+          "encoding": "ascii",
+          "value": "32010857077C5431123A46B808906756F543423E8D27877578125778AC76"
+        },
+        {
+          "offset": 2405784,
+          "encoding": "ascii",
+          "value": "53D7E08529547048121E9C95F3791DD804963948F34FAE7BF44EA82365DC7868FE57E4AE2DE211305A407104BD"
+        },
+        {
+          "offset": 2461255,
+          "encoding": "ascii",
+          "value": "14RSAX509PrvSoft"
+        },
+        {
+          "offset": 2461992,
+          "encoding": "ascii",
+          "value": "NSt3tr121_Sp_counted_base_implIP16ObjKeyPrivateRSANS_11_Sp_deleterIS1_EELN9__gnu_cxx12_Lock_policyE2EEE"
+        },
+        {
+          "offset": 2462096,
+          "encoding": "ascii",
+          "value": "NSt3tr111_Sp_deleterI16ObjKeyPrivateRSAEE"
+        },
+        {
+          "offset": 2462432,
+          "encoding": "ascii",
+          "value": "NSt3tr121_Sp_counted_base_implIP15ObjKeyPublicRSANS_11_Sp_deleterIS1_EELN9__gnu_cxx12_Lock_policyE2EEE"
+        },
+        {
+          "offset": 2462536,
+          "encoding": "ascii",
+          "value": "NSt3tr111_Sp_deleterI15ObjKeyPublicRSAEE"
+        },
+        {
+          "offset": 2464002,
+          "encoding": "ascii",
+          "value": "26GenerateKeyPairRSAX931Hard"
+        },
+        {
+          "offset": 2472442,
+          "encoding": "ascii",
+          "value": "24WrapSecKeyWithRSAPubHard"
+        },
+        {
+          "offset": 2472703,
+          "encoding": "ascii",
+          "value": "27RSAPKCSPubHardVerifyRecover"
+        },
+        {
+          "offset": 2472733,
+          "encoding": "ascii",
+          "value": "19RSAPSSPubHardVerify"
+        },
+        {
+          "offset": 2472755,
+          "encoding": "ascii",
+          "value": "20RSAX509PubHardVerify"
+        },
+        {
+          "offset": 2472778,
+          "encoding": "ascii",
+          "value": "25RSASHA512PSSPubHardVerify"
+        },
+        {
+          "offset": 2472806,
+          "encoding": "ascii",
+          "value": "22RSASHA512PubHardVerify"
+        },
+        {
+          "offset": 2472831,
+          "encoding": "ascii",
+          "value": "25RSASHA384PSSPubHardVerify"
+        },
+        {
+          "offset": 2472859,
+          "encoding": "ascii",
+          "value": "22RSASHA384PubHardVerify"
+        },
+        {
+          "offset": 2472884,
+          "encoding": "ascii",
+          "value": "25RSASHA256PSSPubHardVerify"
+        },
+        {
+          "offset": 2472912,
+          "encoding": "ascii",
+          "value": "22RSASHA256PubHardVerify"
+        },
+        {
+          "offset": 2472937,
+          "encoding": "ascii",
+          "value": "25RSASHA224PSSPubHardVerify"
+        },
+        {
+          "offset": 2472965,
+          "encoding": "ascii",
+          "value": "22RSASHA224PubHardVerify"
+        },
+        {
+          "offset": 2472990,
+          "encoding": "ascii",
+          "value": "23RSASHA1PSSPubHardVerify"
+        },
+        {
+          "offset": 2473016,
+          "encoding": "ascii",
+          "value": "20RSASHA1PubHardVerify"
+        },
+        {
+          "offset": 2473039,
+          "encoding": "ascii",
+          "value": "19RSAMD5PubHardVerify"
+        },
+        {
+          "offset": 2473061,
+          "encoding": "ascii",
+          "value": "19RSAMD2PubHardVerify"
+        },
+        {
+          "offset": 2473083,
+          "encoding": "ascii",
+          "value": "24RSAX931Sha1PubHardVerify"
+        },
+        {
+          "offset": 2473110,
+          "encoding": "ascii",
+          "value": "20RSAX931PubHardVerify"
+        },
+        {
+          "offset": 2473133,
+          "encoding": "ascii",
+          "value": "20RSAPKCSPubHardVerify"
+        },
+        {
+          "offset": 2473156,
+          "encoding": "ascii",
+          "value": "21RSAOAEPPubHardEncrypt"
+        },
+        {
+          "offset": 2473180,
+          "encoding": "ascii",
+          "value": "21RSAX509PubHardEncrypt"
+        },
+        {
+          "offset": 2473204,
+          "encoding": "ascii",
+          "value": "21RSAPKCSPubHardEncrypt"
+        },
+        {
+          "offset": 2913040,
+          "encoding": "ascii",
+          "value": "ENTERSAFE-ESPK"
+        },
+        {
+          "offset": 2913190,
+          "encoding": "ascii",
+          "value": "6C3D95F6-8868-4F7B-A390-897A6265C497_FEITIAN"
+        },
+        {
+          "offset": 2913250,
+          "encoding": "ascii",
+          "value": "EFY-CA Token CSP v1.0"
+        },
+        {
+          "offset": 2913520,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1.dll"
+        },
+        {
+          "offset": 2913795,
+          "encoding": "ascii",
+          "value": "EFY-CA PKCS#11 Library."
+        },
+        {
+          "offset": 2913827,
+          "encoding": "ascii",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 2913957,
+          "encoding": "ascii",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 2914022,
+          "encoding": "ascii",
+          "value": "EFY-CA Token v1.0"
+        },
+        {
+          "offset": 2914055,
+          "encoding": "ascii",
+          "value": "ePass2003Auto"
+        },
+        {
+          "offset": 2914104,
+          "encoding": "ascii",
+          "value": "Software\\EFY Certification Authority\\Token Manager v1.0"
+        },
+        {
+          "offset": 2914374,
+          "encoding": "ascii",
+          "value": "lang\\escsp"
+        },
+        {
+          "offset": 2915184,
+          "encoding": "ascii",
+          "value": "ePass2003.ini"
+        },
+        {
+          "offset": 2915454,
+          "encoding": "ascii",
+          "value": "efyca_p11_v1_mgr.exe"
+        },
+        {
+          "offset": 2915724,
+          "encoding": "ascii",
+          "value": "EFY-CA Token v1 Key Storage Provider"
+        },
+        {
+          "offset": 2973556,
+          "encoding": "ascii",
+          "value": "_SCardBeginTransaction"
+        },
+        {
+          "offset": 2973579,
+          "encoding": "ascii",
+          "value": "_SCardConnect"
+        },
+        {
+          "offset": 2973593,
+          "encoding": "ascii",
+          "value": "_SCardDisconnect"
+        },
+        {
+          "offset": 2973610,
+          "encoding": "ascii",
+          "value": "_SCardEndTransaction"
+        },
+        {
+          "offset": 2973631,
+          "encoding": "ascii",
+          "value": "_SCardEstablishContext"
+        },
+        {
+          "offset": 2973654,
+          "encoding": "ascii",
+          "value": "_SCardGetStatusChange"
+        },
+        {
+          "offset": 2973676,
+          "encoding": "ascii",
+          "value": "_SCardIsValidContext"
+        },
+        {
+          "offset": 2973697,
+          "encoding": "ascii",
+          "value": "_SCardReconnect"
+        },
+        {
+          "offset": 2973713,
+          "encoding": "ascii",
+          "value": "_SCardReleaseContext"
+        },
+        {
+          "offset": 2973734,
+          "encoding": "ascii",
+          "value": "_SCardTransmit"
+        },
+        {
+          "offset": 2975880,
+          "encoding": "ascii",
+          "value": "_g_rgSCardT0Pci"
+        },
+        {
+          "offset": 2975896,
+          "encoding": "ascii",
+          "value": "_g_rgSCardT1Pci"
+        }
+      ]
+    }
+  ]
+}

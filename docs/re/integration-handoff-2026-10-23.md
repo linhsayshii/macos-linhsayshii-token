@@ -98,3 +98,34 @@ merge vào branch Git chính hoặc hai tích hợp đã hoàn tất.
 Giữ PIN ngoài chat/log/argv/đĩa; không auto-sign, chỉ bind 127.0.0.1, không thêm
 filePath tùy ý hoặc chạy installer vendor. Không đổi USB/middleware/trust/proxy
 âm thầm. Dùng current user authorization để thực hiện công việc đã giao.
+
+
+## Bổ sung nghiên cứu ký lô lúc 09:59 ngày 23/10
+
+User đã ký thành công lô ba hóa đơn cash cùng mẫu/ký hiệu, xác nhận cả ba đổi
+trạng thái. Backend nhận download array 3 GUID nhưng trả **một TDiep có ba HDon**;
+plugin ký toàn DLieu bằng **một Signature**, upload một XML/multipart part, HTTP
+204/body rỗng. xmlsec verify đạt; sửa riêng HDon 1/2/3, SigningTime hoặc signature
+đều bị từ chối. Integration không được ép ZIP/XML/signature count bằng số invoice
+IDs. Không có raw callback hoặc thử lỗi từng phần. Xem
+[batch report](minvoice-batch-live-capture.md) và
+[batch evidence](evidence/minvoice-live-cash-batch-success.json).
+
+
+## Phạm vi mới: khoảng 300 hóa đơn mỗi lần, không giới hạn theo sample 3
+
+User làm rõ nhu cầu thỉnh thoảng ký khoảng **300 hóa đơn/lần**. Báo cáo mới
+[luồng ký lô tổng quát](minvoice-bulk-signing.md) phân tích đúng build 1.0.3.0:
+cash chia 100 mỗi nhóm, 300 → 3 nhóm tuần tự download → ký các XML backend trả
+→ upload → chờ; ordinary theo tenant setting (default 2 khi response null).
+Không ép số XML/chữ ký bằng số invoice, số nhóm hoặc số 3. Static và 7175 model
+cases/biên 300 đã kiểm tra; **chưa chạy live lô trên 100**. Runtime thật mới có
+cash 1/3; không tuyên bố app đã hỗ trợ 300.
+
+App hiện còn guard `InvoiceIdArray.count == 1` trong MinvoiceInvoices.swift.
+Cần mở rộng scheduler và ZIP/approval/progress/error handling để hỗ trợ số lượng
+thay đổi, với mục tiêu thực tế 300 cash. Theo dõi kết quả từng nhóm; không tự
+retry nhóm upload chưa rõ hoặc toàn lô. Cancel vendor chỉ giữa các nhóm và có
+thể vẫn callback success khi không Error; TokenSigner phải báo hủy/partial rõ.
+Chi tiết guard, CIL anchors, mô hình fault và checklist integration nằm trong
+báo cáo mới; chưa sửa runtime Swift trong đợt nghiên cứu này.

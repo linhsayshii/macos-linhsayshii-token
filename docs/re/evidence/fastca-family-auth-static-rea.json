@@ -1,0 +1,1235 @@
+{
+  "artifact": {
+    "path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+    "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3",
+    "format": "PE32 x86",
+    "imageBase": "0x10000000",
+    "analysis": "Static only. No DLL loaded or executed, no authentication attempted."
+  },
+  "records": {
+    "0x1006cf71": {
+      "evidence_id": "ev_9f156ebdde4a6e937b5e14452c66cec83b2438d7918cd57342f4544e3b125705",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x1006cf71"
+      },
+      "raw_result": null,
+      "normalized_result": "    esi = arg_0;\n    eax = *esi;\n    decomp_var_8 = &arg_0;\n    esp = esp - 0x8;\n    decomp_var_c = arg_4;\n    eax = (eax[0x1])(decomp_var_c, decomp_var_8);\n    if (eax == 0x0) {\n            eax = *esi;\n            esp = esp - 0xc;\n            eax = (eax[0x5])(arg_0, arg_8, arg_c);\n    }\n    return eax;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x10023069": {
+      "evidence_id": "ev_351adcd87ca22a63766593e7272f4a342eb49ce10bb945c455b9f668f43bd296",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x10023069"
+      },
+      "raw_result": null,
+      "normalized_result": "    ecx = *ecx;\n    if (ecx != 0x0) {\n            eax = *ecx;\n            eax = (eax[0x35])();\n    }\n    else {\n            eax = 0x0;\n    }\n    return eax;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x1004340c": {
+      "evidence_id": "ev_9936394ac44dadf728cd3ba0a60b984ede9d7b81c0ba2638159e00b8942ce085",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x1004340c"
+      },
+      "raw_result": null,
+      "normalized_result": "    sub_1003dad6();\n    *ecx = 0x1009f1dc;\n    sub_10003770();\n    sub_1004b119();\n    ecx[0x94] = 0x1;\n    ecx[0x95] = 0x0;\n    ecx[0xa7] = 0x400;\n    sub_10083870(saved_fp, arg_0, arg_4);\n    ecx[0xa6] = 0x0;\n    ecx[0xa9] = 0x0;\n    ecx[0xaa] = 0x0;\n    ecx[0xab] = 0x0;\n    ecx[0xac] = 0x0;\n    ecx[0xad] = 0x0;\n    ecx[0x2b8] = 0x0;\n    ecx[0x2b9] = 0x0;\n    ecx[0x2ba] = 0x0;\n    ecx[0x2bb] = 0x0;\n    ecx[0x2bc] = 0x0;\n    ecx[0x2bd] = 0x0;\n    ecx[0x2be] = 0x0;\n    return;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x10041e63": {
+      "evidence_id": "ev_6b653650399bb87c825c9e1e2e4fe03524d44442c08c96523b50b6d2f26db321",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x10041e63"
+      },
+      "raw_result": null,
+      "normalized_result": "    esp = esp - 0x4;\n    esi = ecx;\n    if (esi[0xac] == 0x0) {\n            eax = sub_100842b8(saved_fp);\n            esp = (esp - 0x4) + 0x4;\n            if (eax != 0x0) {\n                    esp = esp - 0x4;\n                    eax = sub_100404f8(saved_fp);\n            }\n            else {\n                    eax = 0x0;\n            }\n            esi[0xac] = eax;\n    }\n    return;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100404f8": {
+      "evidence_id": "ev_c2ab5fb8d26ae88a188f1d7fa177f8f28b3f2ffd7a29a780dc90424bf80d059c",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x100404f8"
+      },
+      "raw_result": null,
+      "normalized_result": "    eax = ecx;\n    *eax = 0x1009e7a0;\n    eax[0x1] = arg_0;\n    eax[0x8] = 0x0;\n    eax[0x9] = 0x0;\n    return eax;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100402f3": {
+      "evidence_id": "ev_ebbfc8debfbdf31074175e69f0bb296456e0b99e6cb0691439325220cd7114aa",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x100402f3"
+      },
+      "raw_result": null,
+      "normalized_result": "    var_4 = *dword_100c0718 ^ ebp;\n    ebx = arg_4;\n    esi = ecx;\n    esp = (esp - 0xc) + 0x4;\n    bool_1 = ebx != 0x0;\n    if (ebx != 0x0 && !bool_1) {\n            eax = *esi;\n            esp = esp - 0x8;\n            eax = (eax[0x3])(&var_1C, 0x8);\n            bool_9 = true;\n            bool_8 = true;\n            bool_7 = true;\n            bool_6 = true;\n            bool_5 = true;\n            bool_4 = true;\n            if (eax == 0x0) {\n                    esp = esp - 0x4;\n                    var_C = eax;\n                    edi = &var_B;\n                    asm { stosd      dword [edi], eax };\n                    asm { stosw      word [edi], ax };\n                    asm { stosb      byte [edi], al };\n                    eax = 0x0;\n                    var_14 = 0x0;\n                    edi = &var_13;\n                    asm { stosd      dword [edi], eax };\n                    asm { stosw      word [edi], ax };\n                    asm { stosb      byte [edi], al };\n                    decomp_var_38 = &var_14;\n                    decomp_var_3c = arg_8;\n                    sub_10040bd1(ebx, decomp_var_3c, decomp_var_38, &var_1C, 0x8, &var_C);\n                    eax = *esi;\n                    eax = (eax[0x6])(arg_0, &var_C, 0x8);\n                    esp = ((esp - 0x18) + 0x18 - 0xc) + 0x4;\n                    if (eax == 0x0) {\n                            esp = esp - 0x8;\n                            (*(*esi[0x1] + 0x44))(ebx, arg_8);\n                    }\n            }\n    }\n    eax = sub_1008385b();\n    return eax;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100402b5": {
+      "evidence_id": "ev_76f5687ff732dc190a9c9aeedfa5ae8003bea2b4c9b50d3f10f377224afb3546",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x100402b5"
+      },
+      "raw_result": null,
+      "normalized_result": "    if (arg_0 != 0x0) {\n            (*(*ecx[0x1] + 0x20))();\n    }\n    return;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100405c7": {
+      "evidence_id": "ev_b878508df48997dd857ab499f680f4a5be1fc2aac34914c6c09df247a2debd4e",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x100405c7"
+      },
+      "raw_result": null,
+      "normalized_result": "    ebp = &decomp_var_6c;\n    arg_64 = *dword_100c0718 ^ ebp;\n    edx = arg_74;\n    eax = ecx;\n    esp = esp - 0x154;\n    decomp_var_48 = eax;\n    bool_7 = true;\n    bool_6 = true;\n    bool_5 = true;\n    bool_4 = true;\n    bool_3 = true;\n    bool_2 = true;\n    if (edx == 0x0) {\n            esp = esp - 0x4;\n            esp = esp + 0x4;\n            sub_1008385b();\n    }\n    else {\n            ebx = 0x0;\n            esp = esp - 0xc;\n            decomp_var_3c = (*(*eax[0x1] + 0x34))();\n            sub_10012ab7();\n            eax = 0x0;\n            arg_50 = ebx;\n            edi = &arg_51;\n            asm { stosd      dword [edi], eax };\n            asm { stosd      dword [edi], eax };\n            asm { stosd      dword [edi], eax };\n            asm { stosd      dword [edi], eax };\n            asm { stosw      word [edi], ax };\n            asm { stosb      byte [edi], al };\n            decomp_var_20 = ebx;\n            sub_1008502c(saved_fp);\n            sub_10085005(saved_fp);\n            sub_10085b05(saved_fp, arg_0, arg_4, arg_8);\n            decomp_var_24 = 0x676f6c;\n            sub_1003547a();\n            decomp_var_9c = ebx;\n            sub_10017f7b(saved_fp);\n            decomp_var_38 = decomp_var_44[0x9];\n            sub_1004052f(saved_fp, arg_0, arg_4);\n            esp = ((esp - 0x18) + 0x18 - 0x10) + 0x10;\n            if ((decomp_var_6c - decomp_var_70 & 0xfffffff8) != 0x0) {\n                    esp = esp - 0x8;\n                    sub_1003308e(saved_fp, arg_0);\n                    while (true) {\n                            sub_1003308e(saved_fp, arg_0);\n                            esp = esp - 0xc;\n                            if (sub_1003554d(saved_fp) != 0x0) {\n                                    temp_0 = 0x0;\n                                    break;\n                            }\n                            else {\n                                    sub_1003547a();\n                                    esp = esp - 0x8;\n                                    *sub_10003555();\n                                    if (sub_10002d31(saved_fp, arg_0) == 0x0) {\n                                            eax = &decomp_var_24;\n                                            edx = eax + 0x1;\n                                            do {\n                                                    ecx = *(int8_t *)eax;\n                                                    eax = eax + 0x1;\n                                            } while (ecx != 0x0);\n                                            if (decomp_var_84 - decomp_var_88 != eax - edx) {\n                                                    eax = &decomp_var_24;\n                                                    edx = eax + 0x1;\n                                                    do {\n                                                            ecx = *(int8_t *)eax;\n                                                            eax = eax + 0x1;\n                                                    } while (ecx != 0x0);\n                                                    sub_1004c320(saved_fp);\n                                                    esp = (esp - 0x10) + 0xc;\n                                                    if (sub_100838f0(saved_fp, arg_0, arg_4) != 0x0) {\n                                                            sub_10001c87();\n                                                            sub_100841b8(saved_fp);\n                                                            esp = (esp - 0x4) + 0x4;\n                                                            sub_1007b11c();\n                                                            continue;\n                                                    }\n                                                    temp_0 = 0x2;\n                                                    break;\n                                            }\n                                            else {\n                                                    temp_0 = 0x2;\n                                                    break;\n                                            }\n                                    }\n                                    else {\n                                            sub_10001c87();\n                                            sub_100841b8(saved_fp);\n                                            esp = (esp - 0x4) + 0x4;\n                                            if (decomp_var_40 != 0x0) {\n                                                    sub_100026c0();\n                                                    temp_0 = 0x1;\n                                            }\n                                            else {\n                                                    temp_0 = 0x1;\n                                            }\n                                            break;\n                                    }\n                            }\n                    }\n                    if (temp_0 != 0x0) {\n                            if (temp_0 != 0x1) {\n                                    sub_1003547a();\n                                    esp = esp - 0x8;\n                                    *sub_10003555();\n                                    if (sub_10002d31(saved_fp, arg_0) == 0x0) {\n                                            sub_10001c87();\n                                            sub_100841b8(saved_fp);\n                                            sub_10001c87();\n                                            sub_100841b8(saved_fp);\n                                            esp = ((esp - 0x4) + 0x4 - 0x4) + 0x4;\n                                            if (decomp_var_40 != 0x0) {\n                                                    sub_100026c0();\n                                            }\n                                            ebx = saved_fp;\n                                            esp = (esp - 0x4) + 0x4;\n                                            sub_1007d08e();\n                                            sub_100841b8(saved_fp);\n                                            sub_10013f87();\n                                            sub_100841b8(saved_fp);\n                                            esp = ((esp - 0x4) + 0x4 - 0x4) + 0x4;\n                                            sub_1008385b();\n                                    }\n                                    else {\n                                            ebx = 0x0;\n                                            sub_1004c320(saved_fp);\n                                            sub_10002102(saved_fp);\n                                            sub_1004c579(saved_fp, arg_0, arg_4, arg_8);\n                                            esp = (esp - 0x18) + 0x10 - 0x8;\n                                            sub_1000191d(saved_fp, arg_0);\n                                            esi = 0x0;\n                                            if (arg_10 > 0x0) {\n                                                    decomp_var_20 = 0x7c;\n                                                    edi = sub_10011dde(saved_fp, arg_0, arg_4);\n                                                    sub_1001291c(saved_fp, arg_0, arg_4);\n                                                    sub_10014501(saved_fp);\n                                                    esp = esp - 0x28;\n                                                    esi = edi + 0x1;\n                                                    sub_1000191d(saved_fp, arg_0);\n                                                    if (esi < arg_10) {\n                                                            continue;\n                                                    }\n                                                    break;\n                                            }\n                                            decomp_var_20 = 0x1;\n                                            sub_1000191d(saved_fp, arg_0);\n                                            sub_10001c87();\n                                            sub_100841b8(saved_fp);\n                                            sub_10001c87();\n                                            sub_100841b8(saved_fp);\n                                            esp = ((esp - 0xc) + 0x4 - 0x4) + 0x4;\n                                            ebx = 0x0;\n                                            edi = &arg_50 - 0x1;\n                                            if (decomp_var_3c == 0x0) {\n                                                    do {\n                                                            eax = edi[0x1];\n                                                            edi = edi + 0x1;\n                                                    } while (eax != ebx);\n                                                    esi = 0x1009c5a0;\n                                            }\n                                            else {\n                                                    do {\n                                                            eax = edi[0x1];\n                                                            edi = edi + 0x1;\n                                                    } while (eax != ebx);\n                                                    esi = 0x1009c59c;\n                                            }\n                                            bool_18 = decomp_var_4c != 0xa;\n                                            asm { movsw      word [edi], word [esi] };\n                                            if (!bool_18) {\n                                                    sub_1003a4f0(saved_fp, arg_0);\n                                                    esp = esp - 0x14;\n                                                    sub_10013f31(saved_fp, arg_0, arg_4);\n                                            }\n                                            sub_10002102(saved_fp);\n                                            sub_10014501(saved_fp);\n                                            arg_4c = 0xf;\n                                            sub_10001898(saved_fp);\n                                            esp = esp - 0x14;\n                                            sub_1003a4f0(saved_fp, arg_0);\n                                            while (true) {\n                                                    sub_1003a4f0(saved_fp, arg_0);\n                                                    esp = esp - 0xc;\n                                                    ecx = &decomp_var_34;\n                                                    if (sub_1003554d(saved_fp) != 0x0) {\n                                                            break;\n                                                    }\n                                                    sub_10014fac();\n                                                    sub_10002010(saved_fp);\n                                                    eax = sub_100121cb(saved_fp, arg_0);\n                                                    sub_100121cb(saved_fp, arg_0);\n                                                    sub_100121ab(saved_fp, arg_0);\n                                                    sub_1001452a(saved_fp, arg_0, arg_4, arg_8, arg_c, arg_10);\n                                                    sub_10012a8d(saved_fp);\n                                                    esp = esp - 0x34;\n                                                    sub_1000191d(saved_fp, arg_0);\n                                                    sub_100035cf();\n                                            }\n                                            if (decomp_var_20 != 0x0) {\n                                                    ebx = 0x0;\n                                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                                    esp = esp - 0x24;\n                                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                                    eax = &decomp_var_24;\n                                                    esi = eax + 0x1;\n                                                    do {\n                                                            ecx = *(int8_t *)eax;\n                                                            eax = eax + 0x1;\n                                                    } while (ecx != ebx);\n                                                    esp = esp - 0xc;\n                                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                                    eax = arg_38;\n                                                    if (arg_4c < 0x10) {\n                                                            eax = &arg_38;\n                                                    }\n                                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                                    esi = *decomp_var_38;\n                                                    esp = esp - 0x18;\n                                                    sub_1001769a(saved_fp);\n                                                    (esi[0x2])();\n                                            }\n                                            else {\n                                                    esi = *decomp_var_38;\n                                                    esp = esp - 0xc;\n                                                    sub_1001769a(saved_fp);\n                                                    (esi[0x3])();\n                                            }\n                                            ebx = 0x0;\n                                            if (decomp_var_3c != 0x0) {\n                                                    sub_1000191d(saved_fp, arg_0);\n                                                    esp = esp - 0x10;\n                                                    sub_1000191d(saved_fp, arg_0);\n                                                    if (decomp_var_40 != 0x0) {\n                                                            sub_100026c0();\n                                                    }\n                                                    ebx = decomp_var_3c;\n                                            }\n                                            else {\n                                                    if (arg_70 == 0x1) {\n                                                            decomp_var_48[0x8] = 0x1;\n                                                    }\n                                                    else {\n                                                            if (arg_70 == 0x2) {\n                                                                    decomp_var_48[0x9] = 0x1;\n                                                            }\n                                                    }\n                                                    sub_1000191d(saved_fp, arg_0);\n                                                    esp = esp - 0x10;\n                                                    sub_1000191d(saved_fp, arg_0);\n                                                    if (decomp_var_40 != ebx) {\n                                                            sub_100026c0();\n                                                    }\n                                            }\n                                            sub_1007d08e();\n                                            sub_100841b8(saved_fp);\n                                            sub_10013f87();\n                                            sub_100841b8(saved_fp);\n                                            esp = ((esp - 0x4) + 0x4 - 0x4) + 0x4;\n                                            sub_1008385b();\n                                    }\n                            }\n                            else {\n                                    sub_1007d08e();\n                                    sub_100841b8(saved_fp);\n                                    sub_10013f87();\n                                    sub_100841b8(saved_fp);\n                                    esp = ((esp - 0x4) + 0x4 - 0x4) + 0x4 - 0x4;\n                                    esp = esp + 0x4;\n                                    sub_1008385b();\n                            }\n                    }\n                    else {\n                            ebx = 0x0;\n                            edi = &arg_50 - 0x1;\n                            if (decomp_var_3c == 0x0) {\n                                    do {\n                                            eax = edi[0x1];\n                                            edi = edi + 0x1;\n                                    } while (eax != ebx);\n                                    esi = 0x1009c5a0;\n                            }\n                            else {\n                                    do {\n                                            eax = edi[0x1];\n                                            edi = edi + 0x1;\n                                    } while (eax != ebx);\n                                    esi = 0x1009c59c;\n                            }\n                            bool_29 = decomp_var_4c != 0xa;\n                            asm { movsw      word [edi], word [esi] };\n                            if (!bool_29) {\n                                    sub_1003a4f0(saved_fp, arg_0);\n                                    esp = esp - 0x14;\n                                    sub_10013f31(saved_fp, arg_0, arg_4);\n                            }\n                            sub_10002102(saved_fp);\n                            sub_10014501(saved_fp);\n                            arg_4c = 0xf;\n                            sub_10001898(saved_fp);\n                            esp = esp - 0x14;\n                            sub_1003a4f0(saved_fp, arg_0);\n                            while (true) {\n                                    sub_1003a4f0(saved_fp, arg_0);\n                                    esp = esp - 0xc;\n                                    ecx = &decomp_var_34;\n                                    if (sub_1003554d(saved_fp) != 0x0) {\n                                            break;\n                                    }\n                                    sub_10014fac();\n                                    sub_10002010(saved_fp);\n                                    eax = sub_100121cb(saved_fp, arg_0);\n                                    sub_100121cb(saved_fp, arg_0);\n                                    sub_100121ab(saved_fp, arg_0);\n                                    sub_1001452a(saved_fp, arg_0, arg_4, arg_8, arg_c, arg_10);\n                                    sub_10012a8d(saved_fp);\n                                    esp = esp - 0x34;\n                                    sub_1000191d(saved_fp, arg_0);\n                                    sub_100035cf();\n                            }\n                            if (decomp_var_20 != 0x0) {\n                                    ebx = 0x0;\n                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                    esp = esp - 0x24;\n                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                    eax = &decomp_var_24;\n                                    esi = eax + 0x1;\n                                    do {\n                                            ecx = *(int8_t *)eax;\n                                            eax = eax + 0x1;\n                                    } while (ecx != ebx);\n                                    esp = esp - 0xc;\n                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                    eax = arg_38;\n                                    if (arg_4c < 0x10) {\n                                            eax = &arg_38;\n                                    }\n                                    sub_10036d8c(saved_fp, arg_0, arg_4);\n                                    esi = *decomp_var_38;\n                                    esp = esp - 0x18;\n                                    sub_1001769a(saved_fp);\n                                    (esi[0x2])();\n                            }\n                            else {\n                                    esi = *decomp_var_38;\n                                    esp = esp - 0xc;\n                                    sub_1001769a(saved_fp);\n                                    (esi[0x3])();\n                            }\n                            ebx = 0x0;\n                            if (decomp_var_3c != 0x0) {\n                                    sub_1000191d(saved_fp, arg_0);\n                                    esp = esp - 0x10;\n                                    sub_1000191d(saved_fp, arg_0);\n                                    if (decomp_var_40 != 0x0) {\n                                            sub_100026c0();\n                                    }\n                                    ebx = decomp_var_3c;\n                            }\n                            else {\n                                    if (arg_70 == 0x1) {\n                                            decomp_var_48[0x8] = 0x1;\n                                    }\n                                    else {\n                                            if (arg_70 == 0x2) {\n                                                    decomp_var_48[0x9] = 0x1;\n                                            }\n                                    }\n                                    sub_1000191d(saved_fp, arg_0);\n                                    esp = esp - 0x10;\n                                    sub_1000191d(saved_fp, arg_0);\n                                    if (decomp_var_40 != ebx) {\n                                            sub_100026c0();\n                                    }\n                            }\n                            sub_1007d08e();\n                            sub_100841b8(saved_fp);\n                            sub_10013f87();\n                            sub_100841b8(saved_fp);\n                            esp = ((esp - 0x4) + 0x4 - 0x4) + 0x4;\n                            sub_1008385b();\n                    }\n            }\n            else {\n                    ebx = 0x0;\n                    edi = &arg_50 - 0x1;\n                    if (decomp_var_3c == 0x0) {\n                            do {\n                                    eax = edi[0x1];\n                                    edi = edi + 0x1;\n                            } while (eax != ebx);\n                            esi = 0x1009c5a0;\n                    }\n                    else {\n                            do {\n                                    eax = edi[0x1];\n                                    edi = edi + 0x1;\n                            } while (eax != ebx);\n                            esi = 0x1009c59c;\n                    }\n                    bool_9 = decomp_var_4c != 0xa;\n                    asm { movsw      word [edi], word [esi] };\n                    if (!bool_9) {\n                            sub_1003a4f0(saved_fp, arg_0);\n                            esp = esp - 0x14;\n                            sub_10013f31(saved_fp, arg_0, arg_4);\n                    }\n                    sub_10002102(saved_fp);\n                    sub_10014501(saved_fp);\n                    arg_4c = 0xf;\n                    sub_10001898(saved_fp);\n                    esp = esp - 0x14;\n                    sub_1003a4f0(saved_fp, arg_0);\n                    while (true) {\n                            sub_1003a4f0(saved_fp, arg_0);\n                            esp = esp - 0xc;\n                            ecx = &decomp_var_34;\n                            if (sub_1003554d(saved_fp) != 0x0) {\n                                    break;\n                            }\n                            sub_10014fac();\n                            sub_10002010(saved_fp);\n                            eax = sub_100121cb(saved_fp, arg_0);\n                            sub_100121cb(saved_fp, arg_0);\n                            sub_100121ab(saved_fp, arg_0);\n                            sub_1001452a(saved_fp, arg_0, arg_4, arg_8, arg_c, arg_10);\n                            sub_10012a8d(saved_fp);\n                            esp = esp - 0x34;\n                            sub_1000191d(saved_fp, arg_0);\n                            sub_100035cf();\n                    }\n                    if (decomp_var_20 != ebx) {\n                            sub_10036d8c(saved_fp, arg_0, arg_4);\n                            sub_10036d8c(saved_fp, arg_0, arg_4);\n                            esp = esp - 0x24;\n                            sub_10036d8c(saved_fp, arg_0, arg_4);\n                            eax = &decomp_var_24;\n                            esi = eax + 0x1;\n                            do {\n                                    ecx = *(int8_t *)eax;\n                                    eax = eax + 0x1;\n                            } while (ecx != ebx);\n                            esp = esp - 0xc;\n                            sub_10036d8c(saved_fp, arg_0, arg_4);\n                            eax = arg_38;\n                            if (arg_4c < 0x10) {\n                                    eax = &arg_38;\n                            }\n                            sub_10036d8c(saved_fp, arg_0, arg_4);\n                            esi = *decomp_var_38;\n                            esp = esp - 0x18;\n                            sub_1001769a(saved_fp);\n                            (esi[0x2])();\n                    }\n                    else {\n                            esi = *decomp_var_38;\n                            esp = esp - 0xc;\n                            sub_1001769a(saved_fp);\n                            (esi[0x3])();\n                    }\n                    if (decomp_var_3c != ebx) {\n                            sub_1000191d(saved_fp, arg_0);\n                            esp = esp - 0x10;\n                            sub_1000191d(saved_fp, arg_0);\n                            if (decomp_var_40 != ebx) {\n                                    sub_100026c0();\n                            }\n                            ebx = decomp_var_3c;\n                    }\n                    else {\n                            if (arg_70 == 0x1) {\n                                    decomp_var_48[0x8] = 0x1;\n                            }\n                            else {\n                                    if (arg_70 == 0x2) {\n                                            decomp_var_48[0x9] = 0x1;\n                                    }\n                            }\n                            sub_1000191d(saved_fp, arg_0);\n                            esp = esp - 0x10;\n                            sub_1000191d(saved_fp, arg_0);\n                            if (decomp_var_40 != ebx) {\n                                    sub_100026c0();\n                            }\n                    }\n                    sub_1007d08e();\n                    sub_100841b8(saved_fp);\n                    sub_10013f87();\n                    sub_100841b8(saved_fp);\n                    esp = ((esp - 0x4) + 0x4 - 0x4) + 0x4;\n                    sub_1008385b();\n            }\n    }\n    return;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x10040bd1": {
+      "evidence_id": "ev_d0ed38eb3b1af6108df401daa0ebfaec600939ea552b2e5e14c46722171576b9",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x10040bd1"
+      },
+      "raw_result": null,
+      "normalized_result": "    if (arg_4 == 0x10) {\n            decomp_var_188 = arg_0;\n            esp = esp - 0x8;\n            decomp_var_18c = &var_184;\n            sub_100574d6(decomp_var_18c, decomp_var_188);\n            esp = esp + 0x8;\n    }\n    else {\n            if (arg_4 == 0x18) {\n                    decomp_var_188 = arg_0;\n                    esp = esp - 0x8;\n                    decomp_var_18c = &var_184;\n                    sub_100575a6(decomp_var_18c, decomp_var_188);\n                    esp = esp + 0x8;\n            }\n    }\n    sub_10057dbb(&var_184, 0x1, arg_10, arg_8, arg_c, arg_14);\n    return 0x0;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x10049165": {
+      "evidence_id": "ev_f93c2aec50beceb9104a2a5559164fd3c5cd6d2bd9ae9af4fed606a7464370f8",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x10049165"
+      },
+      "raw_result": null,
+      "normalized_result": "    ebx = 0x0;\n    esi = ecx;\n    esi[0x2b9] = 0x0;\n    esi[0x2ba] = 0x0;\n    sub_10044592(0x0, 0x82, 0x1, arg_0 & 0xff | 0x80, arg_8, arg_4, 0x0);\n    esp = esp - 0x64;\n    eax = sub_100455d3();\n    eax = eax & 0xffff;\n    if (0x9000 != eax) {\n            ebx = 0x0;\n            esp = esp - 0x8;\n            eax = sub_1004782e((arg_0 | 0x80) & 0xff, 0x0);\n            eax = eax & 0xffff;\n    }\n    else {\n            esi[0x2b9] = 0x1;\n    }\n    if (arg_0 == 0x1) {\n            esp = esp - 0x8;\n            eax = sub_10041c12(eax, 0x0);\n            ebx = 0x0;\n            if (eax != 0x0) {\n                    ebx = eax;\n            }\n    }\n    else {\n            if (arg_0 == 0x2) {\n                    esp = esp - 0x8;\n                    eax = sub_10041cef(eax, 0x0);\n                    ebx = 0x0;\n                    if (eax != 0x0) {\n                            ebx = eax;\n                    }\n            }\n    }\n    sub_10001c87();\n    sub_100841b8(var_18);\n    eax = ebx;\n    return eax;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100436d1": {
+      "evidence_id": "ev_f06d431819980fd24f10dc2f6df22004d4f84888e673528ff2a084c5935f621c",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x100436d1"
+      },
+      "raw_result": null,
+      "normalized_result": "    eax = sub_100842b8(saved_fp);\n    esp = (esp - 0x8) + 0x4;\n    if (eax != 0x0) {\n            esi = sub_1004340c();\n    }\n    else {\n            esi = 0x0;\n    }\n    if (esi != 0x0) {\n            esp = esp - 0x8;\n            if ((*(*arg_4 + 0x4))() != 0x0) {\n                    edi = esi;\n            }\n            else {\n                    esp = esp - 0x4;\n                    edi = 0x0;\n                    (**esi)();\n            }\n    }\n    return;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x10046d49": {
+      "evidence_id": "ev_28add0efe2128ac46eaa2de6843b22637611a1f03a1307e6a1d624a23845765e",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x10046d49"
+      },
+      "raw_result": null,
+      "normalized_result": "    ebp = &decomp_var_b8;\n    arg_b0 = *dword_100c0718 ^ ebp;\n    esp = esp - 0x150;\n    sub_10083870(saved_fp, arg_0, arg_4);\n    decomp_var_40 = *arg_c0;\n    decomp_var_40 = *arg_c0;\n    decomp_var_40 = *arg_c0;\n    decomp_var_40 = *arg_c0;\n    decomp_var_2c = *0x1009f3e8;\n    decomp_var_2c = *0x1009f3e8;\n    asm { movsw      word [edi], word [esi] };\n    sub_10044592(saved_fp, arg_0, arg_4, arg_8, arg_c, arg_10, arg_14);\n    esp = esp + 0xc - 0x2c;\n    esi = sub_100455d3() & 0xffff;\n    if (0xfffe == esi) {\n            sub_10001c87();\n            sub_100841b8(saved_fp);\n            esp = ((esp - 0x4) + 0x4 - 0x4) + 0x4;\n    }\n    else {\n            if (0x9000 != esi) {\n                    sub_10001c87();\n                    sub_100841b8(saved_fp);\n                    sub_100416c6(saved_fp);\n                    esp = (esp - 0x8) + 0x4;\n            }\n            else {\n                    sub_10001c87();\n                    esp = esp - 0x4;\n                    sub_100841b8(saved_fp);\n            }\n            esp = esp + 0x4;\n    }\n    sub_1008385b();\n    return;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x1006dcd2": {
+      "evidence_id": "ev_eff5256c80b83f737b90e928de1b5fd39a514485fd17636df4eafb740052d548",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x1006dcd2"
+      },
+      "raw_result": null,
+      "normalized_result": "    var_4 = *dword_100c0718 ^ ebp;\n    decomp_var_40 = ebx;\n    ebx = arg_4;\n    decomp_var_44 = esi;\n    esi = arg_0;\n    esp = esp - 0xc;\n    decomp_var_48 = edi;\n    if (esi != 0x0) {\n            eax = *esi;\n            if (eax >= 0x4) {\n                    if (eax >= 0x6) {\n                            eax = 0x6;\n                            esp = (esp - 0x4) + 0x4;\n                    }\n                    *esi = eax;\n                    eax = esi[0x1];\n                    var_38 = eax;\n                    if (eax != 0x0 && esi[0x3] != 0x0) {\n                            edi = 0x0;\n                            if (esi[0x4] != 0x0 && esi[0x5] != edi && esi[0x6] != edi && esi[0xd] != edi) {\n                                    if (arg_8 == edi) {\n                                            var_30 = edi;\n                                            var_34 = edi;\n                                            var_2C = edi;\n                                            if (*dword_100c04ac > edi) {\n                                                    var_3C = esi[0x2];\n                                                    ebx = 0x100c0460;\n                                                    do {\n                                                            esi = *ebx;\n                                                            if (esi != var_3C) {\n                                                                    var_2C = var_2C + 0x1;\n                                                                    ebx = ebx + 0x4c;\n                                                                    if (var_2C < *dword_100c04ac) {\n                                                                            continue;\n                                                                    }\n                                                                    break;\n                                                            }\n                                                            var_34 = 0x1;\n                                                            eax = sub_100838f0(&var_28, var_38, esi);\n                                                            esp = (esp - 0xc) + 0xc;\n                                                            eax = 0x0;\n                                                            if (esi > 0x0) {\n                                                                    do {\n                                                                            *(int8_t *)(ebp + (eax - 0x28)) = *(int8_t *)(ebp + (eax - 0x28)) & *(int8_t *)(ebx + eax + 0x28);\n                                                                            eax = eax + 0x1;\n                                                                    } while (eax < esi);\n                                                            }\n                                                            edi = ebx + 0x4;\n                                                            esi = &var_28;\n                                                            asm { rep  cmpsb byte [esi], byte [edi] };\n                                                            if (asm { rep  cmpsb byte [esi], byte [edi] }) {\n                                                                    var_30 = 0x1;\n                                                                    break;\n                                                            }\n                                                            var_2C = var_2C + 0x1;\n                                                            ebx = ebx + 0x4c;\n                                                    } while (var_2C < *dword_100c04ac);\n                                                    if (var_34 == 0x0) goto ;\n                                            }\n                                    }\n                                    else {\n                                            sub_1007b55c(edi, edi);\n                                            esp = (esp - 0x10) + 0x8;\n                                            if (sub_1006dc27(esi[0xe], ebx) == edi) {\n                                                    eax = *ebx;\n                                            }\n                                    }\n                            }\n                    }\n            }\n    }\n    eax = sub_1008385b();\n    return eax;\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x10049165-asm": {
+      "evidence_id": "ev_199e11b0c3d3d0d477f18e7206587be4e048f9f523655a1a2df4924156abc589",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_assembly",
+      "parameters": {
+        "procedure": "0x10049165"
+      },
+      "raw_result": null,
+      "normalized_result": "0x10049165: push ebp\n0x10049166: mov ebp, esp\n0x10049168: movzx eax, byte [ebp+arg_0]\n0x1004916c: sub esp, 0x30\n0x1004916f: push ebx\n0x10049170: push esi\n0x10049171: xor ebx, ebx\n0x10049173: push ebx\n0x10049174: push dword [ebp+arg_4]\n0x10049177: or eax, 0x80\n0x1004917c: push dword [ebp+arg_8]\n0x1004917f: mov esi, ecx\n0x10049181: push eax\n0x10049182: push 0x1\n0x10049184: push 0x82\n0x10049189: push ebx\n0x1004918a: lea ecx, dword [ebp+var_30]\n0x1004918d: mov byte [esi+0x2b9], bl\n0x10049193: mov byte [esi+0x2ba], bl\n0x10049199: call sub_10044592\n0x1004919e: push ebx\n0x1004919f: push ebx\n0x100491a0: push ebx\n0x100491a1: lea eax, dword [ebp+var_30]\n0x100491a4: push eax\n0x100491a5: mov ecx, esi\n0x100491a7: call sub_100455d3\n0x100491ac: movzx eax, ax\n0x100491af: mov ecx, 0x9000\n0x100491b4: cmp cx, ax\n0x100491b7: je loc_100491cf\n0x100491b9: mov al, byte [ebp+arg_0]\n0x100491bc: or al, 0x80\n0x100491be: movzx eax, al\n0x100491c1: push ebx\n0x100491c2: push eax\n0x100491c3: mov ecx, esi\n0x100491c5: call sub_1004782e\n0x100491ca: movzx eax, ax\n0x100491cd: jmp loc_100491d6\n0x100491d6: cmp byte [ebp+arg_0], 0x1\n0x100491da: jne loc_10049204\n0x100491dc: push ebx\n0x100491dd: push eax\n0x100491de: mov ecx, esi\n0x100491e0: call sub_10041c12\n0x100491e9: mov ebx, eax\n0x100491eb: lea ecx, dword [ebp+var_18]\n0x100491ee: call sub_10001c87\n0x100491f3: push dword [ebp+var_18]\n0x100491f6: call sub_100841b8\n0x100491fb: pop ecx\n0x100491fc: pop esi\n0x100491fd: mov eax, ebx\n0x100491ff: pop ebx\n0x10049200: leave\n0x10049201: ret 0xc\n0x10049204: cmp byte [ebp+arg_0], 0x2\n0x10049208: jne loc_100491eb\n0x1004920a: push ebx\n0x1004920b: push eax\n0x1004920c: mov ecx, esi\n0x1004920e: call sub_10041cef\n0x10049213: jmp loc_100491e5\n0x100491e5: cmp eax, ebx\n0x100491e7: je loc_100491eb\n0x100491cf: mov byte [esi+0x2b9], 0x1",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x1006dcd2-asm": {
+      "evidence_id": "ev_6dfca77e8579739bbef888dcde97240ebd057f877023a6b86635a8e198292b97",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_assembly",
+      "parameters": {
+        "procedure": "0x1006dcd2"
+      },
+      "raw_result": null,
+      "normalized_result": "0x1006dcd2: push ebp\n0x1006dcd3: mov ebp, esp\n0x1006dcd5: sub esp, 0x3c\n0x1006dcd8: mov eax, dword [dword_100c0718]\n0x1006dcdd: xor eax, ebp\n0x1006dcdf: mov dword [ebp+var_4], eax\n0x1006dce2: push ebx\n0x1006dce3: mov ebx, dword [ebp+arg_4]\n0x1006dce6: push esi\n0x1006dce7: mov esi, dword [ebp+arg_0]\n0x1006dcea: push edi\n0x1006dceb: xor edi, edi\n0x1006dced: cmp esi, edi\n0x1006dcef: je loc_1006de1b\n0x1006dcf5: mov eax, dword [esi]\n0x1006dcf7: cmp eax, 0x4\n0x1006dcfa: jae loc_1006dd06\n0x1006dcfc: mov eax, 0x51a\n0x1006dd01: jmp loc_1006de20\n0x1006de20: mov ecx, dword [ebp+var_4]\n0x1006de23: pop edi\n0x1006de24: pop esi\n0x1006de25: xor ecx, ebp\n0x1006de27: pop ebx\n0x1006de28: call sub_1008385b\n0x1006de2d: leave\n0x1006de2e: ret\n0x1006dd06: cmp eax, 0x6\n0x1006dd09: jb loc_1006dd0e\n0x1006dd0b: push 0x6\n0x1006dd0d: pop eax\n0x1006dd1e: cmp dword [esi+0xc], edi\n0x1006dd21: je loc_1006de1b\n0x1006dd27: cmp dword [esi+0x10], edi\n0x1006dd2a: je loc_1006de1b\n0x1006dd30: cmp dword [esi+0x14], edi\n0x1006dd33: je loc_1006de1b\n0x1006dd39: cmp dword [esi+0x18], edi\n0x1006dd3c: je loc_1006de1b\n0x1006dd42: cmp dword [esi+0x34], edi\n0x1006dd45: jne loc_1006dd51\n0x1006dd47: mov eax, 0x80100003\n0x1006dd4c: jmp loc_1006de20\n0x1006dd51: cmp dword [ebp+arg_8], edi\n0x1006dd54: jne loc_1006ddef\n0x1006dd5a: mov dword [ebp+var_30], edi\n0x1006dd5d: mov dword [ebp+var_34], edi\n0x1006dd60: mov dword [ebp+var_2C], edi\n0x1006dd63: cmp dword [dword_100c04ac], edi\n0x1006dd69: jbe loc_1006de1b\n0x1006dd6f: mov eax, dword [esi+8]\n0x1006dd72: mov dword [ebp+var_3C], eax\n0x1006dd75: mov ebx, 0x100c0460\n0x1006dd81: push esi\n0x1006dd82: push dword [ebp+var_38]\n0x1006dd85: lea eax, dword [ebp+var_28]\n0x1006dd88: push eax\n0x1006dd89: mov dword [ebp+var_34], 0x1\n0x1006dd90: call sub_100838f0\n0x1006dd95: add esp, 0xc\n0x1006dd98: xor eax, eax\n0x1006dd9a: cmp esi, edi\n0x1006dd9c: jbe loc_1006ddab\n0x1006dd9e: mov cl, byte [ebx+eax+0x28]\n0x1006dda2: and byte [ebp+eax+var_28], cl\n0x1006dda6: inc eax\n0x1006dda7: cmp eax, esi\n0x1006dda9: jb loc_1006dd9e\n0x1006ddab: mov ecx, esi\n0x1006ddad: lea edi, dword [ebx+4]\n0x1006ddb0: lea esi, dword [ebp+var_28]\n0x1006ddb3: xor eax, eax\n0x1006ddb5: rep  cmpsb byte [esi], byte [edi]\n0x1006ddb7: je loc_1006ddce\n0x1006ddb9: xor edi, edi\n0x1006dd7a: mov esi, dword [ebx]\n0x1006dd7c: cmp esi, dword [ebp+var_3C]\n0x1006dd7f: jne loc_1006ddbb\n0x1006ddcc: jmp loc_1006ddd7\n0x1006ddd7: cmp dword [ebp+var_34], edi\n0x1006ddda: je loc_1006de1b\n0x1006dddc: mov eax, dword [ebp+var_30]\n0x1006dddf: neg eax\n0x1006dde1: sbb eax, eax\n0x1006dde3: and eax, 0x7feffff3\n0x1006dde8: add eax, 0x8010000d\n0x1006dded: jmp loc_1006de20\n0x1006de1b: mov eax, 0x80100004\n0x1006ddce: mov dword [ebp+var_30], 0x1\n0x1006ddd5: xor edi, edi\n0x1006ddbb: inc dword [ebp+var_2C]\n0x1006ddbe: mov eax, dword [ebp+var_2C]\n0x1006ddc1: add ebx, 0x4c\n0x1006ddc4: cmp eax, dword [dword_100c04ac]\n0x1006ddca: jb loc_1006dd7a\n0x1006ddef: push edi\n0x1006ddf0: push edi\n0x1006ddf1: mov ecx, ebx\n0x1006ddf3: call sub_1007b55c\n0x1006ddf8: push ebx\n0x1006ddf9: push dword [esi+0x38]\n0x1006ddfc: call sub_1006dc27\n0x1006de01: pop ecx\n0x1006de02: pop ecx\n0x1006de03: cmp eax, edi\n0x1006de05: jne loc_1006de20\n0x1006de07: mov eax, dword [ebx]\n0x1006de09: mov eax, dword [eax]\n0x1006de0b: neg eax\n0x1006de0d: sbb eax, eax\n0x1006de0f: and eax, 0x7feffffd\n0x1006de14: add eax, 0x80100003\n0x1006de19: jmp loc_1006de20\n0x1006dd0e: mov dword [esi], eax\n0x1006dd10: mov eax, dword [esi+4]\n0x1006dd13: mov dword [ebp+var_38], eax\n0x1006dd16: cmp eax, edi\n0x1006dd18: je loc_1006de1b",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100402f3-asm": {
+      "evidence_id": "ev_b081e025bc4cc163dd221c9218f78114e1e65fef96c1894a61eed2cb530877ad",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_assembly",
+      "parameters": {
+        "procedure": "0x100402f3"
+      },
+      "raw_result": null,
+      "normalized_result": "0x100402f3: push ebp\n0x100402f4: mov ebp, esp\n0x100402f6: sub esp, 0x1c\n0x100402f9: mov eax, dword [dword_100c0718]\n0x100402fe: xor eax, ebp\n0x10040300: mov dword [ebp+var_4], eax\n0x10040303: push ebx\n0x10040304: mov ebx, dword [ebp+arg_4]\n0x10040307: push esi\n0x10040308: push 0x7\n0x1004030a: mov esi, ecx\n0x1004030c: pop eax\n0x1004030d: test ebx, ebx\n0x1004030f: je loc_1004037c\n0x10040311: test byte [ebp+arg_8], al\n0x10040314: jne loc_1004037c\n0x10040316: mov eax, dword [esi]\n0x10040318: push 0x8\n0x1004031a: lea ecx, dword [ebp+var_1C]\n0x1004031d: push ecx\n0x1004031e: mov ecx, esi\n0x10040320: call dword [eax+0xc]\n0x10040323: test eax, eax\n0x10040325: jne loc_1004037c\n0x10040327: push edi\n0x10040328: mov byte [ebp+var_C], al\n0x1004032b: lea edi, dword [ebp+var_B]\n0x1004032e: stosd dword [edi], eax\n0x1004032f: stosw word [edi], ax\n0x10040331: stosb byte [edi], al\n0x10040332: xor eax, eax\n0x10040334: mov byte [ebp+var_14], 0x0\n0x10040338: lea edi, dword [ebp+var_13]\n0x1004033b: stosd dword [edi], eax\n0x1004033c: stosw word [edi], ax\n0x1004033e: stosb byte [edi], al\n0x1004033f: lea eax, dword [ebp+var_C]\n0x10040342: push eax\n0x10040343: push 0x8\n0x10040345: lea eax, dword [ebp+var_1C]\n0x10040348: push eax\n0x10040349: lea eax, dword [ebp+var_14]\n0x1004034c: push eax\n0x1004034d: push dword [ebp+arg_8]\n0x10040350: push ebx\n0x10040351: call sub_10040bd1\n0x10040356: mov eax, dword [esi]\n0x10040358: add esp, 0x18\n0x1004035b: push 0x8\n0x1004035d: lea ecx, dword [ebp+var_C]\n0x10040360: push ecx\n0x10040361: push dword [ebp+arg_0]\n0x10040364: mov ecx, esi\n0x10040366: call dword [eax+0x18]\n0x10040369: pop edi\n0x1004036a: test eax, eax\n0x1004036c: jne loc_1004037c\n0x1004036e: push dword [ebp+arg_8]\n0x10040371: mov ecx, dword [esi+4]\n0x10040374: mov eax, dword [ecx]\n0x10040376: push ebx\n0x10040377: call dword [eax+0x44]\n0x1004037a: xor eax, eax\n0x1004037c: mov ecx, dword [ebp+var_4]\n0x1004037f: pop esi\n0x10040380: xor ecx, ebp\n0x10040382: pop ebx\n0x10040383: call sub_1008385b\n0x10040388: leave\n0x10040389: ret 0xc",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x1009ac05-asm": {
+      "evidence_id": "ev_9f7045108b3760cafa1a6f877facb344fb53e1858b5693ccde284f2a22b8432c",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_assembly",
+      "parameters": {
+        "procedure": "0x1009ac05"
+      },
+      "raw_result": null,
+      "normalized_result": "0x1009ac05: push sub_100436d1\n0x1009ac0a: call sub_1003ce80+35\n0x1009ac0f: pop ecx\n0x1009ac10: mov byte [byte_100c2124], al\n0x1009ac15: ret",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x10046d49-asm": {
+      "evidence_id": "ev_ce9565de3553bb00d3cdc9ea61a8d5064d4f6525ea3a6d38ca7bfb84675a64d8",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_assembly",
+      "parameters": {
+        "procedure": "0x10046d49"
+      },
+      "raw_result": null,
+      "normalized_result": "0x10046d49: push ebp\n0x10046d4a: lea ebp, dword [esp+-184]\n0x10046d51: sub esp, 0x138\n0x10046d57: mov eax, dword [dword_100c0718]\n0x10046d5c: xor eax, ebp\n0x10046d5e: mov dword [ebp+0xb4], eax\n0x10046d64: push ebx\n0x10046d65: push esi\n0x10046d66: mov esi, dword [ebp+0xc4]\n0x10046d6c: push edi\n0x10046d6d: push 0xff\n0x10046d72: xor ebx, ebx\n0x10046d74: lea eax, dword [ebp-0x4b]\n0x10046d77: push ebx\n0x10046d78: push eax\n0x10046d79: mov dword [ebp-0x50], ecx\n0x10046d7c: call sub_10083870\n0x10046d81: mov dword [ebp-0x46], 0x283\n0x10046d88: mov eax, 0x2862\n0x10046d8d: mov word [ebp-0x4c], ax\n0x10046d91: mov eax, dword [ebp+0xc0]\n0x10046d97: mov byte [ebp-0x43], al\n0x10046d9a: mov ecx, eax\n0x10046d9c: mov dword [ebp-0x4a], 0x380282\n0x10046da3: shr ecx, 0x8\n0x10046da6: mov byte [ebp-0x44], cl\n0x10046da9: mov eax, 0x1084\n0x10046dae: mov word [ebp-0x42], ax\n0x10046db2: mov eax, dword [ebp+0xc8]\n0x10046db8: lea edi, dword [ebp-0x40]\n0x10046dbb: movsd dword [edi], dword [esi]\n0x10046dbc: movsd dword [edi], dword [esi]\n0x10046dbd: movsd dword [edi], dword [esi]\n0x10046dbe: movsd dword [edi], dword [esi]\n0x10046dbf: mov ecx, eax\n0x10046dc1: mov dword [ebp-0x30], 0x285\n0x10046dc8: mov byte [ebp-0x2d], al\n0x10046dcb: mov al, byte [ebp+0xcc]\n0x10046dd1: shr ecx, 0x8\n0x10046dd4: mov byte [ebp-0x2e], cl\n0x10046dd7: mov esi, 0x1009f3e8\n0x10046ddc: lea edi, dword [ebp-0x2c]\n0x10046ddf: movsd dword [edi], dword [esi]\n0x10046de0: movsd dword [edi], dword [esi]\n0x10046de1: movsw word [edi], word [esi]\n0x10046de3: mov byte [ebp-0x2a], al\n0x10046de6: mov al, byte [ebp+0xd0]\n0x10046dec: add esp, 0xc\n0x10046def: mov byte [ebp-0x29], al\n0x10046df2: mov al, byte [ebp+0xd4]\n0x10046df8: push ebx\n0x10046df9: mov byte [ebp-0x27], al\n0x10046dfc: lea eax, dword [ebp-0x4c]\n0x10046dff: push eax\n0x10046e00: push 0x2a\n0x10046e02: push ebx\n0x10046e03: push ebx\n0x10046e04: push 0xe0\n0x10046e09: push ebx\n0x10046e0a: lea ecx, dword [ebp-0x80]\n0x10046e0d: call sub_10044592\n0x10046e12: mov ecx, dword [ebp-0x50]\n0x10046e15: push ebx\n0x10046e16: push ebx\n0x10046e17: push ebx\n0x10046e18: lea eax, dword [ebp-0x80]\n0x10046e1b: push eax\n0x10046e1c: call sub_100455d3\n0x10046e21: movzx esi, ax\n0x10046e24: mov eax, 0xfffe\n0x10046e29: lea ecx, dword [ebp-0x68]\n0x10046e2c: cmp ax, si\n0x10046e2f: jne loc_10046e44\n0x10046e31: call sub_10001c87\n0x10046e36: push dword [ebp-0x68]\n0x10046e39: call sub_100841b8\n0x10046e3e: pop ecx\n0x10046e3f: push 0x7\n0x10046e41: pop eax\n0x10046e42: jmp loc_10046e74\n0x10046e74: mov ecx, dword [ebp+0xb4]\n0x10046e7a: pop edi\n0x10046e7b: pop esi\n0x10046e7c: xor ecx, ebp\n0x10046e7e: pop ebx\n0x10046e7f: call sub_1008385b\n0x10046e84: add ebp, 0xb8\n0x10046e8a: leave\n0x10046e8b: ret 0x18\n0x10046e44: mov eax, 0x9000\n0x10046e49: cmp ax, si\n0x10046e4c: je loc_10046e64\n0x10046e4e: call sub_10001c87\n0x10046e53: push dword [ebp-0x68]\n0x10046e56: call sub_100841b8\n0x10046e5b: push esi\n0x10046e5c: call sub_100416c6\n0x10046e61: pop ecx\n0x10046e62: jmp loc_10046e73\n0x10046e73: pop ecx\n0x10046e64: call sub_10001c87\n0x10046e69: push dword [ebp-0x68]\n0x10046e6c: call sub_100841b8\n0x10046e71: xor eax, eax",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100436d1-refs-final": {
+      "evidence_id": "ev_057910be22b7288bb36b543bb37a176125eb3906c5eaadfb967f7c15fefafd95",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "xrefs",
+      "parameters": {
+        "address": "0x100436d1"
+      },
+      "raw_result": null,
+      "normalized_result": [
+        "0x1009ac05"
+      ],
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100c0460-refs-final": {
+      "evidence_id": "ev_b54ee80023f6bdf1b969cf48c79358ec953b5cf2f506a1a9af7ac89b1d72a798",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "xrefs",
+      "parameters": {
+        "address": "0x100c0460"
+      },
+      "raw_result": null,
+      "normalized_result": [
+        "0x1006dd75"
+      ],
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    "0x100be168-refs-final": {
+      "evidence_id": "ev_53f8cff8011510805e6d926d6d383c3161491583c9fbf537bf8cd4a466da7e1f",
+      "subject": {
+        "name": "fca_v1.dll",
+        "digest": {
+          "sha256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3"
+        },
+        "local_path": "/Users/linhsayshii/Downloads/TokenSigner-Windows-Test/fca_v1.dll",
+        "format": "pe",
+        "architecture": "x86"
+      },
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "hopper",
+          "name": "Hopper Disassembler",
+          "version": "launcher-sha256:dad6f886261fad0d4cdd01aee6fcf57439c60d7b5c54e62fc97f0180116690e0"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "pe",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "architecture": "x86",
+          "available_architectures": [
+            "x86"
+          ],
+          "loader": {
+            "source": "derived",
+            "arguments": [
+              "-l",
+              "WinPE",
+              "--intel-32"
+            ]
+          }
+        },
+        "digest": "1da1f2663f337d7f89d8a76608e1a499d471db799a491128b579a65e15b0d351"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "xrefs",
+      "parameters": {
+        "address": "0x100be168"
+      },
+      "raw_result": null,
+      "normalized_result": [
+        "0x100487aa"
+      ],
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "Results depend on Hopper's completed static analysis."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    }
+  }
+}

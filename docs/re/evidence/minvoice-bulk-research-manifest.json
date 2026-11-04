@@ -1,0 +1,45 @@
+{
+  "kind": "bulk-research-revision-manifest",
+  "created_utc": "2026-10-23T03:15:01.095558+00:00",
+  "user_target_invoice_count": 300,
+  "live_300_observed": false,
+  "old_capture_note": "Earlier batch manifest/preparation describe the historical three-invoice capture; tool paths now have this newer general-count revision. Old session is stopped.",
+  "current_relay_source_sha256": "8286e07b015452006c40ef3173781982735a7da4785f5a647a4a53921df3dbf4",
+  "current_relay_exe_sha256": "266c521db9a2d6373a412feed54c0b2ece1e9d0e5f259726f3e917cf19ebc6b5",
+  "tests": {
+    "windows_x86_compile_mock_selftest": "passed; no external network",
+    "hook_variable_count": "passed for 2,3,10,99,100,101,200,201,300,1000",
+    "scheduler_model_invariant_cases": 7175,
+    "live_capture_started": false
+  },
+  "files": {
+    "scripts/re/MinvoiceBatchCaptureRelay.cs": {
+      "bytes": 21879,
+      "sha256": "8286e07b015452006c40ef3173781982735a7da4785f5a647a4a53921df3dbf4"
+    },
+    "scripts/re/minvoice-batch-capture-hook.js": {
+      "bytes": 9290,
+      "sha256": "2ec5e0e6d772287e356cdbfa07827e5c939cbc44d21033c7d8da59a9c2847cd8"
+    },
+    "scripts/re/minvoice-batch-capture-hook.test.mjs": {
+      "bytes": 9532,
+      "sha256": "a7f173822b704be3eb41a2c13ee6c8cc256d28263c14983e301e4afaa1970b92"
+    },
+    "scripts/re/model-minvoice-bulk-flow.py": {
+      "bytes": 5113,
+      "sha256": "baa856bfe740f5cf79319881776a3925d01dd67e01e270a14e28bbac4aa23789"
+    },
+    "docs/re/minvoice-bulk-signing.md": {
+      "bytes": 10240,
+      "sha256": "df56dba74b6cfb1f443434188e71c11be1a1ce0279f85df3751f2ef507123dd3"
+    },
+    "docs/re/evidence/minvoice-bulk-control-flow.json": {
+      "bytes": 136286,
+      "sha256": "80576ade751ae318b532f864d59afd9db49bd524d3ddd4364429b04a342c0f3c"
+    },
+    "docs/re/evidence/minvoice-bulk-model-results.json": {
+      "bytes": 6556,
+      "sha256": "37b0ee97a282fd7352278bc07859afdf9424f88c5afd8463e94e55213f423fac"
+    }
+  }
+}

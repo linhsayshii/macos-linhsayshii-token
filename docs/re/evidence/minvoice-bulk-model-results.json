@@ -1,0 +1,306 @@
+{
+  "kind": "analyst-control-flow-model",
+  "executed_vendor_code": false,
+  "external_network": false,
+  "real_signatures_or_invoices_created": false,
+  "basis": "docs/re/evidence/minvoice-bulk-control-flow.json",
+  "model_invariant_cases": 7175,
+  "cash_boundaries": [
+    {
+      "invoice_count": 0,
+      "cash_groups": 0,
+      "full_groups_of_100": 0,
+      "tail_group_count": 0
+    },
+    {
+      "invoice_count": 1,
+      "cash_groups": 1,
+      "full_groups_of_100": 0,
+      "tail_group_count": 1
+    },
+    {
+      "invoice_count": 2,
+      "cash_groups": 1,
+      "full_groups_of_100": 0,
+      "tail_group_count": 2
+    },
+    {
+      "invoice_count": 3,
+      "cash_groups": 1,
+      "full_groups_of_100": 0,
+      "tail_group_count": 3
+    },
+    {
+      "invoice_count": 99,
+      "cash_groups": 1,
+      "full_groups_of_100": 0,
+      "tail_group_count": 99
+    },
+    {
+      "invoice_count": 100,
+      "cash_groups": 1,
+      "full_groups_of_100": 1,
+      "tail_group_count": 0
+    },
+    {
+      "invoice_count": 101,
+      "cash_groups": 2,
+      "full_groups_of_100": 1,
+      "tail_group_count": 1
+    },
+    {
+      "invoice_count": 199,
+      "cash_groups": 2,
+      "full_groups_of_100": 1,
+      "tail_group_count": 99
+    },
+    {
+      "invoice_count": 200,
+      "cash_groups": 2,
+      "full_groups_of_100": 2,
+      "tail_group_count": 0
+    },
+    {
+      "invoice_count": 201,
+      "cash_groups": 3,
+      "full_groups_of_100": 2,
+      "tail_group_count": 1
+    },
+    {
+      "invoice_count": 299,
+      "cash_groups": 3,
+      "full_groups_of_100": 2,
+      "tail_group_count": 99
+    },
+    {
+      "invoice_count": 300,
+      "cash_groups": 3,
+      "full_groups_of_100": 3,
+      "tail_group_count": 0
+    },
+    {
+      "invoice_count": 301,
+      "cash_groups": 4,
+      "full_groups_of_100": 3,
+      "tail_group_count": 1
+    },
+    {
+      "invoice_count": 999,
+      "cash_groups": 10,
+      "full_groups_of_100": 9,
+      "tail_group_count": 99
+    },
+    {
+      "invoice_count": 1000,
+      "cash_groups": 10,
+      "full_groups_of_100": 10,
+      "tail_group_count": 0
+    },
+    {
+      "invoice_count": 1001,
+      "cash_groups": 11,
+      "full_groups_of_100": 10,
+      "tail_group_count": 1
+    },
+    {
+      "invoice_count": 10000,
+      "cash_groups": 100,
+      "full_groups_of_100": 100,
+      "tail_group_count": 0
+    }
+  ],
+  "cash_300_success_path": {
+    "actions": [
+      {
+        "group": 1,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 1,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 1,
+        "step": "upload-returned-documents"
+      },
+      {
+        "group": 2,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 2,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 2,
+        "step": "upload-returned-documents"
+      },
+      {
+        "group": 3,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 3,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 3,
+        "step": "upload-returned-documents"
+      }
+    ],
+    "upload_acknowledged_groups": [
+      1,
+      2,
+      3
+    ],
+    "terminal": "loop-completed"
+  },
+  "ordinary_300_default_size_2": {
+    "groups": 150,
+    "group_size": 2
+  },
+  "cash_300_upload_error_group_2": {
+    "actions": [
+      {
+        "group": 1,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 1,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 1,
+        "step": "upload-returned-documents"
+      },
+      {
+        "group": 2,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 2,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 2,
+        "step": "upload-returned-documents"
+      }
+    ],
+    "upload_acknowledged_groups": [
+      1
+    ],
+    "terminal": "exception-stops-loop; failing-upload-business-state-unknown"
+  },
+  "cash_300_download_error_group_2": {
+    "actions": [
+      {
+        "group": 1,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 1,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 1,
+        "step": "upload-returned-documents"
+      },
+      {
+        "group": 2,
+        "step": "download",
+        "requested_count": 100
+      }
+    ],
+    "upload_acknowledged_groups": [
+      1
+    ],
+    "terminal": "exception-stops-loop"
+  },
+  "cash_300_cancel_before_group_2": {
+    "actions": [
+      {
+        "group": 1,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 1,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 1,
+        "step": "upload-returned-documents"
+      }
+    ],
+    "upload_acknowledged_groups": [
+      1
+    ],
+    "terminal": "cancelled-before-next-group",
+    "vendor_callback_success_possible": true
+  },
+  "cash_300_sign_error_group_2_cleanup_succeeds": {
+    "actions": [
+      {
+        "group": 1,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 1,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 1,
+        "step": "upload-returned-documents"
+      },
+      {
+        "group": 2,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 2,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 2,
+        "step": "delete-cache; installed-build-swallow-catch"
+      },
+      {
+        "group": 2,
+        "step": "upload-returned-documents"
+      },
+      {
+        "group": 3,
+        "step": "download",
+        "requested_count": 100
+      },
+      {
+        "group": 3,
+        "step": "sign-returned-documents"
+      },
+      {
+        "group": 3,
+        "step": "upload-returned-documents"
+      }
+    ],
+    "upload_acknowledged_groups": [
+      1,
+      2,
+      3
+    ],
+    "terminal": "loop-completed"
+  },
+  "limitations": [
+    "Model follows selected exact-build CIL; it is not a live 300-invoice transaction.",
+    "Upload acknowledged means transport completion only, not an independent per-invoice issued-state check.",
+    "Returned XML/signature count is backend-dependent; not forced equal to requested invoice count.",
+    "Server/UI limits, mixed-series behavior, failure atomicity and idempotency are not established."
+  ]
+}

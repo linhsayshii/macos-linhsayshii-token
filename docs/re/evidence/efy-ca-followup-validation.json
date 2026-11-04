@@ -1,0 +1,46 @@
+{
+  "evidence_id": "EFY-CA-E18",
+  "date": "2026-10-23 Asia/Ho_Chi_Minh",
+  "json_parse": "pass",
+  "json_files_before_self": 20,
+  "report_links_resolve": true,
+  "installed_four_dll_hashes_match": true,
+  "matched_live_efy_reader": {
+    "name": "FT ePass2003Auto 02",
+    "rv": 0,
+    "event": 34,
+    "atr_len": 23,
+    "atr": "3b9f958131fe9f006646530510113971df00005100006a"
+  },
+  "atr_mask_hex": "ffffffffffffffffffffffff000000ffffffffffffff00",
+  "atr_customer_index_19": 81,
+  "windows_probe_x86_x64_pass": true,
+  "macos_probe_load_init_pass": true,
+  "macos_token_info_rv": "0xe0 CKR_TOKEN_NOT_PRESENT",
+  "macos_certificate_files": 0,
+  "debugger_partial_timeout": "30 seconds; retained observed version query + legacy stat calls",
+  "probe_cleanup": {
+    "own_probe_or_lldb_processes_found_by_pgrep": false
+  },
+  "no_login_pin_or_sign": true,
+  "no_app_repackage_or_restart": true,
+  "scope_of_edits": "EFY research docs/evidence/.local only; no Sources writes by this investigation. Concurrent source diffs from other work were observed and left intact.",
+  "current_source_hashes": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/ModuleRegistry.swift",
+      "sha256": "bf844b699fe0f17e2ab5fa855aa8c4b3aea006d12b28ab7ad8f11500851d6a3d"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/TokenBroker.swift",
+      "sha256": "bb31e174a7aad4ac01cd2cc3d994b38f8ad4d6fc970cd1ddbf9d18c083c88bdf"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/TokenHelper/PKCS11.swift",
+      "sha256": "43aebbe0afffda76ad90b253a7a98c1c9bba07b65d4d2727b3cd6a128cba190e"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/TSShim/shim.c",
+      "sha256": "6c42d9f6a03569060f0ac75cb688a24836f7540d2919376c723669fbae257d3f"
+    }
+  ]
+}

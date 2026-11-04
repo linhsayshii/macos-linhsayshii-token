@@ -1,0 +1,58 @@
+{
+  "evidence_id": "EFY-CA-C05",
+  "date": "2026-10-23 Asia/Ho_Chi_Minh",
+  "result": "PASS",
+  "offline_matcher_result": {
+    "result": "PASS",
+    "explicit_vectors": 19,
+    "wildcard_sweeps": 768,
+    "fixed_bit_mutations": 144,
+    "physical_card_IO": false
+  },
+  "registry_module_payload_hash_crosschecks": 8,
+  "registry_views_consistent": true,
+  "ATR_structure_TCK": true,
+  "local_links_checked": 11,
+  "provenance_hash_crosschecks": true,
+  "production_tests_or_build_run": false,
+  "physical_card_IO": false,
+  "PIN_authentication_or_signatures": 0,
+  "artifacts": [
+    {
+      "path": "docs/re/efy-ca-family-coverage.md",
+      "bytes": 15565,
+      "sha256": "d4df23721d6c9ea70416b4898ba5abd919404d59f5f0885a435df3bced2c8ba2"
+    },
+    {
+      "path": "docs/re/evidence/efy-ca-family-capabilities.json",
+      "bytes": 19656,
+      "sha256": "44573836db85b1a7e1e65ca15f2f977adfcb89724289171ca0ba5ad0ee163a89"
+    },
+    {
+      "path": "docs/re/evidence/efy-ca-family-fixtures.json",
+      "bytes": 8746,
+      "sha256": "d60d9244723ad3c890578eb93e9fd7733e689dc08594f40b53a0e3812611a3dd"
+    },
+    {
+      "path": "docs/re/evidence/efy-ca-family-matching.py",
+      "bytes": 6655,
+      "sha256": "cc054fcc73bc4e0a6c6af7374a5fea192e102e21a1902222cadeced6b2258767"
+    },
+    {
+      "path": "docs/re/evidence/efy-ca-family-preflight-fixtures.json",
+      "bytes": 14642,
+      "sha256": "b5c699bd637856e48444ceaec0b950c27fa2b1f5eba72d1adce2a5d3c53e1c39"
+    },
+    {
+      "path": "docs/re/evidence/efy-ca-family-registry.json",
+      "bytes": 10545,
+      "sha256": "d13b3da436729c8a9a5dfac0841c772bcbb44ff945763ad23eb34cc64a22efaa"
+    }
+  ],
+  "limits": [
+    "Only offline ATR checks executed; C04 preflight fixtures are a specification for main, not measured production test results.",
+    "No new EFY model/token was connected or authenticated in this coverage pass.",
+    "Current app sign result reused from main evidence, not rerun in this pass.",
+    "No production source/build/stage mutation by this EFY research step."
+  ]
+}

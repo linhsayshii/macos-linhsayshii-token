@@ -1,0 +1,247 @@
+{
+  "evidence_id": "EFY-CA-E13",
+  "date": "2026-10-23 Asia/Ho_Chi_Minh",
+  "authority": "local-analyst-windows-observation",
+  "registry": [
+    {
+      "Values": {
+        "Image Path": "C:\\WINDOWS\\system32\\efyca_p11_v1_s.dll",
+        "Type": 1
+      },
+      "Key": "SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider\\EFY-CA Token CSP v1.0",
+      "View": "Registry64"
+    },
+    {
+      "Values": {
+        "ATRMask": [
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0,
+          0,
+          0,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0
+        ],
+        "ATR": [
+          59,
+          159,
+          149,
+          129,
+          49,
+          254,
+          159,
+          0,
+          102,
+          70,
+          83,
+          5,
+          0,
+          0,
+          0,
+          113,
+          223,
+          0,
+          0,
+          81,
+          0,
+          0,
+          0
+        ],
+        "Crypto Provider": "EFY-CA Token CSP v1.0"
+      },
+      "Key": "SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards\\EFY-CA Token Manager v1.0",
+      "View": "Registry64"
+    },
+    {
+      "Values": {
+        "Publisher": "EFY Certification Authority",
+        "DisplayIcon": "\"C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_certd.exe\"",
+        "UninstallString": "\"C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_uninstaller.exe\"",
+        "DisplayName": "EFY-CA Token Manager v1.0 (Remove only)"
+      },
+      "Key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\ePass2003-4cf8-9E2E-1C2EEE2D8D4B_EFYCA_v1",
+      "View": "Registry32"
+    },
+    {
+      "Values": {
+        "Image Path": "C:\\WINDOWS\\system32\\efyca_p11_v1_s.dll",
+        "Type": 1
+      },
+      "Key": "SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider\\EFY-CA Token CSP v1.0",
+      "View": "Registry32"
+    },
+    {
+      "Values": {
+        "ATRMask": [
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0,
+          0,
+          0,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0
+        ],
+        "ATR": [
+          59,
+          159,
+          149,
+          129,
+          49,
+          254,
+          159,
+          0,
+          102,
+          70,
+          83,
+          5,
+          0,
+          0,
+          0,
+          113,
+          223,
+          0,
+          0,
+          81,
+          0,
+          0,
+          0
+        ],
+        "Crypto Provider": "EFY-CA Token CSP v1.0"
+      },
+      "Key": "SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards\\EFY-CA Token Manager v1.0",
+      "View": "Registry32"
+    }
+  ],
+  "files": [
+    {
+      "FullName": "C:\\Program Files (x86)\\EFY-CA",
+      "Length": null,
+      "Mode": "d-----"
+    },
+    {
+      "FullName": "C:\\Windows\\System32\\efyca_p11_v1.dll",
+      "Length": 1443912,
+      "Mode": "-a----"
+    },
+    {
+      "FullName": "C:\\Windows\\System32\\efyca_p11_v1.sig",
+      "Length": 256,
+      "Mode": "-a----"
+    },
+    {
+      "FullName": "C:\\Windows\\System32\\efyca_p11_v1_s.dll",
+      "Length": 48128,
+      "Mode": "-a----"
+    },
+    {
+      "FullName": "C:\\Windows\\SysWOW64\\efyca_p11_v1.dll",
+      "Length": 891464,
+      "Mode": "-a----"
+    },
+    {
+      "FullName": "C:\\Windows\\SysWOW64\\efyca_p11_v1.sig",
+      "Length": 256,
+      "Mode": "-a----"
+    },
+    {
+      "FullName": "C:\\Windows\\SysWOW64\\efyca_p11_v1_s.dll",
+      "Length": 10752,
+      "Mode": "-a----"
+    }
+  ],
+  "state": {
+    "Processes": [
+      {
+        "Id": 14000,
+        "ProcessName": "efyca_p11_v1_certd",
+        "Path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_certd.exe"
+      }
+    ],
+    "ProviderListing": "\r\n> Provider Name: EFY-CA Token CSP v1.0\r\n  Provider Type: 1 - PROV_RSA_FULL\r\n  \r\n  Provider Name: FastCA CSP 1.0\r\n  Provider Type: 1 - PROV_RSA_FULL\r\n  \r\n  NC-CA Key Storage Provider V1.0: Provider DLL failed to initialize correctly.\r\n  \r\n> Provider Name: EFY-CA Token v1 Key Storage Provider\r\n> EFY-CA Token v1 Key Storage Provider: Provider DLL failed to initialize correctly.\r\n  \r\n  Provider Name: Microsoft Passport Key Storage Provider\r\n  \r\n  Provider Name: Microsoft Platform Crypto Provider\r\n  \r\n\r\n\r\n",
+    "VendorRegistry": [
+      {
+        "View": "Registry32",
+        "Values": {
+          "Path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0",
+          "InstallLanguageId": "1066",
+          "Version": "110250207",
+          "NonCache": 0
+        }
+      }
+    ],
+    "CscExists": true
+  },
+  "program_details": {
+    "Files": [
+      {
+        "Path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_certd.exe",
+        "SHA256": "0BCC045780CC3E9D733E8F3C82CDDDB4A874BD9B963A045244E424BCBA3BF881",
+        "FileVersion": "1, 1, 25, 207",
+        "Bytes": 215112
+      },
+      {
+        "Path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_mgr.exe",
+        "SHA256": "C3EF8E03D86509DCF73CD797296A47DF5279053C312726D354725BB496D5C62E",
+        "FileVersion": "1.0.24.1230",
+        "Bytes": 5122120
+      },
+      {
+        "Path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_uninstaller.exe",
+        "SHA256": "0FCEB8DEEC96A613FEAE69D0733A062A68D7B70F0DADC12D29E03FD75EC9FA81",
+        "FileVersion": "1.1.25.207",
+        "Bytes": 171393
+      }
+    ],
+    "Services": [
+      {
+        "PSChildName": "SCardSvr",
+        "ImagePath": "C:\\WINDOWS\\system32\\svchost.exe -k LocalServiceAndNoImpersonation",
+        "Start": 3
+      },
+      {
+        "PSChildName": "WUDFRd",
+        "ImagePath": "\\SystemRoot\\System32\\drivers\\WUDFRd.sys",
+        "Start": 3
+      }
+    ]
+  },
+  "scope": "Explicit Registry64/Registry32 and bounded EFY directories; certutil enumeration can attempt provider initialization; no PIN/sign",
+  "supersedes": "EFY-CA-E09 null FileVersion output did not prove absent installation; direct -Command quoting was also unreliable; follow-up uses EncodedCommand",
+  "acquisition_notes": [
+    "Shared-folder copy attempt failed with permission/path errors; no share/security settings were changed.",
+    "DLL hashes and versions were read on Windows. Matching raw payload already retained from installer.",
+    "Long combined query timed out; subsequent shorter independent queries succeeded."
+  ]
+}

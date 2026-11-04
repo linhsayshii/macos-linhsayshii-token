@@ -1,0 +1,73 @@
+{
+  "evidence_id": "EFY-CA-B02",
+  "date": "2026-10-23",
+  "local_result_time": "2026-10-23T11:25:49.834826+07:00",
+  "kind": "actual physical EFY PIN authentication via native ARM64 helper",
+  "result": "PASS",
+  "auth_status_word": "9000",
+  "user_auth_attempts": 1,
+  "signatures": 0,
+  "retry_policy": "no retry or fallback; NO_RETRY_WL and NO_GET_RESP APDU flags",
+  "pin_entry": "user supplied through local NSSecureTextField; anonymous stdin pipe to helper; no chat/argv/file PIN",
+  "guards": {
+    "exact_observed_efy_atr": "3b9f958131fe9f006646530510113971df00005100006a",
+    "driver": "epass2003",
+    "certificate_der_sha256": "82d02509715e7273639db37d62c364eaf54cfb15ff9fdf79f10c609ea66515c9",
+    "opensc_version": "0.27.1",
+    "exclusive_transaction": true,
+    "preflight_rechecked_in_auth_process": true
+  },
+  "protocol": {
+    "pin_transform": "SHA1(raw ASCII PIN bytes) || BE32(raw byte count)",
+    "authentication": "3DES EDE3 CBC zero-IV encrypt 8-byte card challenge; external-auth 00 82 01 81 Lc8 via OpenSC secure messaging",
+    "secret_logs": false
+  },
+  "cleanup": {
+    "reset_rv": 0,
+    "unlock_rv": 0,
+    "disconnect_rv": 0,
+    "reset_policy": "after any attempted user authentication, including uncertain transport failure",
+    "post_reset_authenticated_state_independently_probed": false
+  },
+  "stdout_status_only": "PREFLIGHT PASS arm64; OpenSC 0.27.1; exact EFY ATR and certificate\nAUTH SW=9000; no retry\nPASS native ARM64 EFY PIN authentication\nRESET rv=0\nUNLOCK rv=0\nDISCONNECT rv=0\nuser_auth_attempts=1; signatures=0\n",
+  "status_log_sha256": "9d0c7feef5ec3da80a0a72d84a7b61d38ee320122502da313b09807597bced3d",
+  "permissions": {
+    "private_directory": "0o700",
+    "status_file": "0o600"
+  },
+  "artifacts": {
+    "auth_probe_source": {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/docs/re/evidence/efy-ca-arm64-auth-probe.c",
+      "sha256": "99feaa1a81b945ec1e3e38144371383f474018dcebb1df5986c8e90a222be9ea"
+    },
+    "pin_ui_source": {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/docs/re/evidence/efy-ca-arm64-pin-prompt.swift",
+      "sha256": "61d54d0a1064236cf955017fb54c4fdad2476810f1cace52c2137e9df840e386"
+    },
+    "auth_probe_binary": {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/pin/efy-auth-arm64",
+      "sha256": "25bb1936e004b98412f4015e48c309ca265a8881dc6982fad712786e128f522e",
+      "file": "Mach-O 64-bit executable arm64"
+    },
+    "pin_ui_binary": {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/pin/EfyPINTest.app/Contents/MacOS/EfyPINTest",
+      "sha256": "5735893b00a7eb987436006cfab64fa9aac621ec1f5f0f1c30c70d2e879ff70b",
+      "file": "Mach-O 64-bit executable arm64"
+    },
+    "runtime": {
+      "path": "/opt/homebrew/Cellar/opensc/0.27.1/lib/libopensc.13.dylib",
+      "sha256": "4d817582d5e5351b2dc0b5dd2f4dd32f0ab3debc81708687d63235028bde6dfa",
+      "file": "Mach-O 64-bit dynamically linked shared library arm64"
+    }
+  },
+  "scope": [
+    "single observed EFY card profile only",
+    "no MSE/PSO/signature, no persistent card writes, no PIN change, no private key export",
+    "production Sources and app bundle untouched in this PIN-test step"
+  ],
+  "limitations": [
+    "PIN success proves challenge-auth route compatibility on this card; no claim that vendor C_Login takes the same internal branch.",
+    "No signature possession/verification, trust chain, revocation, or business-portal acceptance test.",
+    "Swift/AppKit may make transient managed-memory copies of field text; it is not a guarantee of process-wide zeroization. C PIN/key/challenge/cryptogram buffers and explicit Swift Data buffer cleared; core dumps disabled."
+  ]
+}

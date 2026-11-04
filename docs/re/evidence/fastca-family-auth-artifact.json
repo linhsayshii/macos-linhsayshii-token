@@ -1,0 +1,33 @@
+{
+  "scope": "Static raw artifact byte extraction; no execution or authentication",
+  "artifactSHA256": "d2c52982f4799b53b308e306a0c22f6cf59ea27d62c8f57ee6199d7f17ddacf3",
+  "recordVA": "0x100c0460",
+  "recordFileOffset": "0xbee60",
+  "atrLength": 23,
+  "rawPattern": "3b9f958131fe9f006646530500000071df000009000000",
+  "mask": "ffffffffffffffffffffffff000000ffff000000000000",
+  "nonzeroPatternBitsOutsideMask": [
+    19
+  ],
+  "normalizationCaveat": "Observed matcher masks input only before comparing raw pattern. Do not substitute a normalized pattern to claim vendor runtime acceptance.",
+  "vtablePointers": {
+    "0x1009f1dc": {
+      "0x20": "0x100459a9",
+      "0x34": "0x10049165",
+      "0x44": "0x1003cf26",
+      "0xd4": "0x10041e63"
+    },
+    "0x1009e7a0": {
+      "0xc": "0x100402b5",
+      "0x14": "0x100402f3",
+      "0x18": "0x100405c7"
+    }
+  },
+  "espkLiteral": {
+    "va": "0x100be168",
+    "fileOffset": "0xbcb68",
+    "value": "ENTERSAFE-ESPK",
+    "xref": "0x100487aa",
+    "context": "Passed into CREATE FILE path; not proven read-only auth descriptor"
+  }
+}

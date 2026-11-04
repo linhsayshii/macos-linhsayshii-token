@@ -1,0 +1,421 @@
+{
+  "evidence_id": "EFY-CA-E03",
+  "note": "Literal byte strings only; no execution or call-flow proof",
+  "artifacts": [
+    {
+      "file": ".local/efy-ca-windows/original/autorun.exe",
+      "strings": [
+        {
+          "offset": 3240,
+          "encoding": "ascii",
+          "value": "KERNEL32.dll"
+        },
+        {
+          "offset": 3266,
+          "encoding": "ascii",
+          "value": "USER32.dll"
+        },
+        {
+          "offset": 3288,
+          "encoding": "ascii",
+          "value": "MSVCRT.dll"
+        },
+        {
+          "offset": 3536,
+          "encoding": "ascii",
+          "value": "ADVAPI32.dll"
+        },
+        {
+          "offset": 3568,
+          "encoding": "ascii",
+          "value": "SHELL32.dll"
+        },
+        {
+          "offset": 3620,
+          "encoding": "ascii",
+          "value": "SHLWAPI.dll"
+        },
+        {
+          "offset": 6040,
+          "encoding": "ascii",
+          "value": "<assemblyIdentity version=\"1.0.0.0\" processorArchitecture=\"X86\" name=\"Nullsoft.NSIS.exehead\" type=\"win32\"/>"
+        },
+        {
+          "offset": 24870,
+          "encoding": "ascii",
+          "value": "http://ocsp.thawte.com0"
+        },
+        {
+          "offset": 24930,
+          "encoding": "ascii",
+          "value": ".http://crl.thawte.com/ThawteTimestampingCA.crl0"
+        },
+        {
+          "offset": 25863,
+          "encoding": "ascii",
+          "value": "http://ts-ocsp.ws.symantec.com07"
+        },
+        {
+          "offset": 25906,
+          "encoding": "ascii",
+          "value": "+http://ts-aia.ws.symantec.com/tss-ca-g2.cer0<"
+        },
+        {
+          "offset": 25968,
+          "encoding": "ascii",
+          "value": "+http://ts-crl.ws.symantec.com/tss-ca-g2.crl0("
+        },
+        {
+          "offset": 27080,
+          "encoding": "ascii",
+          "value": "http://ocsp.digicert.com0C"
+        },
+        {
+          "offset": 27117,
+          "encoding": "ascii",
+          "value": "7http://cacerts.digicert.com/DigiCertAssuredIDRootCA.crt0"
+        },
+        {
+          "offset": 27192,
+          "encoding": "ascii",
+          "value": "4http://crl4.digicert.com/DigiCertAssuredIDRootCA.crl0:"
+        },
+        {
+          "offset": 27252,
+          "encoding": "ascii",
+          "value": "4http://crl3.digicert.com/DigiCertAssuredIDRootCA.crl0O"
+        },
+        {
+          "offset": 27346,
+          "encoding": "ascii",
+          "value": "https://www.digicert.com/CPS0"
+        },
+        {
+          "offset": 28557,
+          "encoding": "ascii",
+          "value": "/http://crl3.digicert.com/sha2-assured-cs-g1.crl05"
+        },
+        {
+          "offset": 28612,
+          "encoding": "ascii",
+          "value": "/http://crl4.digicert.com/sha2-assured-cs-g1.crl0L"
+        },
+        {
+          "offset": 28700,
+          "encoding": "ascii",
+          "value": "https://www.digicert.com/CPS0"
+        },
+        {
+          "offset": 28769,
+          "encoding": "ascii",
+          "value": "http://ocsp.digicert.com0N"
+        },
+        {
+          "offset": 28806,
+          "encoding": "ascii",
+          "value": "Bhttp://cacerts.digicert.com/DigiCertSHA2AssuredIDCodeSigningCA.crt0"
+        },
+        {
+          "offset": 5120,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 5216,
+          "encoding": "utf-16le",
+          "value": "EFY-CA autorun application"
+        },
+        {
+          "offset": 5416,
+          "encoding": "utf-16le",
+          "value": "Copyright (C) 2018 EFY Certification Authority"
+        },
+        {
+          "offset": 5592,
+          "encoding": "utf-16le",
+          "value": "autorun.exe"
+        },
+        {
+          "offset": 5680,
+          "encoding": "utf-16le",
+          "value": "EFY-CA autorun application"
+        }
+      ]
+    },
+    {
+      "file": ".local/efy-ca-windows/original/efyca_p11_v1_onlineinstaller.exe",
+      "strings": [
+        {
+          "offset": 221124,
+          "encoding": "ascii",
+          "value": "EFY-CA Token v1.0 has been installed successfully."
+        },
+        {
+          "offset": 221200,
+          "encoding": "ascii",
+          "value": "Download successful,Start install EFY-CA Token v1.0"
+        },
+        {
+          "offset": 221308,
+          "encoding": "ascii",
+          "value": "\\efyca_p11_v1_installer.exe"
+        },
+        {
+          "offset": 221416,
+          "encoding": "ascii",
+          "value": "https://efyca.vn/download/tokenV1/efyca_p11_v1_installer.exe"
+        },
+        {
+          "offset": 221480,
+          "encoding": "ascii",
+          "value": "Tomica-efyca_v1-DownLoadAgent"
+        },
+        {
+          "offset": 222352,
+          "encoding": "ascii",
+          "value": "ntdll.dll"
+        },
+        {
+          "offset": 222420,
+          "encoding": "ascii",
+          "value": "kernel32.dll"
+        },
+        {
+          "offset": 222436,
+          "encoding": "ascii",
+          "value": "%s%s.dll"
+        },
+        {
+          "offset": 227008,
+          "encoding": "ascii",
+          "value": "comctl32.dll"
+        },
+        {
+          "offset": 227032,
+          "encoding": "ascii",
+          "value": "comdlg32.dll"
+        },
+        {
+          "offset": 227056,
+          "encoding": "ascii",
+          "value": "shell32.dll"
+        },
+        {
+          "offset": 230340,
+          "encoding": "ascii",
+          "value": "mfcm90.dll"
+        },
+        {
+          "offset": 230508,
+          "encoding": "ascii",
+          "value": "user32.dll"
+        },
+        {
+          "offset": 231785,
+          "encoding": "ascii",
+          "value": "ole32.dll"
+        },
+        {
+          "offset": 237852,
+          "encoding": "ascii",
+          "value": "USER32.DLL"
+        },
+        {
+          "offset": 242288,
+          "encoding": "ascii",
+          "value": "OLEACC.dll"
+        },
+        {
+          "offset": 268214,
+          "encoding": "ascii",
+          "value": "KERNEL32.dll"
+        },
+        {
+          "offset": 270268,
+          "encoding": "ascii",
+          "value": "USER32.dll"
+        },
+        {
+          "offset": 270790,
+          "encoding": "ascii",
+          "value": "GDI32.dll"
+        },
+        {
+          "offset": 270816,
+          "encoding": "ascii",
+          "value": "COMDLG32.dll"
+        },
+        {
+          "offset": 271046,
+          "encoding": "ascii",
+          "value": "ADVAPI32.dll"
+        },
+        {
+          "offset": 271078,
+          "encoding": "ascii",
+          "value": "SHELL32.dll"
+        },
+        {
+          "offset": 271184,
+          "encoding": "ascii",
+          "value": "SHLWAPI.dll"
+        },
+        {
+          "offset": 271196,
+          "encoding": "ascii",
+          "value": "oledlg.dll"
+        },
+        {
+          "offset": 271538,
+          "encoding": "ascii",
+          "value": "ole32.dll"
+        },
+        {
+          "offset": 271548,
+          "encoding": "ascii",
+          "value": "OLEAUT32.dll"
+        },
+        {
+          "offset": 271584,
+          "encoding": "ascii",
+          "value": "HttpQueryInfoA"
+        },
+        {
+          "offset": 271686,
+          "encoding": "ascii",
+          "value": "WININET.dll"
+        },
+        {
+          "offset": 317222,
+          "encoding": "ascii",
+          "value": "http://ocsp.thawte.com0"
+        },
+        {
+          "offset": 317282,
+          "encoding": "ascii",
+          "value": ".http://crl.thawte.com/ThawteTimestampingCA.crl0"
+        },
+        {
+          "offset": 318215,
+          "encoding": "ascii",
+          "value": "http://ts-ocsp.ws.symantec.com07"
+        },
+        {
+          "offset": 318258,
+          "encoding": "ascii",
+          "value": "+http://ts-aia.ws.symantec.com/tss-ca-g2.cer0<"
+        },
+        {
+          "offset": 318320,
+          "encoding": "ascii",
+          "value": "+http://ts-crl.ws.symantec.com/tss-ca-g2.crl0("
+        },
+        {
+          "offset": 319432,
+          "encoding": "ascii",
+          "value": "http://ocsp.digicert.com0C"
+        },
+        {
+          "offset": 319469,
+          "encoding": "ascii",
+          "value": "7http://cacerts.digicert.com/DigiCertAssuredIDRootCA.crt0"
+        },
+        {
+          "offset": 319544,
+          "encoding": "ascii",
+          "value": "4http://crl4.digicert.com/DigiCertAssuredIDRootCA.crl0:"
+        },
+        {
+          "offset": 319604,
+          "encoding": "ascii",
+          "value": "4http://crl3.digicert.com/DigiCertAssuredIDRootCA.crl0O"
+        },
+        {
+          "offset": 319698,
+          "encoding": "ascii",
+          "value": "https://www.digicert.com/CPS0"
+        },
+        {
+          "offset": 320909,
+          "encoding": "ascii",
+          "value": "/http://crl3.digicert.com/sha2-assured-cs-g1.crl05"
+        },
+        {
+          "offset": 320964,
+          "encoding": "ascii",
+          "value": "/http://crl4.digicert.com/sha2-assured-cs-g1.crl0L"
+        },
+        {
+          "offset": 321052,
+          "encoding": "ascii",
+          "value": "https://www.digicert.com/CPS0"
+        },
+        {
+          "offset": 321121,
+          "encoding": "ascii",
+          "value": "http://ocsp.digicert.com0N"
+        },
+        {
+          "offset": 321158,
+          "encoding": "ascii",
+          "value": "Bhttp://cacerts.digicert.com/DigiCertSHA2AssuredIDCodeSigningCA.crt0"
+        },
+        {
+          "offset": 233576,
+          "encoding": "utf-16le",
+          "value": "mscoree.dll"
+        },
+        {
+          "offset": 233622,
+          "encoding": "utf-16le",
+          "value": "ekernel32.dll"
+        },
+        {
+          "offset": 233736,
+          "encoding": "utf-16le",
+          "value": "KERNEL32.DLL"
+        },
+        {
+          "offset": 307854,
+          "encoding": "utf-16le",
+          "value": "EFY-CA OnlineInstaller Version 1.0"
+        },
+        {
+          "offset": 307950,
+          "encoding": "utf-16le",
+          "value": "Copyright (C) 2018 EFY Certification Authority"
+        },
+        {
+          "offset": 308110,
+          "encoding": "utf-16le",
+          "value": "EFY-CA OnlineInstaller"
+        },
+        {
+          "offset": 314788,
+          "encoding": "utf-16le",
+          "value": "EFY Certification Authority"
+        },
+        {
+          "offset": 314884,
+          "encoding": "utf-16le",
+          "value": "EFY-CA OnlineInstaller application"
+        },
+        {
+          "offset": 315108,
+          "encoding": "utf-16le",
+          "value": "Copyright (C) 2018 EFY Certification Authority"
+        },
+        {
+          "offset": 315244,
+          "encoding": "utf-16le",
+          "value": "efyca_p11_v1_onlineinstaller.exe"
+        },
+        {
+          "offset": 315344,
+          "encoding": "utf-16le",
+          "value": "EFY-CA OnlineInstaller application"
+        }
+      ]
+    }
+  ]
+}

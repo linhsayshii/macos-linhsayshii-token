@@ -1,0 +1,198 @@
+{
+  "evidence_id": "oneca-local-crosschecks-20261023",
+  "date": "2026-10-23",
+  "authority": "static-local-observation",
+  "artifact_origins": {
+    "Setup.exe": "Copied from user-supplied /Volumes/One-CA V3/Setup.exe; SHA256 matched REA open.",
+    "Setup_v3.exe": "Reused local prior research artifact from /private/tmp/claude-501/-Users-linhsayshii-macos-linhsayshii-token/c7155b36-14ea-4bde-bcd5-4cbdb36c6967/scratchpad/re/oneca/dl/Setup_v3.exe. Historical report records stub URL and version size/SHA1. No fresh network acquisition or server freshness proof in this pass.",
+    "mac-reference": "Copied prior reseller upmac.zip and extracted pkg module; historical origin https://mtokens.in/download/upmac.zip, not OneCA-branded distribution."
+  },
+  "source_pe_sha256": "698fedb3f8e53b49ccf26b8d518f2d6386737fb8bf38864e6413ddb996a0baaa",
+  "mechanism_jump_table": {
+    "address": "0x1800129dc",
+    "offset": "0x11ddc",
+    "entries": [
+      {
+        "mechanism": 0,
+        "target": "0x180012386"
+      },
+      {
+        "mechanism": 1,
+        "target": "0x180012386"
+      },
+      {
+        "mechanism": 2,
+        "target": "0x1800128e1"
+      },
+      {
+        "mechanism": 3,
+        "target": "0x180012422"
+      },
+      {
+        "mechanism": 4,
+        "target": "0x1800128e1"
+      },
+      {
+        "mechanism": 5,
+        "target": "0x1800124a3"
+      },
+      {
+        "mechanism": 6,
+        "target": "0x1800125bf"
+      },
+      {
+        "mechanism": 7,
+        "target": "0x1800128e1"
+      },
+      {
+        "mechanism": 8,
+        "target": "0x1800128e1"
+      },
+      {
+        "mechanism": 9,
+        "target": "0x1800128e1"
+      },
+      {
+        "mechanism": 10,
+        "target": "0x180012557"
+      },
+      {
+        "mechanism": 11,
+        "target": "0x180012557"
+      },
+      {
+        "mechanism": 12,
+        "target": "0x180012593"
+      }
+    ]
+  },
+  "vtable_rtti": [
+    {
+      "vtable": "0x180092c58",
+      "file_offset": "0x91458",
+      "complete_object_locator": "0x180095190",
+      "type_descriptor": "0x1800a3e68",
+      "type_name": ".?AVpkcs11_hardware_rsa_pkcs_ctx@@",
+      "slots": {
+        "0x68": "0x18001cfd0",
+        "0x70": "0x180021620",
+        "0x78": "0x18001fdb0",
+        "0x80": "0x18001ff20"
+      }
+    },
+    {
+      "vtable": "0x180092e58",
+      "file_offset": "0x91658",
+      "complete_object_locator": "0x180095290",
+      "type_descriptor": "0x1800a3ed0",
+      "type_name": ".?AVpkcs11_hardware_rsa_raw_ctx@@",
+      "slots": {
+        "0x68": "0x180021490",
+        "0x70": "0x180021620",
+        "0x78": "0x1800214d0",
+        "0x80": "0x18001ff20"
+      }
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "uname",
+        "-m"
+      ],
+      "exit_code": 0,
+      "stdout": "arm64\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "prlctl",
+        "list",
+        "-a"
+      ],
+      "exit_code": 0,
+      "stdout": "UUID                                    STATUS       IP_ADDR         NAME\n{cc8b63dd-8328-4967-9d24-c07898fa78f0}  running      -               Windows 11 LTSC\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "lipo",
+        "-info",
+        "/Users/linhsayshii/macos-linhsayshii-token/.local/oneca-windows/mac-reference/libcryptoid_pkcs11.dylib"
+      ],
+      "exit_code": 0,
+      "stdout": "Non-fat file: /Users/linhsayshii/macos-linhsayshii-token/.local/oneca-windows/mac-reference/libcryptoid_pkcs11.dylib is architecture: x86_64\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "otool",
+        "-L",
+        "/Users/linhsayshii/macos-linhsayshii-token/.local/oneca-windows/mac-reference/libcryptoid_pkcs11.dylib"
+      ],
+      "exit_code": 0,
+      "stdout": "/Users/linhsayshii/macos-linhsayshii-token/.local/oneca-windows/mac-reference/libcryptoid_pkcs11.dylib:\n\tlibcryptoid_pkcs11.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 1151.16.0)\n\t/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1213.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 120.0.0)\n\t/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 1151.16.0)\n\t/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "codesign",
+        "-dvv",
+        "/Users/linhsayshii/macos-linhsayshii-token/.local/oneca-windows/mac-reference/libcryptoid_pkcs11.dylib"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "/Users/linhsayshii/macos-linhsayshii-token/.local/oneca-windows/mac-reference/libcryptoid_pkcs11.dylib: code object is not signed at all\n"
+    }
+  ],
+  "related_files": [
+    {
+      "path": ".local/oneca-windows/mac-reference/libcryptoid_pkcs11.dylib",
+      "sha256": "372500d17c2ab333a86d960683d1c159053a445581782d39323bf19998f9ce0f",
+      "bytes": 1020796
+    },
+    {
+      "path": ".local/oneca-windows/mac-reference/upmac.zip",
+      "sha256": "7d0998c73872050b1c17a6e7d1872ae48b3854b6a0082a759e3b0bea64151236",
+      "bytes": 11486438
+    },
+    {
+      "path": "Sources/Core/ModuleRegistry.swift",
+      "sha256": "b35c66f263689475b5f030cf786aefe03bfddb0f6164b27aa4df926cfe4d5aed",
+      "bytes": 2249
+    },
+    {
+      "path": "Sources/Core/TokenBroker.swift",
+      "sha256": "f582cf3bbf27d7c2a035ac8e7aa3fee9fc8fa0370e0b30a6c473b4c857f41199",
+      "bytes": 4386
+    },
+    {
+      "path": "Sources/TokenHelper/PKCS11.swift",
+      "sha256": "4e96c2874982fe037d2c3254a19339ada78d66e5efbb547052d132eff6d8325d",
+      "bytes": 13233
+    },
+    {
+      "path": "Sources/App/AppModel.swift",
+      "sha256": "64b7a92b22e7d937886fa724316ddfe004bbf1e594d400484d5dc146b85f54ee",
+      "bytes": 37047
+    },
+    {
+      "path": "Sources/TSShim/shim.c",
+      "sha256": "76e8ef5fe33754c3c99e62217a8d7b90364bc19ad14882a7f5e7c6a9bac7f7a4",
+      "bytes": 2994
+    },
+    {
+      "path": "Package.swift",
+      "sha256": "e39297e526a4b655ca1ac98768a670dce4ce4b613cd89f62c1a0d15558928f0d",
+      "bytes": 2332
+    }
+  ],
+  "extraction_log": "Extracting \"{cm:MyAppName}\" - setup data version 5.5.7 (unicode)\n - \"app/oneca_v3.exe\"\n - \"app/TokenMgr.dll\"\n - \"app/English.ini$0\"\n - \"app/English.ini\"\n - \"sys/one-ca_v3.dll@32bit\"\n - \"sys/one-ca_v3.dll@64bit\"\n - \"sys/one-ca_v3_csp_s.dll\"\n - \"sys/one-ca_v3_csp.sig@32bit\"\n - \"sys/one-ca_v3_csp.dll@32bit\"\n - \"sys/one-ca_v3_csp.vn.dll@32bit\"\n - \"sys/one-ca_v3_csp.en.dll@32bit\"\n - \"sys/one-ca_v3_csp_s.x64.dll\"\n - \"sys/one-ca_v3_csp.sig@64bit\"\n - \"sys/one-ca_v3_csp.dll@64bit\"\n - \"sys/one-ca_v3_csp.vn.dll@64bit\"\n - \"sys/one-ca_v3_csp.en.dll@64bit\"\n - \"app/reg/CryptoID.reg\"\n - \"app/reg/CryptoID_WOW64.reg\"\n - \"app/reg/unCryptoID.reg\"\n - \"app/reg/unCryptoID_WOW64.reg\"\n - \"app/RootCA/MIC2.reg\"\n - \"app/RootCA/MIC2.cer\"\n - \"app/RootCA/ONE-CA.cer\"\n - \"app/RootCA/ONE-CA.reg\"\n - \"app/RootCA/ONECA_Root.reg\"\n - \"tmp/mozillaInst.exe$0\" [temp]\n - \"tmp/mozillaInst.exe\" [temp]\n - \"app/DrvSetup/winXP/usbccid.cat\"\n - \"app/DrvSetup/winXP/usbccid.inf\"\n - \"app/DrvSetup/winXP/usbccid.sys\"\n - \"app/DrvSetup/winXP/devcon.exe\"\n - \"app/DrvSetup/winXP/devinst.bat\"\n - \"app/oneca_v3_certd.exe\"\nDone.\n",
+  "limits": [
+    "No installers or vendor libraries executed.",
+    "No PIN, login, signature, USB passthrough or guest execution.",
+    "Current Windows guest architecture not re-measured; prior project report says Windows ARM64.",
+    "RTTI and assembly links are static derived data, not runtime dispatch observation.",
+    "No current internet fetch; historical URL reachability unknown."
+  ]
+}

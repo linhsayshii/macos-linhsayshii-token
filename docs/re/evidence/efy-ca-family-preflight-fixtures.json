@@ -1,0 +1,407 @@
+{
+  "evidence_id": "EFY-CA-C04",
+  "date": "2026-10-23",
+  "kind": "proposed contract fixtures for main integration tests",
+  "implementation_status": "specification only; no production test run in this research step",
+  "contract_notes": [
+    "eligible_for_user_auth is a proposed policy decision after all profile predicates, not proof of hardware authentication.",
+    "Known protocol contract must have evidence beyond successful metadata reads; suffix alone cannot assign it.",
+    "No exact ATR list is needed as the final protocol gate when the family/backend contract is otherwise established.",
+    "A read-only/unsupported certificate state may require product UI/API support not present in the current implementation.",
+    "No auth/sign or fallback on a card is performed by these fixtures."
+  ],
+  "cases": [
+    {
+      "name": "new_suffix_same_known_contract",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": true,
+        "eligible_for_user_auth": true,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "no exact-firmware allowlist required after complete compatible preflight"
+      }
+    },
+    {
+      "name": "observed_suffix_preflight_still_required",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": false,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": true
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "known ATR never bypasses public-key association"
+      }
+    },
+    {
+      "name": "masked_match_bad_TCK",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": false,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": false,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "ATR invalid before transport"
+      }
+    },
+    {
+      "name": "other_CA_customer",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": false,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": false,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "not an EFY provider candidate; generic family discovery may select another CA"
+      }
+    },
+    {
+      "name": "EFY_issuer_other_OEM",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": false,
+        "driver": "other-OEM",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": false,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "select independent evidenced provider; no native EFY ESPK PIN"
+      }
+    },
+    {
+      "name": "wrong_transport_driver",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "entersafe",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "driver is a different protocol despite related branding"
+      }
+    },
+    {
+      "name": "SM_failure",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": false,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "connect/name success alone does not establish usable transport"
+      }
+    },
+    {
+      "name": "different_metadata_schema",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": false,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "need compatible parser/provider; no PIN trial"
+      }
+    },
+    {
+      "name": "ambiguous_cardid",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": false,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "cannot bind unique token"
+      }
+    },
+    {
+      "name": "token_changed",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": false,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "rebind/revalidate before PIN; never reuse old identity"
+      }
+    },
+    {
+      "name": "unsupported_RSA3072_or_EC",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": false,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": true,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "may expose detected/read-only certificate with unsupported signing capability"
+      }
+    },
+    {
+      "name": "new_SM_mode_without_auth_contract",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "unknown",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": true,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "public metadata alone does not establish PIN protocol"
+      }
+    },
+    {
+      "name": "public_key_mismatch",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": false,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "no validated signing identity"
+      }
+    },
+    {
+      "name": "CKA_ID_mismatch",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "0.27.1",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": false,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "no validated signing identity"
+      }
+    },
+    {
+      "name": "runtime_ABI_mismatch",
+      "origin": "synthetic contract fixture, not a hardware observation",
+      "inputs": {
+        "atr_valid": true,
+        "efy_v1_candidate": true,
+        "driver": "epass2003",
+        "runtime_abi": "unvalidated",
+        "sm_refresh_ok": true,
+        "public_espk_schema_ok": true,
+        "physical_token_binding_ok": true,
+        "cardid_unique": true,
+        "cka_id_association_ok": true,
+        "certificate_public_key_match": true,
+        "key_mechanism_supported": true,
+        "auth_contract": "efy-espk-v1-challenge",
+        "exact_atr_previously_observed": false
+      },
+      "expected": {
+        "can_run_family_preflight": true,
+        "public_read_accepted": false,
+        "eligible_for_user_auth": false,
+        "hardware_auth_coverage_promoted": false,
+        "reason": "fail before native-ABI/card use"
+      }
+    }
+  ],
+  "physical_card_IO": false,
+  "PIN_authentication_or_signatures": 0
+}

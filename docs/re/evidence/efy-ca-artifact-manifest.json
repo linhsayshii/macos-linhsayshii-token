@@ -1,0 +1,54 @@
+{
+  "evidence_id": "EFY-CA-E01",
+  "artifacts": [
+    {
+      "source": "/Volumes/EFY-CA/MACOSX/install.py",
+      "copy": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/original/MACOSX/install.py",
+      "bytes": 450,
+      "sha256": "1c8cf6f837f0149a9f926cc53ee737720233b9ea57007a2fcf88467f002fbc82",
+      "file": "Python script text executable, ASCII text"
+    },
+    {
+      "source": "/Volumes/EFY-CA/MACOSX/readme.txt",
+      "copy": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/original/MACOSX/readme.txt",
+      "bytes": 1157,
+      "sha256": "65cc184bf041b97b6061d3013220fc775411ad6ee659223a594d82f03060d110",
+      "file": "Unicode text, UTF-8 (with BOM) text, with CRLF line terminators"
+    },
+    {
+      "source": "/Volumes/EFY-CA/UBUNTU/install.sh",
+      "copy": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/original/UBUNTU/install.sh",
+      "bytes": 390,
+      "sha256": "3c1d81028655751501d6140a5aa0d7d595be7a9e75ead718bab5fa50a2a85adf",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    },
+    {
+      "source": "/Volumes/EFY-CA/UBUNTU/readme.txt",
+      "copy": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/original/UBUNTU/readme.txt",
+      "bytes": 1272,
+      "sha256": "62aa9346419118aa1294cfae3171d804ea9fd37e07d87ed1dada70781cbf23de",
+      "file": "Unicode text, UTF-8 (with BOM) text, with CRLF line terminators"
+    },
+    {
+      "source": "/Volumes/EFY-CA/autorun.exe",
+      "copy": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/original/autorun.exe",
+      "bytes": 30240,
+      "sha256": "a09aaee8affbeb61a5ae591340e415be79a7ec24134f28311ac26e991ed8174e",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows"
+    },
+    {
+      "source": "/Volumes/EFY-CA/autorun.inf",
+      "copy": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/original/autorun.inf",
+      "bytes": 231,
+      "sha256": "0630061c93ce643661e90f7789340bfcce080b733211a602bbe69d130ce046ea",
+      "file": "Microsoft Windows Autorun file"
+    },
+    {
+      "source": "/Volumes/EFY-CA/efyca_p11_v1_onlineinstaller.exe",
+      "copy": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/original/efyca_p11_v1_onlineinstaller.exe",
+      "bytes": 322592,
+      "sha256": "0977dadabfa0810cff343c2d51f38535a719adea16cd4d8067cfcb6d6a721f42",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows"
+    }
+  ]
+}

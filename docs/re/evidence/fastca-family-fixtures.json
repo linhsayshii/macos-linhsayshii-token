@@ -1,0 +1,214 @@
+{
+  "scope": "Offline reference fixtures, not production tests or hardware coverage",
+  "source": "fastca-family-source.json",
+  "pattern": "3b9f958131fe9f006646530500000071df000000000000",
+  "mask": "ffffffffffffffffffffffff000000ffffffff00000000",
+  "variableByteIndices": [
+    12,
+    13,
+    14,
+    19,
+    20,
+    21,
+    22
+  ],
+  "familyATRLayout": {
+    "length": 23,
+    "historyStart": 7,
+    "historyLength": 15,
+    "tckIndex": 22,
+    "tckXORRange": "1..22 inclusive"
+  },
+  "fixtures": [
+    {
+      "name": "observed-fastca-original",
+      "atr": "3b9f958131fe9f006646530510523971df000069000011",
+      "origin": "hardware observation",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": true,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "observed-fastca-0631",
+      "atr": "3b9f958131fe9f006646530510063171df00006900004d",
+      "origin": "hardware observation",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": true,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "upstream-2012",
+      "atr": "3b9f958131fe9f006646530501001171df000003900080",
+      "origin": "OpenSC source comment",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "upstream-2022-opensc",
+      "atr": "3b9f958131fe9f006646530523002571df000003900096",
+      "origin": "OpenSC source comment",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "upstream-2022-feitian",
+      "atr": "3b9f958131fe9f006646530523002571df000000000005",
+      "origin": "OpenSC source comment",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "observed-efy-same-oem",
+      "atr": "3b9f958131fe9f006646530510113971df00005100006a",
+      "origin": "hardware observation; other CA",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "observed-oneca-other-oem",
+      "atr": "3b9f118131fe9f006a6d546f6b656e2d5b000581900061",
+      "origin": "hardware observation; Longmai",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": false,
+      "sharedFamilyDiscovery": false,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "synthetic-version-status",
+      "atr": "3b9f958131fe9f006646530532425971df0000699001d2",
+      "origin": "synthetic; not device coverage",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": true,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "synthetic-unknown-customer",
+      "atr": "3b9f958131fe9f006646530510063171df000077000053",
+      "origin": "synthetic; not FastCA issuer or auth proof",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": true,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "bad-tck-still-raw-mask-match",
+      "atr": "3b9f958131fe9f006646530510063171df00006900004c",
+      "origin": "negative synthetic",
+      "atrWellFormed": false,
+      "rawFamilyMaskMatch": true,
+      "sharedFamilyDiscovery": false,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "wrong-history-length",
+      "atr": "3b9e958131fe9f006646530510063171df00006900004d",
+      "origin": "negative synthetic",
+      "atrWellFormed": false,
+      "rawFamilyMaskMatch": false,
+      "sharedFamilyDiscovery": false,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "truncated",
+      "atr": "3b9f958131fe9f006646530510063171df0000690000",
+      "origin": "negative synthetic",
+      "atrWellFormed": false,
+      "rawFamilyMaskMatch": false,
+      "sharedFamilyDiscovery": false,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "extra-byte",
+      "atr": "3b9f958131fe9f006646530510063171df00006900004d00",
+      "origin": "negative synthetic",
+      "atrWellFormed": false,
+      "rawFamilyMaskMatch": false,
+      "sharedFamilyDiscovery": false,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    },
+    {
+      "name": "different-fixed-oem-signature",
+      "atr": "3b9f958131fe9f006646540510063171df00006900004a",
+      "origin": "negative synthetic with recomputed TCK",
+      "atrWellFormed": true,
+      "rawFamilyMaskMatch": false,
+      "sharedFamilyDiscovery": false,
+      "fastcaCustomerHint": false,
+      "signingAuthorizationEstablishedByATR": false
+    }
+  ],
+  "preflightCases": [
+    {
+      "name": "valid-family-unknown-pin-profile",
+      "input": "public ESPK metadata and cert/key match",
+      "expectedState": "readable; PIN protocol needs independent evidence",
+      "pinAttempts": 0
+    },
+    {
+      "name": "missing-catalog",
+      "input": "catalog absent",
+      "expectedState": "incompatible catalog; no signing target",
+      "pinAttempts": 0
+    },
+    {
+      "name": "malformed-catalog",
+      "input": "invalid lengths or duplicate/conflicting object identity",
+      "expectedState": "reject malformed metadata",
+      "pinAttempts": 0
+    },
+    {
+      "name": "key-id-mismatch",
+      "input": "certificate and key CKA_ID differ",
+      "expectedState": "reject target binding",
+      "pinAttempts": 0
+    },
+    {
+      "name": "public-key-mismatch",
+      "input": "same CKA_ID but public modulus differs",
+      "expectedState": "reject target binding",
+      "pinAttempts": 0
+    },
+    {
+      "name": "unsupported-sign-capability",
+      "input": "RSA4096 or EC requires unavailable native signing path",
+      "expectedState": "readable; signing backend unavailable",
+      "pinAttempts": 0
+    },
+    {
+      "name": "other-ca-issuer",
+      "input": "family matches but certificate issuer is EFY",
+      "expectedState": "route by confirmed provider; do not label FastCA",
+      "pinAttempts": 0
+    },
+    {
+      "name": "duplicate-physical-identity",
+      "input": "two readers with same certificate",
+      "expectedState": "preserve physical reader identity; do not guess target",
+      "pinAttempts": 0
+    }
+  ]
+}

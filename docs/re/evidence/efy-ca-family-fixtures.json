@@ -1,0 +1,254 @@
+{
+  "evidence_id": "EFY-CA-C02",
+  "kind": "offline ATR candidate-selection fixture only",
+  "registry_evidence_path": "docs/re/evidence/efy-ca-installed-windows.json",
+  "registry_evidence_sha256": "c43e8582066846cdf9acad00029bf12f4cbdf6bf301aca84d3ebfdbb26ba960d",
+  "template": "3b9f958131fe9f006646530500000071df000051000000",
+  "mask": "ffffffffffffffffffffffff000000ffffffffffffff00",
+  "wildcard_zero_based_offsets": [
+    12,
+    13,
+    14,
+    22
+  ],
+  "observed_atr_structure": {
+    "convention": "3b",
+    "interfaces": [
+      {
+        "name": "TA1",
+        "offset": 2,
+        "value": "95"
+      },
+      {
+        "name": "TD1",
+        "offset": 3,
+        "value": "81"
+      },
+      {
+        "name": "TD2",
+        "offset": 4,
+        "value": "31"
+      },
+      {
+        "name": "TA3",
+        "offset": 5,
+        "value": "fe"
+      },
+      {
+        "name": "TB3",
+        "offset": 6,
+        "value": "9f"
+      }
+    ],
+    "protocols": [
+      1,
+      1
+    ],
+    "historical_offset": 7,
+    "historical_length": 15,
+    "tck_offset": 22,
+    "tck_valid": true
+  },
+  "vectors": [
+    {
+      "name": "observed_101139",
+      "atr": "3b9f958131fe9f006646530510113971df00005100006a",
+      "origin": "observed EFY from A01/B02",
+      "calais_mask_matches": true,
+      "expected_candidate": true,
+      "actual_candidate": true,
+      "equals_original_exact_allowlist": true,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "synthetic_100631",
+      "atr": "3b9f958131fe9f006646530510063171df000051000075",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": true,
+      "expected_candidate": true,
+      "actual_candidate": true,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "synthetic_105239",
+      "atr": "3b9f958131fe9f006646530510523971df000051000029",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": true,
+      "expected_candidate": true,
+      "actual_candidate": true,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "synthetic_010011",
+      "atr": "3b9f958131fe9f006646530501001171df000051000042",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": true,
+      "expected_candidate": true,
+      "actual_candidate": true,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "synthetic_230025",
+      "atr": "3b9f958131fe9f006646530523002571df000051000054",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": true,
+      "expected_candidate": true,
+      "actual_candidate": true,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "synthetic_ffffff",
+      "atr": "3b9f958131fe9f0066465305ffffff71df0000510000ad",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": true,
+      "expected_candidate": true,
+      "actual_candidate": true,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "synthetic_000000",
+      "atr": "3b9f958131fe9f006646530500000071df000051000052",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": true,
+      "expected_candidate": true,
+      "actual_candidate": true,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "fastca_customer",
+      "atr": "3b9f958131fe9f006646530510113971df000069000052",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "ncca_customer",
+      "atr": "3b9f958131fe9f006646530510113971df000059000062",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "vnpt_customer",
+      "atr": "3b9f958131fe9f006646530510113971df000032000009",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "wrong_family_FS",
+      "atr": "3b9f958131fe9f006646540510113971df00005100006d",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "different_personalization",
+      "atr": "3b9f958131fe9f006646530710113971df000051000068",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "fixed_byte18",
+      "atr": "3b9f958131fe9f006646530510113971df00015100006b",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "fixed_byte20",
+      "atr": "3b9f958131fe9f006646530510113971df00005101006b",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "fixed_byte21",
+      "atr": "3b9f958131fe9f006646530510113971df00005100016b",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "bad_TCK_even_though_mask_matches",
+      "atr": "3b9f958131fe9f006646530510113971df00005100006b",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": true,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "truncated",
+      "atr": "3b9f958131fe9f006646530510113971df0000510000",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "trailing_byte",
+      "atr": "3b9f958131fe9f006646530510113971df00005100006a00",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    },
+    {
+      "name": "customer_byte_only_wrong_layout",
+      "atr": "0000000000000000000000000000000000000051000000",
+      "origin": "synthetic offline vector, not observed hardware",
+      "calais_mask_matches": false,
+      "expected_candidate": false,
+      "actual_candidate": false,
+      "equals_original_exact_allowlist": false,
+      "auth_or_sign_permission_from_vector": false
+    }
+  ],
+  "wildcard_single_byte_values_swept": 768,
+  "fixed_position_bit_mutations_rejected": 144,
+  "result": "PASS",
+  "physical_card_IO": false,
+  "PIN_authentication_or_signatures": 0,
+  "limits": [
+    "Not production implementation or an auth eligibility oracle.",
+    "Synthetic EFY suffixes do not assert those EFY models exist.",
+    "Calais registration establishes candidate mask, not proof of every card's PIN/sign protocol."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "stdout": "process=arm64; opensc=0.27.1\ncontext=0\nreader-count=3\nselected-reader=FT ePass2003Auto 02; ATR=3b9f958131fe9f006646530510113971df00005100006a\nconnect=0\ndriver=epass2003\nlock=0\nselect.6f01=0\nread.6f01=1500; expected=1500\ncatalog.bytes=1500; SHA256=4bea902458fe2832c94b0c9c114d681346d643bb3182ad45925babea2f5d68bc\ncatalog.entry fid=2400; logical=mscp/cmapfile\ncatalog.entry fid=2420; logical=internal/containermap\ncatalog.entry fid=2440; logical=tkinfdir/tokeninfo\ncatalog.entry fid=2460; logical=/cardid\nselect.2460=0\nread.2460=16; expected=16\nmetadata.2460 bytes=16; SHA256=b6a0c7c2e70a35c91c3727dc0823c7b42d47b550541d25b15f8e0262e264f851\ncatalog.entry fid=2480; logical=pkcs11/pubk0001\nselect.2480=0\nread.2480=477; expected=477\nmetadata.2480 bytes=477; SHA256=2a5aa89a62a5388d0fdab1c5e7d190396818c3ddb46d34699d56614ad1f4a7bb\ncatalog.entry fid=24a0; logical=pkcs11/prvk0001\nselect.24a0=0\nread.24a0=510; expected=510\nmetadata.24a0 bytes=510; SHA256=809a9191329120e7ad281d613b6cdad5f99dbe65ded5a44a38bc145641ee44d9\ncatalog.entry fid=24c0; logical=pkcs11/cert0001\nselect.24c0=0\nread.24c0=1941; expected=1941\nmetadata.24c0 bytes=1941; SHA256=3f3011c8c436038a3f43af90599001dce65aef4f05d07efbc6d39fcc45f6b307\ncatalog.entries=7\n",
+  "stderr": "",
+  "command": [
+    "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/efy-readonly-arm64",
+    "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/arm64/private"
+  ],
+  "source_sha256": "b2a035a4a42ae0b8603b0896936650198a97bae238872b4ebb2a25ae53ae371c",
+  "binary_sha256": "54bcb309a132e5e2579ed9fbc90bed2d003c1bbbf22f8a068a873471351a1527",
+  "binary_file": "Mach-O 64-bit executable arm64",
+  "runtime_path": "/opt/homebrew/Cellar/opensc/0.27.1/lib/libopensc.13.dylib",
+  "scope": "ARM64 OpenSC shared PCSC connection, exact EFY ATR, select/read metadata only; no PIN/login/sign/private-key EF",
+  "evidence_id": "EFY-CA-A01",
+  "authority": "local ARM64 execution observation",
+  "no_user_pin_auth_or_sign": true
+}

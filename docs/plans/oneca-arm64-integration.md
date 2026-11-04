@@ -104,3 +104,9 @@ Ghi rõ trạng thái **đã cập nhật app hay mới source/helper**, snapsho
 Luồng chính cần xác nhận: full App build với batch mới; packaged App/Helper/shim đồng bộ; UI app thực tế chọn đúng OneCA; smoke test các CA hiện có sau đổi shim policy.
 
 Giới hạn giữ nguyên: experimental; một matching OneCAV3 tại một thời điểm; mới kiểm chứng một token/profile và module hash này; chưa test hotplug lúc ký, nhiều OneCA, Intel runtime, PIN sai/locked, hoặc nghiệp vụ/cổng/chain-revocation. Windows là nguồn đối chiếu tùy chọn, không còn là điều kiện để đường ký Mac ARM hoạt động.
+
+## Cập nhật phạm vi các dòng OneCA — 23/10/2026
+
+Main đã đóng gói V3 theo [packaged evidence](../re/evidence/oneca-packaged-app-2026-10-23.json). Phần kế hoạch phía trên là snapshot handoff ban đầu.
+
+Yêu cầu compatibility mới được phân tích trong [inventory và kế hoạch các dòng OneCA](../re/oneca-family-coverage.md): V1/V3 thuộc Longmai CryptoID; V2 có registry mask và middleware EnterSafe/ESPK. Không mở rộng mọi OneCA qua F2 Longmai hoặc từ exact ATR thành PIN wildcard. Main tiếp nhận routing/native/UI/build; nghiên cứu bổ sung chỉ tạo docs/evidence/fixtures offline.

@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-10-23T03:03:36.266822+00:00",
+  "files": {
+    "scripts/re/MinvoiceBatchCaptureRelay.cs": {
+      "bytes": 21877,
+      "sha256": "fd346e3c057e5cc4a331c885e59b1365268b0567b9b2d129ebd1cd4a736cfe77"
+    },
+    "scripts/re/minvoice-batch-capture-hook.js": {
+      "bytes": 9288,
+      "sha256": "02ce210e6ee5cf3eec17afc8d7f48152d72822179c68a68d41e2bdf754efb678"
+    },
+    "scripts/re/minvoice-batch-capture-hook.test.mjs": {
+      "bytes": 8538,
+      "sha256": "14f8622aaee432ffa8fbb1bceb5d9ec389b37e448512d69e94377b1a12a6fbe3"
+    },
+    "scripts/re/inspect-minvoice-batch-capture.py": {
+      "bytes": 9621,
+      "sha256": "a2ea4dc0c42ff45a52a655f9faca671fa58c87389e8b645e7754a56e67984a95"
+    },
+    "docs/re/minvoice-batch-live-capture.md": {
+      "bytes": 5446,
+      "sha256": "a5260fcb0269b7cb909005c93a54d3481760d77c1add5c59c23061aaa01885aa"
+    },
+    "docs/re/evidence/minvoice-live-cash-batch-success.json": {
+      "bytes": 7395,
+      "sha256": "d31076aad8e7d1ee66eac0f725cdced52279ac0c819a013a81240f8e84acbed4"
+    },
+    "docs/re/evidence/minvoice-batch-capture-preparation.json": {
+      "bytes": 1842,
+      "sha256": "1bca70d7610ee9a1464e6a9112e77b1be8b666bd237ab59d880187b894285cee"
+    }
+  }
+}

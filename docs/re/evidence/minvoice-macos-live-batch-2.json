@@ -1,0 +1,27 @@
+{
+  "kind": "macos-live-batch-user-confirmation",
+  "date_local": "2026-10-23",
+  "timezone": "Asia/Saigon",
+  "invoice_count": 2,
+  "user_report": {
+    "platform": "macOS",
+    "portal": "Minvoice",
+    "batch_signing_succeeded": true,
+    "invoice_count_confirmed": 2
+  },
+  "application_audit_observation": {
+    "time_local": "2026-10-23T17:19:36+07:00",
+    "time_utc": "2026-10-23T10:19:36Z",
+    "bridge": "minvoice",
+    "operation": "RSA_PKCS",
+    "result": "ok"
+  },
+  "evidence_scope": "User confirms portal batch success for two invoices; local application audit independently confirms a successful Minvoice signing operation at the latest recorded signing time.",
+  "limitations": [
+    "Application audit records signing only; no batch invoice count, upload ACK or per-invoice issued state is stored in this audit record.",
+    "No signed XML or HTTP upload capture acquired from this macOS transaction.",
+    "App currently running was restarted after the recorded signing event; current in-memory UI cannot establish the prior batch result.",
+    "This confirms a user-reported two-invoice batch, not a live 300-invoice or multi-group batch.",
+    "Earlier -1003 configuration DNS failure root cause is not established by this later success."
+  ]
+}

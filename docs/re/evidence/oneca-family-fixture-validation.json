@@ -1,0 +1,8 @@
+{
+  "scope": "offline research ATR/registry fixtures only",
+  "cases_passed": 13,
+  "hardware_calls": 0,
+  "authentication_calls": 0,
+  "signatures": 0,
+  "runtime_source_changed": false
+}

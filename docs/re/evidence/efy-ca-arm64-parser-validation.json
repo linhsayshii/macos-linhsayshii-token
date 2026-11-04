@@ -1,0 +1,34 @@
+{
+  "catalog_entries": 7,
+  "certificate_objects": 1,
+  "identities": [
+    {
+      "certificate_der_bytes": 1317,
+      "certificate_der_sha256": "82d02509715e7273639db37d62c364eaf54cfb15ff9fdf79f10c609ea66515c9",
+      "certificate_public_key_matches": true,
+      "exponent_hex": "010001",
+      "id_sha256": "11add6882cfff1469bcf51e23bc8ad75d79e6c84f5cafd62de1a23abd0a4ccb2",
+      "key_reference": "a020",
+      "modulus_bits": 2048
+    }
+  ],
+  "private_key_metadata_objects": 1,
+  "resolved_signing_identities": 1,
+  "source_scope": "Unmodified ESPKCatalog, ESPKSigningIdentity.resolve and certificateMatches from current Core source; no card or signing API",
+  "evidence_id": "EFY-CA-A03",
+  "source_files": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/ESPKCatalog.swift",
+      "sha256": "9b0909e6ec1f6a5d8d556c9191b551adf3dae909c837a97c2783af8f2ce06aaa"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/FastCAProfile.swift",
+      "sha256": "adf3f3bd62d4a7aa772b53b9d151b99616cceeb5c76f4760c15d2e44d128ac79"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/Sources/Core/RSASignature.swift",
+      "sha256": "65b35485c51d51fd38b0c23be160a724ede8e06219e7c085a89a2663dedf6b58"
+    }
+  ],
+  "binary_file": "Mach-O 64-bit executable arm64"
+}

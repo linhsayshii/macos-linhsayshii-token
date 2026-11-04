@@ -1,0 +1,53 @@
+{
+  "evidence_id": "EFY-CA-A04",
+  "source_path": "/Users/linhsayshii/macos-linhsayshii-token/.local/fastca-native/OpenSC-0.27.1/src/libopensc/card-epass2003.c",
+  "source_sha256": "53d423f91cb0d0933362fc9f2eb3e352e2302d352f46cfa646091deccbcf3758",
+  "upstream": "https://github.com/OpenSC/OpenSC/blob/0.27.1/src/libopensc/card-epass2003.c",
+  "upstream_wiki": "https://github.com/OpenSC/OpenSC/wiki/Feitian-ePass2003",
+  "runtime_path": "/opt/homebrew/Cellar/opensc/0.27.1/lib/libopensc.13.dylib",
+  "runtime_sha256": "4d817582d5e5351b2dc0b5dd2f4dd32f0ab3debc81708687d63235028bde6dfa",
+  "runtime_file": "Mach-O 64-bit dynamically linked shared library arm64",
+  "runtime_dependencies": "/opt/homebrew/Cellar/opensc/0.27.1/lib/libopensc.13.dylib:\n\t/opt/homebrew/opt/opensc/lib/libopensc.13.dylib (compatibility version 14.0.0, current version 14.0.0)\n\t/usr/lib/libz.1.dylib (compatibility version 1.0.0, current version 1.2.12)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n\t/opt/homebrew/opt/openssl@4/lib/libcrypto.4.dylib (compatibility version 4.0.0, current version 4.0.0)\n",
+  "snippets": {
+    "atr_match": {
+      "start_line": 48,
+      "end_line": 69,
+      "source": "#include \"cardctl.h\"\n\n/*\n * See https://github.com/OpenSC/OpenSC/issues/2572\n * 2012 ATR: note version 01:00:11\n *        3b:9f:95:81:31:fe:9f:00:66:46:53:05:01:00:11:71:df:00:00:03:90:00:80\n * 2022 ATRs: note version 23:00:25\n *   OpenSC-initialized ATR:\n *        3b 9f:95:81:31:fe:9f:00:66:46:53:05:23:00:25:71:df:00:00:03:90:00:96\n *   Feitian-initalized ATR:\n *        3b:9f:95:81:31:fe:9f:00:66:46:53:05:23:00:25:71:df:00:00:00:00:00:05\n */\n\nstatic const struct sc_atr_table epass2003_atrs[] = {\n\t/* This is a FIPS certified card using SCP01 security messaging. */\n\t/* will match all the above */\n\t{\"3B:9F:95:81:31:FE:9F:00:66:46:53:05:00:00:00:71:df:00:00:00:00:00:00\",\n\t \"FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:00:00:00:FF:FF:FF:FF:00:00:00:00\",\n\t \"FTCOS/ePass2003\", SC_CARD_TYPE_ENTERSAFE_FTCOS_EPASS2003, 0, NULL },\n\t{NULL, NULL, NULL, 0, 0, NULL}\n};\n"
+    },
+    "sm_init": {
+      "start_line": 1689,
+      "end_line": 1763,
+      "source": "epass2003_init(struct sc_card *card)\n{\n\tunsigned int flags;\n\tunsigned int ext_flags;\n\tunsigned char data[SC_MAX_APDU_BUFFER_SIZE] = {0};\n\tsize_t datalen = SC_MAX_APDU_BUFFER_SIZE;\n\tepass2003_exdata *exdata = NULL;\n\tvoid *old_drv_data = card->drv_data;\n\n\tLOG_FUNC_CALLED(card->ctx);\n\n\tcard->name = \"epass2003\";\n\tcard->cla = 0x00;\n\texdata = (epass2003_exdata *)calloc(1, sizeof(epass2003_exdata));\n\tif (!exdata)\n\t\treturn SC_ERROR_OUT_OF_MEMORY;\n\n\tcard->drv_data = exdata;\n\n\texdata->sm = SM_SCP01;\n\n\t/* decide FIPS/Non-FIPS mode */\n\tif (SC_SUCCESS != get_data(card, 0x86, data, datalen)) {\n\t\tfree(exdata);\n\t\tcard->drv_data = old_drv_data;\n\t\treturn SC_ERROR_INVALID_CARD;\n\t}\n\n\tif (memcmp(&data[32], \"\\x87\\x01\\x01\", 3) == 0 && memcmp(&data[0], \"\\x80\\x01\\x01\", 3) == 0) {\n\t\texdata->bFipsCertification = 0x01;\n\t} else {\n\t\texdata->bFipsCertification = 0x00;\n\t}\n\n\tif (0x01 == data[2])\n\t\texdata->smtype = KEY_TYPE_AES;\n\telse\n\t\texdata->smtype = KEY_TYPE_DES;\n\n\tif (0x84 == data[14]) {\n\t\tif (0x00 == data[16]) {\n\t\t\texdata->sm = SM_PLAIN;\n\t\t}\n\t}\n\n\t/* mutual authentication */\n\tcard->max_recv_size = 0xD8;\n\tcard->max_send_size = 0xE8;\n\n\tcard->sm_ctx.ops.open = epass2003_refresh;\n\tcard->sm_ctx.ops.get_sm_apdu = epass2003_sm_get_wrapped_apdu;\n\tcard->sm_ctx.ops.free_sm_apdu = epass2003_sm_free_wrapped_apdu;\n\n\t/* FIXME (VT): rather then set/unset 'g_sm', better to implement filter for APDUs to be wrapped */\n\tepass2003_refresh(card);\n\n\tcard->sm_ctx.sm_mode = SM_MODE_TRANSMIT;\n\n\tflags = SC_ALGORITHM_ONBOARD_KEY_GEN | SC_ALGORITHM_RSA_RAW | SC_ALGORITHM_RSA_HASH_NONE;\n\n\t_sc_card_add_rsa_alg(card, 512, flags, 0);\n\t_sc_card_add_rsa_alg(card, 768, flags, 0);\n\t_sc_card_add_rsa_alg(card, 1024, flags, 0);\n\t_sc_card_add_rsa_alg(card, 2048, flags, 0);\n\n\t//set EC Alg Flags\n\tflags = SC_ALGORITHM_ONBOARD_KEY_GEN|SC_ALGORITHM_ECDSA_HASH_SHA1|SC_ALGORITHM_ECDSA_HASH_SHA256|SC_ALGORITHM_ECDSA_HASH_NONE|SC_ALGORITHM_ECDSA_RAW;\n\text_flags = 0;\n\t_sc_card_add_ec_alg(card, 256, flags, ext_flags, NULL);\n\n\tcard->caps = SC_CARD_CAP_RNG | SC_CARD_CAP_APDU_EXT;\n\n\tLOG_FUNC_RETURN(card->ctx, SC_SUCCESS);\n}\n"
+    },
+    "security_environment": {
+      "start_line": 2030,
+      "end_line": 2071,
+      "source": "epass2003_set_security_env(struct sc_card *card, const sc_security_env_t * env, int se_num)\n{\n\tstruct sc_apdu apdu;\n\tu8 sbuf[SC_MAX_APDU_BUFFER_SIZE] = {0};\n\tu8 *p;\n\tunsigned short fid = 0;\n\tint r, locked = 0;\n\tepass2003_exdata *exdata = NULL;\n\n\tif (!card->drv_data)\n\t\treturn SC_ERROR_INVALID_ARGUMENTS;\n\n\texdata = (epass2003_exdata *)card->drv_data;\n\n\tsc_format_apdu(card, &apdu, SC_APDU_CASE_3_SHORT, 0x22, 0x41, 0);\n\n\tp = sbuf;\n\t*p++ = 0x80;\t\t/* algorithm reference */\n\t*p++ = 0x01;\n\t*p++ = 0x84;\n\n\t*p++ = 0x81;\n\t*p++ = 0x02;\n\n\tfid = 0x2900;\n\tfid += (unsigned short)(0x20 * (env->key_ref[0] & 0xff));\n\t*p++ = fid >> 8;\n\t*p++ = fid & 0xff;\n\tr = (int)(p - sbuf);\n\tapdu.lc = r;\n\tapdu.datalen = r;\n\tapdu.data = sbuf;\n\n\tif (env->algorithm == SC_ALGORITHM_EC) {\n\t\tapdu.p2 = 0xB6;\n\t\texdata->currAlg = SC_ALGORITHM_EC;\n\t\tif (env->algorithm_flags & SC_ALGORITHM_ECDSA_HASH_SHA1) {\n\t\t\tsbuf[2] = 0x91;\n\t\t\texdata->ecAlgFlags = SC_ALGORITHM_ECDSA_HASH_SHA1;\n\t\t} else if (env->algorithm_flags & SC_ALGORITHM_ECDSA_HASH_SHA256) {\n\t\t\tsbuf[2] = 0x92;\n\t\t\texdata->ecAlgFlags = SC_ALGORITHM_ECDSA_HASH_SHA256;"
+    },
+    "rsa_operation": {
+      "start_line": 2168,
+      "end_line": 2204,
+      "source": "\t\tapdu.le = 0;\n\n\t\tr = sc_transmit_apdu_t(card, &apdu);\n\t\tLOG_TEST_RET(card->ctx, r, \"APDU transmit failed\");\n\t\tif (apdu.sw1 == 0x90 && apdu.sw2 == 0x00) {\n\t\t\tsize_t len = apdu.resplen > outlen ? outlen : apdu.resplen;\n\t\t\tmemcpy(out, apdu.resp, len);\n\t\t\tLOG_FUNC_RETURN(card->ctx, (int)len);\n\t\t}\n\t\tLOG_FUNC_RETURN(card->ctx, sc_check_sw(card, apdu.sw1, apdu.sw2));\n\t} else if (exdata->currAlg == SC_ALGORITHM_RSA) {\n\t\tsc_format_apdu(card, &apdu, SC_APDU_CASE_4_EXT, 0x2A, 0x80, 0x86);\n\t\tapdu.resp = rbuf;\n\t\tapdu.resplen = sizeof(rbuf);\n\t\tapdu.le = 0;\n\n\t\tmemcpy(sbuf, data, datalen);\n\t\tapdu.data = sbuf;\n\t\tapdu.lc = datalen;\n\t\tapdu.datalen = datalen;\n\t} else {\n\t\tsc_format_apdu(card, &apdu, SC_APDU_CASE_4_EXT, 0x2A, 0x80, 0x86);\n\t\tapdu.resp = rbuf;\n\t\tapdu.resplen = sizeof(rbuf);\n\t\tapdu.le = 256;\n\n\t\tmemcpy(sbuf, data, datalen);\n\t\tapdu.data = sbuf;\n\t\tapdu.lc = datalen;\n\t\tapdu.datalen = datalen;\n\t}\n\n\tr = sc_transmit_apdu_t(card, &apdu);\n\tLOG_TEST_RET(card->ctx, r, \"APDU transmit failed\");\n\n\tif (apdu.sw1 == 0x90 && apdu.sw2 == 0x00) {\n\t\tsize_t len = apdu.resplen > outlen ? outlen : apdu.resplen;"
+    },
+    "pin_sanitize": {
+      "start_line": 3036,
+      "end_line": 3048,
+      "source": "static void\ninternal_sanitize_pin_info(struct sc_pin_cmd_pin *pin, unsigned int num)\n{\n\tpin->encoding = SC_PIN_ENCODING_ASCII;\n\tpin->min_length = 4;\n\tpin->max_length = 16;\n\tpin->pad_length = 16;\n\tpin->offset = 5 + num * 16;\n\tpin->pad_char = 0x00;\n}\n\n\nstatic int"
+    },
+    "pin_transform": {
+      "start_line": 2709,
+      "end_line": 2733,
+      "source": "hash_data(struct sc_card *card, const unsigned char *data, size_t datalen, unsigned char *hash, unsigned int mechanismType)\n{\n\n\tif ((NULL == data) || (NULL == hash))\n\t\treturn SC_ERROR_INVALID_ARGUMENTS;\n\n\tif (mechanismType & SC_ALGORITHM_ECDSA_HASH_SHA1) {\n\t\tunsigned char data_hash[24] = {0};\n\t\tsize_t len = 0;\n\n\t\tsha1_digest(card, data, datalen, data_hash);\n\t\tlen = REVERSE_ORDER4(datalen);\n\t\tmemcpy(&data_hash[20], &len, 4);\n\t\tmemcpy(hash, data_hash, 24);\n\t} else if (mechanismType & SC_ALGORITHM_ECDSA_HASH_SHA256) {\n\t\tunsigned char data_hash[36] = {0};\n\t\tsize_t len = 0;\n\n\t\tsha256_digest(card, data, datalen, data_hash);\n\t\tlen = REVERSE_ORDER4(datalen);\n\t\tmemcpy(&data_hash[32], &len, 4);\n\t\tmemcpy(hash, data_hash, 36);\n\t} else {\n\t\treturn SC_ERROR_NOT_SUPPORTED;\n\t}"
+    },
+    "external_auth": {
+      "start_line": 3124,
+      "end_line": 3153,
+      "source": "external_key_auth(struct sc_card *card, unsigned char kid,\n\t\tunsigned char *data, size_t datalen)\n{\n\tint r;\n\tstruct sc_apdu apdu;\n\tunsigned char random[16] = {0};\n\tunsigned char tmp_data[16] = {0};\n\tunsigned char hash[HASH_LEN] = {0};\n\tunsigned char iv[16] = {0};\n\n\tr = sc_get_challenge(card, random, 8);\n\tLOG_TEST_RET(card->ctx, r, \"get challenge external_key_auth failed\");\n\n\tr = hash_data(card, data, datalen, hash, SC_ALGORITHM_ECDSA_HASH_SHA1);\n\tLOG_TEST_RET(card->ctx, r, \"hash data failed\");\n\n\tr = des3_encrypt_cbc(card, hash, HASH_LEN, iv, random, 8, tmp_data);\n\tLOG_TEST_RET(card->ctx, r, \"encryption failed\");\n\n\tsc_format_apdu(card, &apdu, SC_APDU_CASE_3_SHORT, 0x82, 0x01, 0x80 | kid);\n\tapdu.lc = apdu.datalen = 8;\n\tapdu.data = tmp_data;\n\n\tr = sc_transmit_apdu_t(card, &apdu);\n\tLOG_TEST_RET(card->ctx, r, \"APDU external_key_auth failed\");\n\tr = sc_check_sw(card, apdu.sw1, apdu.sw2);\n\tLOG_TEST_RET(card->ctx, r, \"external_key_auth failed\");\n\n\treturn r;\n}"
+    }
+  },
+  "limitations": [
+    "OpenSC transport metadata path was exercised on the actual EFY card. PIN derivation and RSA APDUs were source-reviewed only, not executed for EFY.",
+    "OpenSC source generic high-level key mapping uses 0x2900 + 0x20*key_ref and is not the same as the observed EFY ESPK A020 reference.",
+    "Context7 lookup did not find the OpenSC smartcard library; official pinned source and local runtime were used instead."
+  ]
+}

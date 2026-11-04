@@ -1,0 +1,299 @@
+{
+  "evidence_id": "EFY-CA-C01",
+  "date": "2026-10-23 Asia/Ho_Chi_Minh",
+  "kind": "reused live Registry32/64 capture + current official-package recheck; no new guest/hardware action",
+  "registry_capture": {
+    "path": "docs/re/evidence/efy-ca-installed-windows.json",
+    "sha256": "c43e8582066846cdf9acad00029bf12f4cbdf6bf301aca84d3ebfdbb26ba960d",
+    "bytes": 6789
+  },
+  "registry_raw_capture": {
+    "path": ".local/efy-ca-windows/installed/registry.json",
+    "sha256": "7a1d98887cc5a906f0ce01b51f53a4c96c4e9b706725aed34ecb51e916de7aa3",
+    "bytes": 20037
+  },
+  "registry_query": "$r=@();foreach($v in @('Registry64','Registry32')){$h=[Microsoft.Win32.RegistryKey]::OpenBaseKey('LocalMachine',$v);foreach($path in @('SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall','SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider','SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards')){$key=$h.OpenSubKey($path);if(!$key){continue};foreach($n in $key.GetSubKeyNames()){$k=$key.OpenSubKey($n);$p=@{};foreach($a in $k.GetValueNames()){$p[$a]=$k.GetValue($a)};if(($n+($p|ConvertTo-Json -Compress)) -match 'EFY'){$r+=@{View=$v;Key=$path+'\\'+$n;Values=$p}};$k.Close()};$key.Close()};$h.Close()};$r|ConvertTo-Json -Depth 6",
+  "registry_hive": "HKLM (LocalMachine)",
+  "registry_rows": [
+    {
+      "Values": {
+        "ATRMask": [
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0,
+          0,
+          0,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0
+        ],
+        "ATR": [
+          59,
+          159,
+          149,
+          129,
+          49,
+          254,
+          159,
+          0,
+          102,
+          70,
+          83,
+          5,
+          0,
+          0,
+          0,
+          113,
+          223,
+          0,
+          0,
+          81,
+          0,
+          0,
+          0
+        ],
+        "Crypto Provider": "EFY-CA Token CSP v1.0"
+      },
+      "Key": "SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards\\EFY-CA Token Manager v1.0",
+      "View": "Registry64"
+    },
+    {
+      "Values": {
+        "ATRMask": [
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0,
+          0,
+          0,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          0
+        ],
+        "ATR": [
+          59,
+          159,
+          149,
+          129,
+          49,
+          254,
+          159,
+          0,
+          102,
+          70,
+          83,
+          5,
+          0,
+          0,
+          0,
+          113,
+          223,
+          0,
+          0,
+          81,
+          0,
+          0,
+          0
+        ],
+        "Crypto Provider": "EFY-CA Token CSP v1.0"
+      },
+      "Key": "SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards\\EFY-CA Token Manager v1.0",
+      "View": "Registry32"
+    }
+  ],
+  "normalized": {
+    "atr": "3b9f958131fe9f006646530500000071df000051000000",
+    "mask": "ffffffffffffffffffffffff000000ffffffffffffff00",
+    "wildcard_zero_based_offsets": [
+      12,
+      13,
+      14,
+      22
+    ],
+    "match_predicate": "same23 length AND forall i: (actual[i] & mask[i]) == (ATR[i] & mask[i])",
+    "not_an_auth_eligibility_rule": true
+  },
+  "associated_installed_modules": [
+    {
+      "windows_path": "C:\\Windows\\System32\\efyca_p11_v1.dll",
+      "bytes": 1443912,
+      "sha256": "4cd6c0b57b35d5ee6109edf020370abfa6d8f63befd150ccd20210a5b1bff010",
+      "file_version": "1, 1, 25, 207",
+      "authenticode_status": "Valid",
+      "signer": "CN=Mobile-ID Technologies And Services Joint Stock Company, O=Mobile-ID Technologies And Services Joint Stock Company, STREET=\"19 Dang Tien Dong, An Phu Ward\", L=Thu Duc, S=Ho Chi Minh, C=VN, SERIALNUMBER=0313994173, OID.1.3.6.1.4.1.311.60.2.1.1=Ho Chi Minh, OID.1.3.6.1.4.1.311.60.2.1.2=Ho Chi Minh, OID.1.3.6.1.4.1.311.60.2.1.3=VN, OID.2.5.4.15=Private Organization",
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_1.dll",
+          "bytes": 1443912
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Windows\\System32\\efyca_p11_v1.sig",
+      "bytes": 256,
+      "sha256": "5b15365f0f720a06ba0992aa91c46e191a7fc3ecebbcb3d7d24b968fbbffad81",
+      "file_version": null,
+      "authenticode_status": "UnknownError",
+      "signer": null,
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_1.sig",
+          "bytes": 256
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Windows\\System32\\efyca_p11_v1_s.dll",
+      "bytes": 48128,
+      "sha256": "7c062329835c528928357fec772f9a7a6dbd8943a59efd3a108831dbc3067c94",
+      "file_version": "1, 0, 9, 804",
+      "authenticode_status": "NotSigned",
+      "signer": null,
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s_1.dll",
+          "bytes": 48128
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Windows\\SysWOW64\\efyca_p11_v1.dll",
+      "bytes": 891464,
+      "sha256": "49b0577682f70ea8208580fb499774c6ac4e3c778df5d76b1ee0b6a6ad2d04e0",
+      "file_version": "1, 1, 25, 207",
+      "authenticode_status": "Valid",
+      "signer": "CN=Mobile-ID Technologies And Services Joint Stock Company, O=Mobile-ID Technologies And Services Joint Stock Company, STREET=\"19 Dang Tien Dong, An Phu Ward\", L=Thu Duc, S=Ho Chi Minh, C=VN, SERIALNUMBER=0313994173, OID.1.3.6.1.4.1.311.60.2.1.1=Ho Chi Minh, OID.1.3.6.1.4.1.311.60.2.1.2=Ho Chi Minh, OID.1.3.6.1.4.1.311.60.2.1.3=VN, OID.2.5.4.15=Private Organization",
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1.dll",
+          "bytes": 891464
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Windows\\SysWOW64\\efyca_p11_v1.sig",
+      "bytes": 256,
+      "sha256": "0efc260bca74136eb3b327c5227d234a08dfee675d70987cce6a0a6646f02283",
+      "file_version": null,
+      "authenticode_status": "UnknownError",
+      "signer": null,
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1.sig",
+          "bytes": 256
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Windows\\SysWOW64\\efyca_p11_v1_s.dll",
+      "bytes": 10752,
+      "sha256": "3df383f4b0195620badc0bb9f5e1d86ebdb4975b60da4b910a26fee9b4af474f",
+      "file_version": "1, 0, 9, 717",
+      "authenticode_status": "NotSigned",
+      "signer": null,
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s.dll",
+          "bytes": 10752
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_certd.exe",
+      "bytes": 215112,
+      "sha256": "0bcc045780cc3e9d733e8f3c82cdddb4a874bd9b963a045244e424bcba3bf881",
+      "file_version": "1, 1, 25, 207",
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/efyca_p11_v1_certd.exe",
+          "bytes": 215112
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_mgr.exe",
+      "bytes": 5122120,
+      "sha256": "c3ef8e03d86509dcf73cd797296a47df5279053c312726d354725bb496d5c62e",
+      "file_version": "1.0.24.1230",
+      "matching_payloads": [
+        {
+          "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/efyca_p11_v1_mgr.exe",
+          "bytes": 5122120
+        }
+      ]
+    },
+    {
+      "windows_path": "C:\\Program Files (x86)\\EFY-CA\\PKI Token Manager v1.0\\efyca_p11_v1_uninstaller.exe",
+      "bytes": 171393,
+      "sha256": "0fceb8deec96a613feae69d0733a062a68d7b70f0dadc12d29e03fd75ec9fa81",
+      "file_version": "1.1.25.207",
+      "matching_payloads": []
+    }
+  ],
+  "hash_crosschecks_capture": {
+    "path": "docs/re/evidence/efy-ca-installed-hash-crosschecks.json",
+    "sha256": "1d1d08e4298f36e7d3891d3c5a5f19a849a1a3145cc28ff9a6e725e6dd0c70dc",
+    "bytes": 5105
+  },
+  "official_download": {
+    "url": "https://efyca.vn/download/tokenV1/efyca_p11_v1_installer.exe",
+    "final_url": "https://efyca.vn/download/tokenV1/efyca_p11_v1_installer.exe",
+    "downloaded_at": "2026-10-23T14:47:15.816328+00:00",
+    "bytes": 3375208,
+    "sha256": "55dff7ecd59d4efed67ac152be6fefc74b2ee17069df6fce3ac28e81afb6f546",
+    "page_published_sha256": "1c288f711abc137a3f930914f9aa54ede4b87f717770310f4ef5360b83fe1ba4",
+    "headers": {
+      "Server": "nginx",
+      "Date": "Fri, 23 Oct 2026 14:47:15 GMT",
+      "Content-Type": "application/octet-stream",
+      "Content-Length": "3375208",
+      "Last-Modified": "Wed, 26 Feb 2025 03:46:29 GMT",
+      "Connection": "close",
+      "ETag": "\"67be8e95-338068\"",
+      "Strict-Transport-Security": "max-age=31536000;",
+      "Content-Security-Policy": "default-src *; font-src * data:;img-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; frame-src * blob: data:; object-src * data:;",
+      "X-Frame-Options": "SAMEORIGIN",
+      "Referrer-Policy": "strict-origin",
+      "X-Content-Type-Options": "nosniff",
+      "Permissions-Policy": "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()",
+      "Accept-Ranges": "bytes"
+    },
+    "executed": false,
+    "matches_page_published_sha256": false
+  },
+  "download_support_page": "https://efyca.vn/page/thu-vien-ho-tro",
+  "scope_limits": [
+    "Registry associated provider observed on configured Windows VM, not a traced assertion of what installer writes.",
+    "Page-published hash differs from current downloaded file; downloaded hash equals earlier examined artifact. Neither installer executed in this coverage step.",
+    "A mask can accept synthetic suffixes which have no known physical EFY product."
+  ]
+}

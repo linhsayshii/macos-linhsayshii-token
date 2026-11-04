@@ -1,0 +1,776 @@
+{
+  "evidence_id": "EFY-CA-E04",
+  "note": "NSIS duplicate filenames preserved using 7zz -aou; _1 suffix is extraction rename, not original installed name",
+  "artifacts": [
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/ESNsisPlugin.dll",
+      "bytes": 40960,
+      "sha256": "8a5e04a59be25eb8cc22d2ebe40b90e116b3a76f387e6b7e6d4755dc90376cdf",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/ee8b4460-ESNsisPlugin.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/InstallOptions.dll",
+      "bytes": 15360,
+      "sha256": "3ccb4385cd22b5c69bc2583e181da4085477906c193f04eb5a400801e00dbcd5",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/f3424afd-InstallOptions.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/KillProcDLL.dll",
+      "bytes": 36864,
+      "sha256": "de1177a4bd1c56c3555f366d40b37d7dd9cb25e16c4973d0a4d22bf9a8af7aed",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/d53df7bf-KillProcDLL.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/LangDLL.dll",
+      "bytes": 24576,
+      "sha256": "d0c8eba5022201455e066a7ff97568a446b1b74baba75392c1ea8e020fc911b4",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/4301eafc-LangDLL.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/System.dll",
+      "bytes": 32048,
+      "sha256": "fb2017cba748bb1190f9bae85c77d679348770426f0cae2f4417490d9011a815",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/9335bbbc-System.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/UserInfo.dll",
+      "bytes": 4096,
+      "sha256": "4a775a8062dcbd2a960076af0395c8182523d65ab1bcf3da3f77f94d31051568",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/a602ae33-UserInfo.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/csp.ini",
+      "bytes": 640,
+      "sha256": "0f99979d08008d4e115bbd61a46589d42483fdb31dcdcd627ee3a94620a7e809",
+      "file": "Unicode text, UTF-16, little-endian text, with CRLF line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/ioSpecial.ini",
+      "bytes": 424,
+      "sha256": "689a67b30946cbe12dce92d17207ec0488e850a806be608e6fb174f853f86b57",
+      "file": "Unicode text, UTF-16, little-endian text, with CRLF line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/modern-header.bmp",
+      "bytes": 25820,
+      "sha256": "b619a945aa45ce0357ca5318314003699e5caf9985b11c9a55d5fdbdc41bb271",
+      "file": "PC bitmap, Windows 3.x format, 150 x 57 x 24, image size 25766, resolution 2834 x 2834 px/m, cbSize 25820, bits offset 54"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$PLUGINSDIR/modern-wizard.bmp",
+      "bytes": 154544,
+      "sha256": "fed8bfce898ee24d0a7c26a6e3bfdf4e66699c2831ed34166eff9dc5da93d302",
+      "file": "PC bitmap, Windows 3.x format, 164 x 314 x 24, image size 154490, resolution 2834 x 2834 px/m, cbSize 154544, bits offset 54"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/SetupTool.dll",
+      "bytes": 59464,
+      "sha256": "c64e78744b664a51d4643789460663e2d58af09cfee480834728b1d5a60cc095",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/dc165c34-SetupTool.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1.dll",
+      "bytes": 891464,
+      "sha256": "49b0577682f70ea8208580fb499774c6ac4e3c778df5d76b1ee0b6a6ad2d04e0",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/7d4c5872-efyca_p11_v1.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1.sig",
+      "bytes": 256,
+      "sha256": "0efc260bca74136eb3b327c5227d234a08dfee675d70987cce6a0a6646f02283",
+      "file": "data"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_1.dll",
+      "bytes": 1443912,
+      "sha256": "4cd6c0b57b35d5ee6109edf020370abfa6d8f63befd150ccd20210a5b1bff010",
+      "file": "PE32+ executable (DLL) (GUI) x86-64, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/f0363149-efyca_p11_v1_1.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_1.sig",
+      "bytes": 256,
+      "sha256": "5b15365f0f720a06ba0992aa91c46e191a7fc3ecebbcb3d7d24b968fbbffad81",
+      "file": "data"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s.dll",
+      "bytes": 10752,
+      "sha256": "3df383f4b0195620badc0bb9f5e1d86ebdb4975b60da4b910a26fee9b4af474f",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/069e0ef6-efyca_p11_v1_s.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/$_2_/efyca_p11_v1_s_1.dll",
+      "bytes": 48128,
+      "sha256": "7c062329835c528928357fec772f9a7a6dbd8943a59efd3a108831dbc3067c94",
+      "file": "PE32+ executable (DLL) (GUI) x86-64, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/48f5d924-efyca_p11_v1_s_1.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/CCID/SetupTool.dll",
+      "bytes": 59464,
+      "sha256": "c64e78744b664a51d4643789460663e2d58af09cfee480834728b1d5a60cc095",
+      "file": "PE32 executable (DLL) (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/97950919-SetupTool.dll.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/CCID/usbccid.CAT",
+      "bytes": 7908,
+      "sha256": "16d27ecd64c18a63005ffc21023b1b426f12d634e4d6d153cdc0668eb8873d2d",
+      "file": "data"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/CCID/usbccid.inf",
+      "bytes": 1944,
+      "sha256": "92adf715e8af162170b04bbb238dde9917f5b205800f816c99d23f24203511c2",
+      "file": "Windows setup INFormation"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/CCID/usbccid.sys",
+      "bytes": 29184,
+      "sha256": "58fa57da9077312142237dc8adb5371b291255e9806ce76db09380d767bc4114",
+      "file": "PE32 executable (native) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/36e91012-usbccid.sys.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/FirefoxEFYCA.exe",
+      "bytes": 183674,
+      "sha256": "715d98d50054679c36342c8d6f210a25d4ea9271f5b453b8bc88bed9475e035c",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows, Nullsoft Installer self-extracting archive",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/7696863d-FirefoxEFYCA.exe.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/FirefoxEFYCAun.exe",
+      "bytes": 179327,
+      "sha256": "bbde2c9b1eb9e2a9d0cb633b5dd095d497c6209b729c9d7dc4f9e5d3f48ee5f6",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows, Nullsoft Installer self-extracting archive",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/bdc320f1-FirefoxEFYCAun.exe.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/efyca_p11_v1_certd.exe",
+      "bytes": 215112,
+      "sha256": "0bcc045780cc3e9d733e8f3c82cdddb4a874bd9b963a045244e424bcba3bf881",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/4a3ccadb-efyca_p11_v1_certd.exe.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/efyca_p11_v1_mgr.exe",
+      "bytes": 5122120,
+      "sha256": "c3ef8e03d86509dcf73cd797296a47df5279053c312726d354725bb496d5c62e",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/0e7a553d-efyca_p11_v1_mgr.exe.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/efyca_p11_v1_uninstaller.exe.nsis",
+      "bytes": 117633,
+      "sha256": "1cee18c27a269b9bb81b13f62ea14f17acab0cf90906fa4b0df2bc7c5b596741",
+      "file": "data"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/lang/escertd_1033.lng",
+      "bytes": 9708,
+      "sha256": "ebf7fb9762238a8e52db6e3dc2226ca63b0a14ee93fa7c504e250cc98d196d0d",
+      "file": "ASCII text, with very long lines (9708), with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/lang/escertd_1066.lng",
+      "bytes": 14040,
+      "sha256": "b8d00a3a0f3519c03be982e3ce85cc73cb13d47cf8ed36982b74f4c5125a1536",
+      "file": "ASCII text, with very long lines (14040), with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/lang/escsp_1033.lng",
+      "bytes": 5312,
+      "sha256": "2608a98ee23ec27033b440134878e9459203c556248f702b7aa37e5f8419d037",
+      "file": "ASCII text, with very long lines (5312), with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/lang/escsp_1066.lng",
+      "bytes": 7768,
+      "sha256": "368fe1e9fa4ddc948497ab84b72c77469da2da9d742d9c9478e7f48213ed775d",
+      "file": "ASCII text, with very long lines (7768), with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/lang/esmgr_EN.lng",
+      "bytes": 29920,
+      "sha256": "38a90c222ff39fb7b19f8a1372d153c620bf5c593160893b41fdebd9bb9a6e40",
+      "file": "ASCII text, with very long lines (29920), with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/lang/esmgr_VN.lng",
+      "bytes": 30636,
+      "sha256": "6714592e91ff82991d987b024d2e837c5ff7eef85f3583bafbc77e9e6968086e",
+      "file": "ASCII text, with very long lines (30636), with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/thunderEFYCA.exe",
+      "bytes": 183736,
+      "sha256": "98f2baf3b51e14426abf9e1b7ccb650da67f5214f8ef6893797ffa5ee06e288a",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows, Nullsoft Installer self-extracting archive",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/402dc77f-thunderEFYCA.exe.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/windows-expanded/thunderEFYCAun.exe",
+      "bytes": 179366,
+      "sha256": "bb3bdf39ae8a9581ca4e7e0e44f68ba2eabc2d1258eda2847b393f84b45f7ccd",
+      "file": "PE32 executable (GUI) Intel 80386, for MS Windows, Nullsoft Installer self-extracting archive",
+      "pe_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/817065ea-thunderEFYCAun.exe.pe.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/Distribution",
+      "bytes": 3431,
+      "sha256": "634aa44f581fab7ba609ac310ff80caadeb7d1310358ea75a899a5d8ecfff21d",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efyca.pkg/Bom",
+      "bytes": 35132,
+      "sha256": "8f60c2b602178eb7521246d01029ac7dddaf72d7439308df6462ffe2f74f2c56",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efyca.pkg/PackageInfo",
+      "bytes": 284,
+      "sha256": "2ce30b2bc044a84949671f3fe69e8fa57bb5682ad3b70613cca26207693d0e49",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efyca.pkg/Payload/EFY-CA.crt",
+      "bytes": 1600,
+      "sha256": "34fea5368cc7e79c5f4fdd87d3c981b4abf59a6a0b70335f1c55f006b93caaa9",
+      "file": "PEM certificate"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efyca.pkg/Scripts/postinstall",
+      "bytes": 872,
+      "sha256": "10f258c202747e4cf41177a5584fd8d242ba82ab91f6a4adee5e0515ea3cd668",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Bom",
+      "bytes": 37861,
+      "sha256": "10eecaf6b305ec470ce722a36b0d20cadd4d9478635f70a8ffa00edf88e9d8a7",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/PackageInfo",
+      "bytes": 455,
+      "sha256": "d16454e0f0c1314cefde978d6123e01ba3495506c6e3cb7cf635315cea70ffbc",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Info.plist",
+      "bytes": 1906,
+      "sha256": "8e7ec6f725ee3cf6f55a2421e6336329d242c51a25c2684c50f495f1974aeb72",
+      "file": "XML 1.0 document text, Unicode text, UTF-8 text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/MacOS/EFY-CA Token Manager V1",
+      "bytes": 1847956,
+      "sha256": "b8f4517821ce7ab6bf034fd10d0843b78cdc4fc29ede761de2d18d301a49ac6a",
+      "file": "Mach-O 64-bit executable x86_64",
+      "macho_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/EFY-CA Token Manager V1.macho.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/PkgInfo",
+      "bytes": 8,
+      "sha256": "82502191c9484b04d685374f9879a0066069c49b8acae7a04b01d38d07e8eca0",
+      "file": "ASCII text, with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/AboutView.nib",
+      "bytes": 2269,
+      "sha256": "869a19189e846cc3bb9444407a5b36fa55d64e3dd7f32a26d3077956a0dede77",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/AppIcon.icns",
+      "bytes": 93364,
+      "sha256": "7adb1ff72f0f3a33d84dc744590ba6780006d2c4968db25b28f7884a193d8b81",
+      "file": "Mac OS X icon, 93364 bytes, \"TOC \" type"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/Assets.car",
+      "bytes": 131800,
+      "sha256": "76feb2ebb27832acd877ee1204e3b6505ab5303491531744652f99313a970fad",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/Base.lproj/MainMenu.nib",
+      "bytes": 38335,
+      "sha256": "ffbe75d6550cf899cf5e60b067133ee9898bce3cdd24de8ba48290927fab7511",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/CertificatesViewController.nib",
+      "bytes": 12002,
+      "sha256": "7d257512535921bb949bd8d46af486cebae6a79509b21408668f5124a1ec93fc",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/ChangeLanguageView.nib",
+      "bytes": 8609,
+      "sha256": "bf512d2126f9805a29b4ba9e840378e1f6dcda9223e3206b1ab06ed8ac1303ac",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/ChangeNameView.nib",
+      "bytes": 9672,
+      "sha256": "21efefeae81df0421032c53532b9d946ccce62bdaecb12ac2fc030644ee04396",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/ChangePINView.nib",
+      "bytes": 11410,
+      "sha256": "944625818eb8c3c04dc0a9a80f5bc70015af732e89576146d340c7d9020c02a0",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/Config.cfg",
+      "bytes": 2108,
+      "sha256": "9948051c244fb3546b77b5168cb0ee43561275b13790cb7dc6ee45ec7d20bd0c",
+      "file": "Unicode text, UTF-16, little-endian text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/RadioSelected.png",
+      "bytes": 4143,
+      "sha256": "cf45248bfa7f8b7d526018b0d8ff331ff6aa366ff94f63c5a5647bd534d4fc50",
+      "file": "PNG image data, 12 x 12, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/RadioUnselected.png",
+      "bytes": 3929,
+      "sha256": "29077e8656d722719cace02313ccf9d02df1af829ef877581105b5b763fe17d1",
+      "file": "PNG image data, 12 x 12, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/TokenManager.ico",
+      "bytes": 16958,
+      "sha256": "8de9eb800d52e708da0d4c52de0d979e63b61681ad91623aa2e1bf7d6ad650f9",
+      "file": "MS Windows icon resource - 1 icon, 64x64, 32 bits/pixel"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/TokenRemoteWebserviceImplPortBinding.nsmap",
+      "bytes": 575,
+      "sha256": "d2d7d3f4b933b43ae27efef56087a4edf870b0a6c9d6a16e38e4b1678b470776",
+      "file": "c program text, ASCII text, with CRLF line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/UnlockPINView.nib",
+      "bytes": 13323,
+      "sha256": "522169900cb4c0fbad89760d913d1877da0c5e8f09eb604b1e1a733a9ee9e0d0",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/UpdateCerView.nib",
+      "bytes": 11145,
+      "sha256": "c7fd73c8c3b9ea1538c8708350f9fc4e518b5f12b07cd532c43e0f3abf3dc341",
+      "file": "Apple binary property list"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/UsertoolEN.strings",
+      "bytes": 14226,
+      "sha256": "232ce676c991920cac800267170dfa6e3c13340df4c20f06aefedaf0b8e5ed63",
+      "file": "Unicode text, UTF-16, little-endian text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/UsertoolVI.strings",
+      "bytes": 14820,
+      "sha256": "97fd674ee73f8ce5fc573c2386413e12044d6adccac84f126727884f6908b4af",
+      "file": "Unicode text, UTF-16, little-endian text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/about_bg.png",
+      "bytes": 483968,
+      "sha256": "9644f39c269f8adff770c0ca0b69002e0a27e04ad4564e019260cf09b221571a",
+      "file": "PC bitmap, Windows 3.x format, 423 x 286 x 32, image size 483914, resolution 2834 x 2834 px/m, cbSize 483968, bits offset 54"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/aboutus.png",
+      "bytes": 3310,
+      "sha256": "a9ca220be39bd3831b7bbfb8323769337479f2f90e64bac6f92795363171bb21",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/bg_rightside.png",
+      "bytes": 11188,
+      "sha256": "fa432bddaff207018cebcc999fd8373fb61d9a2ba81b4f145b3c8eff51a84028",
+      "file": "PNG image data, 513 x 315, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btaccept.ico",
+      "bytes": 10398,
+      "sha256": "8ef2c1c7842356dc5d13876bb21294d06d3b10399738831ba21f7d4da727e8cc",
+      "file": "MS Windows icon resource - 1 icon, 73x34, 32 bits/pixel"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btcancel.ico",
+      "bytes": 10398,
+      "sha256": "403592f47a2c2e656bc5aaf3195093b5a47d7f474b2d1304643bae7b0f0f0a36",
+      "file": "MS Windows icon resource - 1 icon, 73x34, 32 bits/pixel"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btlogout.ico",
+      "bytes": 10398,
+      "sha256": "6be5fb101e0aa0bdc21cbc622dd80a50916b19a0db51b4a6383a3ea0731b1ea5",
+      "file": "MS Windows icon resource - 1 icon, 73x34, 32 bits/pixel"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btmokhoa.png",
+      "bytes": 1762,
+      "sha256": "dece9343f66537f216ebb06e51de5f6860c9d1a59dde062b92cceb942c90ba35",
+      "file": "PNG image data, 74 x 33, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btphatsinh.png",
+      "bytes": 1788,
+      "sha256": "a72b33a2413f43f642cf529484e4ae90edabd5feea6e0571672d3e84a702d05a",
+      "file": "PNG image data, 74 x 33, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btstop.ico",
+      "bytes": 10398,
+      "sha256": "f4dde3f6ad82472a1ba8e4972f12243feba186953728ae38c624532b61dd9af3",
+      "file": "MS Windows icon resource - 1 icon, 73x34, 32 bits/pixel"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btupgrade.ico",
+      "bytes": 10398,
+      "sha256": "a3168fe43defcad0f83053302798035c32f9bec93c83ffac24aab3aaeef28d77",
+      "file": "MS Windows icon resource - 1 icon, 73x34, 32 bits/pixel"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/btview.ico",
+      "bytes": 10398,
+      "sha256": "c19392c22df5127e60949c62b16f4f9cde5c0656dfc9c228c224cef8da317b2f",
+      "file": "MS Windows icon resource - 1 icon, 73x34, 32 bits/pixel"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/changePIN.png",
+      "bytes": 3272,
+      "sha256": "9b37991c0d66e9eb51edc124ab54ed439178a2f7df734b2f125a00387ac09e6a",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/changename.png",
+      "bytes": 924,
+      "sha256": "e6ac5d955afebdc21d5faf877c3f90bdabf6cd3f7b363a301c35ffeff6301e8d",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/chungthuso.png",
+      "bytes": 3324,
+      "sha256": "b78618346dceedfa2b27e1196e934279f0004030e432cdc4824d5d324625535f",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/folder.png",
+      "bytes": 3245,
+      "sha256": "c59d34948a98f3dfc220d0b1548c94c63905e80a93a480d2d190c33f600a79b2",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/gray-rectangle-button.png",
+      "bytes": 9426,
+      "sha256": "a5a3b9d307fe3d8fcd85532401444803a8c1fdddbd4bdf2e5018466bde923d35",
+      "file": "PNG image data, 600 x 302, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/iconmenubar.png",
+      "bytes": 2570,
+      "sha256": "c302b3e45735737cfbee079167348997d9247907a3f831cba033b1d499ceea3d",
+      "file": "PNG image data, 24 x 24, 16-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/lang.png",
+      "bytes": 621,
+      "sha256": "75a788337fcd69f8b6de6bc6d90f96cc95ed2be508664de28e7f6e137d6cc9ce",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/private.png",
+      "bytes": 3300,
+      "sha256": "d02210ddc61fb39abe66f63c1920363b8fae62c2fae91a8fb7bf57e09f5627d1",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/public.png",
+      "bytes": 3333,
+      "sha256": "dbd1a2bb443ff3a59fc6b16bd5fda6cbe99c9751d084e184cd65b15c694dba27",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/resetPIN.png",
+      "bytes": 3246,
+      "sha256": "92fb56c7586ea4877d0033fcd781db8035bd04c8bf46a2f4d4795b1cdc276d79",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/setting.png",
+      "bytes": 3515,
+      "sha256": "d675869beb5c88d4e927713f219df992b3ddf005e1972d92bef1f367452be0fc",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/top.bmp",
+      "bytes": 173796,
+      "sha256": "e1a487b4a3da8c91b042aa8003a9491c360f419e98792ab49acbc967fa8a46c6",
+      "file": "PC bitmap, Windows 3.x format, 681 x 85 x 24, image size 173742, resolution 11811 x 11811 px/m, cbSize 173796, bits offset 54"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/update.py",
+      "bytes": 396,
+      "sha256": "2633a30e3f15c7d4e7934e14fd0c5e079641c2108ea7ff88da0430a079b34d60",
+      "file": "Python script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/updateUT.py",
+      "bytes": 398,
+      "sha256": "afb0c28ecb37f1457705af9d4499deead59bd9753e687151306ca06f24d15a5f",
+      "file": "Python script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycaTokenManagerV1.pkg/Payload/EFY-CA Token Manager V1.app/Contents/Resources/upgrade.png",
+      "bytes": 3508,
+      "sha256": "9a4c95b6cc46f6bdf1b8567d4bf8863c91ec5b3c13c826acd9ec5088fee011a4",
+      "file": "PNG image data, 16 x 16, 8-bit/color RGBA, non-interlaced"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Bom",
+      "bytes": 36040,
+      "sha256": "4d8f80413412616cac7a7b465896c66657c31f0476e3b0d434ffa9d03c5cad1b",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/PackageInfo",
+      "bytes": 545,
+      "sha256": "464e54805c88543320ed555946466a11ac7d201a67392812bb7cf3b4acae71c5",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Info.plist",
+      "bytes": 744,
+      "sha256": "2c8c957392888a851185537a7d97fa3a681a2d6bb75620fe22fb369f2fe7a8b6",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/MacOS/efyca_p11_v1",
+      "bytes": 833456,
+      "sha256": "eda7c7fe12cd59efa76d4d66f9750d869d852d810e603f483a45dd64e2e2cc5a",
+      "file": "Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [i386:\n- Mach-O executable i386]\n.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/MacOS/efyca_p11_v1 (for architecture x86_64):\tMach-O 64-bit executable x86_64\n.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/MacOS/efyca_p11_v1 (for architecture i386):\tMach-O executable i386",
+      "macho_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/efyca_p11_v1.macho.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/MacOS/efyca_p11_v1_debug",
+      "bytes": 3064104,
+      "sha256": "dd885e4a25ca0bc971eecd06ab38ffca7dfe38c7b04f964be45d11fb5822fef7",
+      "file": "Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [i386]\n.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/MacOS/efyca_p11_v1_debug (for architecture x86_64):\tMach-O 64-bit executable x86_64\n.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/MacOS/efyca_p11_v1_debug (for architecture i386):\tMach-O executable i386",
+      "macho_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/efyca_p11_v1_debug.macho.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/PkgInfo",
+      "bytes": 8,
+      "sha256": "e079b5c8da7c98ad0b93984550aa9cbe921d34d1a3d7e25d1410d9c74f5dad83",
+      "file": "ASCII text, with no line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Resources/Info.plist",
+      "bytes": 744,
+      "sha256": "2c8c957392888a851185537a7d97fa3a681a2d6bb75620fe22fb369f2fe7a8b6",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Resources/compile.sh",
+      "bytes": 35,
+      "sha256": "31ee204f954bf04f5178a289a8fa84b0407a9569f58d59c791d531cace61aa61",
+      "file": "C shell script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Resources/epasstoken_csp_capabilities.mdsinfo",
+      "bytes": 477,
+      "sha256": "b141188d5f3816ada0c8dbfa85a0894f6783791df70286629190deab2538c1d6",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Resources/epasstoken_csp_capabilities_common.mds",
+      "bytes": 22048,
+      "sha256": "986bebd08cd5a81c43b2b0d5b839661e88aa2382e75f73e7ac481fbeeaa3ef11",
+      "file": "XML 1.0 document text, ASCII text, with CRLF line terminators"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Resources/epasstoken_csp_primary.mdsinfo",
+      "bytes": 1380,
+      "sha256": "0af131328c23cc8cd48feaddc446e0f8c7f880347b28acfea496e7fa5b772b8e",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Resources/epasstoken_dl_primary.mdsinfo",
+      "bytes": 1620,
+      "sha256": "0d6b520cbec8084288648bd6b8646407fd4b5a34f950887efc2960079504366c",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Payload/efyca_p11_v1.tokend/Contents/Resources/epasstoken_smartcard.mdsinfo",
+      "bytes": 653,
+      "sha256": "5c4d71ad3ac4914ba66459ce05e026c0a9741f8cb52e2505cf076b0ced2cb68c",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1-1.pkg/Scripts/postinstall",
+      "bytes": 576,
+      "sha256": "38776ca1ca65ad64bb5cc828b7c37f8fd1710da1ad0b72942917321e7d187348",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Bom",
+      "bytes": 35209,
+      "sha256": "fd908ee3263e0bf88f5e4180f1f1cebabf3a1526a0b37661ad72607639900ecc",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/PackageInfo",
+      "bytes": 230,
+      "sha256": "fa79caac803360cbb870fee5cb851af57ae777c47240031340abe7a6e3282aad",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib",
+      "bytes": 2976556,
+      "sha256": "7397756209003a7345e091e2b79e88d49c0149c84de44131c32f73d39a5cec09",
+      "file": "Mach-O universal binary with 2 architectures: [i386:Mach-O dynamically linked shared library i386] [x86_64]\n.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib (for architecture i386):\tMach-O dynamically linked shared library i386\n.local/efy-ca-windows/macos-expanded/efycap11v1.pkg/Payload/efyca_p11_v1.dylib (for architecture x86_64):\tMach-O 64-bit dynamically linked shared library x86_64",
+      "macho_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/efyca_p11_v1.dylib.macho.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/ifdfeitccid.pkg/Bom",
+      "bytes": 35362,
+      "sha256": "b09a814166a3a029c5d91f5c2f77b5cd6579c49659070c0e701e3132662183de",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/ifdfeitccid.pkg/PackageInfo",
+      "bytes": 576,
+      "sha256": "28821c49e4c9a41c776f2030063821153fb221c599fef28ef9234af5fc2ab9fe",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/ifdfeitccid.pkg/Payload/ifd-FeiTccid.bundle/Contents/Info.plist",
+      "bytes": 4399,
+      "sha256": "bf21639eedd0c06ad55a0102fb3fd89f553d925d5a608fb03c599dd1c6612c38",
+      "file": "XML 1.0 document text, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/ifdfeitccid.pkg/Payload/ifd-FeiTccid.bundle/Contents/MacOS/libccid.dylib",
+      "bytes": 216312,
+      "sha256": "bda3c77a6df89b030162a67cbe05a846591baf85ed8907f2a677d91b0fcfce9a",
+      "file": "Mach-O 64-bit dynamically linked shared library x86_64",
+      "macho_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/libccid.dylib.macho.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/ifdfeitccid.pkg/Scripts/postinstall",
+      "bytes": 3600,
+      "sha256": "a11779177649334ab586de8be622fb67c987128f55b08ec071ad31e17b12b6d3",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/micnationalrootca.pkg/Bom",
+      "bytes": 35143,
+      "sha256": "317314af276cc894a304c7a53595e261fb345bcd33ade8f335796dfc94b349d6",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/micnationalrootca.pkg/PackageInfo",
+      "bytes": 295,
+      "sha256": "e942a087ec437891feb1ef67de18eefc0de51dd19cae89ff158a334d1cf37439",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/micnationalrootca.pkg/Payload/MICNationalRootCA.crt",
+      "bytes": 1414,
+      "sha256": "b81c6887305ef5f812e3b6f39468f4c756066e661a2462dfcc66f28a1740cefe",
+      "file": "PEM certificate"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/micnationalrootca.pkg/Scripts/postinstall",
+      "bytes": 894,
+      "sha256": "4b150ec7724d4e84a4def9b235b2a84a39324aeef57fbd4ebb200611e0a8dcf9",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssfirefox.pkg/Bom",
+      "bytes": 35201,
+      "sha256": "3ee3372d3de57916e5bf65abf4ba3e79f8e7331033c0aa554ee983848a2b847c",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssfirefox.pkg/PackageInfo",
+      "bytes": 289,
+      "sha256": "1d54c211f9cf01cb35e610065d156d5ebca011839525f8fc90cf42f9c00865c2",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssfirefox.pkg/Payload/nssFirefox",
+      "bytes": 43324,
+      "sha256": "d90613e41a16857d98aaa4f6bc1e9f891aa499a4dfc99245673ffe74a80f07b3",
+      "file": "Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [i386:\n- Mach-O executable i386]\n.local/efy-ca-windows/macos-expanded/nssfirefox.pkg/Payload/nssFirefox (for architecture x86_64):\tMach-O 64-bit executable x86_64\n.local/efy-ca-windows/macos-expanded/nssfirefox.pkg/Payload/nssFirefox (for architecture i386):\tMach-O executable i386",
+      "macho_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/nssFirefox.macho.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssfirefox.pkg/Scripts/postinstall",
+      "bytes": 1556,
+      "sha256": "8a7ccc9b85dc579557e55490f65bb0e9e46a59cf876ddd39dbc62d0a219c7159",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssthunderbird.pkg/Bom",
+      "bytes": 35205,
+      "sha256": "bcaae4bd1b38980d8fe6ef11fefdf66d6be811901922aae6d0580c5c1637e088",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssthunderbird.pkg/PackageInfo",
+      "bytes": 293,
+      "sha256": "e4ecc4a33560ede3dfd7547fb8b33e5bccad331b74cad27e8d71171db2a4dc34",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssthunderbird.pkg/Payload/nssThunderbird",
+      "bytes": 43096,
+      "sha256": "b3835a328d15d4d0ae56e3027d3855c57716aa3d3a8b65f631632c62289bea76",
+      "file": "Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [i386:\n- Mach-O executable i386]\n.local/efy-ca-windows/macos-expanded/nssthunderbird.pkg/Payload/nssThunderbird (for architecture x86_64):\tMach-O 64-bit executable x86_64\n.local/efy-ca-windows/macos-expanded/nssthunderbird.pkg/Payload/nssThunderbird (for architecture i386):\tMach-O executable i386",
+      "macho_dump": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/static/nssThunderbird.macho.txt"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/nssthunderbird.pkg/Scripts/postinstall",
+      "bytes": 1596,
+      "sha256": "915e24db1563a830228f63f6d1cdd530bbecf180458dd77fdf4f576828ca7c43",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/uninstall.pkg/Bom",
+      "bytes": 35134,
+      "sha256": "5c740b9899b503e8e75676beaf49649ad641d33e31982697fec978ff25d99a9f",
+      "file": "Mac OS X bill of materials (BOM) file"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/uninstall.pkg/PackageInfo",
+      "bytes": 250,
+      "sha256": "ec8b36d97d55489fbde09439f05968da2005ee0d0fadc9624937cc5a918b347e",
+      "file": "ASCII text"
+    },
+    {
+      "path": "/Users/linhsayshii/macos-linhsayshii-token/.local/efy-ca-windows/macos-expanded/uninstall.pkg/Payload/uninstall.sh",
+      "bytes": 1446,
+      "sha256": "1f8e3586e5acddf9684ab303189f52337662046e3762f83d95f7925c8458365a",
+      "file": "Bourne-Again shell script text executable, ASCII text"
+    }
+  ]
+}
